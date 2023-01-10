@@ -45,13 +45,19 @@ public class SwerveAngle {
         double rawPosition = angleMotor.getPosition().getValue();
         double wheelPosition = (rawPosition*(2*Math.PI) /Constants.ANGLE_MOTOR_GEAR_RATIO)%(2*Math.PI);
         double delta = wheelPosition - targetAngle;
+
+        //If we're too far off, let's move our target angle to be closer
         if (delta > Math.PI) {
             targetAngle += (2 * Math.PI);
         } else if (delta < -Math.PI) {
             targetAngle -= (2 * Math.PI);
         }
+
+        // Recalculate delta
         delta = wheelPosition - targetAngle;
         AnglePosition currentPosition;
+
+        // If it's closer, let's flip the module backwards and drive in reverse
         if (delta > (Math.PI/2) || delta < -(Math.PI/2)) {
             if (delta > (Math.PI/2))
                 targetAngle += Math.PI;
@@ -61,6 +67,8 @@ public class SwerveAngle {
         } else {
             currentPosition = AnglePosition.Positive;
         }
+
+        // Let's drive
         angleMotor.setControl(pVoltage.withPosition(Constants.ANGLE_MOTOR_GEAR_RATIO * targetAngle/(2*Math.PI)));
     
         if(delta > Constants.MAX_ANGLE_INACCURACY){
