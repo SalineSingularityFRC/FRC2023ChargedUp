@@ -19,8 +19,8 @@ public class SwerveAngle {
      * and it needs to initialize the falcon motor and configure it (things like PID values and such)
      */
     
-    public SwerveAngle(int CanID) {
-        angleMotor = new TalonFX(CanID);
+    public SwerveAngle(int angleMotorId) {
+        angleMotor = new TalonFX(angleMotorId);
         zeroPosition = 0;
         pVoltage = new PositionVoltage(0);
     }
