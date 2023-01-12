@@ -1,11 +1,18 @@
 package frc.robot;
-
+import com.revrobotics.AbsoluteEncoder;
+import com.ctre.phoenixpro.hardware.TalonFX;
 /*
  * This class owns the components of a single swerve module and is responsible for controlling
  * the angle and speed that the module is moving
  */
 public class SwerveModule {
+
+    private SwerveAngle angleMotor;
+    private AbsoluteEncoder m_encoder;
+    private TalonFX driveMotor;
+
     /*
+    
      * We will need a couple different instance variables
      *   An instance of the SwerveAngle class to handle the angle motor
      *   An instance of the TalonFX class to handle the drive motor
@@ -17,8 +24,10 @@ public class SwerveModule {
      * angle motor
      * It should initialize our drive motor and create a SwerveAngle, passing the CAN ID to the SwerveAngle constructor
      */
-    public SwerveModule() {
-        throw new UnsupportedOperationException();
+    public SwerveModule(int Can_ID_driveMotor, int Can_ID_angleMotor) {
+        driveMotor = new TalonFX(Can_ID_driveMotor);
+        angleMotor = new SwerveAngle(Can_ID_angleMotor);
+        
     }
 
     /*
@@ -40,7 +49,21 @@ public class SwerveModule {
      * This function returns true if we did set the drive motor, false if we did not 
      */
     public boolean drive(SwerveDriveRequest request) {
-        throw new UnsupportedOperationException();
+        SwerveAngle.AnglePosition angle = angleMotor.setAngle(request.direction);
+        if (angle == SwerveAngle.AnglePosition.Positive) {
+            driveMotor.set(request.velocity);
+            return true;
+        }
+
+        else if (angle == SwerveAngle.AnglePosition.Negative) {
+            driveMotor.set(-request.velocity);
+            return true;
+        }
+
+        else {
+            driveMotor.set(0);
+            return false;
+        }
     }
     
     /*
