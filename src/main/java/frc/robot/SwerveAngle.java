@@ -41,6 +41,7 @@ public class SwerveAngle {
      * It returns a value that indicates if we are in the target position, or 180° off of it,
      * or still working to get to one of those positions
      */
+    
     public AnglePosition setAngle(double targetAngle) {
         double rawPosition = angleMotor.getPosition().getValue();
         double wheelPosition = (rawPosition*(2*Math.PI) /Constants.ANGLE_MOTOR_GEAR_RATIO)%(2*Math.PI);
@@ -79,7 +80,18 @@ public class SwerveAngle {
     /*
      * Set the zero angle based on the current angle (in radians) that we are reading from an external source.
      */
+
+    /*
+     * for getAngleClamped, return a value between [0, 2pi) that the talon says we are.
+     * copied and pasted from the first lines of setAngle()
+     */
+
+    public double getAngleClamped() {
+        double rawPosition = angleMotor.getPosition().getValue();
+        return (rawPosition*(2*Math.PI) /Constants.ANGLE_MOTOR_GEAR_RATIO)%(2*Math.PI);
+    }
+
     public void setZeroAngle(double currentAngle) {
-        throw new UnsupportedOperationException();
+        
     }
 }

@@ -7,4 +7,5 @@ package frc.robot;
 public final class Constants {
     public static final double ANGLE_MOTOR_GEAR_RATIO = 1;
     public static final double MAX_ANGLE_INACCURACY = Math.PI/ 24;
+    public static final int CAN_ID = 0;
 }
