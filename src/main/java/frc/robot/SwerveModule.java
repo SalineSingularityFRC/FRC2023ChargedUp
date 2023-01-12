@@ -67,11 +67,14 @@ public class SwerveModule {
     }
     
     /*
-     * Set the zero angle based on the current angle (in radians) that we are reading from an external source.
+     * Set the zero angle based on the current angle (in radians) that we are reading from an external source(absolute encoder).
      * We should be able to read the current angle from the CANcoder and pass that to the setZeroAngle method in
      * the SwerveAngle class
+     * The can is where we base all of our correct angles on. The talon says we are at an angle but sometimes that
+    might not be the right angle. The zeroAngle is what we use to offset(balance) whatever we're reading off the talon
      */
+    
     public void resetZeroAngle() {
-
+        angleMotor.setZeroAngle(m_encoder.getPosition() * 2 * Math.PI);
     }
 }

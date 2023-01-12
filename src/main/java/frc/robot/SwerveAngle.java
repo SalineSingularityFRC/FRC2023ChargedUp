@@ -2,6 +2,7 @@ package frc.robot;
 
 import com.ctre.phoenixpro.controls.PositionVoltage;
 import com.ctre.phoenixpro.hardware.TalonFX;
+import com.revrobotics.AbsoluteEncoder;
 
 /**
  * This class owns a single Swerve Module's angle motor and is responsible for driving that motor to a given angle
@@ -90,8 +91,8 @@ public class SwerveAngle {
         double rawPosition = angleMotor.getPosition().getValue();
         return (rawPosition*(2*Math.PI) /Constants.ANGLE_MOTOR_GEAR_RATIO)%(2*Math.PI);
     }
-
+    //current angle minus whatever we're reading off of the talon
     public void setZeroAngle(double currentAngle) {
-        
+        zeroPosition= currentAngle - angleMotor.getPosition().getValue();
     }
 }
