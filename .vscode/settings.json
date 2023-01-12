@@ -26,5 +26,5 @@
     },
   ],
   "java.test.defaultConfig": "WPIlibUnitTests",
-  "codetogether.virtualCursorJoin": "sharedVirtualCursor"
+  "codetogether.virtualCursorJoin": "ownVirtualCursor"
 }

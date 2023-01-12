@@ -45,7 +45,8 @@ public class SwerveAngle {
     
     public AnglePosition setAngle(double targetAngle) {
         double rawPosition = angleMotor.getPosition().getValue();
-        double wheelPosition = (rawPosition*(2*Math.PI) /Constants.ANGLE_MOTOR_GEAR_RATIO)%(2*Math.PI);
+        double wheelPosition = (rawPosition*(2*Math.PI) /Constants.ANGLE_MOTOR_GEAR_RATIO)%(2*Math.PI); // the angle to set the wheel to minus the leftover full rotations
+        double remainderRotations = (rawPosition*(2*Math.PI) /Constants.ANGLE_MOTOR_GEAR_RATIO) - wheelPosition; // the additional rotations leftover from the wheel position
         double delta = wheelPosition - targetAngle;
 
         //If we're too far off, let's move our target angle to be closer
@@ -70,6 +71,7 @@ public class SwerveAngle {
             currentPosition = AnglePosition.Positive;
         }
 
+        targetAngle += remainderRotations;
         // Let's drive
         angleMotor.setControl(pVoltage.withPosition(Constants.ANGLE_MOTOR_GEAR_RATIO * targetAngle/(2*Math.PI)));
     
@@ -91,7 +93,12 @@ public class SwerveAngle {
         double rawPosition = angleMotor.getPosition().getValue();
         return (rawPosition*(2*Math.PI) /Constants.ANGLE_MOTOR_GEAR_RATIO)%(2*Math.PI);
     }
-    //current angle minus whatever we're reading off of the talon
+
+    public double getRemainderRotations() {
+        double rawPosition = angleMotor.getPosition().getValue();
+        return (rawPosition*(2*Math.PI) /Constants.ANGLE_MOTOR_GEAR_RATIO) - getAngleClamped();
+    }
+
     public void setZeroAngle(double currentAngle) {
         zeroPosition= currentAngle - angleMotor.getPosition().getValue();
     }
