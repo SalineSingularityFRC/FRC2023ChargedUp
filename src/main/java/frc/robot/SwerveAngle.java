@@ -12,18 +12,18 @@ public class SwerveAngle {
      * We need to have two class variables, a Falcon motor that we can use to control the angle of the module
      * and a variable for the zero poisition of the motor in radians (what value we need for it to be straight forward)
      */
-    private double zeroPosition;
+    private double zeroPositionOffset;
     private TalonFX angleMotor;
-    private PositionVoltage pVoltage;
+    private PositionVoltage positionTarget;
+
     /* 
      * Our constructor needs to take a parameter that determines which CAN ID the falcon we are using has 
      * and it needs to initialize the falcon motor and configure it (things like PID values and such)
      */
-    
     public SwerveAngle(int angleMotorId) {
         angleMotor = new TalonFX(angleMotorId);
-        zeroPosition = 0;
-        pVoltage = new PositionVoltage(0);
+        zeroPositionOffset = 0;
+        positionTarget = new PositionVoltage(0);
     }
      
     /*
@@ -42,7 +42,6 @@ public class SwerveAngle {
      * It returns a value that indicates if we are in the target position, or 180° off of it,
      * or still working to get to one of those positions
      */
-    
     public AnglePosition setAngle(double targetAngle) {
         double rawPosition = angleMotor.getPosition().getValue();
         double wheelPosition = (rawPosition*(2*Math.PI) /Constants.ANGLE_MOTOR_GEAR_RATIO)%(2*Math.PI); // the angle to set the wheel to minus the leftover full rotations
@@ -73,33 +72,43 @@ public class SwerveAngle {
 
         targetAngle += remainderRotations;
         // Let's drive
-        angleMotor.setControl(pVoltage.withPosition(Constants.ANGLE_MOTOR_GEAR_RATIO * targetAngle/(2*Math.PI)));
+        angleMotor.setControl(positionTarget.withPosition(Constants.ANGLE_MOTOR_GEAR_RATIO * targetAngle/(2*Math.PI)));
     
-        if(delta > Constants.MAX_ANGLE_INACCURACY){
+        if(Math.abs(delta) > Constants.MAX_ANGLE_INACCURACY){
             return AnglePosition.Moving;
         }
         return currentPosition;
     }
+
     /*
-     * Set the zero angle based on the current angle (in radians) that we are reading from an external source.
-     */
+     * Returns the angle (in radians) that the Talon is currently reporting we are in
+     * minus our offset
+    */
+    private double getAngle() {
+        double talonRadians = angleMotor.getPosition().getValue() * 2 * Math.PI;
+        double wheelRadians = talonRadians / Constants.ANGLE_MOTOR_GEAR_RATIO;
+        return wheelRadians - zeroPositionOffset;
+    }
 
     /*
      * for getAngleClamped, return a value between [0, 2pi) that the talon says we are.
      * copied and pasted from the first lines of setAngle()
      */
-
     public double getAngleClamped() {
-        double rawPosition = angleMotor.getPosition().getValue();
-        return (rawPosition*(2*Math.PI) /Constants.ANGLE_MOTOR_GEAR_RATIO)%(2*Math.PI);
+        return getAngle() % (2 * Math.PI);
     }
 
+    /*
+     * Returns the number of rotations in either direction the Talon is currently spun
+     */
     public double getRemainderRotations() {
-        double rawPosition = angleMotor.getPosition().getValue();
-        return (rawPosition*(2*Math.PI) /Constants.ANGLE_MOTOR_GEAR_RATIO) - getAngleClamped();
+        return getAngle() - getAngleClamped();
     }
 
+    /*
+     * Set the zero angle based on the current angle (in radians) that we are reading from an external source.
+     */
     public void setZeroAngle(double currentAngle) {
-        zeroPosition= currentAngle - angleMotor.getPosition().getValue();
+        zeroPositionOffset = currentAngle - getAngle();
     }
 }

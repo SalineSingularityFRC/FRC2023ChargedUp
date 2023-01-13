@@ -7,17 +7,15 @@ import com.ctre.phoenixpro.hardware.TalonFX;
  */
 public class SwerveModule {
 
-    private SwerveAngle angleMotor;
-    private AbsoluteEncoder m_encoder;
-    private TalonFX driveMotor;
-
     /*
-    
      * We will need a couple different instance variables
      *   An instance of the SwerveAngle class to handle the angle motor
      *   An instance of the TalonFX class to handle the drive motor
      *   An instance of the CANcoder class to handle the encoder
      */
+    private SwerveAngle angleMotor;
+    private AbsoluteEncoder m_encoder;
+    private TalonFX driveMotor;
 
     /*
      * This constructor needs to take two parameters, one for the CAN ID of the drive motor and one for the CAN ID of the
@@ -55,25 +53,23 @@ public class SwerveModule {
             return true;
         }
 
-        else if (angle == SwerveAngle.AnglePosition.Negative) {
+        if (angle == SwerveAngle.AnglePosition.Negative) {
             driveMotor.set(-request.velocity);
             return true;
         }
-
-        else {
-            driveMotor.set(0);
-            return false;
-        }
+        
+        driveMotor.set(0);
+        return false;
     }
     
     /*
      * Set the zero angle based on the current angle (in radians) that we are reading from an external source(absolute encoder).
      * We should be able to read the current angle from the CANcoder and pass that to the setZeroAngle method in
      * the SwerveAngle class
-     * The can is where we base all of our correct angles on. The talon says we are at an angle but sometimes that
-    might not be the right angle. The zeroAngle is what we use to offset(balance) whatever we're reading off the talon
+     * The can is where we base all of our correct angles on. 
+     * The talon says we are at an angle but sometimes that might not be the right angle. 
+     * The zeroAngle is what we use to offset(balance) whatever we're reading off the talon
      */
-    
     public void resetZeroAngle() {
         angleMotor.setZeroAngle(m_encoder.getPosition() * 2 * Math.PI);
     }
