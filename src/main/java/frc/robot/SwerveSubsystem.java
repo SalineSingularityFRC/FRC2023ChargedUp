@@ -45,7 +45,6 @@ public class SwerveSubsystem {
         double y = request.movement.y;
 
         double speed = Math.sqrt(Math.pow(x, 2) + Math.pow(y, 2));
-
         double angle;
 
         if (x > 0 && y > 0) { // Q1
@@ -64,6 +63,13 @@ public class SwerveSubsystem {
             angle = 0;
         }
 
+        if (angle > 0) { // if angle postive
+            angle += this.getRobotAngle();
+        }
+
+        else { // if angle negative. if angle and gyro is 0
+            angle = this.getRobotAngle() - angle;
+        }
 
         // add recalculating the angle based of field centric view
 
