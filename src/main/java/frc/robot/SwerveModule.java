@@ -13,6 +13,9 @@ public class SwerveModule {
      *   An instance of the TalonFX class to handle the drive motor
      *   An instance of the CANcoder class to handle the encoder
      */
+    private SwerveAngle angleMotor;
+    private AbsoluteEncoder m_encoder;
+    private TalonFX driveMotor;
 
     private SwerveAngle angleMotor;
     private AbsoluteEncoder m_encoder;
@@ -52,25 +55,23 @@ public class SwerveModule {
             return true;
         }
 
-        else if (angle == SwerveAngle.AnglePosition.Negative) {
+        if (angle == SwerveAngle.AnglePosition.Negative) {
             driveMotor.set(-request.velocity);
             return true;
         }
-
-        else {
-            driveMotor.set(0);
-            return false;
-        }
+        
+        driveMotor.set(0);
+        return false;
     }
     
     /*
      * Set the zero angle based on the current angle (in radians) that we are reading from an external source(absolute encoder).
      * We should be able to read the current angle from the CANcoder and pass that to the setZeroAngle method in
      * the SwerveAngle class
-     * The can is where we base all of our correct angles on. The talon says we are at an angle but sometimes that
-    might not be the right angle. The zeroAngle is what we use to offset(balance) whatever we're reading off the talon
+     * The can is where we base all of our correct angles on. 
+     * The talon says we are at an angle but sometimes that might not be the right angle. 
+     * The zeroAngle is what we use to offset(balance) whatever we're reading off the talon
      */
-    
     public void resetZeroAngle() {
         angleMotor.setZeroAngle(m_encoder.getPosition() * 2 * Math.PI);
     }

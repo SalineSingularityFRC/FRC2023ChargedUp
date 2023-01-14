@@ -14,7 +14,6 @@ public class SwerveSubsystem {
      * This class should own the pidgeon 2.0 IMU gyroscope that we will be using and a dictionary that will house
      * all of our SwerveModules
      */
-
     private Dictionary<String, SwerveModule> swerveModules = new Hashtable<String, SwerveModule>();
     private Pigeon2 gyro;
 
