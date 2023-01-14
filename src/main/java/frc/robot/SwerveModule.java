@@ -17,10 +17,6 @@ public class SwerveModule {
     private AbsoluteEncoder m_encoder;
     private TalonFX driveMotor;
 
-    private SwerveAngle angleMotor;
-    private AbsoluteEncoder m_encoder;
-    private TalonFX driveMotor;
-
     /*
      * This constructor needs to take two parameters, one for the CAN ID of the drive motor and one for the CAN ID of the
      * angle motor
