@@ -2,7 +2,6 @@ package frc.robot;
 
 import com.ctre.phoenixpro.controls.PositionVoltage;
 import com.ctre.phoenixpro.hardware.TalonFX;
-import com.revrobotics.AbsoluteEncoder;
 
 /**
  * This class owns a single Swerve Module's angle motor and is responsible for driving that motor to a given angle
@@ -12,18 +11,18 @@ public class SwerveAngle {
      * We need to have two class variables, a Falcon motor that we can use to control the angle of the module
      * and a variable for the zero poisition of the motor in radians (what value we need for it to be straight forward)
      */
-    private double zeroPositionOffset;
+    private double zeroPosition;
     private TalonFX angleMotor;
-    private PositionVoltage positionTarget;
-
+    private PositionVoltage pVoltage;
     /* 
      * Our constructor needs to take a parameter that determines which CAN ID the falcon we are using has 
      * and it needs to initialize the falcon motor and configure it (things like PID values and such)
      */
+    
     public SwerveAngle(int angleMotorId) {
         angleMotor = new TalonFX(angleMotorId);
-        zeroPositionOffset = 0;
-        positionTarget = new PositionVoltage(0);
+        zeroPosition = 0;
+        pVoltage = new PositionVoltage(0);
     }
      
     /*
@@ -42,10 +41,10 @@ public class SwerveAngle {
      * It returns a value that indicates if we are in the target position, or 180° off of it,
      * or still working to get to one of those positions
      */
+    
     public AnglePosition setAngle(double targetAngle) {
         double rawPosition = angleMotor.getPosition().getValue();
-        double wheelPosition = (rawPosition*(2*Math.PI) /Constants.ANGLE_MOTOR_GEAR_RATIO)%(2*Math.PI); // the angle to set the wheel to minus the leftover full rotations
-        double remainderRotations = (rawPosition*(2*Math.PI) /Constants.ANGLE_MOTOR_GEAR_RATIO) - wheelPosition; // the additional rotations leftover from the wheel position
+        double wheelPosition = (rawPosition*(2*Math.PI) /Constants.ANGLE_MOTOR_GEAR_RATIO)%(2*Math.PI);
         double delta = wheelPosition - targetAngle;
 
         //If we're too far off, let's move our target angle to be closer
@@ -70,45 +69,34 @@ public class SwerveAngle {
             currentPosition = AnglePosition.Positive;
         }
 
-        targetAngle += remainderRotations;
         // Let's drive
-        angleMotor.setControl(positionTarget.withPosition(Constants.ANGLE_MOTOR_GEAR_RATIO * targetAngle/(2*Math.PI)));
+        angleMotor.setControl(pVoltage.withPosition(Constants.ANGLE_MOTOR_GEAR_RATIO * targetAngle/(2*Math.PI)));
     
-        if(Math.abs(delta) > Constants.MAX_ANGLE_INACCURACY){
+        if(delta > Constants.MAX_ANGLE_INACCURACY){
             return AnglePosition.Moving;
         }
         return currentPosition;
     }
-
     /*
-     * Returns the angle (in radians) that the Talon is currently reporting we are in
-     * minus our offset
-    */
-    private double getAngle() {
-        double talonRadians = angleMotor.getPosition().getValue() * 2 * Math.PI;
-        double wheelRadians = talonRadians / Constants.ANGLE_MOTOR_GEAR_RATIO;
-        return wheelRadians - zeroPositionOffset;
-    }
+     * Set the zero angle based on the current angle (in radians) that we are reading from an external source.
+     */
+
 
     /*
      * for getAngleClamped, return a value between [0, 2pi) that the talon says we are.
      * copied and pasted from the first lines of setAngle()
+     * Keeps the angle in between 0 and 2pi
      */
     public double getAngleClamped() {
-        return getAngle() % (2 * Math.PI);
+        double rawPosition = angleMotor.getPosition().getValue();
+        return (rawPosition*(2*Math.PI) /Constants.ANGLE_MOTOR_GEAR_RATIO)%(2*Math.PI);
     }
 
     /*
-     * Returns the number of rotations in either direction the Talon is currently spun
+     * can id angle is right. Have to adjust the talon angle
      */
-    public double getRemainderRotations() {
-        return getAngle() - getAngleClamped();
-    }
 
-    /*
-     * Set the zero angle based on the current angle (in radians) that we are reading from an external source.
-     */
     public void setZeroAngle(double currentAngle) {
-        zeroPositionOffset = currentAngle - getAngle();
+        zeroPosition = currentAngle;
     }
 }
