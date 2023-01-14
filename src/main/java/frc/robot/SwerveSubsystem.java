@@ -46,11 +46,7 @@ public class SwerveSubsystem {
 
         double angle;
 
-        if (x/y == 0) {
-            angle =0;
-        }
-
-        else if (x > 0 && y > 0) { // Q1
+        if (x > 0 && y > 0) { // Q1
             angle = Math.atan(x/y);
         }
 
@@ -58,10 +54,15 @@ public class SwerveSubsystem {
             angle = 2*Math.PI + Math.atan(x/y);
         }
 
-        else { // Q3 & Q4
+        else if (y < 0) { // Q3 and Q4
             angle = Math.PI + Math.atan(x/y);
         }
 
+        else { // this else statement is useful as a catch all 
+            angle = 0;
+        }
+
+        // velocity set to 1 for now, but it can be edited to between [0, 1]
         swerveModules.get("FL").drive(new SwerveModule.SwerveDriveRequest(1, angle)); 
         swerveModules.get("FR").drive(new SwerveModule.SwerveDriveRequest(1, angle)); 
         swerveModules.get("BL").drive(new SwerveModule.SwerveDriveRequest(1, angle)); 
@@ -71,8 +72,20 @@ public class SwerveSubsystem {
     /*
      * This method takes a field-centric target rotation (in radians) and we sit there and turn to it
      */
-    public void turn(double rotation) {
+    public void turn(boolean isClockwise) {
+        if (isClockwise) {
+            swerveModules.get("FL").drive(new SwerveModule.SwerveDriveRequest(1, (0.5*Math.PI) - Constants.theta)); 
+            swerveModules.get("FR").drive(new SwerveModule.SwerveDriveRequest(1, (0.5*Math.PI) + Constants.theta)); 
+            swerveModules.get("BL").drive(new SwerveModule.SwerveDriveRequest(1, (1.5*Math.PI) + Constants.theta)); 
+            swerveModules.get("BR").drive(new SwerveModule.SwerveDriveRequest(1, (1.5*Math.PI) - Constants.theta)); 
+        }
 
+        else { // switches the calculations for the FL and FR and the BL and BR
+            swerveModules.get("FL").drive(new SwerveModule.SwerveDriveRequest(1, (0.5*Math.PI) + Constants.theta)); 
+            swerveModules.get("FR").drive(new SwerveModule.SwerveDriveRequest(1, (0.5*Math.PI) - Constants.theta)); 
+            swerveModules.get("BL").drive(new SwerveModule.SwerveDriveRequest(1, (1.5*Math.PI) - Constants.theta)); 
+            swerveModules.get("BR").drive(new SwerveModule.SwerveDriveRequest(1, (1.5*Math.PI) + Constants.theta)); 
+        }
     }
 
     /*

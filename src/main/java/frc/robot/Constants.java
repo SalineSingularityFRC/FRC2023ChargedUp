@@ -9,6 +9,19 @@ public final class Constants {
     public static final double MAX_ANGLE_INACCURACY = Math.PI/ 24;
     public static final String CANBUS = "rio";
 
+    /* 
+    PLACEHOLDER WIDTH AND LENGTH VALUES
+    These values are in inches
+    Width is from FL to FR, length is from FL to BL etc
+    Width and length are for the distance between each swervepod
+    Length will be longer than width for 2023 robot
+    */
+    public static final double robotWidth = 28; 
+    public static final double robotLength = 32;
+
+    public static final double theta = Math.atan(robotWidth/robotLength); 
+
+    
     // --------->  THESE ARE JUST PLACEHOLDER ID VALUES <------------
     public static final int GYRO_CANCODER_ID = 0; 
 
