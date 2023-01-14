@@ -7,17 +7,16 @@ import com.ctre.phoenixpro.hardware.TalonFX;
  */
 public class SwerveModule {
 
-    private SwerveAngle angleMotor;
-    private AbsoluteEncoder m_encoder;
-    private TalonFX driveMotor;
-
     /*
-    
      * We will need a couple different instance variables
      *   An instance of the SwerveAngle class to handle the angle motor
      *   An instance of the TalonFX class to handle the drive motor
      *   An instance of the CANcoder class to handle the encoder
      */
+
+    private SwerveAngle angleMotor;
+    private AbsoluteEncoder m_encoder;
+    private TalonFX driveMotor;
 
     /*
      * This constructor needs to take two parameters, one for the CAN ID of the drive motor and one for the CAN ID of the
@@ -27,18 +26,16 @@ public class SwerveModule {
     public SwerveModule(int Can_ID_driveMotor, int Can_ID_angleMotor) {
         driveMotor = new TalonFX(Can_ID_driveMotor);
         angleMotor = new SwerveAngle(Can_ID_angleMotor);
-        
     }
+    
 
     /*
      * This class represents a request that some other code is sending to this class to tell the swerve module
      * how to drive.
-     * Velocity: Speed for the module to go from 0 (stopped) to 1.0 (full speed)
-     * Direction: Angle (in radians) for the module to point twards while driving (robot-centric)
      */
     public class SwerveDriveRequest {
-        public double velocity;
-        public double direction;
+        public double velocity; // Velocity: Speed for the module to go from 0 (stopped) to 1.0 (full speed)
+        public double direction; // Direction: Angle (in radians) for the module to point twards while driving (robot-centric)
     }
 
     /*

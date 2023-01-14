@@ -43,6 +43,8 @@ public class SwerveAngle {
      * or still working to get to one of those positions
      */
     
+
+    // takes in an angle in and turns the wheel to that angle in the fastest way possible
     public AnglePosition setAngle(double targetAngle) {
         double rawPosition = angleMotor.getPosition().getValue();
         double wheelPosition = (rawPosition*(2*Math.PI) /Constants.ANGLE_MOTOR_GEAR_RATIO)%(2*Math.PI); // the angle to set the wheel to minus the leftover full rotations
@@ -100,6 +102,6 @@ public class SwerveAngle {
     }
 
     public void setZeroAngle(double currentAngle) {
-        zeroPosition= currentAngle - angleMotor.getPosition().getValue();
+        zeroPosition = currentAngle - angleMotor.getPosition().getValue();
     }
 }
