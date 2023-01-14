@@ -41,7 +41,31 @@ public class SwerveSubsystem {
      * which way the robot should travel
      */
     public void drive(SwerveRequest request) {
+        double x = request.movement.x;
+        double y = request.movement.y;
 
+        double angle;
+
+        if (x/y == 0) {
+            angle =0;
+        }
+
+        else if (x > 0 && y > 0) { // Q1
+            angle = Math.atan(x/y);
+        }
+
+        else if (x < 0 && y > 0) { // Q2
+            angle = 2*Math.PI + Math.atan(x/y);
+        }
+
+        else { // Q3 & Q4
+            angle = Math.PI + Math.atan(x/y);
+        }
+
+        swerveModules.get("FL").drive(new SwerveModule.SwerveDriveRequest(1, angle)); 
+        swerveModules.get("FR").drive(new SwerveModule.SwerveDriveRequest(1, angle)); 
+        swerveModules.get("BL").drive(new SwerveModule.SwerveDriveRequest(1, angle)); 
+        swerveModules.get("BR").drive(new SwerveModule.SwerveDriveRequest(1, angle)); 
     }
 
     /*
