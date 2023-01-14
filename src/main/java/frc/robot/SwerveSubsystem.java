@@ -48,7 +48,9 @@ public class SwerveSubsystem {
      * This function returns the angle (in radians) of the robot based on the value from the pidgeon 2.0
      */
     public double getRobotAngle() {
-        return (gyro.getAngle() * Math.PI) / 180;
+        return  
+        
+        (gyro.getAngle() * Math.PI) / 180;
     }
 
     public void resetGyro() {
