@@ -45,12 +45,17 @@ public class SwerveSubsystem {
     }
 
     /*
+     * This method takes a field-centric target rotation (in radians) and we sit there and turn to it
+     */
+    public void turn(double rotation) {
+
+    }
+
+    /*
      * This function returns the angle (in radians) of the robot based on the value from the pidgeon 2.0
      */
     public double getRobotAngle() {
-        return  
-        
-        (gyro.getAngle() * Math.PI) / 180;
+        return (gyro.getAngle() * Math.PI) / 180;
     }
 
     public void resetGyro() {
