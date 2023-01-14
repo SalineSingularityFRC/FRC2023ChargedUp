@@ -22,7 +22,7 @@ public class SwerveModule {
      * angle motor
      * It should initialize our drive motor and create a SwerveAngle, passing the CAN ID to the SwerveAngle constructor
      */
-    public SwerveModule(int Can_ID_driveMotor, int Can_ID_angleMotor) {
+    public SwerveModule(int Can_ID_driveMotor, int Can_ID_angleMotor) { // add a zeroPosition thing
         driveMotor = new TalonFX(Can_ID_driveMotor);
         angleMotor = new SwerveAngle(Can_ID_angleMotor);
     }

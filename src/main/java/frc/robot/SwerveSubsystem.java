@@ -44,29 +44,35 @@ public class SwerveSubsystem {
         double x = request.movement.x;
         double y = request.movement.y;
 
+        double speed = Math.sqrt(Math.pow(x, 2) + Math.pow(y, 2));
+
         double angle;
 
         if (x > 0 && y > 0) { // Q1
-            angle = Math.atan(x/y);
+            angle = 2 * Math.PI - Math.atan(x/y);
         }
 
         else if (x < 0 && y > 0) { // Q2
-            angle = 2*Math.PI + Math.atan(x/y);
+            angle = -1 * Math.atan(x/y);
         }
 
         else if (y < 0) { // Q3 and Q4
-            angle = Math.PI + Math.atan(x/y);
+            angle = Math.PI - Math.atan(x/y);
         }
 
         else { // this else statement is useful as a catch all 
             angle = 0;
         }
 
+
+        // add recalculating the angle based of field centric view
+
         // velocity set to 1 for now, but it can be edited to between [0, 1]
-        swerveModules.get("FL").drive(new SwerveModule.SwerveDriveRequest(1, angle)); 
-        swerveModules.get("FR").drive(new SwerveModule.SwerveDriveRequest(1, angle)); 
-        swerveModules.get("BL").drive(new SwerveModule.SwerveDriveRequest(1, angle)); 
-        swerveModules.get("BR").drive(new SwerveModule.SwerveDriveRequest(1, angle)); 
+        swerveModules.get("FL").drive(new SwerveModule.SwerveDriveRequest(speed, angle)); 
+        swerveModules.get("FR").drive(new SwerveModule.SwerveDriveRequest(speed, angle)); 
+        swerveModules.get("BL").drive(new SwerveModule.SwerveDriveRequest(speed, angle)); 
+        swerveModules.get("BR").drive(new SwerveModule.SwerveDriveRequest(speed, angle)); 
+        
     }
 
     /*
