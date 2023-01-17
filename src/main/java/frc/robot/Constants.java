@@ -25,15 +25,22 @@ public final class Constants {
     // --------->  THESE ARE JUST PLACEHOLDER ID VALUES <------------
     public static final int GYRO_CANCODER_ID = 0; 
 
-    public static final int FL_ANGLE_ID = 1; 
-    public static final int FL_Motor_ID = 2;
+    public static final int FL_ANGLE_ID = 17; 
+    public static final int FL_Motor_ID = 15;
 
-    public static final int FR_ANGLE_ID = 3; 
-    public static final int FR_Motor_ID = 4;
+    public static final int FR_ANGLE_ID = 12; 
+    public static final int FR_Motor_ID = 16;
 
-    public static final int BL_ANGLE_ID = 5; 
-    public static final int BL_Motor_ID = 6;
+    public static final int BL_ANGLE_ID = 13; 
+    public static final int BL_Motor_ID = 11;
 
-    public static final int BR_ANGLE_ID = 7; 
-    public static final int BR_Motor_ID = 8;
+    public static final int BR_ANGLE_ID = 14; 
+    public static final int BR_Motor_ID = 18;
+
+
+
+    public static double DRIVETRAIN_FRONT_LEFT_ENCODER_OFFSET = Math.toRadians(0);
+    public static double DRIVETRAIN_FRONT_RIGHT_ENCODER_OFFSET = Math.toRadians(0);
+    public static double DRIVETRAIN_BACK_LEFT_ENCODER_OFFSET = Math.toRadians(0);
+    public static double DRIVETRAIN_BACK_RIGHT_ENCODER_OFFSET = Math.toRadians(0);
 }

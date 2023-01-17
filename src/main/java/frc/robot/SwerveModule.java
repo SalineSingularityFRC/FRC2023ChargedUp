@@ -17,14 +17,17 @@ public class SwerveModule {
     private AbsoluteEncoder m_encoder;
     private TalonFX driveMotor;
 
+    private final double absolutePositionEncoderOffset;
+
     /*
      * This constructor needs to take two parameters, one for the CAN ID of the drive motor and one for the CAN ID of the
      * angle motor
      * It should initialize our drive motor and create a SwerveAngle, passing the CAN ID to the SwerveAngle constructor
      */
-    public SwerveModule(int Can_ID_driveMotor, int Can_ID_angleMotor) { // add a zeroPosition thing
+    public SwerveModule(int Can_ID_driveMotor, int Can_ID_angleMotor, double zeroPosition) { // add a zeroPosition thing
         driveMotor = new TalonFX(Can_ID_driveMotor);
         angleMotor = new SwerveAngle(Can_ID_angleMotor);
+        absolutePositionEncoderOffset = zeroPosition;
     }
     
 
@@ -74,6 +77,6 @@ public class SwerveModule {
      * The zeroAngle is what we use to offset(balance) whatever we're reading off the talon
      */
     public void resetZeroAngle() {
-        angleMotor.setZeroAngle(m_encoder.getPosition() * 2 * Math.PI);
+        angleMotor.setZeroAngle((m_encoder.getPosition() - absolutePositionEncoderOffset) * 2 * Math.PI);
     }
 }
