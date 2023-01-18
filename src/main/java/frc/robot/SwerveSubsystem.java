@@ -50,25 +50,45 @@ public class SwerveSubsystem {
         double speed = Math.sqrt(Math.pow(x, 2) + Math.pow(y, 2));
         double angle;
 
-        if (x > 0 && y > 0) { // Q1
+        if (y == 0) { // y = 0 wouldn't work because fraction
+            if (x > 0) {
+                angle = 270;
+            } 
+            else if (x < 0) {
+                angle = 90;
+            } 
+            else { // x = 0
+                angle = 0;
+            }
+        }
+        else if (y < 0 || (x == 0 && y < 0)) { // Q3 and Q4 and south field centric
+            angle = Math.PI - Math.atan(x / y);
+        }
+        else if (x > 0 && y > 0) { // Q1 or north field centric
             angle = 2 * Math.PI - Math.atan(x / y);
         }
-        else if (x < 0 && y > 0) { // Q2
+        else if (x <= 0 && y > 0) { // Q2 or north field centric
             angle = -1 * Math.atan(x / y);
-        }
-        else if (y < 0) { // Q3 and Q4
-            angle = Math.PI - Math.atan(x / y);
         }
         else { // this else statement is useful as a catch all
             angle = 0;
         }
 
-        if (angle > 0) { // if angle postive
-            angle += this.getRobotAngle();
-        }
-        else { // if angle negative. if angle and gyro is 0
-            angle = this.getRobotAngle() - angle;
-        }
+
+        angle -= this.getRobotAngle() % (2 * Math.PI);
+
+
+
+        // if (angle > 0) { // if angle postive
+        //     angle += this.getRobotAngle() % 360;
+        // }
+        // else { // if angle is 0
+        //     angle = this.getRobotAngle() - angle;
+        // }
+
+        // if (angle > 360) { // the setAngle class in SwerveAngle wants [0,360]
+        //     angle = 360 - angle;
+        // }
 
         // add recalculating the angle based of field centric view
 
@@ -115,7 +135,7 @@ public class SwerveSubsystem {
      * from the pidgeon 2.0
      */
     public double getRobotAngle() {
-        return (gyro.getAngle() * Math.PI) / 180;
+        return ((360 - gyro.getAngle()) * Math.PI) / 180; // returns in counterclockwise hence why 360 minus
     }
 
     public void resetGyro() {
