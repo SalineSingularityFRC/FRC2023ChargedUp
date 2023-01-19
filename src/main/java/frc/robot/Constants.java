@@ -8,6 +8,8 @@ public final class Constants {
     public static final double ANGLE_MOTOR_GEAR_RATIO = 8.14; // Yuri: "If its not 8.14 its 6.75"
     public static final double MAX_ANGLE_INACCURACY = Math.PI/ 24;
     public static final String CANBUS = "rio";
+    public static final String CANIVORE = "drivetrain";
+
 
     /* 
     PLACEHOLDER WIDTH AND LENGTH VALUES

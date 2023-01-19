@@ -5,6 +5,8 @@ import com.ctre.phoenixpro.controls.PositionVoltage;
 import com.ctre.phoenixpro.hardware.TalonFX;
 import com.revrobotics.AbsoluteEncoder;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
 /**
  * This class owns a single Swerve Module's angle motor and is responsible for driving that motor to a given angle
  */
@@ -22,8 +24,8 @@ public class SwerveAngle {
      * and it needs to initialize the falcon motor and configure it (things like PID values and such)
      */
    
-    public SwerveAngle(int angleMotorId) {
-        angleMotor = new TalonFX(angleMotorId);
+    public SwerveAngle(int angleMotorId, String canNetwork) {
+        angleMotor = new TalonFX(angleMotorId, canNetwork);
         zeroPositionOffset = 0;
         positionTarget = new PositionVoltage(0);
         
@@ -58,6 +60,8 @@ public class SwerveAngle {
         double remainderRotations = getRemainderRotations(); // the additional rotations leftover from the wheel position
         double delta = wheelPosition - targetAngle;
 
+        SmartDashboard.putNumber("Wheel position", wheelPosition);
+
         //If we're too far off, let's move our target angle to be closer
         if (delta > Math.PI) {
             targetAngle += (2 * Math.PI);
@@ -81,6 +85,8 @@ public class SwerveAngle {
         }
 
         targetAngle += remainderRotations;
+
+        SmartDashboard.putNumber("target angle", targetAngle);
         // Let's drive
         angleMotor.setControl(positionTarget.withPosition(Constants.ANGLE_MOTOR_GEAR_RATIO * targetAngle/(2*Math.PI)));
     

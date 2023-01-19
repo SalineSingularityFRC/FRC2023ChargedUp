@@ -25,12 +25,12 @@ public class SwerveSubsystem {
      * Use values from the Constants.java class
      */
     public SwerveSubsystem() {
-        gyro = new Pigeon2(Constants.GYRO_CANCODER_ID, Constants.CANBUS);
+        gyro = new Pigeon2(Constants.GYRO_CANCODER_ID, Constants.CANIVORE);
 
-        swerveModules.put("FL", new SwerveModule(Constants.FL_Motor_ID, Constants.FL_ANGLE_ID, Constants.DRIVETRAIN_FRONT_LEFT_ENCODER_OFFSET));
-        swerveModules.put("FR", new SwerveModule(Constants.FR_Motor_ID, Constants.FR_ANGLE_ID, Constants.DRIVETRAIN_FRONT_RIGHT_ENCODER_OFFSET));
-        swerveModules.put("BL", new SwerveModule(Constants.BL_Motor_ID, Constants.BL_ANGLE_ID, Constants.DRIVETRAIN_BACK_LEFT_ENCODER_OFFSET));
-        swerveModules.put("BR", new SwerveModule(Constants.BR_Motor_ID, Constants.BR_ANGLE_ID, Constants.DRIVETRAIN_BACK_RIGHT_ENCODER_OFFSET));
+        swerveModules.put("FL", new SwerveModule(Constants.FL_Motor_ID, Constants.FL_ANGLE_ID, Constants.DRIVETRAIN_FRONT_LEFT_ENCODER_OFFSET, Constants.CANIVORE));
+        swerveModules.put("FR", new SwerveModule(Constants.FR_Motor_ID, Constants.FR_ANGLE_ID, Constants.DRIVETRAIN_FRONT_RIGHT_ENCODER_OFFSET, Constants.CANIVORE));
+        swerveModules.put("BL", new SwerveModule(Constants.BL_Motor_ID, Constants.BL_ANGLE_ID, Constants.DRIVETRAIN_BACK_LEFT_ENCODER_OFFSET, Constants.CANIVORE));
+        swerveModules.put("BR", new SwerveModule(Constants.BR_Motor_ID, Constants.BR_ANGLE_ID, Constants.DRIVETRAIN_BACK_RIGHT_ENCODER_OFFSET, Constants.CANIVORE));
     }
 
     public class SwerveRequest {
