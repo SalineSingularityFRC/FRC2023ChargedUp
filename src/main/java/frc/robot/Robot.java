@@ -13,9 +13,13 @@ public class Robot extends TimedRobot {
 
   private RobotContainer m_robotContainer;
 
+  private SwerveAngle angleMotor;
+
   @Override
   public void robotInit() {
     m_robotContainer = new RobotContainer();
+    angleMotor = new SwerveAngle(17);
+    angleMotor.setAngle(90);
   }
 
   @Override
