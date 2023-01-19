@@ -92,7 +92,6 @@ public class SwerveSubsystem {
 
         // add recalculating the angle based of field centric view
 
-        // velocity set to 1 for now, but it can be edited to between [0, 1]
         swerveModules.get("FL").drive(new SwerveModule.SwerveDriveRequest(speed, angle));
         swerveModules.get("FR").drive(new SwerveModule.SwerveDriveRequest(speed, angle));
         swerveModules.get("BL").drive(new SwerveModule.SwerveDriveRequest(speed, angle));

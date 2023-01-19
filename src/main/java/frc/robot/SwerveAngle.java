@@ -1,5 +1,6 @@
 package frc.robot;
 
+import com.ctre.phoenixpro.configs.Slot0Configs;
 import com.ctre.phoenixpro.controls.PositionVoltage;
 import com.ctre.phoenixpro.hardware.TalonFX;
 import com.revrobotics.AbsoluteEncoder;
@@ -20,10 +21,19 @@ public class SwerveAngle {
      * Our constructor needs to take a parameter that determines which CAN ID the falcon we are using has 
      * and it needs to initialize the falcon motor and configure it (things like PID values and such)
      */
+   
     public SwerveAngle(int angleMotorId) {
         angleMotor = new TalonFX(angleMotorId);
         zeroPositionOffset = 0;
         positionTarget = new PositionVoltage(0);
+        
+        var slot0Configs = new Slot0Configs();
+        slot0Configs.kP = 0.3;
+        slot0Configs.kI = 0.0;
+        slot0Configs.kD = 0.0;
+
+        angleMotor.getConfigurator().apply(slot0Configs);
+        
     }
      
     /*
