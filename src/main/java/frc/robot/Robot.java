@@ -12,10 +12,12 @@ public class Robot extends TimedRobot {
   private Command m_autonomousCommand;
 
   private RobotContainer m_robotContainer;
+  SwerveAngle swerveAngle1;
 
   @Override
   public void robotInit() {
     m_robotContainer = new RobotContainer();
+    swerveAngle1=new SwerveAngle(0);
   }
 
   @Override
