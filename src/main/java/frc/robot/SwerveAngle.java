@@ -55,12 +55,13 @@ public class SwerveAngle {
      */
 
     // takes in an angle in and turns the wheel to that angle in the fastest way possible
-    public AnglePosition setAngle(double targetAngle) {
+    public AnglePosition setAngle(double targetAngle) {        
         double wheelPosition = getAngleClamped(); // the angle to set the wheel to minus the leftover full rotations
         double remainderRotations = getRemainderRotations(); // the additional rotations leftover from the wheel position
         double delta = wheelPosition - targetAngle;
 
         SmartDashboard.putNumber("Wheel position", wheelPosition);
+        SmartDashboard.putNumber("delta", delta);
 
         //If we're too far off, let's move our target angle to be closer
         if (delta > Math.PI) {
@@ -88,6 +89,8 @@ public class SwerveAngle {
 
         SmartDashboard.putNumber("target angle", targetAngle);
         // Let's drive
+
+        SmartDashboard.putNumber("what position to pass", Constants.ANGLE_MOTOR_GEAR_RATIO * targetAngle/(2*Math.PI));
         angleMotor.setControl(positionTarget.withPosition(Constants.ANGLE_MOTOR_GEAR_RATIO * targetAngle/(2*Math.PI)));
     
         if(Math.abs(delta) > Constants.MAX_ANGLE_INACCURACY){
@@ -101,7 +104,7 @@ public class SwerveAngle {
      * minus our offset
     */
     private double getAngle() {
-        double talonRadians = angleMotor.getPosition().getValue() * 2 * Math.PI;
+        double talonRadians = (angleMotor.getPosition().getValue() * 2 * Math.PI);
         double wheelRadians = talonRadians / Constants.ANGLE_MOTOR_GEAR_RATIO;
         return wheelRadians - zeroPositionOffset;
     }
@@ -111,7 +114,13 @@ public class SwerveAngle {
      * copied and pasted from the first lines of setAngle()
      */
     public double getAngleClamped() {
-        return getAngle() % (2 * Math.PI);
+        if (getAngle() >= 0) {
+            return getAngle() % (2 * Math.PI);
+        } 
+
+        else {
+            return (2 * Math.PI) - (Math.abs(getAngle()) % (2 * Math.PI));
+        }
     }
 
     /*
