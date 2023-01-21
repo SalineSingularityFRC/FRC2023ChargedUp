@@ -5,7 +5,7 @@ package frc.robot;
  * All variables in this class should be marked public static and final
  */
 public final class Constants {
-    public static final double ANGLE_MOTOR_GEAR_RATIO = 6.45; // Yuri: "If its not 8.14 its 6.75"
+    public static final double ANGLE_MOTOR_GEAR_RATIO = 12.8; // Yuri: "If its not 8.14 its 6.75"
     public static final double MAX_ANGLE_INACCURACY = Math.PI/ 24;
     public static final String CANBUS = "rio";
     public static final String CANIVORE = "drivetrain";
@@ -24,7 +24,7 @@ public final class Constants {
     public static final double theta = Math.atan(robotWidth/robotLength); 
 
     
-    // --------->  THESE ARE JUST PLACEHOLDER ID VALUES <------------
+    // --------->  THESE ARE REAL ID VALUES <------------
     public static final int GYRO_CANCODER_ID = 0; 
 
     public static final int FL_ANGLE_ID = 17; 
