@@ -58,19 +58,6 @@ public class SwerveModule {
      */
     public boolean drive(SwerveDriveRequest request) {
         SwerveAngle.AnglePosition angle = angleMotor.setAngle(request.direction);
-        if (angle == AnglePosition.Positive) {
-            SmartDashboard.putNumber("Forwards or backwards", 1);
-        }
-        else if (angle == AnglePosition.Negative) {
-            SmartDashboard.putNumber("Forwards or backwards", -1);
-        }
-        else {
-            SmartDashboard.putNumber("Forwards or backwards", 0);
-        }
-
-
-
-        
         if (angle == SwerveAngle.AnglePosition.Positive) {
             driveMotor.set(request.velocity);
             return true;
