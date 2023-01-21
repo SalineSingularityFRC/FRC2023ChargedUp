@@ -61,8 +61,6 @@ public class SwerveAngle {
         double delta = wheelPosition - targetAngle;
 
         SmartDashboard.putNumber("Wheel position", wheelPosition);
-        SmartDashboard.putNumber("delta", delta);
-
         //This if else statement gets the closest angle to go to (absolute value)
         if (delta > Math.PI) {
             targetAngle += (2 * Math.PI);
@@ -73,8 +71,6 @@ public class SwerveAngle {
         // Recalculate the difference between the current angle according to the gyro and the target angle according to the robot.
         delta = wheelPosition - targetAngle;
         AnglePosition currentPosition;
-
-
         /*These if else statements mean that if the target angle is even less
          if you turn the back end to it, do it.
          Then set the wheels to reverse.
@@ -94,6 +90,7 @@ public class SwerveAngle {
 
         targetAngle += remainderRotations;
 
+        SmartDashboard.putNumber("DELTA", delta);
         SmartDashboard.putNumber("target angle", targetAngle);
         // Let's drive
 
@@ -113,8 +110,6 @@ public class SwerveAngle {
         
         double talonRadians = (angleMotor.getPosition().getValue() * 2 * Math.PI);
         double wheelRadians = talonRadians / Constants.ANGLE_MOTOR_GEAR_RATIO;
-
-        SmartDashboard.putNumber("wheel radians", wheelRadians % (2*Math.PI));
         return wheelRadians - zeroPositionOffset;
     }
 

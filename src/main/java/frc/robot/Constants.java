@@ -34,7 +34,7 @@ public final class Constants {
     public static final int FR_ANGLE_ID = 12; 
     public static final int FR_Motor_ID = 16;
 
-    public static final int BL_ANGLE_ID = 13; 
+    public static final int BL_ANGLE_ID = 13;   
     public static final int BL_Motor_ID = 11;
 
     public static final int BR_ANGLE_ID = 14; 
@@ -42,8 +42,8 @@ public final class Constants {
 
 
 
-    public static double DRIVETRAIN_FRONT_LEFT_ENCODER_OFFSET = Math.toRadians(360 * 0.060547);
-    public static double DRIVETRAIN_FRONT_RIGHT_ENCODER_OFFSET = Math.toRadians(360 * -0.092773);
-    public static double DRIVETRAIN_BACK_LEFT_ENCODER_OFFSET = Math.toRadians(360 * -0.011230);
-    public static double DRIVETRAIN_BACK_RIGHT_ENCODER_OFFSET = Math.toRadians(360 * 0.347168);
+    public static double DRIVETRAIN_FRONT_LEFT_ENCODER_OFFSET = Math.toRadians(360 * 0.0);
+    public static double DRIVETRAIN_FRONT_RIGHT_ENCODER_OFFSET = Math.toRadians(360 * -0.0);
+    public static double DRIVETRAIN_BACK_LEFT_ENCODER_OFFSET = Math.toRadians(360 * -0.0);
+    public static double DRIVETRAIN_BACK_RIGHT_ENCODER_OFFSET = Math.toRadians(360 * 0.0);
 }

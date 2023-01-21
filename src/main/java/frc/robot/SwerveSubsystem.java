@@ -5,6 +5,8 @@ import java.util.Hashtable;
 
 import com.ctre.phoenixpro.hardware.Pigeon2;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
 /*
  * This class provides functions to drive at a given angle and direction,
  * and performs the calculations required to achieve that
@@ -33,9 +35,14 @@ public class SwerveSubsystem {
         swerveModules.put("BR", new SwerveModule(Constants.BR_Motor_ID, Constants.BR_ANGLE_ID, Constants.DRIVETRAIN_BACK_RIGHT_ENCODER_OFFSET, Constants.CANIVORE));
     }
 
-    public class SwerveRequest {
+    public static class SwerveRequest {
         public double rotation;
         public Vector movement;
+
+        public SwerveRequest(double rotation, double x, double y) {
+            this.rotation = rotation;
+            this.movement = new Vector(x, y);
+        }
     }
 
     /*
@@ -43,7 +50,7 @@ public class SwerveSubsystem {
      * field-centric direction vector for
      * which way the robot should travel
      */
-    public void drive(SwerveRequest request) {
+    public void drive(SwerveRequest request) { // we dont use the rotation part of SwerveRequest right now
         double x = request.movement.x;
         double y = request.movement.y;
 
@@ -52,13 +59,13 @@ public class SwerveSubsystem {
 
         if (y == 0) { // y = 0 wouldn't work because fraction
             if (x > 0) {
-                angle = 270;
+                angle = (3 * Math.PI) / 2;
             } 
             else if (x < 0) {
-                angle = 90;
+                angle = Math.PI / 2;
             } 
             else { // x = 0
-                angle = 0;
+                angle = -1;
             }
         }
         else if (y < 0 || (x == 0 && y < 0)) { // Q3 and Q4 and south field centric
@@ -74,29 +81,27 @@ public class SwerveSubsystem {
             angle = 0;
         }
 
+        if (angle != -1) {
+            angle -= this.getRobotAngle() % (2 * Math.PI);
 
-        angle -= this.getRobotAngle() % (2 * Math.PI);
-
-
-
-        // if (angle > 0) { // if angle postive
-        //     angle += this.getRobotAngle() % 360;
-        // }
-        // else { // if angle is 0
-        //     angle = this.getRobotAngle() - angle;
-        // }
-
-        // if (angle > 360) { // the setAngle class in SwerveAngle wants [0,360]
-        //     angle = 360 - angle;
-        // }
-
-        // add recalculating the angle based of field centric view
-
-        swerveModules.get("FL").drive(new SwerveModule.SwerveDriveRequest(speed, angle));
-        swerveModules.get("FR").drive(new SwerveModule.SwerveDriveRequest(speed, angle));
-        swerveModules.get("BL").drive(new SwerveModule.SwerveDriveRequest(speed, angle));
-        swerveModules.get("BR").drive(new SwerveModule.SwerveDriveRequest(speed, angle));
-
+            // if (angle > 0) { // if angle postive
+            //     angle += this.getRobotAngle() % 360;
+            // }
+            // else { // if angle is 0
+            //     angle = this.getRobotAngle() - angle;
+            // }
+    
+            // if (angle > 360) { // the setAngle class in SwerveAngle wants [0,360]
+            //     angle = 360 - angle;
+            // }
+    
+            // add recalculating the angle based of field centric view
+    
+            swerveModules.get("FL").drive(new SwerveModule.SwerveDriveRequest(speed, angle));
+            swerveModules.get("FR").drive(new SwerveModule.SwerveDriveRequest(speed, angle));
+            swerveModules.get("BL").drive(new SwerveModule.SwerveDriveRequest(speed, angle));
+            swerveModules.get("BR").drive(new SwerveModule.SwerveDriveRequest(speed, angle));
+        }
     }
 
     /*
