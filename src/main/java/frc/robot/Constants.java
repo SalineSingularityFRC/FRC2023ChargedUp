@@ -5,7 +5,8 @@ package frc.robot;
  * All variables in this class should be marked public static and final
  */
 public final class Constants {
-    public static final double ANGLE_MOTOR_GEAR_RATIO = 12.8; // Yuri: "If its not 8.14 its 6.75"
+    public static final double DRIVE_MOTOR_GEAR_RATIO = 8.14; // this is the ratio of bot
+    public static final double ANGLE_MOTOR_GEAR_RATIO = 12.8; // https://www.swervedrivespecialties.com/products/mk4-swerve-module
     public static final double MAX_ANGLE_INACCURACY = Math.PI/ 24;
     public static final String CANBUS = "rio";
     public static final String CANIVORE = "drivetrain";
