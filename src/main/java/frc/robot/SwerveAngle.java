@@ -60,7 +60,7 @@ public class SwerveAngle {
         double remainderRotations = getRemainderRotations(); // the additional rotations leftover from the wheel position
         double delta = wheelPosition - targetAngle;
 
-        SmartDashboard.putNumber("Wheel position", wheelPosition);
+        SmartDashboard.putNumber("Wheel position1", wheelPosition);
         SmartDashboard.putNumber("delta", delta);
 
         //If we're too far off, let's move our target angle to be closer
@@ -70,9 +70,12 @@ public class SwerveAngle {
             targetAngle -= (2 * Math.PI);
         }
 
+        SmartDashboard.putNumber("Wheel position2", wheelPosition);
+
         // Recalculate delta
         delta = wheelPosition - targetAngle;
         AnglePosition currentPosition;
+
 
         // If it's closer, let's flip the module backwards and drive in reverse
         if (delta > (Math.PI/2) || delta < -(Math.PI/2)) {
@@ -85,13 +88,15 @@ public class SwerveAngle {
             currentPosition = AnglePosition.Positive;
         }
 
+        SmartDashboard.putNumber("Wheel position3", wheelPosition);
+
         targetAngle += remainderRotations;
 
         SmartDashboard.putNumber("target angle", targetAngle);
         // Let's drive
 
         SmartDashboard.putNumber("what position to pass", Constants.ANGLE_MOTOR_GEAR_RATIO * targetAngle/(2*Math.PI));
-        angleMotor.setControl(positionTarget.withPosition(Constants.ANGLE_MOTOR_GEAR_RATIO * targetAngle/(2*Math.PI)));
+        //angleMotor.setControl(positionTarget.withPosition(Constants.ANGLE_MOTOR_GEAR_RATIO * targetAngle/(2*Math.PI)));
     
         if(Math.abs(delta) > Constants.MAX_ANGLE_INACCURACY){
             return AnglePosition.Moving;
@@ -104,8 +109,11 @@ public class SwerveAngle {
      * minus our offset
     */
     private double getAngle() {
+        
         double talonRadians = (angleMotor.getPosition().getValue() * 2 * Math.PI);
         double wheelRadians = talonRadians / Constants.ANGLE_MOTOR_GEAR_RATIO;
+
+        SmartDashboard.putNumber("wheel radians", wheelRadians % (2*Math.PI));
         return wheelRadians - zeroPositionOffset;
     }
 
@@ -114,6 +122,7 @@ public class SwerveAngle {
      * copied and pasted from the first lines of setAngle()
      */
     public double getAngleClamped() {
+        
         if (getAngle() >= 0) {
             return getAngle() % (2 * Math.PI);
         } 
