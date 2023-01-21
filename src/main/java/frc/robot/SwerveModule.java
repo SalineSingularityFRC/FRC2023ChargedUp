@@ -1,5 +1,9 @@
 package frc.robot;
 import com.revrobotics.AbsoluteEncoder;
+
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.robot.SwerveAngle.AnglePosition;
+
 import com.ctre.phoenixpro.hardware.TalonFX;
 /*
  * This class owns the components of a single swerve module and is responsible for controlling
@@ -54,6 +58,19 @@ public class SwerveModule {
      */
     public boolean drive(SwerveDriveRequest request) {
         SwerveAngle.AnglePosition angle = angleMotor.setAngle(request.direction);
+        if (angle == AnglePosition.Positive) {
+            SmartDashboard.putNumber("Forwards or backwards", 1);
+        }
+        else if (angle == AnglePosition.Negative) {
+            SmartDashboard.putNumber("Forwards or backwards", -1);
+        }
+        else {
+            SmartDashboard.putNumber("Forwards or backwards", 0);
+        }
+
+
+
+        
         if (angle == SwerveAngle.AnglePosition.Positive) {
             driveMotor.set(request.velocity);
             return true;
