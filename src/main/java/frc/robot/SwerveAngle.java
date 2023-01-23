@@ -55,7 +55,7 @@ public class SwerveAngle {
      */
 
     // takes in an angle in and turns the wheel to that angle in the fastest way possible
-    public AnglePosition setAngle(double targetAngle) {        
+    public AnglePosition setAngle(double targetAngle) {
         double wheelPosition = getAngleClamped(); // the angle to set the wheel to minus the leftover full rotations
         double remainderRotations = getRemainderRotations(); // the additional rotations leftover from the wheel position
         double delta = wheelPosition - targetAngle;
@@ -115,12 +115,12 @@ public class SwerveAngle {
      */
     public double getAngleClamped() {
         if (getAngle() >= 0) {
-            return getAngle() % (2 * Math.PI);
-        } 
+        return getAngle() % (2 * Math.PI);
+    }
 
         else {
             return (2 * Math.PI) - (Math.abs(getAngle()) % (2 * Math.PI));
-        }
+    }
     }
 
     /*
