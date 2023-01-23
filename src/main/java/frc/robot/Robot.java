@@ -13,12 +13,12 @@ public class Robot extends TimedRobot {
 
   private RobotContainer m_robotContainer;
 
-  private SwerveAngle angleMotor;
+  private SwerveSubsystem robotSubsystem;
 
   @Override
   public void robotInit() {
     m_robotContainer = new RobotContainer();
-    angleMotor = new SwerveAngle(17, Constants.CANIVORE);
+    robotSubsystem = new SwerveSubsystem();
   }
 
   @Override
@@ -59,7 +59,7 @@ public class Robot extends TimedRobot {
 
   @Override
   public void teleopPeriodic() {
-    angleMotor.setAngle(0.5 * Math.PI);
+    robotSubsystem.drive(new SwerveSubsystem.SwerveRequest(0, 0, 0));
   }
 
   @Override

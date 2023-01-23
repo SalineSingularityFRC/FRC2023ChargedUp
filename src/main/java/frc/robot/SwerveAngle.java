@@ -27,10 +27,10 @@ public class SwerveAngle {
     public SwerveAngle(int angleMotorId, String canNetwork) {
         angleMotor = new TalonFX(angleMotorId, canNetwork);
         zeroPositionOffset = 0;
-        positionTarget = new PositionVoltage(0);
+        positionTarget = new PositionVoltage(0).withSlot(0);
         
         var slot0Configs = new Slot0Configs();
-        slot0Configs.kP = 0.3;
+        slot0Configs.kP = 30.0; // its at 30 because we did testing and it its a safe value for no gear noises and oscillating.
         slot0Configs.kI = 0.0;
         slot0Configs.kD = 0.0;
 
@@ -61,20 +61,23 @@ public class SwerveAngle {
         double delta = wheelPosition - targetAngle;
 
         SmartDashboard.putNumber("Wheel position", wheelPosition);
-        SmartDashboard.putNumber("delta", delta);
-
-        //If we're too far off, let's move our target angle to be closer
+        //This if else statement gets the closest angle to go to (absolute value)
         if (delta > Math.PI) {
             targetAngle += (2 * Math.PI);
         } else if (delta < -Math.PI) {
             targetAngle -= (2 * Math.PI);
         }
 
-        // Recalculate delta
+        // Recalculate the difference between the current angle according to the gyro and the target angle according to the robot.
         delta = wheelPosition - targetAngle;
         AnglePosition currentPosition;
+        /*These if else statements mean that if the target angle is even less
+         if you turn the back end to it, do it.
+         Then set the wheels to reverse.
 
-        // If it's closer, let's flip the module backwards and drive in reverse
+         tl;dr: makes the angle that the robot has to turn even smaller
+        
+        */
         if (delta > (Math.PI/2) || delta < -(Math.PI/2)) {
             if (delta > (Math.PI/2))
                 targetAngle += Math.PI;
@@ -87,14 +90,14 @@ public class SwerveAngle {
 
         targetAngle += remainderRotations;
 
+        SmartDashboard.putNumber("DELTA", delta);
         SmartDashboard.putNumber("target angle", targetAngle);
         // Let's drive
 
-        SmartDashboard.putNumber("what position to pass", Constants.ANGLE_MOTOR_GEAR_RATIO * targetAngle/(2*Math.PI));
         angleMotor.setControl(positionTarget.withPosition(Constants.ANGLE_MOTOR_GEAR_RATIO * targetAngle/(2*Math.PI)));
-    
-        if(Math.abs(delta) > Constants.MAX_ANGLE_INACCURACY){
-            return AnglePosition.Moving;
+
+        if(Math.abs(delta % Math.PI) > Constants.MAX_ANGLE_INACCURACY && Math.abs(delta % Math.PI) < Math.PI - Constants.MAX_ANGLE_INACCURACY){
+            return AnglePosition.Moving; // Wheel is still in the process of turning 
         }
         return currentPosition;
     }
@@ -104,6 +107,7 @@ public class SwerveAngle {
      * minus our offset
     */
     private double getAngle() {
+        
         double talonRadians = (angleMotor.getPosition().getValue() * 2 * Math.PI);
         double wheelRadians = talonRadians / Constants.ANGLE_MOTOR_GEAR_RATIO;
         return wheelRadians - zeroPositionOffset;
@@ -114,6 +118,7 @@ public class SwerveAngle {
      * copied and pasted from the first lines of setAngle()
      */
     public double getAngleClamped() {
+        
         if (getAngle() >= 0) {
         return getAngle() % (2 * Math.PI);
     }
