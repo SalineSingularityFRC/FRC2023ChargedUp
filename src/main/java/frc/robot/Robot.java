@@ -4,7 +4,9 @@
 
 package frc.robot;
 
+import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 
@@ -13,12 +15,16 @@ public class Robot extends TimedRobot {
 
   private RobotContainer m_robotContainer;
 
-  private SwerveSubsystem robotSubsystem;
+  //private SwerveSubsystem robotSubsystem;
+  private SwerveModule robotModule;
+  private Joystick joystick;
 
   @Override
   public void robotInit() {
     m_robotContainer = new RobotContainer();
-    robotSubsystem = new SwerveSubsystem();
+    //robotSubsystem = new SwerveSubsystem();
+    robotModule = new SwerveModule(Constants.BL_ANGLE_ID, Constants.BL_Motor_ID, Constants.BL_CANCODER_ID, Constants.DRIVETRAIN_BACK_LEFT_ENCODER_OFFSET, Constants.CANIVORE, Constants.BL_isInverted);
+    joystick = new Joystick(0);
   }
 
   @Override
@@ -59,7 +65,9 @@ public class Robot extends TimedRobot {
 
   @Override
   public void teleopPeriodic() {
-    robotSubsystem.drive(new SwerveSubsystem.SwerveRequest(0, 1, 1));
+    //robotSubsystem.drive(new SwerveSubsystem.SwerveRequest(0, 0, -0.2));
+    SwerveModule.SwerveDriveRequest request = new SwerveModule.SwerveDriveRequest(0.2, 0);
+    //robotModule.drive(request);
   }
 
   @Override

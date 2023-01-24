@@ -29,12 +29,15 @@ public class SwerveModule {
      * angle motor
      * It should initialize our drive motor and create a SwerveAngle, passing the CAN ID to the SwerveAngle constructor
      */
-    public SwerveModule(int Can_ID_driveMotor, int Can_ID_angleMotor, int Can_ID_canCoder, double zeroPosition, String canNetwork) { // add a zeroPosition thing
+    public SwerveModule(int Can_ID_driveMotor, int Can_ID_angleMotor, int Can_ID_canCoder, double zeroPosition, String canNetwork, boolean isInverted) { // add a zeroPosition thing
         m_encoder = new CANcoder(Can_ID_canCoder, canNetwork);
         driveMotor = new TalonFX(Can_ID_driveMotor, canNetwork);
         angleMotor = new SwerveAngle(Can_ID_angleMotor, canNetwork);
+        driveMotor.setInverted(isInverted);
 
         absolutePositionEncoderOffset = zeroPosition;
+
+        //this.resetZeroAngle();
     }
     
 
