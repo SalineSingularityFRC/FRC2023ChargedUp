@@ -109,6 +109,8 @@ public class SwerveAngle {
     private double getAngle() {
         
         double talonRadians = (angleMotor.getPosition().getValue() * 2 * Math.PI);
+
+        SmartDashboard.putNumber("talon radians", talonRadians);
         double wheelRadians = talonRadians / Constants.ANGLE_MOTOR_GEAR_RATIO;
         return wheelRadians - zeroPositionOffset;
     }
@@ -139,6 +141,7 @@ public class SwerveAngle {
      * Set the zero angle based on the current angle (in radians) that we are reading from an external source.
      */
     public void setZeroAngle(double currentAngle) {
-        zeroPositionOffset = currentAngle - getAngle();
+        zeroPositionOffset += currentAngle - getAngle();
+        
     }
 }

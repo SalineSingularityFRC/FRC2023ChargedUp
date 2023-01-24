@@ -30,21 +30,26 @@ public final class Constants {
 
     public static final int FL_ANGLE_ID = 17; 
     public static final int FL_Motor_ID = 15;
+    public static final int FL_CANCODER_ID = 43;
+    public static final boolean FL_isInverted = false;
 
     public static final int FR_ANGLE_ID = 12; 
     public static final int FR_Motor_ID = 16;
+    public static final int FR_CANCODER_ID = 44;
+    public static final boolean FR_isInverted = true;
 
     public static final int BL_ANGLE_ID = 13;   
     public static final int BL_Motor_ID = 11;
+    public static final int BL_CANCODER_ID = 42;
+    public static final boolean BL_isInverted = false;
 
     public static final int BR_ANGLE_ID = 14; 
     public static final int BR_Motor_ID = 18;
-  
+    public static final int BR_CANCODER_ID = 41;
+    public static final boolean BR_isInverted = true;
 
-
-
-    public static double DRIVETRAIN_FRONT_LEFT_ENCODER_OFFSET = Math.toRadians(360 * 0.0);
-    public static double DRIVETRAIN_FRONT_RIGHT_ENCODER_OFFSET = Math.toRadians(360 * -0.0);
-    public static double DRIVETRAIN_BACK_LEFT_ENCODER_OFFSET = Math.toRadians(360 * -0.0);
-    public static double DRIVETRAIN_BACK_RIGHT_ENCODER_OFFSET = Math.toRadians(360 * 0.0);
+    public static double DRIVETRAIN_FRONT_LEFT_ENCODER_OFFSET = 0.499512 * 2 * Math.PI;
+    public static double DRIVETRAIN_FRONT_RIGHT_ENCODER_OFFSET = 0.142090 * 2 * Math.PI;
+    public static double DRIVETRAIN_BACK_LEFT_ENCODER_OFFSET = 0.059814 * 2 * Math.PI;
+    public static double DRIVETRAIN_BACK_RIGHT_ENCODER_OFFSET = 0.820557  * 2 * Math.PI;
 }

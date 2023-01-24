@@ -26,5 +26,6 @@
     },
   ],
   "java.test.defaultConfig": "WPIlibUnitTests",
-  "codetogether.virtualCursorJoin": "ownVirtualCursor"
+  "codetogether.virtualCursorJoin": "ownVirtualCursor",
+  "wpilib.autoStartRioLog": false
 }
