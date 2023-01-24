@@ -44,8 +44,6 @@ public final class Constants {
     public static final int BR_Motor_ID = 18;
     public static final int BR_CANCODER_ID = 41;
 
-
-
     public static double DRIVETRAIN_FRONT_LEFT_ENCODER_OFFSET = 0.536621 * 2 * Math.PI;
     public static double DRIVETRAIN_FRONT_RIGHT_ENCODER_OFFSET = 0.100830 * 2 * Math.PI;
     public static double DRIVETRAIN_BACK_LEFT_ENCODER_OFFSET = 0.051270 * 2 * Math.PI;
