@@ -48,7 +48,7 @@ public final class Constants {
     public static final int BR_CANCODER_ID = 41;
     public static final boolean BR_isInverted = true;
 
-    public static double DRIVETRAIN_FRONT_LEFT_ENCODER_OFFSET = 0.499512 * 2 * Math.PI;
+    public static double DRIVETRAIN_FRONT_LEFT_ENCODER_OFFSET = 0.509766 * 2 * Math.PI;
     public static double DRIVETRAIN_FRONT_RIGHT_ENCODER_OFFSET = 0.142090 * 2 * Math.PI;
     public static double DRIVETRAIN_BACK_LEFT_ENCODER_OFFSET = 0.059814 * 2 * Math.PI;
     public static double DRIVETRAIN_BACK_RIGHT_ENCODER_OFFSET = 0.820557  * 2 * Math.PI;

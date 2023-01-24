@@ -37,7 +37,7 @@ public class SwerveModule {
 
         absolutePositionEncoderOffset = zeroPosition;
 
-        //this.resetZeroAngle();
+        this.resetZeroAngle();
     }
     
 
@@ -65,12 +65,12 @@ public class SwerveModule {
     public boolean drive(SwerveDriveRequest request) {
         SwerveAngle.AnglePosition angle = angleMotor.setAngle(request.direction);
         if (angle == SwerveAngle.AnglePosition.Positive) {
-            driveMotor.set(request.velocity);
+           driveMotor.set(request.velocity);
             return true;
         }
 
         if (angle == SwerveAngle.AnglePosition.Negative) {
-            driveMotor.set(-request.velocity);
+           driveMotor.set(-request.velocity);
             return true;
         }
         

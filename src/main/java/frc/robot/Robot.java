@@ -15,15 +15,15 @@ public class Robot extends TimedRobot {
 
   private RobotContainer m_robotContainer;
 
-  //private SwerveSubsystem robotSubsystem;
-  private SwerveModule robotModule;
+  private SwerveSubsystem robotSubsystem;
+  // private SwerveModule robotModule;
   private Joystick joystick;
 
   @Override
   public void robotInit() {
     m_robotContainer = new RobotContainer();
-    //robotSubsystem = new SwerveSubsystem();
-    robotModule = new SwerveModule(Constants.BL_ANGLE_ID, Constants.BL_Motor_ID, Constants.BL_CANCODER_ID, Constants.DRIVETRAIN_BACK_LEFT_ENCODER_OFFSET, Constants.CANIVORE, Constants.BL_isInverted);
+    robotSubsystem = new SwerveSubsystem();
+    // robotModule = new SwerveModule(Constants.BL_Motor_ID, Constants.BL_ANGLE_ID, Constants.BL_CANCODER_ID, Constants.DRIVETRAIN_BACK_LEFT_ENCODER_OFFSET, Constants.CANIVORE, Constants.BL_isInverted);
     joystick = new Joystick(0);
   }
 
@@ -65,8 +65,8 @@ public class Robot extends TimedRobot {
 
   @Override
   public void teleopPeriodic() {
-    //robotSubsystem.drive(new SwerveSubsystem.SwerveRequest(0, 0, -0.2));
-    SwerveModule.SwerveDriveRequest request = new SwerveModule.SwerveDriveRequest(0.2, 0);
+    robotSubsystem.drive(new SwerveSubsystem.SwerveRequest(0, 0, -0.2));
+   // SwerveModule.SwerveDriveRequest request = new SwerveModule.SwerveDriveRequest(0.2, joystick.getRawAxis(2)*2*Math.PI);
     //robotModule.drive(request);
   }
 
