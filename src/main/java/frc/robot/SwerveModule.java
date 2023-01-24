@@ -4,6 +4,7 @@ import com.revrobotics.AbsoluteEncoder;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.SwerveAngle.AnglePosition;
 
+import com.ctre.phoenixpro.hardware.CANcoder;
 import com.ctre.phoenixpro.hardware.TalonFX;
 /*
  * This class owns the components of a single swerve module and is responsible for controlling
@@ -18,7 +19,7 @@ public class SwerveModule {
      *   An instance of the CANcoder class to handle the encoder
      */
     private SwerveAngle angleMotor;
-    private AbsoluteEncoder m_encoder;
+    private CANcoder m_encoder;
     private TalonFX driveMotor;
 
     private final double absolutePositionEncoderOffset;
@@ -28,9 +29,11 @@ public class SwerveModule {
      * angle motor
      * It should initialize our drive motor and create a SwerveAngle, passing the CAN ID to the SwerveAngle constructor
      */
-    public SwerveModule(int Can_ID_driveMotor, int Can_ID_angleMotor, double zeroPosition, String canNetwork) { // add a zeroPosition thing
+    public SwerveModule(int Can_ID_driveMotor, int Can_ID_angleMotor, int Can_ID_canCoder, double zeroPosition, String canNetwork) { // add a zeroPosition thing
+        m_encoder = new CANcoder(Can_ID_canCoder, canNetwork);
         driveMotor = new TalonFX(Can_ID_driveMotor, canNetwork);
         angleMotor = new SwerveAngle(Can_ID_angleMotor, canNetwork);
+
         absolutePositionEncoderOffset = zeroPosition;
     }
     
@@ -81,6 +84,6 @@ public class SwerveModule {
      * The zeroAngle is what we use to offset(balance) whatever we're reading off the talon
      */
     public void resetZeroAngle() {
-        angleMotor.setZeroAngle((m_encoder.getPosition() - absolutePositionEncoderOffset) * 2 * Math.PI);
+        angleMotor.setZeroAngle((m_encoder.getAbsolutePosition().getValue() * 2 * Math.PI) - absolutePositionEncoderOffset);
     }
 }

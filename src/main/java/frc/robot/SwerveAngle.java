@@ -139,6 +139,7 @@ public class SwerveAngle {
      * Set the zero angle based on the current angle (in radians) that we are reading from an external source.
      */
     public void setZeroAngle(double currentAngle) {
-        zeroPositionOffset = currentAngle - getAngle();
+        zeroPositionOffset += currentAngle - getAngle();
+        
     }
 }
