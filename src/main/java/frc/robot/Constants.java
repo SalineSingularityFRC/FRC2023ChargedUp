@@ -26,7 +26,7 @@ public final class Constants {
 
     
     // --------->  THESE ARE REAL ID VALUES <------------
-    public static final int GYRO_CANCODER_ID = 0; 
+    public static final int GYRO_CANCODER_ID = 10; 
 
     public static final int FL_ANGLE_ID = 17; 
     public static final int FL_Motor_ID = 15;
@@ -50,6 +50,6 @@ public final class Constants {
 
     public static double DRIVETRAIN_FRONT_LEFT_ENCODER_OFFSET = 0.509766 * 2 * Math.PI;
     public static double DRIVETRAIN_FRONT_RIGHT_ENCODER_OFFSET = 0.142090 * 2 * Math.PI;
-    public static double DRIVETRAIN_BACK_LEFT_ENCODER_OFFSET = 0.059814 * 2 * Math.PI;
+    public static double DRIVETRAIN_BACK_LEFT_ENCODER_OFFSET = 0.999023 * 2 * Math.PI;
     public static double DRIVETRAIN_BACK_RIGHT_ENCODER_OFFSET = 0.820557  * 2 * Math.PI;
 }

@@ -65,7 +65,7 @@ public class Robot extends TimedRobot {
 
   @Override
   public void teleopPeriodic() {
-    robotSubsystem.drive(new SwerveSubsystem.SwerveRequest(0, 0, -0.2));
+    robotSubsystem.drive(new SwerveSubsystem.SwerveRequest(0, joystick.getX(), -joystick.getY()));
    // SwerveModule.SwerveDriveRequest request = new SwerveModule.SwerveDriveRequest(0.2, joystick.getRawAxis(2)*2*Math.PI);
     //robotModule.drive(request);
   }
