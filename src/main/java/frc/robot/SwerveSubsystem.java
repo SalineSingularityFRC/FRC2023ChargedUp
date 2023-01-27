@@ -42,12 +42,12 @@ public class SwerveSubsystem implements UpdateManager.Updatable {
      * Use values from the Constants.java class
      */
     public SwerveSubsystem() {
-        gyro = new Pigeon2(Constants.GYRO_CANCODER_ID, Constants.CANIVORE);
+        gyro = new Pigeon2(Constants.GYRO_CANCODER_ID, Constants.CANBUS);
 
-        swerveModules.put("FL", new SwerveModule(Constants.FL_Motor_ID, Constants.FL_ANGLE_ID, Constants.DRIVETRAIN_FRONT_LEFT_ENCODER_OFFSET, Constants.CANIVORE));
-        swerveModules.put("FR", new SwerveModule(Constants.FR_Motor_ID, Constants.FR_ANGLE_ID, Constants.DRIVETRAIN_FRONT_RIGHT_ENCODER_OFFSET, Constants.CANIVORE));
-        swerveModules.put("BL", new SwerveModule(Constants.BL_Motor_ID, Constants.BL_ANGLE_ID, Constants.DRIVETRAIN_BACK_LEFT_ENCODER_OFFSET, Constants.CANIVORE));
-        swerveModules.put("BR", new SwerveModule(Constants.BR_Motor_ID, Constants.BR_ANGLE_ID, Constants.DRIVETRAIN_BACK_RIGHT_ENCODER_OFFSET, Constants.CANIVORE));
+        swerveModules.put("FL", new SwerveModule(Constants.FL_Motor_ID, Constants.FL_ANGLE_ID, Constants.FL_CANCODER_ID, Constants.DRIVETRAIN_FRONT_LEFT_ENCODER_OFFSET, Constants.CANIVORE, Constants.FL_isInverted));
+        swerveModules.put("FR", new SwerveModule(Constants.FR_Motor_ID, Constants.FR_ANGLE_ID, Constants.FR_CANCODER_ID, Constants.DRIVETRAIN_FRONT_RIGHT_ENCODER_OFFSET, Constants.CANIVORE, Constants.FR_isInverted));
+        swerveModules.put("BL", new SwerveModule(Constants.BL_Motor_ID, Constants.BL_ANGLE_ID, Constants.BL_CANCODER_ID, Constants.DRIVETRAIN_BACK_LEFT_ENCODER_OFFSET, Constants.CANIVORE, Constants.BL_isInverted));
+        swerveModules.put("BR", new SwerveModule(Constants.BR_Motor_ID, Constants.BR_ANGLE_ID, Constants.BR_CANCODER_ID, Constants.DRIVETRAIN_BACK_RIGHT_ENCODER_OFFSET, Constants.CANIVORE, Constants.BR_isInverted));
     }
 
     public static class SwerveRequest {
@@ -90,6 +90,31 @@ public class SwerveSubsystem implements UpdateManager.Updatable {
             //SmartDashboard.putNumber(Integer.toString(i), module.getTargetVelocity());
             module.updateState(dt);
         }
+        else { // this else statement is useful as a catch all
+            angle = 0;
+        }
+
+        if (angle != -1) {
+            // angle -= this.getRobotAngle() % (2 * Math.PI);
+
+            // if (angle > 0) { // if angle postive
+            //     angle += this.getRobotAngle() % 360;
+            // }
+            // else { // if angle is 0
+            //     angle = this.getRobotAngle() - angle;
+            // }
+    
+            // if (angle > 360) { // the setAngle class in SwerveAngle wants [0,360]
+            //     angle = 360 - angle;
+            // }
+    
+            // add recalculating the angle based of field centric view
+            angle-=gyro.getAngle();
+    
+            swerveModules.get("FL").drive(new SwerveModule.SwerveDriveRequest(speed, angle));
+            swerveModules.get("FR").drive(new SwerveModule.SwerveDriveRequest(speed, angle));
+            swerveModules.get("BL").drive(new SwerveModule.SwerveDriveRequest(speed, angle));
+            swerveModules.get("BR").drive(new SwerveModule.SwerveDriveRequest(speed, angle));
     }
 
     public void periodic() {

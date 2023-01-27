@@ -30,7 +30,7 @@ public class SwerveAngle {
         positionTarget = new PositionVoltage(0).withSlot(0);
         
         var slot0Configs = new Slot0Configs();
-        slot0Configs.kP = 30.0; // its at 30 because we did testing and it its a safe value for no gear noises and oscillating.
+        slot0Configs.kP = 6; // its at 30 because we did testing and it its a safe value for no gear noises and oscillating.
         slot0Configs.kI = 0.0;
         slot0Configs.kD = 0.0;
 
@@ -55,7 +55,7 @@ public class SwerveAngle {
      */
 
     // takes in an angle in and turns the wheel to that angle in the fastest way possible
-    public AnglePosition setAngle(double targetAngle) {        
+    public AnglePosition setAngle(double targetAngle) {
         double wheelPosition = getAngleClamped(); // the angle to set the wheel to minus the leftover full rotations
         double remainderRotations = getRemainderRotations(); // the additional rotations leftover from the wheel position
         double delta = wheelPosition - targetAngle;
@@ -89,12 +89,13 @@ public class SwerveAngle {
         }
 
         targetAngle += remainderRotations;
+        targetAngle += zeroPositionOffset;
 
         SmartDashboard.putNumber("DELTA", delta);
         SmartDashboard.putNumber("target angle", targetAngle);
         // Let's drive
 
-        angleMotor.setControl(positionTarget.withPosition(Constants.ANGLE_MOTOR_GEAR_RATIO * targetAngle/(2*Math.PI)));
+        angleMotor.setControl(positionTarget.withPosition(Constants.ANGLE_MOTOR_GEAR_RATIO * (targetAngle/(2*Math.PI))));
 
         if(Math.abs(delta % Math.PI) > Constants.MAX_ANGLE_INACCURACY && Math.abs(delta % Math.PI) < Math.PI - Constants.MAX_ANGLE_INACCURACY){
             return AnglePosition.Moving; // Wheel is still in the process of turning 
@@ -109,6 +110,8 @@ public class SwerveAngle {
     private double getAngle() {
         
         double talonRadians = (angleMotor.getPosition().getValue() * 2 * Math.PI);
+
+        SmartDashboard.putNumber("talon radians", talonRadians);
         double wheelRadians = talonRadians / Constants.ANGLE_MOTOR_GEAR_RATIO;
         return wheelRadians - zeroPositionOffset;
     }
@@ -120,12 +123,12 @@ public class SwerveAngle {
     public double getAngleClamped() {
         
         if (getAngle() >= 0) {
-            return getAngle() % (2 * Math.PI);
-        } 
+        return getAngle() % (2 * Math.PI);
+    }
 
         else {
             return (2 * Math.PI) - (Math.abs(getAngle()) % (2 * Math.PI));
-        }
+    }
     }
 
     /*
@@ -139,6 +142,7 @@ public class SwerveAngle {
      * Set the zero angle based on the current angle (in radians) that we are reading from an external source.
      */
     public void setZeroAngle(double currentAngle) {
-        zeroPositionOffset = currentAngle - getAngle();
+        zeroPositionOffset += getAngle() - currentAngle;
+        
     }
 }
