@@ -7,7 +7,7 @@ package frc.robot;
 
 public class SwerveDriveRequest {
     public double velocity; // Velocity: Speed for the module to go from 0 (stopped) to 1.0 (full speed)
-    public double direction; // Direction: Angle (in radians) for the module to point twards while driving (robot-centric)
+    public double direction; // Direction: Angle (in radians) for the module to point towards while driving (robot-centric)
 
     public SwerveDriveRequest(double velocity, double direction) {
         this.velocity = velocity;

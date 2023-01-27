@@ -56,4 +56,6 @@ public final class Constants {
     // will need to change these later (just placeholders for now)
     public static final double TRACKWIDTH = 1.0;
     public static final double WHEELBASE = 1.0;
+
+    public static final int PRIMARY_CONTROLLER_PORT = 0;
 }

@@ -60,42 +60,66 @@ public class SwerveSubsystem implements UpdateManager.Updatable {
         }
     }
 
-    public void drive(SwerveRequest request) {
-        synchronized (stateLock) {
-            driveSignal = new SwerveDriveRequest(translationalVelocity, rotationalVelocity);
-        }
-    }
-
-    private void updateModules(SwerveDriveRequest driveSignal, double dt) {
+    public void drive(Vector vector, double angularVelocity) { // FIGURE UOT WAY FOR ANGULAR VELOCITY
         ChassisVelocity chassisVelocity;
         if (driveSignal == null) {
-            chassisVelocity = new ChassisVelocity(Vector.ZERO, 0.0);
-        } else if (driveSignal.isFieldOriented()) {
+            chassisVelocity = new ChassisVelocity(new Vector(0, 0), 0.0);
+        }
+        else {
             chassisVelocity = new ChassisVelocity(
-                    driveSignal.getTranslation().rotateBy(getPose().rotation.inverse()),
-                    driveSignal.getRotation()
-            );
-        } else {
-            chassisVelocity = new ChassisVelocity(
-                    driveSignal.getTranslation(),
-                    driveSignal.getRotation()
+                    vector,
+                    angularVelocity
             );
         }
 
-        Vector[] moduleOutputs = swerveKinematics.toModuleVelocities(chassisVelocity);
+        Vector[] moduleOutputs = swerveKinematics.toModuleVelocities(chassisVelocity); // needs to be dictionary
         SwerveKinematics.normalizeModuleVelocities(moduleOutputs, 1);
         for (String key : swerveModules.keySet()) {
             SwerveModule module = swerveModules.get(key);
-            module.setTargetVelocity(moduleOutputs[i]);
+            SwerveDriveRequest request = drive(module.output[i]); // add a dictionary here
+            module.drive(moduleOutputs[], key);
             //SmartDashboard.putNumber(Integer.toString(i), module.getTargetVelocity());
-            module.updateState(dt);
+        }
+    }
+
+    /*
+     * This method takes a field-centric target rotation (in radians) and a
+     * field-centric direction vector for
+     * which way the module should travel
+     */
+    public SwerveDriveRequest drive(Vector vector) { // we dont use the rotation part of SwerveRequest right now
+        double x = vector.x;
+        double y = vector.y;
+
+        double speed = Math.sqrt(Math.pow(x, 2) + Math.pow(y, 2));
+        double angle;
+
+        if (y == 0) { // y = 0 wouldn't work because fraction
+            if (x > 0) {
+                angle = (3 * Math.PI) / 2;
+            } 
+            else if (x < 0) {
+                angle = Math.PI / 2;
+            } 
+            else { // x = 0
+                angle = -1;
+            }
+        }
+        else if (y < 0 || (x == 0 && y < 0)) { // Q3 and Q4 and south field centric
+            angle = Math.PI - Math.atan(x / y);
+        }
+        else if (x > 0 && y > 0) { // Q1 or north field centric
+            angle = 2 * Math.PI - Math.atan(x / y);
+        }
+        else if (x <= 0 && y > 0) { // Q2 or north field centric
+            angle = -1 * Math.atan(x / y);
         }
         else { // this else statement is useful as a catch all
             angle = 0;
         }
 
         if (angle != -1) {
-            // angle -= this.getRobotAngle() % (2 * Math.PI);
+            angle -= this.getRobotAngle() % (2 * Math.PI);
 
             // if (angle > 0) { // if angle postive
             //     angle += this.getRobotAngle() % 360;
@@ -109,30 +133,33 @@ public class SwerveSubsystem implements UpdateManager.Updatable {
             // }
     
             // add recalculating the angle based of field centric view
-            angle-=gyro.getAngle();
     
-            swerveModules.get("FL").drive(new SwerveModule.SwerveDriveRequest(speed, angle));
-            swerveModules.get("FR").drive(new SwerveModule.SwerveDriveRequest(speed, angle));
-            swerveModules.get("BL").drive(new SwerveModule.SwerveDriveRequest(speed, angle));
-            swerveModules.get("BR").drive(new SwerveModule.SwerveDriveRequest(speed, angle));
-    }
-
-    public void periodic() {
-        for (int i = 0; i < modules.length; i++) {
-            moduleAngleEntries[i].setDouble(Math.toDegrees(modules[i].getCurrentAngle()));
+            return new SwerveDriveRequest(speed, angle);
+        }
+        else {
+            return new SwerveDriveRequest(0, getRobotAngle());
         }
     }
 
-    @Override
-    public void update(double time, double dt) {
-        SwerveDriveRequest driveSignal;
-        synchronized (stateLock) {
-            driveSignal = this.driveSignal;
-        }
+    // public void periodic() {
+    //     for (int i = 0; i < modules.length; i++) {
+    //         moduleAngleEntries[i].setDouble(Math.toDegrees(modules[i].getCurrentAngle()));
+    //     }
+    // }
 
-        updateModules(driveSignal, dt);
-    }
+    // @Override
+    // public void update(double time, double dt) {
+    //     SwerveDriveRequest driveSignal;
+    //     synchronized (stateLock) {
+    //         driveSignal = this.driveSignal;
+    //     }
 
+    //     updateModules(driveSignal, dt);
+    // }
+
+
+
+    
     /*
      * This function returns the angle (in radians) of the robot based on the value
      * from the pidgeon 2.0
@@ -159,59 +186,56 @@ public class SwerveSubsystem implements UpdateManager.Updatable {
      * field-centric direction vector for
      * which way the robot should travel
      */
-    // public void drive(SwerveRequest request) { // we dont use the rotation part of SwerveRequest right now
-    //     double x = request.movement.x;
-    //     double y = request.movement.y;
+    public void drive(Vector vector, String key) { // we dont use the rotation part of SwerveRequest right now
+        double x = vector.x;
+        double y = vector.y;
 
-    //     double speed = Math.sqrt(Math.pow(x, 2) + Math.pow(y, 2));
-    //     double angle;
+        double speed = Math.sqrt(Math.pow(x, 2) + Math.pow(y, 2));
+        double angle;
 
-    //     if (y == 0) { // y = 0 wouldn't work because fraction
-    //         if (x > 0) {
-    //             angle = (3 * Math.PI) / 2;
-    //         } 
-    //         else if (x < 0) {
-    //             angle = Math.PI / 2;
-    //         } 
-    //         else { // x = 0
-    //             angle = -1;
-    //         }
-    //     }
-    //     else if (y < 0 || (x == 0 && y < 0)) { // Q3 and Q4 and south field centric
-    //         angle = Math.PI - Math.atan(x / y);
-    //     }
-    //     else if (x > 0 && y > 0) { // Q1 or north field centric
-    //         angle = 2 * Math.PI - Math.atan(x / y);
-    //     }
-    //     else if (x <= 0 && y > 0) { // Q2 or north field centric
-    //         angle = -1 * Math.atan(x / y);
-    //     }
-    //     else { // this else statement is useful as a catch all
-    //         angle = 0;
-    //     }
+        if (y == 0) { // y = 0 wouldn't work because fraction
+            if (x > 0) {
+                angle = (3 * Math.PI) / 2;
+            } 
+            else if (x < 0) {
+                angle = Math.PI / 2;
+            } 
+            else { // x = 0
+                angle = -1;
+            }
+        }
+        else if (y < 0 || (x == 0 && y < 0)) { // Q3 and Q4 and south field centric
+            angle = Math.PI - Math.atan(x / y);
+        }
+        else if (x > 0 && y > 0) { // Q1 or north field centric
+            angle = 2 * Math.PI - Math.atan(x / y);
+        }
+        else if (x <= 0 && y > 0) { // Q2 or north field centric
+            angle = -1 * Math.atan(x / y);
+        }
+        else { // this else statement is useful as a catch all
+            angle = 0;
+        }
 
-    //     if (angle != -1) {
-    //         angle -= this.getRobotAngle() % (2 * Math.PI);
+        if (angle != -1) {
+            angle -= this.getRobotAngle() % (2 * Math.PI);
 
-    //         // if (angle > 0) { // if angle postive
-    //         //     angle += this.getRobotAngle() % 360;
-    //         // }
-    //         // else { // if angle is 0
-    //         //     angle = this.getRobotAngle() - angle;
-    //         // }
+            // if (angle > 0) { // if angle postive
+            //     angle += this.getRobotAngle() % 360;
+            // }
+            // else { // if angle is 0
+            //     angle = this.getRobotAngle() - angle;
+            // }
     
-    //         // if (angle > 360) { // the setAngle class in SwerveAngle wants [0,360]
-    //         //     angle = 360 - angle;
-    //         // }
+            // if (angle > 360) { // the setAngle class in SwerveAngle wants [0,360]
+            //     angle = 360 - angle;
+            // }
     
-    //         // add recalculating the angle based of field centric view
+            // add recalculating the angle based of field centric view
     
-    //         swerveModules.get("FL").drive(new SwerveModule.SwerveDriveRequest(speed, angle));
-    //         swerveModules.get("FR").drive(new SwerveModule.SwerveDriveRequest(speed, angle));
-    //         swerveModules.get("BL").drive(new SwerveModule.SwerveDriveRequest(speed, angle));
-    //         swerveModules.get("BR").drive(new SwerveModule.SwerveDriveRequest(speed, angle));
-    //     }
-    // }
+            swerveModules.get(key).drive(new SwerveDriveRequest(speed, angle));
+        }
+    }
 
 
 

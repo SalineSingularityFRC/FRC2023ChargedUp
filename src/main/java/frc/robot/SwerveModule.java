@@ -58,7 +58,7 @@ public class SwerveModule {
      *
      * @param velocity the target velocity
      */
-    public final void setTargetVelocity(Vector2 velocity) {
+    public final void setTargetVelocity(Vector velocity) {
         synchronized (stateMutex) {
             targetSpeed = velocity.length;
             targetAngle = velocity.getAngle().toRadians();
@@ -80,6 +80,62 @@ public class SwerveModule {
         synchronized (stateMutex) {
             targetSpeed = speed;
             targetAngle = angle;
+        }
+    }
+
+    /*
+     * This method takes a field-centric target rotation (in radians) and a
+     * field-centric direction vector for
+     * which way the module should travel
+     */
+    public void drive(Vector vector, String key) { // we dont use the rotation part of SwerveRequest right now
+        double x = vector.x;
+        double y = vector.y;
+
+        double speed = Math.sqrt(Math.pow(x, 2) + Math.pow(y, 2));
+        double angle;
+
+        if (y == 0) { // y = 0 wouldn't work because fraction
+            if (x > 0) {
+                angle = (3 * Math.PI) / 2;
+            } 
+            else if (x < 0) {
+                angle = Math.PI / 2;
+            } 
+            else { // x = 0
+                angle = -1;
+            }
+        }
+        else if (y < 0 || (x == 0 && y < 0)) { // Q3 and Q4 and south field centric
+            angle = Math.PI - Math.atan(x / y);
+        }
+        else if (x > 0 && y > 0) { // Q1 or north field centric
+            angle = 2 * Math.PI - Math.atan(x / y);
+        }
+        else if (x <= 0 && y > 0) { // Q2 or north field centric
+            angle = -1 * Math.atan(x / y);
+        }
+        else { // this else statement is useful as a catch all
+            angle = 0;
+        }
+
+        if (angle != -1) {
+            angle -= this.getRobotAngle() % (2 * Math.PI);
+
+            // if (angle > 0) { // if angle postive
+            //     angle += this.getRobotAngle() % 360;
+            // }
+            // else { // if angle is 0
+            //     angle = this.getRobotAngle() - angle;
+            // }
+    
+            // if (angle > 360) { // the setAngle class in SwerveAngle wants [0,360]
+            //     angle = 360 - angle;
+            // }
+    
+            // add recalculating the angle based of field centric view
+    
+            drive(new SwerveDriveRequest(speed, angle));
         }
     }
 
