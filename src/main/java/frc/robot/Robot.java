@@ -7,18 +7,19 @@ package frc.robot;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import edu.wpi.first.wpilibj2.command.Subsystem;
 
 public class Robot extends TimedRobot {
   private Command m_autonomousCommand;
 
   private RobotContainer m_robotContainer;
-
-  private SwerveSubsystem robotSubsystem;
+  private UpdateManager updateManager;
 
   @Override
   public void robotInit() {
     m_robotContainer = new RobotContainer();
-    robotSubsystem = new SwerveSubsystem();
+    updateManager = new UpdateManager(m_robotContainer.getDrivetrainSubsystem());
+    updateManager.startLoop(5.0e-3);
   }
 
   @Override
@@ -52,6 +53,7 @@ public class Robot extends TimedRobot {
 
   @Override
   public void teleopInit() {
+    CommandScheduler.getInstance().setDefaultCommand( (Subsystem) m_robotContainer.getDrivetrainSubsystem(), m_robotContainer.getDefaultCommand());
     if (m_autonomousCommand != null) {
       m_autonomousCommand.cancel();
     }
@@ -59,7 +61,7 @@ public class Robot extends TimedRobot {
 
   @Override
   public void teleopPeriodic() {
-    robotSubsystem.drive(new SwerveSubsystem.SwerveRequest(0, 0, 0));
+    CommandScheduler.getInstance().run();
   }
 
   @Override

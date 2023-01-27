@@ -42,8 +42,13 @@ public final class Constants {
 
 
 
-    public static double DRIVETRAIN_FRONT_LEFT_ENCODER_OFFSET = Math.toRadians(360 * 0.0);
-    public static double DRIVETRAIN_FRONT_RIGHT_ENCODER_OFFSET = Math.toRadians(360 * -0.0);
+    public static double DRIVETRAIN_FRONT_LEFT_ENCODER_OFFSET = Math.toRadians(360 * -0.018066);
+    public static double DRIVETRAIN_FRONT_RIGHT_ENCODER_OFFSET = Math.toRadians(360 * 1.655762);
     public static double DRIVETRAIN_BACK_LEFT_ENCODER_OFFSET = Math.toRadians(360 * -0.0);
-    public static double DRIVETRAIN_BACK_RIGHT_ENCODER_OFFSET = Math.toRadians(360 * 0.0);
+    public static double DRIVETRAIN_BACK_RIGHT_ENCODER_OFFSET = Math.toRadians(360 * -0.004883);
+
+
+    // will need to change these later (just placeholders for now)
+    public static final double TRACKWIDTH = 1.0;
+    public static final double WHEELBASE = 1.0;
 }

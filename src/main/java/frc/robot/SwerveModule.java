@@ -21,6 +21,10 @@ public class SwerveModule {
     private AbsoluteEncoder m_encoder;
     private TalonFX driveMotor;
 
+    private final Object stateMutex = new Object();
+    private double targetSpeed = 0.0;
+    private double targetAngle = 0.0; // in radians
+
     private final double absolutePositionEncoderOffset;
 
     /*
@@ -36,26 +40,44 @@ public class SwerveModule {
     
 
     /*
-     * This class represents a request that some other code is sending to this class to tell the swerve module
-     * how to drive.
-     */
-    public static class SwerveDriveRequest {
-        public double velocity; // Velocity: Speed for the module to go from 0 (stopped) to 1.0 (full speed)
-        public double direction; // Direction: Angle (in radians) for the module to point twards while driving (robot-centric)
-
-        public SwerveDriveRequest(double velocity, double direction) {
-            this.velocity = velocity;
-            this.direction = direction;
-        }
-    }
-
-    /*
      * This function should take a swerve request and call the setAngle() method in the SwerveAngle class.
      * If the output is a AnglePosition.Positive, we should set the drive motor to the velocity request
      * If the output is a AnglePosition.Negative, we should set the drive motor to the negative velocity request
      * If the output is AnglePosition.Moving, we shoul not set the drive motor, as we are not yet angled correctly
      * This function returns true if we did set the drive motor, false if we did not 
      */
+
+     /**
+     * Sets the target velocity. The vector should have a length that is less than or equal to 1.
+     *
+     * @param velocity the target velocity
+     */
+    public final void setTargetVelocity(Vector2 velocity) {
+        synchronized (stateMutex) {
+            targetSpeed = velocity.length;
+            targetAngle = velocity.getAngle().toRadians();
+        }
+    }
+
+    public final void setTargetVelocity(double speed, double angle) {
+        if (speed < 0.0) {
+            speed *= -1.0;
+
+            angle += Math.PI;
+        }
+
+        angle %= 2.0 * Math.PI;
+        if (angle < 0.0) {
+            angle += 2.0 * Math.PI;
+        }
+
+        synchronized (stateMutex) {
+            targetSpeed = speed;
+            targetAngle = angle;
+        }
+    }
+
+
     public boolean drive(SwerveDriveRequest request) {
         SwerveAngle.AnglePosition angle = angleMotor.setAngle(request.direction);
         if (angle == SwerveAngle.AnglePosition.Positive) {
