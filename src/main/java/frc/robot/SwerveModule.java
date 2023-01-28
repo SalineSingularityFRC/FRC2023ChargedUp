@@ -21,7 +21,6 @@ public class SwerveModule {
     private CANcoder m_encoder;
     private TalonFX driveMotor;
 
-    private final Object stateMutex = new Object();
     private double targetSpeed = 0.0;
     private double targetAngle = 0.0; // in radians
 

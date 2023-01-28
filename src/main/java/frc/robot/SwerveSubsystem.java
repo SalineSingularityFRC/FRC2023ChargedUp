@@ -81,18 +81,18 @@ public class SwerveSubsystem {
         SwerveKinematics.normalizeModuleVelocities(moduleOutputs, 1);
         for (int i = 0; i < moduleOutputs.length; i++) {
             SwerveModule module = swerveModules[i];
-            SwerveDriveRequest request = drive(moduleOutputs[i]); // add a dictionary here
+            SwerveDriveRequest request = driveInstructions(moduleOutputs[i]); // add a dictionary here
             module.drive(request);
             //SmartDashboard.putNumber(Integer.toString(i), module.getTargetVelocity());
         }
     }
 
     /*
-     * This method takes a field-centric target rotation (in radians) and a
-     * field-centric direction vector for
-     * which way the module should travel
+     * This method takes a field-centric 
+     * direction vector for
+     * which way the module should travel and outputs the instruction for the individual module
      */
-    public SwerveDriveRequest drive(Vector vector) { // we dont use the rotation part of SwerveRequest right now
+    public SwerveDriveRequest driveInstructions(Vector vector) { 
         double x = vector.x;
         double y = vector.y;
 
