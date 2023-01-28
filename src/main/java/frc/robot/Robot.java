@@ -60,7 +60,7 @@ public class Robot extends TimedRobot {
 
   @Override
   public void teleopInit() {
-    robotSubsystem.drive(new Vector(joystick.getX(), -joystick.getY()), 1.0);
+    robotSubsystem.drive(new Vector(joystick.getX(), -joystick.getY()), 0.3);
     // CommandScheduler.getInstance().setDefaultCommand( (Subsystem) m_robotContainer.getDrivetrainSubsystem(), m_robotContainer.getDefaultCommand());
     if (m_autonomousCommand != null) {
       m_autonomousCommand.cancel();

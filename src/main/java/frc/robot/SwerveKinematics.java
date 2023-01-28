@@ -24,7 +24,7 @@ public class SwerveKinematics {
     private final SimpleMatrix inverseKinematics;
     private final SimpleMatrix forwardKinematics;
 
-    public SwerveKinematics(Vector... moduleOffsets) {
+    public SwerveKinematics(Vector[] moduleOffsets) {
         if (moduleOffsets.length < 1) {
             throw new IllegalArgumentException("Must have at least 1 module");
         }
