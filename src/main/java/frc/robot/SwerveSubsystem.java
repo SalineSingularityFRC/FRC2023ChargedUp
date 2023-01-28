@@ -2,7 +2,11 @@ package frc.robot;
 
 import com.ctre.phoenixpro.hardware.Pigeon2;
 
+import edu.wpi.first.wpilibj.I2C.Port;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
+import com.kauailabs.navx.frc.AHRS;
+import frc.robot.DumbNavXClasses.NavX;
 
 /*
  * This class provides functions to drive at a given angle and direction,
@@ -16,7 +20,7 @@ public class SwerveSubsystem {
      * all of our SwerveModules
      */
     private SwerveModule[] swerveModules = new SwerveModule[4];
-    private Pigeon2 gyro;
+    private NavX gyro;
 
     private final int FL = 0;
     private final int FR = 1;
@@ -35,7 +39,8 @@ public class SwerveSubsystem {
      * Use values from the Constants.java class
      */
     public SwerveSubsystem() {
-        gyro = new Pigeon2(Constants.GYRO_CANCODER_ID, Constants.CANBUS);
+        gyro = new NavX(Port.kMXP);
+        // gyro = new Pigeon2(Constants.GYRO_CANCODER_ID, Constants.CANBUS);
 
         vectorKinematics[FL] = new Vector(Constants.TRACKWIDTH / 2.0, Constants.WHEELBASE / 2.0);
         vectorKinematics[FR] = new Vector(Constants.TRACKWIDTH / 2.0, -Constants.WHEELBASE / 2.0);    
@@ -146,10 +151,11 @@ public class SwerveSubsystem {
      * from the pidgeon 2.0
      */
     public double getRobotAngle() {
-        return ((360 - gyro.getAngle()) * Math.PI) / 180; // returns in counterclockwise hence why 360 minus
+        return ((360 - gyro.getAngle().toDegrees()) * Math.PI) / 180; // returns in counterclockwise hence why 360 minus
+        // return ((360 - gyro.getAngle()) * Math.PI) / 180; // returns in counterclockwise hence why 360 minus
     }
 
-    public void resetGyro() {
-        gyro.reset();
-    }
+    // public void resetGyro() {
+    //     gyro.reset();
+    // }
 }

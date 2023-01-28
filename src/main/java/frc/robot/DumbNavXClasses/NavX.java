@@ -1,18 +1,20 @@
 package frc.robot.DumbNavXClasses;
 
+import edu.wpi.first.wpilibj.I2C;
 //import com.kauailabs.navx.frc.AHRS;
 import edu.wpi.first.wpilibj.SPI;
+import edu.wpi.first.wpilibj.I2C.Port;
 
 import com.kauailabs.navx.frc.AHRS;
 
 public final class NavX extends Gyroscope {
     private final AHRS navX;
 
-    public NavX(SPI.Port port) {
-        this(port, (byte) 200);
+    public NavX(Port kmxp) {
+        this(kmxp, (byte) 200);
     }
 
-    public NavX(SPI.Port port, byte updateRate) {
+    public NavX(I2C.Port port, byte updateRate) {
         navX = new AHRS(port, updateRate);
     }
 
