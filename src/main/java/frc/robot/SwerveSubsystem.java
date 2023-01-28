@@ -3,7 +3,6 @@ package frc.robot;
 import com.ctre.phoenixpro.hardware.Pigeon2;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import frc.robot.UpdateManager.Updatable;
 
 /*
  * This class provides functions to drive at a given angle and direction,
@@ -26,7 +25,7 @@ public class SwerveSubsystem {
 
     private final Vector[] vectorKinematics = new Vector[4];
     private final SwerveKinematics swerveKinematics;
-    
+
     private SwerveDriveRequest driveSignal = null;
 
     /*
@@ -141,25 +140,6 @@ public class SwerveSubsystem {
             return new SwerveDriveRequest(0, getRobotAngle());
         }
     }
-
-    // public void periodic() {
-    //     for (int i = 0; i < modules.length; i++) {
-    //         moduleAngleEntries[i].setDouble(Math.toDegrees(modules[i].getCurrentAngle()));
-    //     }
-    // }
-
-    // @Override
-    // public void update(double time, double dt) {
-    //     SwerveDriveRequest driveSignal;
-    //     synchronized (stateLock) {
-    //         driveSignal = this.driveSignal;
-    //     }
-
-    //     updateModules(driveSignal, dt);
-    // }
-
-
-
     
     /*
      * This function returns the angle (in radians) of the robot based on the value
@@ -172,35 +152,4 @@ public class SwerveSubsystem {
     public void resetGyro() {
         gyro.reset();
     }
-
-
-    /*
-     * This method takes a field-centric target rotation (in radians) and we sit
-     * there and turn to it
-     */
-    // public void turn(double turnValue) { // between -1 and 1 for the joystick, all the way to the left is 1 and all the
-    //                                      // way to the right is -1
-
-    //     if (turnValue > 0) { // counterclockwise
-    //         swerveModules.get("FL")
-    //                 .drive(new SwerveModule.SwerveDriveRequest(turnValue, (0.5 * Math.PI) + Constants.theta));
-    //         swerveModules.get("FR")
-    //                 .drive(new SwerveModule.SwerveDriveRequest(turnValue, (0.5 * Math.PI) - Constants.theta));
-    //         swerveModules.get("BL")
-    //                 .drive(new SwerveModule.SwerveDriveRequest(turnValue, (1.5 * Math.PI) - Constants.theta));
-    //         swerveModules.get("BR")
-    //                 .drive(new SwerveModule.SwerveDriveRequest(turnValue, (1.5 * Math.PI) + Constants.theta));
-    //     }
-
-    //     else if (turnValue < 0) { // clockwise
-    //         swerveModules.get("FL")
-    //                 .drive(new SwerveModule.SwerveDriveRequest(Math.abs(turnValue), (0.5 * Math.PI) - Constants.theta));
-    //         swerveModules.get("FR")
-    //                 .drive(new SwerveModule.SwerveDriveRequest(Math.abs(turnValue), (0.5 * Math.PI) + Constants.theta));
-    //         swerveModules.get("BL")
-    //                 .drive(new SwerveModule.SwerveDriveRequest(Math.abs(turnValue), (1.5 * Math.PI) + Constants.theta));
-    //         swerveModules.get("BR")
-    //                 .drive(new SwerveModule.SwerveDriveRequest(Math.abs(turnValue), (1.5 * Math.PI) - Constants.theta));
-    //     }
-    // }
 }

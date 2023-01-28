@@ -9,7 +9,6 @@ import edu.wpi.first.wpilibj2.command.Commands;
 import frc.robot.input.XboxController;
 
 public class RobotContainer {
-  private final SwerveSubsystem drivetrainSubsystem = new SwerveSubsystem();
 
   private final XboxController primaryController = new XboxController(Constants.PRIMARY_CONTROLLER_PORT);
 

@@ -21,9 +21,6 @@ public final class Constants {
     */
     public static final double robotWidth = 28; 
     public static final double robotLength = 32;
-
-    public static final double theta = Math.atan(robotWidth/robotLength); 
-
     
     // --------->  THESE ARE REAL ID VALUES <------------
     public static final int GYRO_CANCODER_ID = 10; 

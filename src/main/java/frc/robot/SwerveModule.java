@@ -2,7 +2,6 @@ package frc.robot;
 import com.revrobotics.AbsoluteEncoder;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import frc.robot.SwerveAngle.AnglePosition;
 
 import com.ctre.phoenixpro.hardware.CANcoder;
 import com.ctre.phoenixpro.hardware.TalonFX;
@@ -43,46 +42,6 @@ public class SwerveModule {
 
         this.resetZeroAngle();
     }
-    
-
-    /*
-     * This function should take a swerve request and call the setAngle() method in the SwerveAngle class.
-     * If the output is a AnglePosition.Positive, we should set the drive motor to the velocity request
-     * If the output is a AnglePosition.Negative, we should set the drive motor to the negative velocity request
-     * If the output is AnglePosition.Moving, we shoul not set the drive motor, as we are not yet angled correctly
-     * This function returns true if we did set the drive motor, false if we did not 
-     */
-
-     /**
-     * Sets the target velocity. The vector should have a length that is less than or equal to 1.
-     *
-     * @param velocity the target velocity
-     */
-    public final void setTargetVelocity(Vector velocity) {
-        synchronized (stateMutex) {
-            targetSpeed = velocity.length;
-            targetAngle = velocity.getAngle().toRadians();
-        }
-    }
-
-    public final void setTargetVelocity(double speed, double angle) {
-        if (speed < 0.0) {
-            speed *= -1.0;
-
-            angle += Math.PI;
-        }
-
-        angle %= 2.0 * Math.PI;
-        if (angle < 0.0) {
-            angle += 2.0 * Math.PI;
-        }
-
-        synchronized (stateMutex) {
-            targetSpeed = speed;
-            targetAngle = angle;
-        }
-    }
-
 
     public boolean drive(SwerveDriveRequest request) {
         SwerveAngle.AnglePosition angle = angleMotor.setAngle(request.direction);

@@ -31,17 +31,6 @@ public class Vector {
 	}
 
     /**
-     * Preforms a component-wise multiplication on this vector with another vector.
-     *
-     * @param vector The vector to multiply by
-     * @return A vector with the result of the multiplication
-     * @since 0.1
-     */
-	public Vector multiply(Vector vector) {
-		return multiply(vector.x, vector.y);
-	}
-
-    /**
      * Multiplies the components of this vector by two scalar values.
      *
      * @param x A scalar to multiply the x-coordinate by
@@ -51,37 +40,5 @@ public class Vector {
      */
 	public Vector multiply(double x, double y) {
 		return new Vector(this.x * x, this.y * y);
-	}
-
-    /**
-     * Gets the angle of the vector.
-     *
-     * @return A rotation representing the vector's angle
-     * @since 0.2
-     */
-	public Rotation2 getAngle() {
-		return new Rotation2(x, y, true);
-	}
-
-    /**
-	 * Creates a unit vector from a rotation.
-     *
-	 * @param rotation The rotation to create the vector from
-	 * @return A unit vector with the specified angle.
-     * @since 0.2
-	 */
-	public static Vector fromAngle(Rotation2 rotation) {
-		return new Vector(rotation.cos, rotation.sin);
-	}
-
-    /**
-     * Calculates the cross product of this vector and another vector in 3d space and returns the length.
-     *
-     * @param other The other vector to calculate the cross product with
-     * @return The length of the calculated vector
-     * @since 0.2
-     */
-	public double cross(Vector other) {
-		return x * other.y - y * other.x;
 	}
 }

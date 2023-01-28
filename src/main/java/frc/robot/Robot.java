@@ -15,7 +15,6 @@ public class Robot extends TimedRobot {
   private Command m_autonomousCommand;
 
   private RobotContainer m_robotContainer;
-  private UpdateManager updateManager;
   private SwerveSubsystem robotSubsystem;
 
   // private SwerveModule robotModule;
@@ -25,7 +24,6 @@ public class Robot extends TimedRobot {
   public void robotInit() {
     m_robotContainer = new RobotContainer();
     // updateManager = new UpdateManager(m_robotContainer.getDrivetrainSubsystem());
-    updateManager.startLoop(5.0e-3);
     robotSubsystem = new SwerveSubsystem();
   }
 

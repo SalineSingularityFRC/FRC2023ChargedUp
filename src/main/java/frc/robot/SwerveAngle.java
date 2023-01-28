@@ -84,7 +84,8 @@ public class SwerveAngle {
             else if (delta < -(Math.PI/2))
                 targetAngle -= Math.PI;
             currentPosition = AnglePosition.Negative;
-        } else {
+        } 
+        else {
             currentPosition = AnglePosition.Positive;
         }
 
