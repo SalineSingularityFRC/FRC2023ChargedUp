@@ -50,7 +50,9 @@ public final class Constants {
     public static double DRIVETRAIN_BACK_LEFT_ENCODER_OFFSET = 0.999023 * 2 * Math.PI;
     public static double DRIVETRAIN_BACK_RIGHT_ENCODER_OFFSET = 0.820557  * 2 * Math.PI;
 
-    // will need to change these later (just placeholders for now)
+    // trackWidth - lateral distance between pairs of wheels on different sides of the robot
+    // wheelBase - distance between pairs of wheels on the same side of the robot
+    // THIS IS IMPORTANT FOR A RECTANGULAR ROBOT
     public static final double TRACKWIDTH = 1.0;
     public static final double WHEELBASE = 1.0;
 
