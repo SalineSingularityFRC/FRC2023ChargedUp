@@ -78,7 +78,9 @@ public class SwerveSubsystem {
             chassisVelocity = new ChassisVelocity(new Vector(0, 0), 0);
         }
         else {
-            chassisVelocity = new ChassisVelocity(swerveRequest.movement, swerveRequest.rotation);
+            chassisVelocity = new ChassisVelocity(swerveRequest.movement, -swerveRequest.rotation); 
+            // IMPORTANT: Rotation has a negative because their kinematics class expects a positive rotation value as clockwise, 
+            // but we expect positive rotation value as counterclockwise, so just adding a negative here converts system to theirs
         }
 
         Vector[] moduleOutputs = swerveKinematics.toModuleVelocities(chassisVelocity); 
@@ -86,6 +88,13 @@ public class SwerveSubsystem {
         for (int i = 0; i < moduleOutputs.length; i++) {
             SwerveModule module = swerveModules[i];
             SwerveDriveRequest request = driveInstructions(moduleOutputs[i]);
+
+            if (request.direction != 0) {
+                request.direction = (2 * Math.PI) - request.direction; 
+                // IMPORTANT: this bit is to convert the direction from clockwise to counterclockwise
+                // Their kinematics class outputs clockwise degree, but our methods take in a counterclockwise degree
+            } 
+
             module.drive(request);
             //SmartDashboard.putNumber(Integer.toString(i), module.getTargetVelocity());
         }
