@@ -25,6 +25,7 @@ public class Robot extends TimedRobot {
     m_robotContainer = new RobotContainer();
     // updateManager = new UpdateManager(m_robotContainer.getDrivetrainSubsystem());
     robotSubsystem = new SwerveSubsystem();
+    joystick = new Joystick(0);
   }
 
   @Override
@@ -54,11 +55,10 @@ public class Robot extends TimedRobot {
   public void autonomousPeriodic() {}
 
   @Override
-  public void autonomousExit() {}
+  public void autonomousExit() {} 
 
   @Override
   public void teleopInit() {
-    robotSubsystem.drive(new Vector(joystick.getX(), -joystick.getY()), 0.3);
     // CommandScheduler.getInstance().setDefaultCommand( (Subsystem) m_robotContainer.getDrivetrainSubsystem(), m_robotContainer.getDefaultCommand());
     if (m_autonomousCommand != null) {
       m_autonomousCommand.cancel();
@@ -67,6 +67,9 @@ public class Robot extends TimedRobot {
 
   @Override
   public void teleopPeriodic() {
+    robotSubsystem.drive(new SwerveSubsystem.SwerveRequest(0, joystick.getX(), -joystick.getY()));
+    // robotSubsystem.drive(new SwerveSubsystem.SwerveRequest(0, 0, -1));
+    
     CommandScheduler.getInstance().run();
   }
 

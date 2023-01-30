@@ -30,7 +30,7 @@ public class SwerveAngle {
         positionTarget = new PositionVoltage(0).withSlot(0);
         
         var slot0Configs = new Slot0Configs();
-        slot0Configs.kP = 6; // its at 30 because we did testing and it its a safe value for no gear noises and oscillating.
+        slot0Configs.kP = 6; // previously at 6
         slot0Configs.kI = 0.0;
         slot0Configs.kD = 0.0;
 

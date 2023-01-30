@@ -29,9 +29,6 @@ public class SwerveSubsystem {
 
     private final Vector[] vectorKinematics = new Vector[4];
     private final SwerveKinematics swerveKinematics;
-
-    private SwerveDriveRequest driveSignal = null;
-
     /*
      * This constructor should create an instance of the pidgeon class, and should
      * construct four copies of the
@@ -40,6 +37,7 @@ public class SwerveSubsystem {
      */
     public SwerveSubsystem() {
         gyro = new NavX(Port.kMXP);
+        SmartDashboard.putNumber("GYRO", getRobotAngle());
         // gyro = new Pigeon2(Constants.GYRO_CANCODER_ID, Constants.CANBUS);
 
         vectorKinematics[FL] = new Vector(Constants.TRACKWIDTH / 2.0, Constants.WHEELBASE / 2.0);
@@ -65,23 +63,29 @@ public class SwerveSubsystem {
         }
     }
 
-    public void drive(Vector vector, double angularVelocity) { // FIGURE UOT WAY FOR ANGULAR VELOCITY
+    public void drive(SwerveRequest swerveRequest) { // FIGURE UOT WAY FOR ANGULAR VELOCITY
         ChassisVelocity chassisVelocity;
-        if (driveSignal == null) {
-            chassisVelocity = new ChassisVelocity(new Vector(0, 0), 0.0);
+        // if (driveSignal == null) {
+        //     chassisVelocity = new ChassisVelocity(new Vector(0, 0), 0.0);
+        // }
+
+        SmartDashboard.getNumber("x", swerveRequest.movement.x);
+        SmartDashboard.getNumber("y", swerveRequest.movement.y);
+        SmartDashboard.getNumber("rotation", swerveRequest.rotation);
+
+
+        if (swerveRequest.movement.x == 0 && swerveRequest.movement.y == 0 && swerveRequest.rotation == 0) {
+            chassisVelocity = new ChassisVelocity(new Vector(0, 0), 0);
         }
         else {
-            chassisVelocity = new ChassisVelocity(
-                    vector,
-                    angularVelocity
-            );
+            chassisVelocity = new ChassisVelocity(swerveRequest.movement, swerveRequest.rotation);
         }
 
-        Vector[] moduleOutputs = swerveKinematics.toModuleVelocities(chassisVelocity); // needs to be dictionary
+        Vector[] moduleOutputs = swerveKinematics.toModuleVelocities(chassisVelocity); 
         SwerveKinematics.normalizeModuleVelocities(moduleOutputs, 1);
         for (int i = 0; i < moduleOutputs.length; i++) {
             SwerveModule module = swerveModules[i];
-            SwerveDriveRequest request = driveInstructions(moduleOutputs[i]); // add a dictionary here
+            SwerveDriveRequest request = driveInstructions(moduleOutputs[i]);
             module.drive(request);
             //SmartDashboard.putNumber(Integer.toString(i), module.getTargetVelocity());
         }
