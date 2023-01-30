@@ -73,7 +73,7 @@ public class SwerveSubsystem {
         SmartDashboard.getNumber("y", swerveRequest.movement.y);
         SmartDashboard.getNumber("rotation", swerveRequest.rotation);
 
-
+        // this is to make sure if both the joysticks are at neutral position, the robot and wheels don't move or turn at all
         if (swerveRequest.movement.x == 0 && swerveRequest.movement.y == 0 && swerveRequest.rotation == 0) {
             chassisVelocity = new ChassisVelocity(new Vector(0, 0), 0);
         }
