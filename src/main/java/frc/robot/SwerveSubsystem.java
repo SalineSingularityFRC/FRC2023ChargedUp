@@ -2,11 +2,11 @@ package frc.robot;
 
 import com.ctre.phoenixpro.hardware.Pigeon2;
 
-import edu.wpi.first.wpilibj.I2C.Port;
+// import edu.wpi.first.wpilibj.I2C.Port;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-//import com.kauailabs.navx.frc.AHRS;
-//import frc.robot.DumbNavXClasses.NavX;
+// import com.kauailabs.navx.frc.AHRS;
+// import frc.robot.DumbNavXClasses.NavX;
 
 /*
  * This class provides functions to drive at a given angle and direction,
@@ -110,7 +110,7 @@ public class SwerveSubsystem {
         double x = vector.x;
         double y = vector.y;
 
-        double speed = Math.sqrt(Math.pow(x, 2) + Math.pow(y, 2))/10;
+        double speed = Math.sqrt(Math.pow(x, 2) + Math.pow(y, 2)); // speed kills
         double angle;
 
         if (y == 0) { // y = 0 wouldn't work because fraction
@@ -165,7 +165,7 @@ public class SwerveSubsystem {
      * from the pidgeon 2.0
      */
     public double getRobotAngle() {
-        //return ((360 - gyro.getAngle().toDegrees()) * Math.PI) / 180; // returns in counterclockwise hence why 360 minus
+        //return ((360 - gyro.getAngle().toDegrees()) * Math.PI) / 180; // for NavX
         return ((360 - gyro.getAngle()) * Math.PI) / 180; // returns in counterclockwise hence why 360 minus
     }
 
