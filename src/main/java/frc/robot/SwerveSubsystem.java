@@ -37,7 +37,7 @@ public class SwerveSubsystem {
      */
     public SwerveSubsystem() {
         //gyro = new NavX(Port.kMXP);
-        gyro = new Pigeon2(Constants.GYRO_CANCODER_ID, Constants.CANBUS);
+        gyro = new Pigeon2(Constants.GYRO_CANCODER_ID, Constants.CANIVORE);
         SmartDashboard.putNumber("GYRO", getRobotAngle());
         
 
@@ -79,22 +79,34 @@ public class SwerveSubsystem {
             chassisVelocity = new ChassisVelocity(new Vector(0, 0), 0);
         }
         else {
-            chassisVelocity = new ChassisVelocity(swerveRequest.movement, -swerveRequest.rotation); 
-            // IMPORTANT: Rotation has a negative because their kinematics class expects a positive rotation value as clockwise, 
-            // but we expect positive rotation value as counterclockwise, so just adding a negative here converts system to theirs
+            chassisVelocity = new ChassisVelocity(swerveRequest.movement, swerveRequest.rotation); 
         }
 
         Vector[] moduleOutputs = swerveKinematics.toModuleVelocities(chassisVelocity); 
         SwerveKinematics.normalizeModuleVelocities(moduleOutputs, 1);
         for (int i = 0; i < moduleOutputs.length; i++) {
             SwerveModule module = swerveModules[i];
-            SwerveDriveRequest request = driveInstructions(moduleOutputs[i]);
+            SwerveDriveRequest request;
+            if (i == 1) {
+                i = 2;
+                request = driveInstructions(moduleOutputs[i]);
+                i = 1;
+            } else if (i == 2) {
+                i = 1;
+                request = driveInstructions(moduleOutputs[i]);
+                i = 2;
+            } else {
+                request = driveInstructions(moduleOutputs[i]);
+            }
 
             if (request.direction != 0) {
                 request.direction = (2 * Math.PI) - request.direction; 
                 // IMPORTANT: this bit is to convert the direction from clockwise to counterclockwise
                 // Their kinematics class outputs clockwise degree, but our methods take in a counterclockwise degree
             } 
+
+            String string = "wheel #" + i;
+            SmartDashboard.putNumber(string, request.direction);
 
             module.drive(request);
             //SmartDashboard.putNumber(Integer.toString(i), module.getTargetVelocity());
@@ -110,7 +122,7 @@ public class SwerveSubsystem {
         double x = vector.x;
         double y = vector.y;
 
-        double speed = Math.sqrt(Math.pow(x, 2) + Math.pow(y, 2)); // speed kills
+        double speed = Math.sqrt(Math.pow(x, 2) + Math.pow(y, 2)) / 4; // speed kills
         double angle;
 
         if (y == 0) { // y = 0 wouldn't work because fraction
