@@ -1,10 +1,8 @@
-package frc.robot;
+package frc.robot.SwerveClasses;
 import com.revrobotics.AbsoluteEncoder;
 
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import frc.robot.SwerveClasses.SwerveAngle;
-import frc.robot.SwerveClasses.SwerveDriveRequest;
 
 import com.ctre.phoenixpro.hardware.CANcoder;
 import com.ctre.phoenixpro.hardware.TalonFX;
