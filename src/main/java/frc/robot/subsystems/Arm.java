@@ -17,7 +17,7 @@ public class Arm {
     public Arm(int armMotor_CAN_ID, String canNetwork, boolean isInverted) {
         armMotor = new TalonFX(armMotor_CAN_ID, canNetwork);
         armMotor.setInverted(isInverted);
-
+        
         positionTarget = new PositionVoltage(0).withSlot(0);
         
         Slot0Configs slot0Configs = new Slot0Configs();

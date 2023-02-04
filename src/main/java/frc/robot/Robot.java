@@ -30,8 +30,9 @@ public class Robot extends TimedRobot {
     m_robotContainer = new RobotContainer();
     // updateManager = new UpdateManager(m_robotContainer.getDrivetrainSubsystem());
     robotSubsystem = new SwerveSubsystem();
-    bigArm = new Arm(Constants.BIG_ARM_Motor_ID, Constants.CANBUS, false);
     joystick = new Joystick(0);
+
+    bigArm = new Arm(Constants.BIG_ARM_Motor_ID, Constants.CANBUS, false);
   }
 
   @Override
@@ -84,6 +85,10 @@ public class Robot extends TimedRobot {
 
     if (joystick.getRawButtonPressed(2)) {
       bigArm.stop();
+    }
+
+    if (joystick.getRawButtonPressed(3)) {
+      bigArm.setSpeed(-1/Constants.SPEED_DIVISOR);
     }
 
     // targetAngle += joystick.getRawAxis(Constants.rightJoystickXAxis)/100;

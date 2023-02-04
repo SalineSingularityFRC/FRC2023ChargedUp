@@ -182,7 +182,7 @@ public class SwerveSubsystem {
      */
     public double getRobotAngle() {
         //return ((360 - gyro.getAngle().toDegrees()) * Math.PI) / 180; // for NavX
-        return ((360 - gyro.getAngle()) * Math.PI) / 180; // returns in counterclockwise hence why 360 minus
+        return ((360 - (gyro.getAngle() - 90)) * Math.PI) / 180; // returns in counterclockwise hence why 360 minus
     }
 
     public void resetGyro() {
