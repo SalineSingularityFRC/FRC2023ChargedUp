@@ -61,7 +61,6 @@ public class SwerveAngle {
         double remainderRotations = getRemainderRotations(); // the additional rotations leftover from the wheel position
         double delta = wheelPosition - targetAngle;
 
-        SmartDashboard.putNumber("Wheel position", wheelPosition);
         //This if else statement gets the closest angle to go to (absolute value)
         if (delta > Math.PI) {
             targetAngle += (2 * Math.PI);
@@ -93,8 +92,7 @@ public class SwerveAngle {
         targetAngle += remainderRotations;
         targetAngle += zeroPositionOffset;
 
-        SmartDashboard.putNumber("DELTA", delta);
-        SmartDashboard.putNumber("target angle", targetAngle);
+        
         // Let's drive
 
         angleMotor.setControl(positionTarget.withPosition(Constants.ANGLE_MOTOR_GEAR_RATIO * (targetAngle/(2*Math.PI))));
@@ -110,10 +108,7 @@ public class SwerveAngle {
      * minus our offset
     */
     private double getAngle() {
-        
         double talonRadians = (angleMotor.getPosition().getValue() * 2 * Math.PI);
-
-        SmartDashboard.putNumber("talon radians", talonRadians);
         double wheelRadians = talonRadians / Constants.ANGLE_MOTOR_GEAR_RATIO;
         return wheelRadians - zeroPositionOffset;
     }
