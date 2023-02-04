@@ -1,4 +1,3 @@
- /*
 package frc.robot.DumbNavXClasses;
 
 import edu.wpi.first.wpilibj.I2C;
@@ -53,4 +52,3 @@ public final class NavX extends Gyroscope {
         YAW
     }
 }
-/* */

@@ -64,7 +64,7 @@ public class SwerveSubsystem {
         }
     }
 
-    public void drive(SwerveRequest swerveRequest) { // FIGURE UOT WAY FOR ANGULAR VELOCITY
+    public void drive(SwerveRequest swerveRequest) { 
         ChassisVelocity chassisVelocity;
         boolean isMoving = true;
         // if (driveSignal == null) {
