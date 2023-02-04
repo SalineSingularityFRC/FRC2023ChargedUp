@@ -40,7 +40,7 @@ public class SwerveSubsystem {
         gyro = new Pigeon2(Constants.GYRO_CANCODER_ID, Constants.CANBUS);
         SmartDashboard.putNumber("GYRO", getRobotAngle());
         
-
+        //distance between the left and right wheel
         vectorKinematics[FL] = new Vector(Constants.TRACKWIDTH / 2.0, Constants.WHEELBASE / 2.0);
         vectorKinematics[FR] = new Vector(Constants.TRACKWIDTH / 2.0, -Constants.WHEELBASE / 2.0);    
         vectorKinematics[BL] = new Vector(-Constants.TRACKWIDTH / 2.0, Constants.WHEELBASE / 2.0);   
