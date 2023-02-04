@@ -34,7 +34,8 @@ public final class Constants {
     public static final int BR_CANCODER_ID = 43;
     public static final boolean BR_isInverted = true;
 
-    public static final int BA_Motor_ID = 6;
+    public static final int BIG_ARM_Motor_ID = 6; // gear ratio is 30:1
+    public static final int SMALL_ARM_MOTOR_ID = 31; // gear ratio is 7:1
 
     public static double DRIVETRAIN_FRONT_LEFT_ENCODER_OFFSET = (0.339111) * 2 * Math.PI;
     public static double DRIVETRAIN_FRONT_RIGHT_ENCODER_OFFSET = (0.148682) * 2 * Math.PI;
@@ -53,5 +54,5 @@ public final class Constants {
     public static final int leftJoystickYAxis = 1;
     public static final int rightJoystickXAxis = 4;
 
-    public static final double SPEED_DIVISOR = 3; // what the max speed should be divided by, 1 is max power
+    public static final double SPEED_DIVISOR = 5; // what the max speed should be divided by, 1 is max power
 }

@@ -12,8 +12,8 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.Subsystem;
+import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.SwerveSubsystem;
-import frc.robot.Arm.Arm;
 
 public class Robot extends TimedRobot {
   private Command m_autonomousCommand;
@@ -30,7 +30,7 @@ public class Robot extends TimedRobot {
     m_robotContainer = new RobotContainer();
     // updateManager = new UpdateManager(m_robotContainer.getDrivetrainSubsystem());
     robotSubsystem = new SwerveSubsystem();
-    bigArm = new Arm(Constants.BA_Motor_ID, Constants.CANBUS, false);
+    bigArm = new Arm(Constants.BIG_ARM_Motor_ID, Constants.CANBUS, false);
     joystick = new Joystick(0);
   }
 
