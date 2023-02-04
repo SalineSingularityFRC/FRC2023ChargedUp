@@ -12,27 +12,29 @@ public final class Constants {
     public static final String CANIVORE = "drivetrain";
 
     // --------->  THESE ARE REAL ID VALUES <------------
-    public static final int GYRO_CANCODER_ID = 10; 
+    public static final int GYRO_CANCODER_ID = 0;
 
-    public static final int FL_ANGLE_ID = 17; 
-    public static final int FL_Motor_ID = 15;
-    public static final int FL_CANCODER_ID = 43;
+    public static final int FL_ANGLE_ID = 11;
+    public static final int FL_Motor_ID = 13;
+    public static final int FL_CANCODER_ID = 42;
     public static final boolean FL_isInverted = false;
 
-    public static final int FR_ANGLE_ID = 12; 
-    public static final int FR_Motor_ID = 16;
-    public static final int FR_CANCODER_ID = 44;
+    public static final int FR_ANGLE_ID = 18;
+    public static final int FR_Motor_ID = 14;
+    public static final int FR_CANCODER_ID = 41;
     public static final boolean FR_isInverted = true;
 
-    public static final int BL_ANGLE_ID = 13;   
-    public static final int BL_Motor_ID = 11;
-    public static final int BL_CANCODER_ID = 42;
+    public static final int BL_ANGLE_ID = 16;
+    public static final int BL_Motor_ID = 12;
+    public static final int BL_CANCODER_ID = 44;
     public static final boolean BL_isInverted = false;
 
-    public static final int BR_ANGLE_ID = 14; 
-    public static final int BR_Motor_ID = 18;
-    public static final int BR_CANCODER_ID = 41;
+    public static final int BR_ANGLE_ID = 15;
+    public static final int BR_Motor_ID = 17;
+    public static final int BR_CANCODER_ID = 43;
     public static final boolean BR_isInverted = true;
+
+    public static final int BA_Motor_ID = 6;
 
     public static double DRIVETRAIN_FRONT_LEFT_ENCODER_OFFSET = (0.339111) * 2 * Math.PI;
     public static double DRIVETRAIN_FRONT_RIGHT_ENCODER_OFFSET = (0.148682) * 2 * Math.PI;

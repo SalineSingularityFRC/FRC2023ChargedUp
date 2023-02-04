@@ -4,6 +4,8 @@
 
 package frc.robot;
 
+import com.ctre.phoenixpro.hardware.TalonFX;
+
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -11,12 +13,14 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.Subsystem;
 import frc.robot.subsystems.SwerveSubsystem;
+import frc.robot.Arm.Arm;
 
 public class Robot extends TimedRobot {
   private Command m_autonomousCommand;
 
   private RobotContainer m_robotContainer;
   private SwerveSubsystem robotSubsystem;
+  private Arm bigArm;
 
   // private SwerveModule robotModule;
   private Joystick joystick;
@@ -26,6 +30,7 @@ public class Robot extends TimedRobot {
     m_robotContainer = new RobotContainer();
     // updateManager = new UpdateManager(m_robotContainer.getDrivetrainSubsystem());
     robotSubsystem = new SwerveSubsystem();
+    bigArm = new Arm(Constants.BA_Motor_ID, Constants.CANBUS, false);
     joystick = new Joystick(0);
   }
 
@@ -71,8 +76,12 @@ public class Robot extends TimedRobot {
     robotSubsystem.drive(new SwerveSubsystem.SwerveRequest(
       joystick.getRawAxis(Constants.rightJoystickXAxis), 
       -joystick.getRawAxis(Constants.leftJoystickXAxis), 
-      -joystick.getRawAxis(Constants.leftJoystickYAxis)
-    ));
+      -joystick.getRawAxis(Constants.leftJoystickYAxis)));
+
+    if (joystick.getRawButtonPressed(1)) {
+      bigArm.setSpeed(1/Constants.SPEED_DIVISOR);
+    }
+
 
     // targetAngle += joystick.getRawAxis(Constants.rightJoystickXAxis)/100;
     // targetAngle %= Math.PI * 2;
