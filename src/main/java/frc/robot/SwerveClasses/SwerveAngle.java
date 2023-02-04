@@ -20,6 +20,11 @@ public class SwerveAngle {
     private TalonFX angleMotor;
     private PositionVoltage positionTarget;
 
+    private final double kP = 6.0;
+    private final double kI = 0.0;
+    private final double kD = 0.0;
+
+
     /* 
      * Our constructor needs to take a parameter that determines which CAN ID the falcon we are using has 
      * and it needs to initialize the falcon motor and configure it (things like PID values and such)
@@ -31,9 +36,9 @@ public class SwerveAngle {
         positionTarget = new PositionVoltage(0).withSlot(0);
         
         Slot0Configs slot0Configs = new Slot0Configs();
-        slot0Configs.kP = 6; // previously at 6
-        slot0Configs.kI = 0.0;
-        slot0Configs.kD = 0.0;
+        slot0Configs.kP = kP; 
+        slot0Configs.kI = kI;
+        slot0Configs.kD = kD;
 
         angleMotor.getConfigurator().apply(slot0Configs);
         angleMotor.setInverted(false);

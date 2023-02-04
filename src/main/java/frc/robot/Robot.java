@@ -82,6 +82,9 @@ public class Robot extends TimedRobot {
       bigArm.setSpeed(1/Constants.SPEED_DIVISOR);
     }
 
+    if (joystick.getRawButtonPressed(2)) {
+      bigArm.stop();
+    }
 
     // targetAngle += joystick.getRawAxis(Constants.rightJoystickXAxis)/100;
     // targetAngle %= Math.PI * 2;
