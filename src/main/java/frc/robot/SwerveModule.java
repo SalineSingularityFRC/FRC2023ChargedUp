@@ -1,6 +1,7 @@
 package frc.robot;
 import com.revrobotics.AbsoluteEncoder;
 
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import com.ctre.phoenixpro.hardware.CANcoder;
@@ -20,9 +21,6 @@ public class SwerveModule {
     private SwerveAngle angleMotor;
     private CANcoder m_encoder;
     private TalonFX driveMotor;
-
-    private double targetSpeed = 0.0;
-    private double targetAngle = 0.0; // in radians
 
     private final double absolutePositionEncoderOffset;
 
@@ -57,6 +55,10 @@ public class SwerveModule {
         driveMotor.set(0);
         return false;
     }
+
+    public void coast() {
+        driveMotor.set(0); // this is for when the joystick is not being moved at all
+    }
     
     /*
      * Set the zero angle based on the current angle (in radians) that we are reading from an external source(absolute encoder).
@@ -67,6 +69,10 @@ public class SwerveModule {
      * The zeroAngle is what we use to offset(balance) whatever we're reading off the talon
      */
     public void resetZeroAngle() {
-        angleMotor.setZeroAngle((m_encoder.getAbsolutePosition().getValue() * 2 * Math.PI) - absolutePositionEncoderOffset);
+        angleMotor.setZeroAngle(getEncoderPosition());
+    }
+
+    public double getEncoderPosition() {
+        return (m_encoder.getAbsolutePosition().getValue() * 2 * Math.PI) - absolutePositionEncoderOffset;
     }
 }

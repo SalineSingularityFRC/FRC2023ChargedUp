@@ -29,6 +29,8 @@ public class SwerveSubsystem {
 
     private final Vector[] vectorKinematics = new Vector[4];
     private final SwerveKinematics swerveKinematics;
+
+    private double targetAngle;
     /*
      * This constructor should create an instance of the pidgeon class, and should
      * construct four copies of the
@@ -39,8 +41,6 @@ public class SwerveSubsystem {
         //gyro = new NavX(Port.kMXP);
         gyro = new Pigeon2(Constants.GYRO_CANCODER_ID, Constants.CANIVORE);
         
-        
-
         vectorKinematics[FL] = new Vector(Constants.TRACKWIDTH / 2.0, Constants.WHEELBASE / 2.0);
         vectorKinematics[FR] = new Vector(Constants.TRACKWIDTH / 2.0, -Constants.WHEELBASE / 2.0);    
         vectorKinematics[BL] = new Vector(-Constants.TRACKWIDTH / 2.0, Constants.WHEELBASE / 2.0);   
@@ -66,6 +66,7 @@ public class SwerveSubsystem {
 
     public void drive(SwerveRequest swerveRequest) { // FIGURE UOT WAY FOR ANGULAR VELOCITY
         ChassisVelocity chassisVelocity;
+        boolean isMoving = true;
         // if (driveSignal == null) {
         //     chassisVelocity = new ChassisVelocity(new Vector(0, 0), 0.0);
         // }
@@ -75,11 +76,20 @@ public class SwerveSubsystem {
         SmartDashboard.putNumber("rotation", swerveRequest.rotation);
 
         // this is to make sure if both the joysticks are at neutral position, the robot and wheels don't move or turn at all
-        if (swerveRequest.movement.x == 0 && swerveRequest.movement.y == 0 && swerveRequest.rotation == 0) {
-            chassisVelocity = new ChassisVelocity(new Vector(0, 0), 0);
+        if (Math.abs(swerveRequest.movement.x) < 0.05 
+            && Math.abs(swerveRequest.movement.y) < 0.05 
+            && Math.abs(swerveRequest.rotation) < 0.05) {
+            for (int i = 0; i < swerveModules.length; i++) {
+                swerveModules[i].coast();
+            }
+            return;
         }
         else {
             chassisVelocity = new ChassisVelocity(swerveRequest.movement, swerveRequest.rotation); 
+            if (Math.abs(swerveRequest.movement.x) < 0.05 
+            && Math.abs(swerveRequest.movement.y) < 0.05) {
+                isMoving = false;
+            }
         }
 
         Vector[] moduleOutputs = swerveKinematics.toModuleVelocities(chassisVelocity); 
@@ -87,16 +97,20 @@ public class SwerveSubsystem {
         for (int i = 0; i < moduleOutputs.length; i++) {
             SwerveModule module = swerveModules[i];
             SwerveDriveRequest request;
+
+            SmartDashboard.putNumber("VECTOR X", moduleOutputs[i].x);
+            SmartDashboard.putNumber("VECTOR Y", moduleOutputs[i].y);
+
             if (i == 1) {
                 i = 2;
-                request = driveInstructions(moduleOutputs[i]);
+                request = driveInstructions(moduleOutputs[i], isMoving);
                 i = 1;
             } else if (i == 2) {
                 i = 1;
-                request = driveInstructions(moduleOutputs[i]);
+                request = driveInstructions(moduleOutputs[i], isMoving);
                 i = 2;
             } else {
-                request = driveInstructions(moduleOutputs[i]);
+                request = driveInstructions(moduleOutputs[i], isMoving);
             }
 
             if (request.direction != 0) {
@@ -106,7 +120,7 @@ public class SwerveSubsystem {
             } 
 
             String string = "wheel #" + i;
-            SmartDashboard.putNumber(string, request.direction);
+            SmartDashboard.putNumber(string, module.getEncoderPosition());
 
             module.drive(request);
             //SmartDashboard.putNumber(Integer.toString(i), module.getTargetVelocity());
@@ -118,11 +132,11 @@ public class SwerveSubsystem {
      * direction vector for
      * which way the module should travel and outputs the instruction for the individual module
      */
-    public SwerveDriveRequest driveInstructions(Vector vector) { 
+    public SwerveDriveRequest driveInstructions(Vector vector, boolean isMoving) { 
         double x = vector.x;
         double y = vector.y;
 
-        double speed = Math.sqrt(Math.pow(x, 2) + Math.pow(y, 2)) / 4; // speed kills
+        double speed = Math.sqrt(Math.pow(x, 2) + Math.pow(y, 2))/4; // speed kills
         double angle;
 
         if (y == 0) { // y = 0 wouldn't work because fraction
@@ -133,7 +147,7 @@ public class SwerveSubsystem {
                 angle = Math.PI / 2;
             } 
             else { // x = 0
-                angle = -1;
+                angle = 0;
             }
         }
         else if (y < 0 || (x == 0 && y < 0)) { // Q3 and Q4 and south field centric
@@ -149,31 +163,21 @@ public class SwerveSubsystem {
             angle = 0;
         }
 
-        SmartDashboard.putNumber("the real angle", angle);
-
-        if (angle != -1) {
-            angle += this.getRobotAngle() % (2 * Math.PI);
-
-            SmartDashboard.putNumber("the very real angle", angle);
-
-            // if (angle > 0) { // if angle postive
-            //     angle += this.getRobotAngle() % 360;
-            // }
-            // else { // if angle is 0
-            //     angle = this.getRobotAngle() - angle;
-            // }
-    
-            // if (angle > 360) { // the setAngle class in SwerveAngle wants [0,360]
-            //     angle = 360 - angle;
-            // }
-    
-            // add recalculating the angle based of field centric view
-    
-            return new SwerveDriveRequest(speed, angle);
+        if (isMoving) {
+            angle += this.getRobotAngle() % (2 * Math.PI); // this is to make it field centric
         }
-        else {
-            return new SwerveDriveRequest(0, getRobotAngle());
-        }
+        return new SwerveDriveRequest(speed, angle);
+        // if (angle != -1) {
+        //     if (isMoving) {
+        //         angle += this.getRobotAngle() % (2 * Math.PI); // this is to make it field centric
+        //     }
+        //     return new SwerveDriveRequest(speed, angle);
+        // }
+        // else {
+        //     SmartDashboard.putNumber("the very real angle", getRobotAngle());
+
+        //     return new SwerveDriveRequest(0, );
+        // }
     }
     
     /*
@@ -185,7 +189,7 @@ public class SwerveSubsystem {
         return ((360 - gyro.getAngle()) * Math.PI) / 180; // returns in counterclockwise hence why 360 minus
     }
 
-    // public void resetGyro() {
-    //     gyro.reset();
-    // }
+    public void resetGyro() {
+        gyro.reset();
+    }
 }
