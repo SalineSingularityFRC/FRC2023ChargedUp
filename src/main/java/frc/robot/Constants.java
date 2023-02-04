@@ -45,10 +45,11 @@ public final class Constants {
     public static final int BR_CANCODER_ID = 41;
     public static final boolean BR_isInverted = true;
 
-    public static double DRIVETRAIN_FRONT_LEFT_ENCODER_OFFSET = 0.509766 * 2 * Math.PI;
-    public static double DRIVETRAIN_FRONT_RIGHT_ENCODER_OFFSET = 0.142090 * 2 * Math.PI;
-    public static double DRIVETRAIN_BACK_LEFT_ENCODER_OFFSET = 0.999023 * 2 * Math.PI;
-    public static double DRIVETRAIN_BACK_RIGHT_ENCODER_OFFSET = 0.820557  * 2 * Math.PI;
+    public static double DRIVETRAIN_FRONT_LEFT_ENCODER_OFFSET = (0.339111) * 2 * Math.PI;
+    public static double DRIVETRAIN_FRONT_RIGHT_ENCODER_OFFSET = (0.148682) * 2 * Math.PI;
+    public static double DRIVETRAIN_BACK_LEFT_ENCODER_OFFSET = (0.800537) * 2 * Math.PI;
+    public static double DRIVETRAIN_BACK_RIGHT_ENCODER_OFFSET = (0.823975) * 2 * Math.PI;
+    // 1 minus because it is clockwise and we want ccw
 
     // trackWidth - lateral distance between pairs of wheels on different sides of the robot
     // wheelBase - distance between pairs of wheels on the same side of the robot
@@ -57,4 +58,8 @@ public final class Constants {
     public static final double WHEELBASE = 1.0;
 
     public static final int PRIMARY_CONTROLLER_PORT = 0;
+
+    public static final int leftJoystickXAxis = 0;
+    public static final int leftJoystickYAxis = 1;
+    public static final int rightJoystickXAxis = 4;
 }
