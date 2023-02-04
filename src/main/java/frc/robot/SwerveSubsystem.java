@@ -114,7 +114,7 @@ public class SwerveSubsystem {
             }
 
             if (request.direction != 0) {
-                request.direction = (2 * Math.PI) - request.direction; 
+              //  request.direction = (2 * Math.PI) - request.direction; 
                 // IMPORTANT: this bit is to convert the direction from clockwise to counterclockwise
                 // Their kinematics class outputs clockwise degree, but our methods take in a counterclockwise degree
             } 
