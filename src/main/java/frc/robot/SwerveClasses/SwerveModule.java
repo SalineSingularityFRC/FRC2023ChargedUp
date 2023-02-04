@@ -40,9 +40,11 @@ public class SwerveModule {
         this.resetZeroAngle();
     }
 
+    // method takes in a direction and speed value and sets the wheels to that in the most efficient way possible
     public boolean drive(SwerveDriveRequest request) {
         SwerveAngle.AnglePosition angle = angleMotor.setAngle(request.direction);
-        if (angle == SwerveAngle.AnglePosition.Positive) {
+        // the setAngle function returns an enum that specifies whether the wheels should spin forwards or backwards
+        if (angle == SwerveAngle.AnglePosition.Positive) { 
            driveMotor.set(request.velocity);
             return true;
         }
@@ -54,6 +56,7 @@ public class SwerveModule {
         
         driveMotor.set(0);
         return false;
+        // if the wheel is still in the process of turning to the specified angle, speed is 0 and drive returns false
     }
 
     public void coast() {

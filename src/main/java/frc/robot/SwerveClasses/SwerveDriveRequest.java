@@ -1,7 +1,7 @@
 package frc.robot.SwerveClasses;
 
 /*
-* This class represents a request that some other code is sending to this class to tell the swerve module
+* This class represents a request that some other code is sending to this class to tell the individual swerve module
 * how to drive.
 */
 

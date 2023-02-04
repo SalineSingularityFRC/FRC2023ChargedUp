@@ -64,25 +64,30 @@ public class SwerveAngle {
         //This if else statement gets the closest angle to go to (absolute value)
         if (delta > Math.PI) {
             targetAngle += (2 * Math.PI);
-        } else if (delta < -Math.PI) {
+        } 
+        else if (delta < -Math.PI) {
             targetAngle -= (2 * Math.PI);
         }
 
         // Recalculate the difference between the current angle according to the gyro and the target angle according to the robot.
         delta = wheelPosition - targetAngle;
         AnglePosition currentPosition;
-        /*These if else statements mean that if the target angle is even less
-         if you turn the back end to it, do it.
-         Then set the wheels to reverse.
 
-         tl;dr: makes the angle that the robot has to turn even smaller
-        
+
+        /*
+        These if else statements mean that if the target angle is closer  by turning in the other 
+        direction, do it. Then set the wheels to reverse because the wheel is now facing the other way
+
+         tl;dr: turns the wheel the shortest possible distance by giving it the option to turn both 
+         counterclockwise and clockwise
         */
         if (delta > (Math.PI/2) || delta < -(Math.PI/2)) {
-            if (delta > (Math.PI/2))
+            if (delta > (Math.PI/2)) {
                 targetAngle += Math.PI;
-            else if (delta < -(Math.PI/2))
+            }
+            else if (delta < -(Math.PI/2)) {
                 targetAngle -= Math.PI;
+            }
             currentPosition = AnglePosition.Negative;
         } 
         else {
@@ -94,7 +99,6 @@ public class SwerveAngle {
 
         
         // Let's drive
-
         angleMotor.setControl(positionTarget.withPosition(Constants.ANGLE_MOTOR_GEAR_RATIO * (targetAngle/(2*Math.PI))));
 
         if(Math.abs(delta % Math.PI) > Constants.MAX_ANGLE_INACCURACY && Math.abs(delta % Math.PI) < Math.PI - Constants.MAX_ANGLE_INACCURACY){
@@ -120,12 +124,11 @@ public class SwerveAngle {
     public double getAngleClamped() {
         
         if (getAngle() >= 0) {
-        return getAngle() % (2 * Math.PI);
-    }
-
+            return getAngle() % (2 * Math.PI);
+        }
         else {
             return (2 * Math.PI) - (Math.abs(getAngle()) % (2 * Math.PI));
-    }
+        }
     }
 
     /*
@@ -134,6 +137,8 @@ public class SwerveAngle {
     public double getRemainderRotations() {
         return getAngle() - getAngleClamped();
     }
+
+
 
     /*
      * Set the zero angle based on the current angle (in radians) that we are reading from an external source.

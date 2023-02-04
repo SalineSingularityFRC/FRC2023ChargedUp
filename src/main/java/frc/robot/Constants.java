@@ -11,17 +11,6 @@ public final class Constants {
     public static final String CANBUS = "rio";
     public static final String CANIVORE = "drivetrain";
 
-
-    /* 
-    PLACEHOLDER WIDTH AND LENGTH VALUES
-    These values are in inches
-    Width is from FL to FR, length is from FL to BL etc
-    Width and length are for the distance between each swervepod
-    Length will be longer than width for 2023 robot
-    */
-    public static final double robotWidth = 28; 
-    public static final double robotLength = 32;
-    
     // --------->  THESE ARE REAL ID VALUES <------------
     public static final int GYRO_CANCODER_ID = 10; 
 
@@ -49,7 +38,6 @@ public final class Constants {
     public static double DRIVETRAIN_FRONT_RIGHT_ENCODER_OFFSET = (0.148682) * 2 * Math.PI;
     public static double DRIVETRAIN_BACK_LEFT_ENCODER_OFFSET = (0.800537) * 2 * Math.PI;
     public static double DRIVETRAIN_BACK_RIGHT_ENCODER_OFFSET = (0.823975) * 2 * Math.PI;
-    // 1 minus because it is clockwise and we want ccw
 
     // trackWidth - lateral distance between pairs of wheels on different sides of the robot
     // wheelBase - distance between pairs of wheels on the same side of the robot

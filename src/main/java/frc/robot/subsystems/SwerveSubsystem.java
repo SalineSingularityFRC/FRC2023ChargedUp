@@ -26,7 +26,6 @@ public class SwerveSubsystem {
      * a dictionary that will house
      * all of our SwerveModules
      */
-    private SwerveModule[] swerveModules = new SwerveModule[4];
     private Pigeon2 gyro;
 
     private final int FL = 0;
@@ -34,6 +33,7 @@ public class SwerveSubsystem {
     private final int BL = 2;
     private final int BR = 3;
 
+    private SwerveModule[] swerveModules = new SwerveModule[4];
     private final Vector[] vectorKinematics = new Vector[4];
     private final SwerveKinematics swerveKinematics;
 
@@ -45,7 +45,7 @@ public class SwerveSubsystem {
      * Use values from the Constants.java class
      */
     public SwerveSubsystem() {
-        //gyro = new NavX(Port.kMXP);
+        // gyro = new NavX(Port.kMXP);
         gyro = new Pigeon2(Constants.GYRO_CANCODER_ID, Constants.CANIVORE);
         
         vectorKinematics[FL] = new Vector(Constants.TRACKWIDTH / 2.0, Constants.WHEELBASE / 2.0);
@@ -61,7 +61,7 @@ public class SwerveSubsystem {
         swerveModules[BR] = new SwerveModule(Constants.BR_Motor_ID, Constants.BR_ANGLE_ID, Constants.BR_CANCODER_ID, Constants.DRIVETRAIN_BACK_RIGHT_ENCODER_OFFSET, Constants.CANIVORE, Constants.BR_isInverted);
     }
 
-    public static class SwerveRequest {
+    public static class SwerveRequest { // this class represents what our controller is telling our robot to do
         public double rotation;
         public Vector movement;
 
@@ -71,7 +71,7 @@ public class SwerveSubsystem {
         }
     }
 
-    public void drive(SwerveRequest swerveRequest) { 
+    public void drive(SwerveRequest swerveRequest) { // takes in the inputs from the controller
         ChassisVelocity chassisVelocity;
         boolean isMoving = true;
         
@@ -80,6 +80,7 @@ public class SwerveSubsystem {
         SmartDashboard.putNumber("rotation", swerveRequest.rotation);
 
         // this is to make sure if both the joysticks are at neutral position, the robot and wheels don't move or turn at all
+        // 0.05 value can be increased if the joystick is increasingly inaccurate at neutral position
         if (Math.abs(swerveRequest.movement.x) < 0.05 
             && Math.abs(swerveRequest.movement.y) < 0.05 
             && Math.abs(swerveRequest.rotation) < 0.05) {
@@ -90,6 +91,7 @@ public class SwerveSubsystem {
         }
         else {
             chassisVelocity = new ChassisVelocity(swerveRequest.movement, swerveRequest.rotation); 
+
             if (Math.abs(swerveRequest.movement.x) < 0.05 
             && Math.abs(swerveRequest.movement.y) < 0.05) {
                 isMoving = false; // this boolean is to ensure that gyro wont be used if it is just turning
@@ -104,6 +106,8 @@ public class SwerveSubsystem {
 
             // String string = "wheel #" + i;
 
+            // These if else are to swap the moduleOutputs for the FR and BL modules
+            // TO-DO research on why we need this, but for now, it works as it is so its fine
             if (i == 1) {
                 i = 2;
                 request = driveInstructions(moduleOutputs[i], isMoving);
@@ -113,7 +117,11 @@ public class SwerveSubsystem {
                 request = driveInstructions(moduleOutputs[i], isMoving);
                 i = 2;
             } else {
-                request = driveInstructions(moduleOutputs[i], isMoving);
+                request = driveInstructions(moduleOutputs[i], isMoving); 
+                /* 
+                this method is used to convert the vector that the swerveKinematics outputs for each wheel
+                into direction and speed instructions that the module.drive method can take in
+                */
             }
 
             if (request.direction != 0) {
@@ -129,7 +137,7 @@ public class SwerveSubsystem {
     /*
      * This method takes a field-centric 
      * direction vector for
-     * which way the module should travel and outputs the instruction for the individual module
+     * which way the module should travel and outputs the SwerveDriveRequest instruction for the individual module
      */
     public SwerveDriveRequest driveInstructions(Vector vector, boolean isMoving) { 
         double x = vector.x;
@@ -146,7 +154,7 @@ public class SwerveSubsystem {
                 angle = Math.PI / 2;
             } 
             else { // x = 0
-                angle = 0;
+                return new SwerveDriveRequest(0, 0); // this should never happen
             }
         }
         else if (y < 0 || (x == 0 && y < 0)) { // Q3 and Q4 and south field centric
@@ -162,7 +170,7 @@ public class SwerveSubsystem {
             angle = 0;
         }
 
-        if (isMoving) {
+        if (isMoving) { // if false, then it is only turning and does not want to be affected by the gyro
             angle += this.getRobotAngle() % (2 * Math.PI); // this is to make it field centric
         }
         return new SwerveDriveRequest(speed, angle);
