@@ -152,8 +152,8 @@ public class SwerveSubsystem {
         SmartDashboard.putNumber("the real angle", angle);
 
         if (angle != -1) {
-            angle += this.getRobotAngle() % (2 * Math.PI);
-            
+            angle -= this.getRobotAngle() % (2 * Math.PI);
+
             SmartDashboard.putNumber("the very real angle", angle);
 
             // if (angle > 0) { // if angle postive
