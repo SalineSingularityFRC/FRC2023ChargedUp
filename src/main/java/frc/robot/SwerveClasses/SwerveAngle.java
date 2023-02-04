@@ -36,6 +36,7 @@ public class SwerveAngle {
         slot0Configs.kD = 0.0;
 
         angleMotor.getConfigurator().apply(slot0Configs);
+        angleMotor.setInverted(false);
     }
      
     /*
