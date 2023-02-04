@@ -38,7 +38,7 @@ public class SwerveSubsystem {
     public SwerveSubsystem() {
         //gyro = new NavX(Port.kMXP);
         gyro = new Pigeon2(Constants.GYRO_CANCODER_ID, Constants.CANIVORE);
-        SmartDashboard.putNumber("GYRO", getRobotAngle());
+        
         
 
         vectorKinematics[FL] = new Vector(Constants.TRACKWIDTH / 2.0, Constants.WHEELBASE / 2.0);
@@ -69,10 +69,10 @@ public class SwerveSubsystem {
         // if (driveSignal == null) {
         //     chassisVelocity = new ChassisVelocity(new Vector(0, 0), 0.0);
         // }
-
-        SmartDashboard.getNumber("x", swerveRequest.movement.x);
-        SmartDashboard.getNumber("y", swerveRequest.movement.y);
-        SmartDashboard.getNumber("rotation", swerveRequest.rotation);
+        SmartDashboard.putNumber("GYRO", getRobotAngle());
+        SmartDashboard.putNumber("x", swerveRequest.movement.x);
+        SmartDashboard.putNumber("y", swerveRequest.movement.y);
+        SmartDashboard.putNumber("rotation", swerveRequest.rotation);
 
         // this is to make sure if both the joysticks are at neutral position, the robot and wheels don't move or turn at all
         if (swerveRequest.movement.x == 0 && swerveRequest.movement.y == 0 && swerveRequest.rotation == 0) {
@@ -149,8 +149,12 @@ public class SwerveSubsystem {
             angle = 0;
         }
 
+        SmartDashboard.putNumber("the real angle", angle);
+
         if (angle != -1) {
-            angle -= this.getRobotAngle() % (2 * Math.PI);
+            angle += this.getRobotAngle() % (2 * Math.PI);
+            
+            SmartDashboard.putNumber("the very real angle", angle);
 
             // if (angle > 0) { // if angle postive
             //     angle += this.getRobotAngle() % 360;
