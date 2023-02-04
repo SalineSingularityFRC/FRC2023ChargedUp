@@ -1,4 +1,4 @@
-package frc.robot;
+package frc.robot.SwerveClasses;
 
 import com.ctre.phoenixpro.configs.Slot0Configs;
 import com.ctre.phoenixpro.controls.PositionVoltage;
@@ -6,6 +6,7 @@ import com.ctre.phoenixpro.hardware.TalonFX;
 import com.revrobotics.AbsoluteEncoder;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.robot.Constants;
 
 /**
  * This class owns a single Swerve Module's angle motor and is responsible for driving that motor to a given angle
@@ -29,7 +30,7 @@ public class SwerveAngle {
         zeroPositionOffset = 0;
         positionTarget = new PositionVoltage(0).withSlot(0);
         
-        var slot0Configs = new Slot0Configs();
+        Slot0Configs slot0Configs = new Slot0Configs();
         slot0Configs.kP = 6; // previously at 6
         slot0Configs.kI = 0.0;
         slot0Configs.kD = 0.0;

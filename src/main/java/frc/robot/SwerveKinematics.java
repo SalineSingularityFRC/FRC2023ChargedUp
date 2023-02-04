@@ -2,6 +2,8 @@ package frc.robot;
 
 import org.ejml.simple.SimpleMatrix;
 
+import frc.robot.SwerveClasses.ChassisVelocity;
+
 import java.util.Arrays;
 
 /**

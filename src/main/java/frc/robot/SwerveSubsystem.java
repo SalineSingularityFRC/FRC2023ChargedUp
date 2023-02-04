@@ -4,9 +4,12 @@ import com.ctre.phoenixpro.hardware.Pigeon2;
 
 // import edu.wpi.first.wpilibj.I2C.Port;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.robot.SwerveClasses.ChassisVelocity;
+import frc.robot.SwerveClasses.SwerveDriveRequest;
 
 // import com.kauailabs.navx.frc.AHRS;
 // import frc.robot.DumbNavXClasses.NavX;
+
 
 /*
  * This class provides functions to drive at a given angle and direction,
@@ -67,10 +70,7 @@ public class SwerveSubsystem {
     public void drive(SwerveRequest swerveRequest) { 
         ChassisVelocity chassisVelocity;
         boolean isMoving = true;
-        // if (driveSignal == null) {
-        //     chassisVelocity = new ChassisVelocity(new Vector(0, 0), 0.0);
-        // }
-        SmartDashboard.putNumber("GYRO", getRobotAngle());
+        
         SmartDashboard.putNumber("x", swerveRequest.movement.x);
         SmartDashboard.putNumber("y", swerveRequest.movement.y);
         SmartDashboard.putNumber("rotation", swerveRequest.rotation);
@@ -88,20 +88,17 @@ public class SwerveSubsystem {
             chassisVelocity = new ChassisVelocity(swerveRequest.movement, swerveRequest.rotation); 
             if (Math.abs(swerveRequest.movement.x) < 0.05 
             && Math.abs(swerveRequest.movement.y) < 0.05) {
-                isMoving = false;
+                isMoving = false; // this boolean is to ensure that gyro wont be used if it is just turning
             }
         }
 
         Vector[] moduleOutputs = swerveKinematics.toModuleVelocities(chassisVelocity); 
-        SwerveKinematics.normalizeModuleVelocities(moduleOutputs, 1);
+        SwerveKinematics.normalizeModuleVelocities(moduleOutputs, 1); // these two lines are what calculates the module angles for swerve
         for (int i = 0; i < moduleOutputs.length; i++) {
             SwerveModule module = swerveModules[i];
             SwerveDriveRequest request;
 
-            String string = "wheel #" + i;
-
-            SmartDashboard.putNumber(string + " VECTOR X", moduleOutputs[i].x);
-            SmartDashboard.putNumber(string + " VECTOR Y", moduleOutputs[i].y);
+            // String string = "wheel #" + i;
 
             if (i == 1) {
                 i = 2;
@@ -121,11 +118,7 @@ public class SwerveSubsystem {
                 // Their kinematics class outputs clockwise degree, but our methods take in a counterclockwise degree
             } 
 
-            SmartDashboard.putNumber(string, module.getEncoderPosition());
-
-            SmartDashboard.putNumber(string + " direction", request.direction);
             module.drive(request);
-            //SmartDashboard.putNumber(Integer.toString(i), module.getTargetVelocity());
         }
     }
 
@@ -138,7 +131,7 @@ public class SwerveSubsystem {
         double x = vector.x;
         double y = vector.y;
 
-        double speed = Math.sqrt(Math.pow(x, 2) + Math.pow(y, 2))/4; // speed kills
+        double speed = Math.sqrt(Math.pow(x, 2) + Math.pow(y, 2)) / Constants.SPEED_DIVISOR; // speed kills
         double angle;
 
         if (y == 0) { // y = 0 wouldn't work because fraction
@@ -169,17 +162,6 @@ public class SwerveSubsystem {
             angle += this.getRobotAngle() % (2 * Math.PI); // this is to make it field centric
         }
         return new SwerveDriveRequest(speed, angle);
-        // if (angle != -1) {
-        //     if (isMoving) {
-        //         angle += this.getRobotAngle() % (2 * Math.PI); // this is to make it field centric
-        //     }
-        //     return new SwerveDriveRequest(speed, angle);
-        // }
-        // else {
-        //     SmartDashboard.putNumber("the very real angle", getRobotAngle());
-
-        //     return new SwerveDriveRequest(0, );
-        // }
     }
     
     /*
