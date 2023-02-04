@@ -73,6 +73,8 @@ public class Robot extends TimedRobot {
       -joystick.getRawAxis(Constants.leftJoystickYAxis)
     ));
 
+    SmartDashboard.putNumber("RAWRIGHT", joystick.getRawAxis(Constants.rightJoystickXAxis));
+
     // targetAngle += joystick.getRawAxis(Constants.rightJoystickXAxis)/100;
     // targetAngle %= Math.PI * 2;
     // robotSubsystem.drive(new SwerveSubsystem.SwerveRequest(
