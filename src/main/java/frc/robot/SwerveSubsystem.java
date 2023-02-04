@@ -98,8 +98,10 @@ public class SwerveSubsystem {
             SwerveModule module = swerveModules[i];
             SwerveDriveRequest request;
 
-            SmartDashboard.putNumber("VECTOR X", moduleOutputs[i].x);
-            SmartDashboard.putNumber("VECTOR Y", moduleOutputs[i].y);
+            String string = "wheel #" + i;
+
+            SmartDashboard.putNumber(string + " VECTOR X", moduleOutputs[i].x);
+            SmartDashboard.putNumber(string + " VECTOR Y", moduleOutputs[i].y);
 
             if (i == 1) {
                 i = 2;
@@ -114,14 +116,14 @@ public class SwerveSubsystem {
             }
 
             if (request.direction != 0) {
-              //  request.direction = (2 * Math.PI) - request.direction; 
+                request.direction = (2 * Math.PI) - request.direction; 
                 // IMPORTANT: this bit is to convert the direction from clockwise to counterclockwise
                 // Their kinematics class outputs clockwise degree, but our methods take in a counterclockwise degree
             } 
 
-            String string = "wheel #" + i;
             SmartDashboard.putNumber(string, module.getEncoderPosition());
 
+            SmartDashboard.putNumber(string + " direction", request.direction);
             module.drive(request);
             //SmartDashboard.putNumber(Integer.toString(i), module.getTargetVelocity());
         }
