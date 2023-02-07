@@ -39,6 +39,13 @@ public final class Constants {
 
     public static final int BIG_ARM_GEAR_RATIO = 30;
     public static final int SMALL_ARM_GEAR_RATIO = 7;
+    public static final double BigArm_highTarget = 29.000977;
+    public static final double BigArm_mediumTarget = 32.216309;
+    public static final double BigArm_pickup = 0;
+    public static final double SmallArm_highTarget =  26.552734;
+    public static final double SmallArm_mediumTarget = 35.404785;
+    public static final double SmallArm_pickup = 15.053711;
+    
 
     public static double DRIVETRAIN_FRONT_LEFT_ENCODER_OFFSET = (0.354980) * 2 * Math.PI;
     public static double DRIVETRAIN_FRONT_RIGHT_ENCODER_OFFSET = (0.938477) * 2 * Math.PI;
