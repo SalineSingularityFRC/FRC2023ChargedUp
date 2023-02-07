@@ -57,5 +57,5 @@ public final class Constants {
     public static final int leftJoystickYAxis = 1;
     public static final int rightJoystickXAxis = 4;
 
-    public static final double SPEED_DIVISOR = 3; // what the max speed should be divided by, 1 is max power
+    public static final double SPEED_DIVISOR = 10; // what the max speed should be divided by, 1 is max power
 }

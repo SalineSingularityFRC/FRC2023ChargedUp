@@ -151,6 +151,5 @@ public class SwerveAngle {
      */
     public void setZeroAngle(double currentAngle) {
         zeroPositionOffset += getAngle() - currentAngle;
-        
     }
 }

@@ -4,14 +4,13 @@
 
 package frc.robot;
 
-import com.ctre.phoenixpro.hardware.TalonFX;
-
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+//import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
-import edu.wpi.first.wpilibj2.command.Subsystem;
+//import edu.wpi.first.wpilibj2.command.Subsystem;
 import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.SwerveSubsystem;
 
@@ -21,6 +20,7 @@ public class Robot extends TimedRobot {
   private RobotContainer m_robotContainer;
   private SwerveSubsystem robotSubsystem;
   private Arm bigArm;
+  private Arm smallArm;
 
   // private SwerveModule robotModule;
   private Joystick joystick;
@@ -32,7 +32,8 @@ public class Robot extends TimedRobot {
     robotSubsystem = new SwerveSubsystem();
     joystick = new Joystick(0);
 
-    bigArm = new Arm(Constants.BIG_ARM_Motor_ID, Constants.CANBUS, false);
+    bigArm = new Arm(Constants.BIG_ARM_Motor_ID, Constants.CANBUS, false, Constants.BIG_ARM_GEAR_RATIO);
+    smallArm = new Arm(Constants.SMALL_ARM_MOTOR_ID, Constants.CANBUS, false, Constants.SMALL_ARM_GEAR_RATIO);
   }
 
   @Override
@@ -79,17 +80,33 @@ public class Robot extends TimedRobot {
       -joystick.getRawAxis(Constants.leftJoystickXAxis), 
       -joystick.getRawAxis(Constants.leftJoystickYAxis)));
 
-    if (joystick.getRawButtonPressed(1)) {
+  
+    if (joystick.getRawButtonPressed(1)) { //only sets the speed for one millisecond when you hold the button down
       bigArm.setSpeed(1/Constants.SPEED_DIVISOR);
     }
-
-    if (joystick.getRawButtonPressed(2)) {
-      bigArm.stop();
-    }
-
-    if (joystick.getRawButtonPressed(3)) {
+    else if (joystick.getRawButtonPressed(2)) {
       bigArm.setSpeed(-1/Constants.SPEED_DIVISOR);
     }
+    else {
+      bigArm.setSpeed(0);
+    }
+
+    
+
+    SmartDashboard.putNumber("pov", joystick.getPOV());
+    
+    
+    if (joystick.getPOV() == 0) {
+      smallArm.setSpeed(1/Constants.SPEED_DIVISOR);
+    }
+    else if (joystick.getPOV() == 180) {
+      smallArm.setSpeed(-1/Constants.SPEED_DIVISOR);
+    }
+    else { 
+      smallArm.stop();
+    }
+
+    
 
     // targetAngle += joystick.getRawAxis(Constants.rightJoystickXAxis)/100;
     // targetAngle %= Math.PI * 2;

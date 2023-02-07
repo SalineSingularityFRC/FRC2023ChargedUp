@@ -9,12 +9,13 @@ public class Arm {
 
     private TalonFX armMotor;
     private PositionVoltage positionTarget;
+    private double armGearRatio;
 
     private final double kP = 2.0;
     private final double kI = 0.0;
     private final double kD = 0.0;
     
-    public Arm(int armMotor_CAN_ID, String canNetwork, boolean isInverted) {
+    public Arm(int armMotor_CAN_ID, String canNetwork, boolean isInverted, double gearRatio) {
         armMotor = new TalonFX(armMotor_CAN_ID, canNetwork);
         armMotor.setInverted(isInverted);
         
@@ -26,6 +27,8 @@ public class Arm {
         slot0Configs.kD = kD;
 
         armMotor.getConfigurator().apply(slot0Configs);
+
+        armGearRatio = gearRatio;
     }
 
     public void setSpeed(double speed) { //speed will be from -1.0 to 1.0
@@ -33,7 +36,9 @@ public class Arm {
     }
 
     public void setPosition(double angle) {
-        armMotor.setControl(positionTarget.withPosition(Constants.ANGLE_MOTOR_GEAR_RATIO * (angle/(2*Math.PI))));
+        
+        
+        armMotor.setControl(positionTarget.withPosition(armGearRatio * (angle/(2*Math.PI))));
     }
 
     public void stop() {
