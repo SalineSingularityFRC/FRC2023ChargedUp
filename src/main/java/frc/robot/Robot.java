@@ -19,6 +19,8 @@ public class Robot extends TimedRobot {
 
   private RobotContainer m_robotContainer;
   private SwerveSubsystem robotSubsystem;
+  private SmallArm bigArm;
+  private SmallArm smallArm;
 
   // private SwerveModule robotModule;
   private Joystick joystick;
@@ -76,9 +78,9 @@ public class Robot extends TimedRobot {
   public void teleopPeriodic() {//this is because the y value is inverted from the joystick so we want to go negative
     robotSubsystem.drive(new SwerveSubsystem.SwerveRequest(0, joystick.getX(), -joystick.getY()));
     // robotSubsystem.drive(new SwerveSubsystem.SwerveRequest(0, 0, -1));
-    
-    CommandScheduler.getInstance().run();
 
+    CommandScheduler.getInstance().run();
+  
     if(joystick.getPOV()==0){
       bigArm.highTarget();
       smallArm.highTarget();
