@@ -5,7 +5,7 @@ import com.ctre.phoenixpro.controls.PositionVoltage;
 import frc.robot.Constants;
 import com.ctre.phoenixpro.configs.Slot0Configs;
 
-public class Arm {
+public class SmallArm {
 
     private TalonFX armMotor;
     private PositionVoltage positionTarget;
@@ -15,7 +15,7 @@ public class Arm {
     private final double kI = 0.0;
     private final double kD = 0.0;
     
-    public Arm(int armMotor_CAN_ID, String canNetwork, boolean isInverted, double gearRatio) {
+    public SmallArm(int armMotor_CAN_ID, String canNetwork, boolean isInverted, double gearRatio) {
         armMotor = new TalonFX(armMotor_CAN_ID, canNetwork);
         armMotor.setInverted(isInverted);
         
@@ -43,5 +43,14 @@ public class Arm {
 
     public void stop() {
         armMotor.set(0); 
+    }
+    public void highTarget() {
+        setPosition(Constants.SmallArm_highTarget);
+    }
+    public void mediumTarget() {
+        setPosition(Constants.SmallArm_mediumTarget);
+    }
+    public void pickUp() {
+        setPosition(Constants.SmallArm_pickUp);
     }
 }
