@@ -7,11 +7,11 @@ package frc.robot;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-//import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
-//import edu.wpi.first.wpilibj2.command.Subsystem;
-import frc.robot.subsystems.Arm;
+import edu.wpi.first.wpilibj2.command.Subsystem;
+import frc.robot.subsystems.BigArm;
+import frc.robot.subsystems.SmallArm;
 import frc.robot.subsystems.SwerveSubsystem;
 
 public class Robot extends TimedRobot {
@@ -19,11 +19,11 @@ public class Robot extends TimedRobot {
 
   private RobotContainer m_robotContainer;
   private SwerveSubsystem robotSubsystem;
-  private Arm bigArm;
-  private Arm smallArm;
 
   // private SwerveModule robotModule;
   private Joystick joystick;
+  private BigArm bigArm;
+  private SmallArm smallArm;
 
   @Override
   public void robotInit() {
@@ -31,9 +31,8 @@ public class Robot extends TimedRobot {
     // updateManager = new UpdateManager(m_robotContainer.getDrivetrainSubsystem());
     robotSubsystem = new SwerveSubsystem();
     joystick = new Joystick(0);
-
-    bigArm = new Arm(Constants.BIG_ARM_Motor_ID, Constants.CANBUS, false, Constants.BIG_ARM_GEAR_RATIO);
-    smallArm = new Arm(Constants.SMALL_ARM_MOTOR_ID, Constants.CANBUS, false, Constants.SMALL_ARM_GEAR_RATIO);
+    bigArm = new BigArm(Constants.BIG_ARM_Motor_ID, Constants.CANBUS, false, 0);
+    smallArm = new SmallArm(Constants.SMALL_ARM_MOTOR_ID, Constants.CANBUS, false, 0) ;
   }
 
   @Override
@@ -74,49 +73,31 @@ public class Robot extends TimedRobot {
   }
 
   @Override
-  public void teleopPeriodic() {
-    robotSubsystem.drive(new SwerveSubsystem.SwerveRequest(
-      joystick.getRawAxis(Constants.rightJoystickXAxis), 
-      -joystick.getRawAxis(Constants.leftJoystickXAxis), 
-      -joystick.getRawAxis(Constants.leftJoystickYAxis)));
-
-  
-    if (joystick.getRawButtonPressed(1)) { //only sets the speed for one millisecond when you hold the button down
-      bigArm.setSpeed(1/Constants.SPEED_DIVISOR);
-    }
-    else if (joystick.getRawButtonPressed(2)) {
-      bigArm.setSpeed(-1/Constants.SPEED_DIVISOR);
-    }
-    else {
-      bigArm.setSpeed(0);
-    }
-
+  public void teleopPeriodic() {//this is because the y value is inverted from the joystick so we want to go negative
+    robotSubsystem.drive(new SwerveSubsystem.SwerveRequest(0, joystick.getX(), -joystick.getY()));
+    // robotSubsystem.drive(new SwerveSubsystem.SwerveRequest(0, 0, -1));
     
+    CommandScheduler.getInstance().run();
 
-    SmartDashboard.putNumber("pov", joystick.getPOV());
-    
-    
-    if (joystick.getPOV() == 0) {
-      smallArm.setSpeed(1/Constants.SPEED_DIVISOR);
+    if(joystick.getPOV()==0){
+      bigArm.highTarget();
+      smallArm.highTarget();
     }
-    else if (joystick.getPOV() == 180) {
-      smallArm.setSpeed(-1/Constants.SPEED_DIVISOR);
+    else if(joystick.getPOV() == 90){
+      bigArm.mediumTarget();
+      smallArm.mediumTarget();
+
     }
-    else { 
+    else if(joystick.getPOV() == 180){
+      bigArm.pickupTarget();
+      smallArm.mediumTarget();
+
+    }
+    else{
+      bigArm.stop();
       smallArm.stop();
     }
 
-    
-
-    // targetAngle += joystick.getRawAxis(Constants.rightJoystickXAxis)/100;
-    // targetAngle %= Math.PI * 2;
-    // robotSubsystem.drive(new SwerveSubsystem.SwerveRequest(
-    //   (robotSubsystem.getRobotAngle()-targetAngle)/10, 
-    //   -joystick.getRawAxis(Constants.leftJoystickXAxis), 
-    //   -joystick.getRawAxis(Constants.leftJoystickYAxis)
-    // ));
-    
-    CommandScheduler.getInstance().run();
   }
 
   @Override
