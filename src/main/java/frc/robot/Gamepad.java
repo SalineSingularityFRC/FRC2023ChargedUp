@@ -2,6 +2,7 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.smartdashboard.*;
 import frc.robot.subsystems.ArmSubsystem;
+import frc.robot.subsystems.ClawPneumatics;
 import frc.robot.subsystems.SwerveSubsystem;
 
 import com.kauailabs.navx.frc.AHRS;
