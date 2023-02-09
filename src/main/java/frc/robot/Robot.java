@@ -18,8 +18,7 @@ public class Robot extends TimedRobot {
 
   private RobotContainer m_robotContainer;
   private SwerveSubsystem robotSubsystem;
-  private SmallArm bigArm;
-  private SmallArm smallArm;
+
 
   // private SwerveModule robotModule;
   private Joystick joystick;
