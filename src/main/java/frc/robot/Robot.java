@@ -4,7 +4,6 @@
 
 package frc.robot;
 
-import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -19,18 +18,17 @@ public class Robot extends TimedRobot {
 
   private RobotContainer m_robotContainer;
   private SwerveSubsystem robotSubsystem;
+  private Gamepad teleopDrive;
 
-  // private SwerveModule robotModule;
-  private Joystick joystick;
   private BigArm bigArm;
   private SmallArm smallArm;
 
   @Override
   public void robotInit() {
     m_robotContainer = new RobotContainer();
-    // updateManager = new UpdateManager(m_robotContainer.getDrivetrainSubsystem());
     robotSubsystem = new SwerveSubsystem();
-    joystick = new Joystick(0);
+    teleopDrive = new Gamepad(Constants.DRIVE_CONTROLLER, Constants.ARM_CONTROLLER);
+
     bigArm = new BigArm(Constants.BIG_ARM_Motor_ID, Constants.CANBUS, false, 0);
     smallArm = new SmallArm(Constants.SMALL_ARM_MOTOR_ID, Constants.CANBUS, false, 0) ;
   }
@@ -73,34 +71,10 @@ public class Robot extends TimedRobot {
   }
 
   @Override
-  public void teleopPeriodic() {//this is because the y value is inverted from the joystick so we want to go negative
-    robotSubsystem.drive(new SwerveSubsystem.SwerveRequest(
-      joystick.getRawAxis(Constants.rightJoystickXAxis)/3, 
-      -joystick.getRawAxis(Constants.leftJoystickXAxis), 
-      -joystick.getRawAxis(Constants.leftJoystickYAxis)
-    ));
+  public void teleopPeriodic() {
+    teleopDrive.swerveDrive(robotSubsystem);
     
     CommandScheduler.getInstance().run();
-
-    if(joystick.getPOV()==0){
-      bigArm.highTarget();
-      smallArm.highTarget();
-    }
-    else if(joystick.getPOV() == 90){
-      bigArm.mediumTarget();
-      smallArm.mediumTarget();
-
-    }
-    else if(joystick.getPOV() == 180){
-      bigArm.pickupTarget();
-      smallArm.mediumTarget();
-
-    }
-    else{
-      bigArm.stop();
-      smallArm.stop();
-    }
-
   }
 
   @Override
