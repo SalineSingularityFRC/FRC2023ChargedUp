@@ -38,7 +38,6 @@ public class ArmSubsystem {
         slot0Configs.kI = kI;
         slot0Configs.kD = kD;
         smallArmMotor.getConfigurator().apply(slot0Configs);
-        
     }
 
     public void stop() {

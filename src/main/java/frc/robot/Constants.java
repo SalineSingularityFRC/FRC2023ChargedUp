@@ -5,13 +5,9 @@ package frc.robot;
  * All variables in this class should be marked public static and final
  */
 public final class Constants {
-    public static final double DRIVE_MOTOR_GEAR_RATIO = 8.14; // this is the ratio of bot
-    public static final double ANGLE_MOTOR_GEAR_RATIO = 12.8; // https://www.swervedrivespecialties.com/products/mk4-swerve-module
-    public static final double MAX_ANGLE_INACCURACY = Math.PI/ 24;
-    public static final String CANBUS = "rio";
-    public static final String CANIVORE = "drivetrain";
-
-    // --------->  THESE ARE REAL ID VALUES <------------
+    /* 
+    ALL PHYSICAL IDS HERE
+    */
     public static final int GYRO_CANCODER_ID = 0;
 
     public static final int FL_ANGLE_ID = 15;
@@ -34,32 +30,70 @@ public final class Constants {
     public static final int BR_CANCODER_ID = 41;
     public static final boolean BR_isInverted = true;
 
-    public static final int BIG_ARM_Motor_ID = 6; // gear ratio is 30:1
-    public static final int SMALL_ARM_MOTOR_ID = 31; // gear ratio is 7:1
+    public static final int BIG_ARM_Motor_ID = 6; 
+    public static final int SMALL_ARM_MOTOR_ID = 31; 
 
-    public static final int BIG_ARM_GEAR_RATIO = 30;
-    public static final int SMALL_ARM_GEAR_RATIO = 7;
+    public static final int Compressor_ID = 1;
 
-    public static final double BigArm_highTarget = 29.000977;
-    public static final double BigArm_mediumTarget = 32.216309;
-    public static final double BigArm_pickup = 0;
-    public static final double SmallArm_highTarget =  26.552734;
-    public static final double SmallArm_mediumTarget = 35.404785;
-    public static final double SmallArm_pickup = 15.053711;
+    public static final String CANBUS = "rio";
+    public static final String CANIVORE = "drivetrain";
+
+
+
+    /* 
+    GAMEPAD IDS BELOW
+    */
+    public static final int DRIVE_CONTROLLER = 0;
+    public static final int ARM_CONTROLLER = 1;
     
-    public static double DRIVETRAIN_FRONT_LEFT_ENCODER_OFFSET = (0.360840) * 2 * Math.PI;
+    public static final int leftJoystickXAxis = 0;
+    public static final int leftJoystickYAxis = 1;
+    public static final int rightJoystickXAxis = 4;
+
+
+
+    /* 
+    ALL WHEEL OFFSETS BELOW
+    */
+    public static double DRIVETRAIN_FRONT_LEFT_ENCODER_OFFSET = (0.360840) * 2 * Math.PI; // number in parenthesis is in rotations
     public static double DRIVETRAIN_FRONT_RIGHT_ENCODER_OFFSET = (0.949463) * 2 * Math.PI;
     public static double DRIVETRAIN_BACK_LEFT_ENCODER_OFFSET = (0.906494) * 2 * Math.PI;
     public static double DRIVETRAIN_BACK_RIGHT_ENCODER_OFFSET = (0.298340) * 2 * Math.PI;
 
+
+    
+    /* 
+    ALL MOTOR GEAR RATIOS BELOW
+    */
+    public static final double DRIVE_MOTOR_GEAR_RATIO = 8.14; // this is the ratio of bot
+    public static final double ANGLE_MOTOR_GEAR_RATIO = 12.8; // https://www.swervedrivespecialties.com/products/mk4-swerve-module
+
+    public static final int BIG_ARM_GEAR_RATIO = 10;
+    public static final int SMALL_ARM_GEAR_RATIO = 7;
+
+
+
+    /* 
+    MISC. NUMBERS BELOW
+    */
+    public static final double MAX_ANGLE_INACCURACY = Math.PI/ 24;
+    
+    // probably in ticks
+    public static final double BigArm_highTarget = 29.000977;
+    public static final double BigArm_mediumTarget = 32.216309;
+    public static final double BigArm_pickup = 0;
+
+    public static final double SmallArm_highTarget =  26.552734;
+    public static final double SmallArm_mediumTarget = 35.404785;
+    public static final double SmallArm_pickup = 15.053711;
+
     // trackWidth - lateral distance between pairs of wheels on different sides of the robot
     // wheelBase - distance between pairs of wheels on the same side of the robot
     // THIS IS IMPORTANT FOR A RECTANGULAR ROBOT
-
-    // public static final double TRACKWIDTH = 1;
-    // public static final double WHEELBASE = 1;
     public static final double TRACKWIDTH = 0.85;
     public static final double WHEELBASE = 1.1333; // the ratio between the width and the length is around 3:4
+    // public static final double TRACKWIDTH = 1;
+    // public static final double WHEELBASE = 1;
 
     public static final int DRIVE_CONTROLLER = 0;
     public static final int ARM_CONTROLLER = 1;
