@@ -68,7 +68,17 @@ public final class Constants {
 
     public static final int leftJoystickXAxis = 0;
     public static final int leftJoystickYAxis = 1;
+    public static final int leftTrigger = 2;
+    public static final int rightTrigger = 3;
     public static final int rightJoystickXAxis = 4;
 
-    public static final double SPEED_DIVISOR = 10; // what the max speed should be divided by, 1 is max power
+    public static final int A_Button = 1;
+    public static final int B_Button = 2;
+    public static final int X_Button = 3;
+    public static final int Y_Button = 4;
+    public static final int left_Button = 5;
+    public static final int right_Button = 6;
+
+    public static final double SPEED_DIVISOR = 4; // what the max speed should be divided by, 1 is max power
+    public static final double ARM_SPEED = 0.1; // speed of the arms when adjusting manually
 }

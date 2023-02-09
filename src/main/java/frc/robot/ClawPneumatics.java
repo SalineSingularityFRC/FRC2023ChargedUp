@@ -9,15 +9,15 @@ public class ClawPneumatics{
 
 	DoubleSolenoid doubleSolenoid;
 	
-	Compressor pcmCompressor = new Compressor(Constants.Compressor_ID, PneumaticsModuleType.CTREPCM);
+	Compressor pcmCompressor = new Compressor(Constants.Compressor_ID, PneumaticsModuleType.REVPH);
 
     public ClawPneumatics(int forwardChannel, int reverseChannel) {
         doubleSolenoid = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, forwardChannel, reverseChannel);
 		doubleSolenoid.set(DoubleSolenoid.Value.kOff);
     }
 
-	public double findPressure() {
-		return pcmCompressor.getPressure();
+	public boolean isNotFull() {
+		return pcmCompressor.getPressureSwitchValue(); // if not full, returns true
 	}
 	
 	public void setHigh() {

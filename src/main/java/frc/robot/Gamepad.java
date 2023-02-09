@@ -30,37 +30,28 @@ public class Gamepad {
         armController = new Joystick(armControllerPort);
     }
 
-    // public void armPneumatics(ArmPneumatics armPneumatics) {
-    //     // SmartDashboard.putNumber("Pressure Value", 3);
+    public void armPneumatics(ClawPneumatics clawPneumatics) {
+        SmartDashboard.putBoolean("if True then not full yet", clawPneumatics.isNotFull());
 
-    //     if (armController.getLB()) {
-    //         armPneumatics.setLeftLow();
-    //     }
-    //     else if (armController.getTriggerLeft() > .2) {
-    //         armPneumatics.setLeftHigh();
-    //     }
-    //     else {
-    //         armPneumatics.setLeftOff();
-    //     }
+        if(driveController.getRawButton(Constants.Y_Button)) {
+            clawPneumatics.setHigh();
+        }
+        else if(driveController.getRawButton(Constants.A_Button)) {
+            clawPneumatics.setLow();
+        } 
+        else {
+            clawPneumatics.setOff();
+        }
+        
 
-    //     if (armController.getRB()) {
-    //         armPneumatics.setRightLow();
-    //     }
-    //     else if (armController.getTriggerRight() > .2) {
-    //         armPneumatics.setRightHigh();
-    //     }
-    //     else {
-    //         armPneumatics.setRightOff();
-    //     }
+        if (driveController.getRawButton(Constants.X_Button)) {
+            clawPneumatics.enableCompressor();
+        }
 
-    //     if (armController.getPOVUp()) {
-    //         armPneumatics.enableCompressor();
-    //     }
-
-    //     if (armController.getPOVDown() ) { // double check this later
-    //         armPneumatics.disableCompressor();
-    //     }
-    // }
+        if (driveController.getRawButton(Constants.B_Button)) {
+            clawPneumatics.disableCompressor();
+        }
+    }
 
     public void swerveDrive(SwerveSubsystem robotSubsystem) {
         robotSubsystem.drive(new SwerveSubsystem.SwerveRequest(
@@ -70,15 +61,33 @@ public class Gamepad {
     }
 
     public void arm(ArmSubsystem arm) {
-        if(armController.getPOV()==0){
+        if(driveController.getPOV() == 0){
             arm.highTarget();
         }
-        else if(armController.getPOV() == 90){
+        else if(driveController.getPOV() == 90){
             arm.mediumTarget();
         }
-        else if(armController.getPOV() == 180){
+        else if(driveController.getPOV() == 180){
             arm.pickupTarget();
         }
+
+
+        else if (driveController.getRawAxis(Constants.leftTrigger) > 0.05) {
+            arm.setBigArmSpeed(Constants.ARM_SPEED);
+        }
+        else if(driveController.getRawButton(Constants.left_Button)) {
+            arm.setBigArmSpeed(-Constants.ARM_SPEED);
+        }
+
+
+        else if (driveController.getRawAxis(Constants.rightTrigger) > 0.05) {
+            arm.setSmallArmSpeed(Constants.ARM_SPEED);
+        }
+        else if(driveController.getRawButton(Constants.right_Button)) {
+            arm.setSmallArmSpeed(-Constants.ARM_SPEED);
+        }
+
+
         else{
             arm.stop();
         }
