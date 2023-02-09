@@ -47,7 +47,6 @@ public final class Constants {
     public static final double SmallArm_mediumTarget = 35.404785;
     public static final double SmallArm_pickup = 15.053711;
     
-
     public static double DRIVETRAIN_FRONT_LEFT_ENCODER_OFFSET = (0.360840) * 2 * Math.PI;
     public static double DRIVETRAIN_FRONT_RIGHT_ENCODER_OFFSET = (0.949463) * 2 * Math.PI;
     public static double DRIVETRAIN_BACK_LEFT_ENCODER_OFFSET = (0.906494) * 2 * Math.PI;
@@ -62,7 +61,10 @@ public final class Constants {
     public static final double TRACKWIDTH = 0.85;
     public static final double WHEELBASE = 1.1333; // the ratio between the width and the length is around 3:4
 
-    public static final int PRIMARY_CONTROLLER_PORT = 0;
+    public static final int DRIVE_CONTROLLER = 0;
+    public static final int ARM_CONTROLLER = 1;
+
+    public static final int Compressor_ID = 1;
 
     public static final int leftJoystickXAxis = 0;
     public static final int leftJoystickYAxis = 1;

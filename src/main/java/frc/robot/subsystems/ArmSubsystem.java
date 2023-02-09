@@ -15,12 +15,12 @@ public class ArmSubsystem {
     private final double kD = 0.0;
     private final double bigArm_kS = 0.028;//counters gravity
     
-    public ArmSubsystem(boolean isInverted) {
+    public ArmSubsystem(boolean bigArmIsInverted, boolean smallArmIsInverted) {
         smallArmMotor = new TalonFX(Constants.SMALL_ARM_MOTOR_ID, Constants.CANBUS);
-        smallArmMotor.setInverted(isInverted);
+        smallArmMotor.setInverted(smallArmIsInverted);
 
         bigArmMotor = new TalonFX(Constants.BIG_ARM_Motor_ID, Constants.CANBUS);
-        bigArmMotor.setInverted(isInverted);
+        bigArmMotor.setInverted(bigArmIsInverted);
         
         positionTarget = new PositionVoltage(0).withSlot(0);
         
