@@ -1,6 +1,7 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.smartdashboard.*;
+import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.SwerveSubsystem;
 
 import com.kauailabs.navx.frc.AHRS;
@@ -68,26 +69,18 @@ public class Gamepad {
         -driveController.getRawAxis(Constants.leftJoystickYAxis)));
     }
 
-    // public void arm() {
-    //     if(joystick.getPOV()==0){
-    //         bigArm.highTarget();
-    //         smallArm.highTarget();
-    //       }
-    //       else if(joystick.getPOV() == 90){
-    //         bigArm.mediumTarget();
-    //         smallArm.mediumTarget();
-      
-    //       }
-    //       else if(joystick.getPOV() == 180){
-    //         bigArm.pickupTarget();
-    //         smallArm.mediumTarget();
-      
-    //       }
-    //       else{
-    //         bigArm.stop();
-    //         smallArm.stop();
-    //       }
-      
-    // }
-
+    public void arm(ArmSubsystem arm) {
+        if(armController.getPOV()==0){
+            arm.highTarget();
+        }
+        else if(armController.getPOV() == 90){
+            arm.mediumTarget();
+        }
+        else if(armController.getPOV() == 180){
+            arm.pickupTarget();
+        }
+        else{
+            arm.stop();
+        }
+    }
 }
