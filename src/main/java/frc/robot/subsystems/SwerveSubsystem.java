@@ -37,7 +37,6 @@ public class SwerveSubsystem {
     private final Vector[] vectorKinematics = new Vector[4];
     private final SwerveKinematics swerveKinematics;
 
-    private double targetAngle;
     /*
      * This constructor should create an instance of the pidgeon class, and should
      * construct four copies of the
@@ -71,13 +70,27 @@ public class SwerveSubsystem {
         }
     }
 
-    public void drive(SwerveRequest swerveRequest) { // takes in the inputs from the controller
+    public void drive(SwerveRequest swerveRequest, boolean isConstantMode) { // takes in the inputs from the controller
         ChassisVelocity chassisVelocity;
         boolean isMoving = true;
         
         SmartDashboard.putNumber("x", swerveRequest.movement.x);
         SmartDashboard.putNumber("y", swerveRequest.movement.y);
         SmartDashboard.putNumber("rotation", swerveRequest.rotation);
+
+        // vector direction and turning is not changed, but speed is reduced to a constant 
+        if (isConstantMode) {
+            if (swerveRequest.rotation > 0) {
+                swerveRequest.rotation = Constants.SNAIL_SPEED;
+            }
+            else if (swerveRequest.rotation < 0) {
+                swerveRequest.rotation = -Constants.SNAIL_SPEED;
+            }
+
+            double divisor = Constants.SNAIL_SPEED / (Math.pow((Math.pow(swerveRequest.movement.x, 2) * Math.pow(swerveRequest.movement.y, 2)), 0.5));
+            swerveRequest.movement.x *= divisor;
+            swerveRequest.movement.y *= divisor;
+        }
 
         // this is to make sure if both the joysticks are at neutral position, the robot and wheels don't move or turn at all
         // 0.05 value can be increased if the joystick is increasingly inaccurate at neutral position

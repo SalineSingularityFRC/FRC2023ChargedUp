@@ -20,6 +20,8 @@ public class Gamepad {
     private Joystick driveController;
     private Joystick armController;
 
+    private boolean isConstantMode;
+
     /**
      * 
      * @param driveControllerPort Controller port the drive controller is connected to, probably 0
@@ -44,12 +46,8 @@ public class Gamepad {
         }
         
 
-        if (driveController.getRawButton(Constants.X_Button)) {
-            clawPneumatics.enableCompressor();
-        }
-
-        if (driveController.getRawButton(Constants.B_Button)) {
-            clawPneumatics.disableCompressor();
+        if (driveController.getRawButton(Constants. B_Button)) {
+            clawPneumatics.toggleCompressor();
         }
     }
 
@@ -57,7 +55,15 @@ public class Gamepad {
         robotSubsystem.drive(new SwerveSubsystem.SwerveRequest(
         driveController.getRawAxis(Constants.rightJoystickXAxis), 
         -driveController.getRawAxis(Constants.leftJoystickXAxis), 
-        -driveController.getRawAxis(Constants.leftJoystickYAxis)));
+        -driveController.getRawAxis(Constants.leftJoystickYAxis)),
+        isConstantMode);
+
+        if (driveController.getRawButton(7)) {
+            isConstantMode = true;
+        }
+        else {
+            isConstantMode = false;
+        }
     }
 
     public void arm(ArmSubsystem arm) {
@@ -92,7 +98,8 @@ public class Gamepad {
             arm.setSmallArmSpeed(-Constants.ARM_SPEED);
         }
 
-        else {
+
+        else{
             arm.maintainPosition();
         }
     }
