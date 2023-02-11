@@ -4,10 +4,11 @@ import com.ctre.phoenixpro.hardware.TalonFX;
 import com.ctre.phoenixpro.controls.PositionVoltage;
 import frc.robot.Constants;
 import com.ctre.phoenixpro.configs.Slot0Configs;
+import edu.wpi.first.wpilibj.smartdashboard.*;
 
 public class ArmSubsystem {
-    private TalonFX smallArmMotor;
-    private TalonFX bigArmMotor;
+    public TalonFX smallArmMotor;
+    public TalonFX bigArmMotor;
     private PositionVoltage positionTarget;
 
     private final double kP = 2.0;
@@ -71,7 +72,7 @@ public class ArmSubsystem {
     }
 
     public void bigArmPosition(double bigArmAngle) {
-        smallArmMotor.setControl(positionTarget.withPosition(bigArmAngle));
+        bigArmMotor.setControl(positionTarget.withPosition(bigArmAngle));
     }
 
 
@@ -84,6 +85,9 @@ public class ArmSubsystem {
     }
     public void pickupTarget(){
         setPosition(Constants.SmallArm_pickup, Constants.BigArm_pickup);
+    }
+    public void defaultTarget(){
+        setPosition(-15, 5.5);
     }
 
 }

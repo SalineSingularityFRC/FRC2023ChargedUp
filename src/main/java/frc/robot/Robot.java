@@ -75,7 +75,7 @@ public class Robot extends TimedRobot {
   public void teleopPeriodic() {
     teleopDrive.swerveDrive(robotSubsystem);
     teleopDrive.arm(arm);
-    teleopDrive.armPneumatics(clawPneumatics);
+    // teleopDrive.armPneumatics(clawPneumatics);
 
     CommandScheduler.getInstance().run();
   }
