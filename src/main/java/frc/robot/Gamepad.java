@@ -52,18 +52,18 @@ public class Gamepad {
     }
 
     public void swerveDrive(SwerveSubsystem robotSubsystem) {
-        robotSubsystem.drive(new SwerveSubsystem.SwerveRequest(
-        driveController.getRawAxis(Constants.rightJoystickXAxis), 
-        -driveController.getRawAxis(Constants.leftJoystickXAxis), 
-        -driveController.getRawAxis(Constants.leftJoystickYAxis)),
-        isConstantMode);
-
-        if (driveController.getRawButton(7)) {
+        if (driveController.getRawButton(Constants.Back_Button)) {
             isConstantMode = true;
         }
         else {
             isConstantMode = false;
         }
+
+        robotSubsystem.drive(new SwerveSubsystem.SwerveRequest(
+        driveController.getRawAxis(Constants.rightJoystickXAxis), 
+        -driveController.getRawAxis(Constants.leftJoystickXAxis), 
+        -driveController.getRawAxis(Constants.leftJoystickYAxis)),
+        isConstantMode);
     }
 
     public void arm(ArmSubsystem arm) {
