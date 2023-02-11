@@ -85,9 +85,8 @@ public class Gamepad {
             arm.setSmallArmSpeed(-Constants.ARM_SPEED);
         }
 
-
-        else{
-            arm.stop();
+        else {
+            arm.maintainPosition();
         }
     }
 }

@@ -13,7 +13,7 @@ public class ClawPneumatics{
 	Compressor pcmCompressor = new Compressor(Constants.Compressor_ID, PneumaticsModuleType.REVPH);
 
     public ClawPneumatics(int forwardChannel, int reverseChannel) {
-        doubleSolenoid = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, forwardChannel, reverseChannel);
+        doubleSolenoid = new DoubleSolenoid(PneumaticsModuleType.REVPH, forwardChannel, reverseChannel);
 		doubleSolenoid.set(DoubleSolenoid.Value.kOff);
 		pcmCompressor.disable();
     }
