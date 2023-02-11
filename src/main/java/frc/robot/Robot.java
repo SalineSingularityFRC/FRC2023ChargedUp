@@ -31,7 +31,7 @@ public class Robot extends TimedRobot {
     teleopDrive = new Gamepad(Constants.DRIVE_CONTROLLER, Constants.ARM_CONTROLLER);
 
     arm = new ArmSubsystem(false, false);
-    clawPneumatics = new ClawPneumatics(0, 1); // check these channel #s later
+    clawPneumatics = new ClawPneumatics(9, 6); // check these channel #s later
   }
 
   @Override
@@ -75,7 +75,7 @@ public class Robot extends TimedRobot {
   public void teleopPeriodic() {
     teleopDrive.swerveDrive(robotSubsystem);
     teleopDrive.arm(arm);
-    // teleopDrive.armPneumatics(clawPneumatics);
+    teleopDrive.armPneumatics(clawPneumatics);
 
     CommandScheduler.getInstance().run();
   }

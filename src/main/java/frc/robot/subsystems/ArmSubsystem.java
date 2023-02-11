@@ -5,6 +5,7 @@ import com.ctre.phoenixpro.controls.PositionVoltage;
 import frc.robot.Constants;
 import com.ctre.phoenixpro.configs.Slot0Configs;
 import edu.wpi.first.wpilibj.smartdashboard.*;
+import com.ctre.phoenixpro.controls.VelocityVoltage;
 
 public class ArmSubsystem {
     public TalonFX smallArmMotor;
@@ -15,6 +16,13 @@ public class ArmSubsystem {
     private final double kI = 0.0;
     private final double kD = 0.0;
     private final double bigArm_kS = 0.028;//counters gravity
+
+    private double bigArmMotorPosition;
+    private double smallArmMotorPosition;
+
+    /* Be able to switch which control request to use based on a button press */
+    /* Start at velocity 0, enable FOC, no feed forward, use slot 0 */
+    private final VelocityVoltage m_voltageVelocity = new VelocityVoltage(0, true, 0, 0, false);
     
     public ArmSubsystem(boolean bigArmIsInverted, boolean smallArmIsInverted) {
         smallArmMotor = new TalonFX(Constants.SMALL_ARM_MOTOR_ID, Constants.CANBUS);
@@ -30,7 +38,6 @@ public class ArmSubsystem {
         slot0Configs.kP = kP; 
         slot0Configs.kI = kI;
         slot0Configs.kD = kD;
-        slot0Configs.kS = bigArm_kS;
         bigArmMotor.getConfigurator().apply(slot0Configs);
 
         //Small Arm Slot Configuration
@@ -39,6 +46,9 @@ public class ArmSubsystem {
         slot0Configs.kI = kI;
         slot0Configs.kD = kD;
         smallArmMotor.getConfigurator().apply(slot0Configs);
+
+        bigArmMotorPosition = bigArmMotor.getPosition().getValue();
+        smallArmMotorPosition = smallArmMotor.getPosition().getValue();
     }
 
     public void stop() {
@@ -47,16 +57,25 @@ public class ArmSubsystem {
     }
 
     public void setSpeed(double smallArmSpeed, double bigArmSpeed) { //speed will be from -1.0 to 1.0
-        smallArmMotor.set(smallArmSpeed);
-        bigArmMotor.set(bigArmSpeed);
+        smallArmMotor.setControl(m_voltageVelocity.withVelocity(smallArmSpeed));
+        bigArmMotor.setControl(m_voltageVelocity.withVelocity(bigArmSpeed));
+
+        bigArmMotorPosition = bigArmMotor.getPosition().getValue();
+        smallArmMotorPosition = smallArmMotor.getPosition().getValue();
     }
 
     public void setSmallArmSpeed(double speed){
-        smallArmMotor.set(speed);
+        smallArmMotor.setControl(m_voltageVelocity.withVelocity(speed));
+
+        bigArmMotorPosition = bigArmMotor.getPosition().getValue();
+        smallArmMotorPosition = smallArmMotor.getPosition().getValue();
     }
 
     public void setBigArmSpeed(double speed){
-        bigArmMotor.set(speed);
+        bigArmMotor.setControl(m_voltageVelocity.withVelocity(speed));
+
+        bigArmMotorPosition = bigArmMotor.getPosition().getValue();
+        smallArmMotorPosition = smallArmMotor.getPosition().getValue();
     }
 
 
@@ -69,10 +88,16 @@ public class ArmSubsystem {
 
     public void smallArmPosition(double smallArmAngle) {
         smallArmMotor.setControl(positionTarget.withPosition(smallArmAngle));
+
+        bigArmMotorPosition = bigArmMotor.getPosition().getValue();
+        smallArmMotorPosition = smallArmMotor.getPosition().getValue();
     }
 
     public void bigArmPosition(double bigArmAngle) {
         bigArmMotor.setControl(positionTarget.withPosition(bigArmAngle));
+
+        bigArmMotorPosition = bigArmMotor.getPosition().getValue();
+        smallArmMotorPosition = smallArmMotor.getPosition().getValue();
     }
 
 
@@ -87,7 +112,14 @@ public class ArmSubsystem {
         setPosition(Constants.SmallArm_pickup, Constants.BigArm_pickup);
     }
     public void defaultTarget(){
-        setPosition(-15, 5.5);
+        setPosition(0, 0);
+
+    }
+
+
+    public void maintainPosition() {
+        smallArmMotor.setControl(positionTarget.withPosition(smallArmMotorPosition));
+        bigArmMotor.setControl(positionTarget.withPosition(bigArmMotorPosition));
     }
 
 }
