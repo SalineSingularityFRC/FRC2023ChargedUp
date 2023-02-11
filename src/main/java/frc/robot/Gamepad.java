@@ -34,22 +34,15 @@ public class Gamepad {
         SmartDashboard.putBoolean("if True then not full yet", clawPneumatics.isNotFull());
 
         if(driveController.getRawButton(Constants.Y_Button)) {
-            clawPneumatics.setHigh();
+            clawPneumatics.toggleClaw();
         }
-        else if(driveController.getRawButton(Constants.A_Button)) {
-            clawPneumatics.setLow();
-        } 
         else {
             clawPneumatics.setOff();
         }
         
 
-        if (driveController.getRawButton(Constants.X_Button)) {
-            clawPneumatics.enableCompressor();
-        }
-
         if (driveController.getRawButton(Constants.B_Button)) {
-            clawPneumatics.disableCompressor();
+            clawPneumatics.toggleCompressor();
         }
     }
 

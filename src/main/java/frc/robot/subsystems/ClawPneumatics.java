@@ -34,6 +34,19 @@ public class ClawPneumatics{
 		doubleSolenoid.set(DoubleSolenoid.Value.kOff);
 	}
 
+	public void toggleClaw() {
+		doubleSolenoid.toggle();
+	}
+
+	public void toggleCompressor() {
+		if (pcmCompressor.isEnabled()) {
+			disableCompressor();
+		}
+		else {
+			enableCompressor();
+		}
+	}
+
 	public void enableCompressor() {
 		pcmCompressor.enableDigital();
 	}
