@@ -61,6 +61,8 @@ public class Gamepad {
     }
 
     public void arm(ArmSubsystem arm) {
+        SmartDashboard.putNumber("Encoder value big arm", arm.bigArmMotor.getPosition().getValue());
+        SmartDashboard.putNumber("Encoder value small arm", arm.smallArmMotor.getPosition().getValue());
         if(driveController.getPOV() == 0){
             arm.highTarget();
         }
@@ -69,6 +71,9 @@ public class Gamepad {
         }
         else if(driveController.getPOV() == 180){
             arm.pickupTarget();
+        }
+        else if (driveController.getPOV() == 270) {
+            arm.defaultTarget();
         }
 
 
