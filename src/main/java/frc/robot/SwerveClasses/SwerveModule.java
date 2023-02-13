@@ -6,6 +6,9 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import com.ctre.phoenixpro.hardware.CANcoder;
 import com.ctre.phoenixpro.hardware.TalonFX;
+
+import com.ctre.phoenixpro.controls.VelocityVoltage;
+
 /*
  * This class owns the components of a single swerve module and is responsible for controlling
  * the angle and speed that the module is moving
@@ -21,6 +24,8 @@ public class SwerveModule {
     private SwerveAngle angleMotor;
     private CANcoder m_encoder;
     private TalonFX driveMotor;
+
+    private final VelocityVoltage m_voltageVelocity = new VelocityVoltage(0, true, 0, 0, false);
 
     private final double absolutePositionEncoderOffset;
 
@@ -45,12 +50,14 @@ public class SwerveModule {
         SwerveAngle.AnglePosition angle = angleMotor.setAngle(request.direction);
         // the setAngle function returns an enum that specifies whether the wheels should spin forwards or backwards
         if (angle == SwerveAngle.AnglePosition.Positive) { 
-           driveMotor.set(request.velocity);
+            // driveMotor.set(request.velocity);
+            driveMotor.setControl(m_voltageVelocity.withVelocity(request.velocity));
             return true;
         }
 
         if (angle == SwerveAngle.AnglePosition.Negative) {
-           driveMotor.set(-request.velocity);
+           // driveMotor.set(-request.velocity);
+           driveMotor.setControl(m_voltageVelocity.withVelocity(-request.velocity));
             return true;
         }
         
