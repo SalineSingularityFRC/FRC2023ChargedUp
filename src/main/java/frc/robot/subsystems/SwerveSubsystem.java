@@ -202,4 +202,12 @@ public class SwerveSubsystem {
     public void resetGyro() {
         gyro.reset();
     }
+
+
+
+
+
+    public SwerveModule getSwerveModule(int module) {
+        return swerveModules[module];
+    }
 }
