@@ -85,4 +85,13 @@ public class SwerveModule {
     public double getEncoderPosition() {
         return (m_encoder.getAbsolutePosition().getValue() * 2 * Math.PI) - absolutePositionEncoderOffset;
     }
+
+
+
+
+    
+
+    public double getPosition() {
+        return driveMotor.getPosition().getValue();
+    }
 }
