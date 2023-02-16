@@ -21,4 +21,8 @@ public class RunAuton extends AutonControlScheme {
     public RunAuton(ClawPneumatics clawPneumatics, SwerveSubsystem drive, String color) {
         super(clawPneumatics, drive, color);
     }
+
+    public void TestAutonCommands() {
+        super.driveDistance(400, 0);
+    }
 }

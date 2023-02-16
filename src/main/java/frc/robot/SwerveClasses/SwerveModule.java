@@ -50,14 +50,14 @@ public class SwerveModule {
         SwerveAngle.AnglePosition angle = angleMotor.setAngle(request.direction);
         // the setAngle function returns an enum that specifies whether the wheels should spin forwards or backwards
         if (angle == SwerveAngle.AnglePosition.Positive) { 
-            // driveMotor.set(request.velocity);
-            driveMotor.setControl(m_voltageVelocity.withVelocity(request.velocity));
+            driveMotor.set(request.velocity);
+            // driveMotor.setControl(m_voltageVelocity.withVelocity(request.velocity));
             return true;
         }
 
         if (angle == SwerveAngle.AnglePosition.Negative) {
-           // driveMotor.set(-request.velocity);
-           driveMotor.setControl(m_voltageVelocity.withVelocity(-request.velocity));
+           driveMotor.set(-request.velocity);
+           // driveMotor.setControl(m_voltageVelocity.withVelocity(-request.velocity));
             return true;
         }
         

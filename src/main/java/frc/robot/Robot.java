@@ -9,6 +9,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.Subsystem;
+import frc.robot.auton.RunAuton;
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.ClawPneumatics;
 import frc.robot.subsystems.SwerveSubsystem;
@@ -22,7 +23,8 @@ public class Robot extends TimedRobot {
 
   private ArmSubsystem arm;
   private ClawPneumatics clawPneumatics;
- 
+  private RunAuton runAuton;
+
   @Override
   public void robotInit() {
     m_robotContainer = new RobotContainer();
@@ -32,6 +34,8 @@ public class Robot extends TimedRobot {
 
     arm = new ArmSubsystem(false, false);
     clawPneumatics = new ClawPneumatics(9, 6); // check these channel #s later
+
+    runAuton = new RunAuton(clawPneumatics, robotSubsystem, "blue"); // CHANGE COLOR LATER
   }
 
   @Override
@@ -40,13 +44,16 @@ public class Robot extends TimedRobot {
   }
 
   @Override
-  public void disabledInit() {}
+  public void disabledInit() {
+  }
 
   @Override
-  public void disabledPeriodic() {}
+  public void disabledPeriodic() {
+  }
 
   @Override
-  public void disabledExit() {}
+  public void disabledExit() {
+  }
 
   @Override
   public void autonomousInit() {
@@ -55,17 +62,24 @@ public class Robot extends TimedRobot {
     if (m_autonomousCommand != null) {
       m_autonomousCommand.schedule();
     }
+
+    runAuton.TestAutonCommands();
+
   }
 
   @Override
-  public void autonomousPeriodic() {}
+  public void autonomousPeriodic() {
+  }
 
   @Override
-  public void autonomousExit() {} 
+  public void autonomousExit() {
+  }
 
   @Override
   public void teleopInit() {
-    // CommandScheduler.getInstance().setDefaultCommand( (Subsystem) m_robotContainer.getDrivetrainSubsystem(), m_robotContainer.getDefaultCommand());
+    // CommandScheduler.getInstance().setDefaultCommand( (Subsystem)
+    // m_robotContainer.getDrivetrainSubsystem(),
+    // m_robotContainer.getDefaultCommand());
     if (m_autonomousCommand != null) {
       m_autonomousCommand.cancel();
     }
@@ -81,7 +95,8 @@ public class Robot extends TimedRobot {
   }
 
   @Override
-  public void teleopExit() {}
+  public void teleopExit() {
+  }
 
   @Override
   public void testInit() {
@@ -89,8 +104,10 @@ public class Robot extends TimedRobot {
   }
 
   @Override
-  public void testPeriodic() {}
+  public void testPeriodic() {
+  }
 
   @Override
-  public void testExit() {}
+  public void testExit() {
+  }
 }
