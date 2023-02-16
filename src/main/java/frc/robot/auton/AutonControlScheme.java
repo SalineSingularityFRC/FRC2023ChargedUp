@@ -36,10 +36,6 @@ public class AutonControlScheme {
         double y = Math.cos(angle);
 
         while (changeInEncoderValue <= distance) {
-            SmartDashboard.putNumber("distance", distance);
-            SmartDashboard.putNumber("encoder Value", changeInEncoderValue);
-            SmartDashboard.putNumber("getPosition", drive.getSwerveModule(0).getPosition());
-
             double difference = drive.getRobotAngle() - targetAngle; 
             if (difference > 0.01) { // robot is facing left of the desired angle
                 rotations = -0.1;
