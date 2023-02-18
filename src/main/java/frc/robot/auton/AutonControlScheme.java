@@ -2,6 +2,8 @@ package frc.robot.auton;
 
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.robot.Constants;
+import frc.robot.SwerveClasses.SwerveAngle;
 import frc.robot.subsystems.ClawPneumatics;
 import frc.robot.subsystems.SwerveSubsystem;
 import edu.wpi.first.wpilibj.DriverStation;
@@ -54,4 +56,18 @@ public class AutonControlScheme {
         drive.drive(new SwerveSubsystem.SwerveRequest(0, 0, 0), false);
 
     }    
+
+    public void turnAngle(double angle){
+
+        //TODO: Change angle from 45 to something else
+        angle = Math.PI / 4;
+        SwerveAngle bLAngle = new SwerveAngle(Constants.BL_CANCODER_ID, Constants.CANBUS);
+        SwerveAngle bRAngle = new SwerveAngle(Constants.BR_CANCODER_ID, Constants.CANBUS);
+        SwerveAngle fLAngle = new SwerveAngle(Constants.FL_CANCODER_ID, Constants.CANBUS);
+        SwerveAngle fRAngle = new SwerveAngle(Constants.FR_CANCODER_ID, Constants.CANBUS);
+        bLAngle.setAngle(angle);
+        bRAngle.setAngle(angle);
+        fLAngle.setAngle(angle);
+        fRAngle.setAngle(angle);
+    }
 }
