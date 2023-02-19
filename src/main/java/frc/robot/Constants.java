@@ -28,7 +28,7 @@ public final class Constants {
     public static final int BR_ANGLE_ID = 18;
     public static final int BR_Motor_ID = 14;
     public static final int BR_CANCODER_ID = 41;
-    public static final boolean BR_isInverted = true;
+    public static final boolean BR_isInverted = false; //Changed this 2/18/23 due to wheels not rotating right way
 
     public static final int BIG_ARM_Motor_ID = 6; 
     public static final int SMALL_ARM_MOTOR_ID = 31; 

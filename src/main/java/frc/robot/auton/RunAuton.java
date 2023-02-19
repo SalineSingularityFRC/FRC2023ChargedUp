@@ -23,7 +23,7 @@ public class RunAuton extends AutonControlScheme {
     }
 
     public void TestAutonCommands() {
-        super.driveDistance(400, 0);
-        //super.turnAngle(0);
+        //super.driveDistance(400, 0);
+        super.turnAngle(0);
     }
 }

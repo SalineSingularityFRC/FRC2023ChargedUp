@@ -35,7 +35,7 @@ public class Robot extends TimedRobot {
     arm = new ArmSubsystem(false, false);
     clawPneumatics = new ClawPneumatics(9, 6); // check these channel #s later
 
-    runAuton = new RunAuton(clawPneumatics, robotSubsystem, "blue"); // CHANGE COLOR LATER
+    //runAuton = new RunAuton(clawPneumatics, robotSubsystem, "blue"); // CHANGE COLOR LATER
   }
 
   @Override
@@ -57,14 +57,19 @@ public class Robot extends TimedRobot {
 
   @Override
   public void autonomousInit() {
+    /* 
     m_autonomousCommand = m_robotContainer.getAutonomousCommand();
 
+    //may not be needed
+    //robotSubsystem.resetGyro(); //Only for testing, need to make sure that gyro value is set to 0 on init
+    
     if (m_autonomousCommand != null) {
       m_autonomousCommand.schedule();
+      SmartDashboard.putNumber("Auton Turned On", 1);
     }
-
+    
     runAuton.TestAutonCommands();
-
+    */
   }
 
   @Override
@@ -82,7 +87,9 @@ public class Robot extends TimedRobot {
     // m_robotContainer.getDefaultCommand());
     if (m_autonomousCommand != null) {
       m_autonomousCommand.cancel();
+      SmartDashboard.putBoolean("Auton Turned Off", true); //May not be needed: Checking to see auton is turned off when switch to teleop
     }
+  
   }
 
   @Override

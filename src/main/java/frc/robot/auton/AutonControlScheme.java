@@ -60,14 +60,26 @@ public class AutonControlScheme {
     public void turnAngle(double angle){
 
         //TODO: Change angle from 45 to something else
-        angle = Math.PI / 4;
-        SwerveAngle bLAngle = new SwerveAngle(Constants.BL_CANCODER_ID, Constants.CANBUS);
+        angle = Math.PI / 2;
+        double x = -Math.sin(angle);
+        double y = Math.cos(angle);
+        while(drive.getRobotAngle() != Math.PI){ 
+            SmartDashboard.putNumber("Auton Turn Angle Robot Angle", drive.getRobotAngle());
+            if(drive.getRobotAngle() < 0){
+                drive.drive(new SwerveSubsystem.SwerveRequest(0.5, 0.04, 0.04), false);
+            } else if(drive.getRobotAngle() > Math.PI){
+                drive.drive(new SwerveSubsystem.SwerveRequest(-0.5, 0.04, 0.04), false);
+            }
+            
+        }
+        
+        /*SwerveAngle bLAngle = new SwerveAngle(Constants.BL_CANCODER_ID, Constants.CANBUS);
         SwerveAngle bRAngle = new SwerveAngle(Constants.BR_CANCODER_ID, Constants.CANBUS);
         SwerveAngle fLAngle = new SwerveAngle(Constants.FL_CANCODER_ID, Constants.CANBUS);
         SwerveAngle fRAngle = new SwerveAngle(Constants.FR_CANCODER_ID, Constants.CANBUS);
         bLAngle.setAngle(angle);
         bRAngle.setAngle(angle);
         fLAngle.setAngle(angle);
-        fRAngle.setAngle(angle);
+        fRAngle.setAngle(angle);*/
     }
 }
