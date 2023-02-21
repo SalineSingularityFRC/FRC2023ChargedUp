@@ -89,13 +89,17 @@ public final class Constants {
     public static final double MAX_ANGLE_INACCURACY = Math.PI/ 24;
     
     // probably in ticks
-    public static final double BigArm_highTarget = 29.000977;
-    public static final double BigArm_mediumTarget = 32.216309;
-    public static final double BigArm_pickup = 0;
+    public static final double BigArm_highTarget = 12.714111;
+    //12.714111 High Target
+    public static final double BigArm_mediumTarget = 5.918945;
+    //5.918945 Medium
+    public static final double BigArm_pickup = 0.989746;
 
-    public static final double SmallArm_highTarget =  26.552734;
-    public static final double SmallArm_mediumTarget = 35.404785;
-    public static final double SmallArm_pickup = 15.053711;
+    public static final double SmallArm_highTarget =  26.908203;
+    //26.908203
+    public static final double SmallArm_mediumTarget = 14.333496;
+    //14.333496 Medium
+    public static final double SmallArm_pickup = 19.708984;
 
     // trackWidth - lateral distance between pairs of wheels on different sides of the robot
     // wheelBase - distance between pairs of wheels on the same side of the robot
