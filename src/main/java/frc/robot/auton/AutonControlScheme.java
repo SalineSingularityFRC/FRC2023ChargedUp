@@ -3,10 +3,12 @@ package frc.robot.auton;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants;
+import frc.robot.Robot;
 import frc.robot.SwerveClasses.SwerveAngle;
 import frc.robot.subsystems.ClawPneumatics;
 import frc.robot.subsystems.SwerveSubsystem;
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.SPI.Port;
 
@@ -18,7 +20,7 @@ public class AutonControlScheme {
     protected String color;
 
     private double targetAngle;
-
+    public static boolean autonEnabled = false; //Testing to see if this fixes auton code being ran in teleop
     public AutonControlScheme(ClawPneumatics clawPneumatics, SwerveSubsystem drive, String color){
         this.clawPneumatics = clawPneumatics;
         this.drive = drive;
@@ -63,7 +65,7 @@ public class AutonControlScheme {
         angle = Math.PI / 2;
         double x = -Math.sin(angle);
         double y = Math.cos(angle);
-        while(drive.getRobotAngle() != Math.PI){ 
+        while(autonEnabled && drive.getRobotAngle() != Math.PI){ 
             SmartDashboard.putNumber("Auton Turn Angle Robot Angle", drive.getRobotAngle());
             if(drive.getRobotAngle() < 0){
                 drive.drive(new SwerveSubsystem.SwerveRequest(0.5, 0.04, 0.04), false);

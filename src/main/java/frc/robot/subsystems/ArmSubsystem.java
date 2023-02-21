@@ -11,11 +11,20 @@ public class ArmSubsystem {
     public TalonFX smallArmMotor;
     public TalonFX bigArmMotor;
     private PositionVoltage positionTarget;
+    private int bigArmPos;
+    private int smallArmPos;
 
-    private final double kP = 2.0;
-    private final double kI = 0.0;
-    private final double kD = 0.0;
-    private final double bigArm_kS = 0.028;//counters gravity
+    private final double bigArmkP = 2.0;
+    private final double bigArmkI = 0.0;
+    private final double bigArmkD = 0.0;
+    private final double bigArmkS = 0.06;//counters gravity
+
+
+    private final double smallArmkP = 2.0;
+    private final double smallArmkI = 0.0;
+    private final double smallArmkD = 0.0;
+    private final double smallArmkS = 0;//counters gravity
+
 
     private double bigArmMotorPosition;
     private double smallArmMotorPosition;
@@ -35,16 +44,18 @@ public class ArmSubsystem {
         
         //Big Arm Slot Configuration
         Slot0Configs slot0Configs = new Slot0Configs();
-        slot0Configs.kP = kP; 
-        slot0Configs.kI = kI;
-        slot0Configs.kD = kD;
+        slot0Configs.kP = bigArmkP; 
+        slot0Configs.kI = bigArmkI;
+        slot0Configs.kD = bigArmkD;
+        slot0Configs.kS = bigArmkS;
         bigArmMotor.getConfigurator().apply(slot0Configs);
 
         //Small Arm Slot Configuration
         slot0Configs = new Slot0Configs();
-        slot0Configs.kP = kP; 
-        slot0Configs.kI = kI;
-        slot0Configs.kD = kD;
+        slot0Configs.kP = smallArmkP; 
+        slot0Configs.kI = smallArmkI;
+        slot0Configs.kD = smallArmkD;
+        slot0Configs.kS = smallArmkS;
         smallArmMotor.getConfigurator().apply(slot0Configs);
 
         bigArmMotorPosition = bigArmMotor.getPosition().getValue();
@@ -57,6 +68,10 @@ public class ArmSubsystem {
     }
 
     public void setSpeed(double smallArmSpeed, double bigArmSpeed) { //speed will be from -1.0 to 1.0
+        //smallArmPos += smallArmSpeed;
+        //bigArmPos += bigArmSpeed;
+        // smallArmMotor.setControl(positionTarget.withPosition(smallArmPos));
+        // bigArmMotor.setControl(positionTarget.withPosition(bigArmPos));
         smallArmMotor.setControl(m_voltageVelocity.withVelocity(smallArmSpeed));
         bigArmMotor.setControl(m_voltageVelocity.withVelocity(bigArmSpeed));
 
@@ -65,6 +80,8 @@ public class ArmSubsystem {
     }
 
     public void setSmallArmSpeed(double speed){
+        //smallArmPos += speed;
+       // smallArmMotor.setControl(positionTarget.withPosition(smallArmPos));
         smallArmMotor.setControl(m_voltageVelocity.withVelocity(speed));
 
         bigArmMotorPosition = bigArmMotor.getPosition().getValue();
@@ -72,6 +89,8 @@ public class ArmSubsystem {
     }
 
     public void setBigArmSpeed(double speed){
+        // bigArmPos += speed;
+       // bigArmMotor.setControl(positionTarget.withPosition(bigArmPos));
         bigArmMotor.setControl(m_voltageVelocity.withVelocity(speed));
 
         bigArmMotorPosition = bigArmMotor.getPosition().getValue();
@@ -82,8 +101,8 @@ public class ArmSubsystem {
 
 
     public void setPosition(double smallArmAngle, double bigArmAngle) {
-        smallArmPosition(smallArmAngle);
-        bigArmPosition(bigArmAngle);
+       smallArmPosition(smallArmAngle);
+       // bigArmPosition(bigArmAngle);
     }
 
     public void smallArmPosition(double smallArmAngle) {

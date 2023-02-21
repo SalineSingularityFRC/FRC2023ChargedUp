@@ -7,7 +7,6 @@ import frc.robot.subsystems.ClawPneumatics;
 import frc.robot.subsystems.SwerveSubsystem;
 
 public class RunAuton extends AutonControlScheme {
-    
     // SendableChooser<Boolean> doDrive = new SendableChooser<>();
     // SendableChooser<Boolean> doShoot = new SendableChooser<>();
     // SendableChooser<Boolean> doDriveReverse = new SendableChooser<>();
