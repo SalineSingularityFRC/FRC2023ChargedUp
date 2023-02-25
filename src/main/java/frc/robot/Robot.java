@@ -28,7 +28,7 @@ public class Robot extends TimedRobot {
 
   @Override
   public void robotInit() {
-    m_robotContainer = new RobotContainer();
+    m_robotContainer = new RobotContainer(arm, clawPneumatics, robotSubsystem, robotSubsystem.gyro);
     robotSubsystem = new SwerveSubsystem();
 
     teleopDrive = new Gamepad(Constants.DRIVE_CONTROLLER, Constants.ARM_CONTROLLER);
@@ -36,7 +36,7 @@ public class Robot extends TimedRobot {
     arm = new ArmSubsystem(false, false);
     clawPneumatics = new ClawPneumatics(9, 6); // check these channel #s later
 
-    runAuton = new RunAuton(clawPneumatics, robotSubsystem, "blue"); // CHANGE COLOR LATER
+    runAuton = new RunAuton(arm, clawPneumatics, robotSubsystem, robotSubsystem.gyro, "blue"); // CHANGE COLOR LATER
   }
 
   @Override
@@ -71,7 +71,7 @@ public class Robot extends TimedRobot {
       SmartDashboard.putNumber("Auton Turned On", 1);
     }
     
-    runAuton.TestAutonCommands();
+    runAuton.testAutonCommands();
     
   }
 
