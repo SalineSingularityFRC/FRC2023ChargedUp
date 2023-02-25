@@ -26,7 +26,7 @@ public class SwerveSubsystem {
      * a dictionary that will house
      * all of our SwerveModules
      */
-    private Pigeon2 gyro;
+    public Pigeon2 gyro;
 
     private final int FL = 0;
     private final int FR = 1;

@@ -22,11 +22,11 @@ public class ClawPneumatics{
 		return pcmCompressor.getPressureSwitchValue(); // if not full, returns true
 	}
 	
-	public void setHigh() {
+	public void setHigh() { // we believe that setHigh is closing the claw
 		doubleSolenoid.set(DoubleSolenoid.Value.kForward);
 	}
 	
-	public void setLow() {
+	public void setLow() { 
 		doubleSolenoid.set(DoubleSolenoid.Value.kReverse);
 	}
 	
