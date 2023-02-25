@@ -52,10 +52,4 @@ public class SetClawPreset extends CommandBase {
     public boolean isFinished() {
         return true;
     }
-
-    @Override
-    public Set<Subsystem> getRequirements() {
-        // TODO Auto-generated method stub
-        return null;
-    }
 }
