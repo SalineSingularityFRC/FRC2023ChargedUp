@@ -34,7 +34,7 @@ public class ArmSubsystem {
 
     private final double presetSmallP = 4.0;
     private final double presetSmallI = 0.08;
-    private final double presetSmallD = 0.08;
+    private final double presetSmallD = 0.16;
     private final double presetSmallS = 0.06;
 
     private final double presetBigP = 8.0;

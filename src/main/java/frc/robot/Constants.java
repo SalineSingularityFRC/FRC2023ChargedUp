@@ -89,15 +89,15 @@ public final class Constants {
     */
     public static final double MAX_ANGLE_INACCURACY = Math.PI/ 24;
     
-    public static final double BigArm_highTarget = 33.763672;
+    public static final double BigArm_highTarget = 31.763672;
     public static final double BigArm_mediumTarget = 14.476562;
     public static final double BigArm_pickup = 2.953125;
     public static final double BigArm_default = 2.494141;
 
-    public static final double SmallArm_highTarget =  24.466797;
+    public static final double SmallArm_highTarget =  25.466797;
     public static final double SmallArm_mediumTarget = 10.661133;
-    public static final double SmallArm_pickup = 18.903809;
-    public static final double SmallArm_default = 0.765625;
+    public static final double SmallArm_pickup = 19.503809;
+    public static final double SmallArm_default = 2.765625;
 
 
     // 15.479004 position for bigarm for smallarm to freely rotate
