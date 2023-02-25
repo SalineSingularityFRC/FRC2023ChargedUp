@@ -4,6 +4,8 @@ import com.ctre.phoenixpro.hardware.TalonFX;
 import com.ctre.phoenixpro.controls.Follower;
 import com.ctre.phoenixpro.controls.MotionMagicVoltage;
 import com.ctre.phoenixpro.controls.PositionVoltage;
+import com.ctre.phoenixpro.controls.TorqueCurrentFOC;
+
 import frc.robot.Constants;
 
 import com.ctre.phoenixpro.configs.MotionMagicConfigs;
@@ -22,6 +24,8 @@ public class ArmSubsystem {
     private MotionMagicVoltage positionTargetPreset = new MotionMagicVoltage(0).withSlot(0).withEnableFOC(true);
     private MotionMagicVoltage positionTargetManual = new MotionMagicVoltage(0).withSlot(1).withEnableFOC(true);
 
+    private TorqueCurrentFOC torqueDrive = new TorqueCurrentFOC(0).withDeadband(1).withMaxAbsDutyCycle(.4);
+
     private TalonFXConfiguration talonFXConfigsPreset = new TalonFXConfiguration();
     private TalonFXConfiguration talonFXConfigsManual = new TalonFXConfiguration();
 
@@ -32,9 +36,9 @@ public class ArmSubsystem {
     private double bigArmPos;
     private double smallArmPos;
 
-    private final double presetSmallP = 4.0;
-    private final double presetSmallI = 0.08;
-    private final double presetSmallD = 0.08;
+    private final double presetSmallP = 2.0;
+    private final double presetSmallI = 0.02;
+    private final double presetSmallD = 0.02;
     private final double presetSmallS = 0.06;
 
     private final double presetBigP = 8.0;
@@ -107,8 +111,8 @@ public class ArmSubsystem {
     }
 
     public void setSmallArmSpeed(double speed){
-        smallArmPos = smallArmMotorPosition + speed;
-        smallArmMotor.setControl(positionTargetManual.withPosition(smallArmPos));
+        //smallArmPos = smallArmMotorPosition + speed;
+        smallArmMotor.setControl(torqueDrive.withOutput(speed));
         // smallArmMotor.setControl(m_voltageVelocity.withVelocity(speed));
         
         bigArmMotorPosition = bigArmMotor.getPosition().getValue();
@@ -116,8 +120,8 @@ public class ArmSubsystem {
     }
 
     public void setBigArmSpeed(double speed) {
-        bigArmPos = bigArmMotorPosition + speed;
-        bigArmMotor.setControl(positionTargetManual.withPosition(bigArmPos));
+        //bigArmPos = bigArmMotorPosition + speed;
+        bigArmMotor.setControl(torqueDrive.withOutput(speed));
         // bigArmMotor.setControl(m_voltageVelocity.withVelocity(speed));
 
         bigArmMotorPosition = bigArmMotor.getPosition().getValue();

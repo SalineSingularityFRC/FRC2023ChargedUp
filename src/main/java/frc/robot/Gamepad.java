@@ -46,7 +46,7 @@ public class Gamepad {
         }
         
 
-        if (driveController.getRawButton(Constants. B_Button)) {
+        if (driveController.getRawButton(Constants.B_Button)) {
             clawPneumatics.toggleCompressor();
         }
     }
@@ -57,6 +57,10 @@ public class Gamepad {
         }
         else {
             isConstantMode = false;
+        }
+
+        if (driveController.getRawButton(Constants.X_Button)) {
+            robotSubsystem.resetGyro();
         }
 
         robotSubsystem.drive(new SwerveSubsystem.SwerveRequest(

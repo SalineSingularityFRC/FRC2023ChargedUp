@@ -37,6 +37,9 @@ public class SwerveSubsystem {
     private final Vector[] vectorKinematics = new Vector[4];
     private final SwerveKinematics swerveKinematics;
 
+
+    private double targetAngle = Double.MAX_VALUE;
+
     /*
      * This constructor should create an instance of the pidgeon class, and should
      * construct four copies of the
@@ -92,6 +95,9 @@ public class SwerveSubsystem {
             swerveRequest.movement.y *= divisor;
         }
 
+
+
+
         // this is to make sure if both the joysticks are at neutral position, the robot and wheels don't move or turn at all
         // 0.05 value can be increased if the joystick is increasingly inaccurate at neutral position
         if (Math.abs(swerveRequest.movement.x) < 0.05 
@@ -103,6 +109,21 @@ public class SwerveSubsystem {
             return;
         }
         else {
+
+            // this is to drive straight
+            if (Math.abs(swerveRequest.rotation) < 0.05 && targetAngle == Double.MAX_VALUE) {
+                targetAngle = getRobotAngle();
+            }
+            else if (Math.abs(swerveRequest.rotation) < 0.05 && targetAngle != Double.MAX_VALUE
+            && (Math.abs(swerveRequest.movement.x) > 0.05 || Math.abs(swerveRequest.movement.y) > 0.05) ) {
+                double difference = getRobotAngle() - targetAngle; 
+                swerveRequest.rotation = difference;
+            }
+            else {
+                targetAngle = Double.MAX_VALUE;
+            }
+
+
             chassisVelocity = new ChassisVelocity(swerveRequest.movement, swerveRequest.rotation); 
 
             if (Math.abs(swerveRequest.movement.x) < 0.05 
@@ -195,16 +216,13 @@ public class SwerveSubsystem {
      */
     public double getRobotAngle() {
         //return ((360 - gyro.getAngle().toDegrees()) * Math.PI) / 180; // for NavX
-        return ((360 - (gyro.getAngle() - 90)) * Math.PI) / 180; // returns in counterclockwise hence why 360 minus
+        return ((360 - (gyro.getAngle())) * Math.PI) / 180; // returns in counterclockwise hence why 360 minus
         // it is gyro.getAngle() - 90 because the pigeon for this robot is facing west (north is forward)
     }
 
     public void resetGyro() {
         gyro.reset();
     }
-
-
-
 
 
     public SwerveModule getSwerveModule(int module) {
