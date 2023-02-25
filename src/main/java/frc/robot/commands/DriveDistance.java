@@ -39,24 +39,24 @@ public class DriveDistance extends CommandBase {
         double startingEncoderValue = drive.getSwerveModule(0).getPosition();
         double changeInEncoderValue = 0;
 
-        double rotations;
-        double startingAngle = drive.getRobotAngle();
+        // double rotations;
+        // double startingAngle = drive.getRobotAngle();
         double x = -Math.sin(angle);
         double y = Math.cos(angle);
 
         if (changeInEncoderValue <= distance) {
-            double difference = drive.getRobotAngle() - startingAngle; 
-            if (difference > 0.01) { // robot is facing left of the desired angle
-                rotations = 0.1;
-            }
-            else if (difference < 0.01) { // robot is facing right of the desired angle
-                rotations = -0.1;
-            }
-            else { // robot is (relatively) straight
-                rotations = 0;
-            }
+            // double difference = drive.getRobotAngle() - startingAngle; 
+            // if (difference > 0.01) { // robot is facing left of the desired angle
+            //     rotations = 0.1;
+            // }
+            // else if (difference < 0.01) { // robot is facing right of the desired angle
+            //     rotations = -0.1;
+            // }
+            // else { // robot is (relatively) straight
+            //     rotations = 0;
+            // }
 
-            drive.drive(new SwerveSubsystem.SwerveRequest(rotations, x, y), false);
+            drive.drive(new SwerveSubsystem.SwerveRequest(0, x, y), false);
             changeInEncoderValue = Math.abs(drive.getSwerveModule(0).getPosition() - startingEncoderValue);
         }
         else {

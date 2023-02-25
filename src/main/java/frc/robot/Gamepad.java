@@ -64,7 +64,7 @@ public class Gamepad {
         }
 
         robotSubsystem.drive(new SwerveSubsystem.SwerveRequest(
-        -driveController.getRawAxis(Constants.rightJoystickXAxis), 
+        driveController.getRawAxis(Constants.rightJoystickXAxis), 
         -driveController.getRawAxis(Constants.leftJoystickXAxis), 
         -driveController.getRawAxis(Constants.leftJoystickYAxis)),
         isConstantMode);
