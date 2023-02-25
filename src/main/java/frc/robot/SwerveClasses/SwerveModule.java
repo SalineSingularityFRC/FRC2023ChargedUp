@@ -6,7 +6,8 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import com.ctre.phoenixpro.hardware.CANcoder;
 import com.ctre.phoenixpro.hardware.TalonFX;
-
+import com.ctre.phoenixpro.signals.NeutralModeValue;
+import com.ctre.phoenixpro.configs.MotorOutputConfigs;
 import com.ctre.phoenixpro.controls.VelocityVoltage;
 
 /*
@@ -38,10 +39,14 @@ public class SwerveModule {
         m_encoder = new CANcoder(Can_ID_canCoder, canNetwork);
         driveMotor = new TalonFX(Can_ID_driveMotor, canNetwork);
         angleMotor = new SwerveAngle(Can_ID_angleMotor, canNetwork);
+
+        MotorOutputConfigs motorOutputConfigs = new MotorOutputConfigs();
+        motorOutputConfigs.NeutralMode = NeutralModeValue.Brake;
+        driveMotor.getConfigurator().apply(motorOutputConfigs);
+
         driveMotor.setInverted(isInverted);
 
         absolutePositionEncoderOffset = zeroPosition;
-
         this.resetZeroAngle();
     }
 

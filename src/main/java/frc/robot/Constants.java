@@ -28,9 +28,10 @@ public final class Constants {
     public static final int BR_ANGLE_ID = 18;
     public static final int BR_Motor_ID = 14;
     public static final int BR_CANCODER_ID = 41;
-    public static final boolean BR_isInverted = false; //Changed this 2/18/23 due to wheels not rotating right way
+    public static final boolean BR_isInverted = true; //Changed this 2/18/23 due to wheels not rotating right way
 
     public static final int BIG_ARM_Motor_ID = 6; 
+    public static final int BIG_ARM_Motor_2_ID = 7;
     public static final int SMALL_ARM_MOTOR_ID = 31; 
 
     public static final int Compressor_ID = 1;
@@ -65,10 +66,10 @@ public final class Constants {
     /* 
     ALL WHEEL OFFSETS BELOW
     */
-    public static double DRIVETRAIN_FRONT_LEFT_ENCODER_OFFSET = (0.360840) * 2 * Math.PI; // number in parenthesis is in rotations
-    public static double DRIVETRAIN_FRONT_RIGHT_ENCODER_OFFSET = (0.949463) * 2 * Math.PI;
-    public static double DRIVETRAIN_BACK_LEFT_ENCODER_OFFSET = (0.906494) * 2 * Math.PI;
-    public static double DRIVETRAIN_BACK_RIGHT_ENCODER_OFFSET = (0.298340) * 2 * Math.PI;
+    public static double DRIVETRAIN_FRONT_LEFT_ENCODER_OFFSET = (0.340576) * 2 * Math.PI; // number in parenthesis is in rotations
+    public static double DRIVETRAIN_FRONT_RIGHT_ENCODER_OFFSET = (0.936279) * 2 * Math.PI;
+    public static double DRIVETRAIN_BACK_LEFT_ENCODER_OFFSET = (0.885498) * 2 * Math.PI;
+    public static double DRIVETRAIN_BACK_RIGHT_ENCODER_OFFSET = (0.816406) * 2 * Math.PI;
 
 
     
@@ -88,18 +89,19 @@ public final class Constants {
     */
     public static final double MAX_ANGLE_INACCURACY = Math.PI/ 24;
     
-    // probably in ticks
-    public static final double BigArm_highTarget = 12.714111;
-    //12.714111 High Target
-    public static final double BigArm_mediumTarget = 5.918945;
-    //5.918945 Medium
-    public static final double BigArm_pickup = 0.989746;
+    public static final double BigArm_highTarget = 33.763672;
+    public static final double BigArm_mediumTarget = 14.476562;
+    public static final double BigArm_pickup = 2.953125;
+    public static final double BigArm_default = 2.494141;
 
-    public static final double SmallArm_highTarget =  26.908203;
-    //26.908203
-    public static final double SmallArm_mediumTarget = 14.333496;
-    //14.333496 Medium
-    public static final double SmallArm_pickup = 19.708984;
+    public static final double SmallArm_highTarget =  24.466797;
+    public static final double SmallArm_mediumTarget = 10.661133;
+    public static final double SmallArm_pickup = 18.903809;
+    public static final double SmallArm_default = 0.765625;
+
+
+    // 15.479004 position for bigarm for smallarm to freely rotate
+    // 42.833496 highest position for big arm
 
     // trackWidth - lateral distance between pairs of wheels on different sides of the robot
     // wheelBase - distance between pairs of wheels on the same side of the robot
@@ -110,7 +112,7 @@ public final class Constants {
     // public static final double WHEELBASE = 1;
 
     public static final double SPEED_DIVISOR = 4; // what the max speed should be divided by, 1 is max power
-    public static final double ARM_SPEED = 20; // speed of the arms when adjusting manually
+    public static final double ARM_SPEED = 10; // speed of the arms when adjusting manually
     public static final double SNAIL_SPEED = 0.1; // between 0 and 1 for constant speed mode
 
 }

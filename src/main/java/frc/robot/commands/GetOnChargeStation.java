@@ -51,10 +51,4 @@ public class GetOnChargeStation extends CommandBase {
     public boolean isFinished() {
         return isFinished;
     }
-
-    @Override
-    public Set<Subsystem> getRequirements() {
-        // TODO Auto-generated method stub
-        return null;
-    }
 }
