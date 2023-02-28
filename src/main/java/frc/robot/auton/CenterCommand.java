@@ -22,12 +22,14 @@ public class CenterCommand extends SequentialCommandGroup {
         this.drive = drive;
         this.arm = arm;
         this.gyro = gyro;
-    
-        addCommands(new SetClawPreset(arm, 4));
-        addCommands(new SetClawPneumatics(clawPneumatics, 1));
-        addCommands(new DriveDistance(drive, 100, Math.PI)); // change distance
-        addCommands(new GetOnChargeStation(drive, gyro));
-        addCommands(new SetClawPreset(arm, 1));
+
+        new SequentialCommandGroup(
+            new SetClawPreset(arm, 4), 
+            new SetClawPneumatics(clawPneumatics, 1),
+            new DriveDistance(drive, 100, 0),
+            new GetOnChargeStation(drive, gyro),
+            new SetClawPreset(arm, 1)
+        );
     }
 }
 

@@ -48,7 +48,7 @@ public class Gamepad {
         } 
         
 
-        if (driveController.getRawButton(Constants.B_Button)) {
+        if (driveController.getRawButtonPressed(Constants.B_Button)) {
             clawPneumatics.toggleCompressor();
         }
     }
@@ -63,7 +63,7 @@ public class Gamepad {
             divisor = 1;
         }
 
-        if (driveController.getRawButton(Constants.X_Button)) {
+        if (driveController.getRawButtonPressed(Constants.X_Button)) {
             robotSubsystem.resetGyro();
         }
 

@@ -13,8 +13,8 @@ import frc.robot.subsystems.ClawPneumatics;
 public class SetClawPreset extends CommandBase {
 
     protected ArmSubsystem arm;
-    int position;
-    double startingTime;
+    private int position;
+    private Timer timer;
 
    /*
     * 1.   Constructor - Might have parameters for this command such as target positions of devices. Should also set the name of the command for debugging purposes.
@@ -23,12 +23,14 @@ public class SetClawPreset extends CommandBase {
     public SetClawPreset(ArmSubsystem arm, int position) {
         this.position = position;
         this.arm = arm;
-        startingTime = Timer.getFPGATimestamp();
+        timer = new Timer();
     }
 
     //    initialize() - This method sets up the command and is called immediately before the command is executed for the first time and every subsequent time it is started .
     //  Any initialization code should be here.
     public void initialize() {
+        timer.reset(); // Reset the timer when the command starts
+        timer.start(); // Start the timer when the command starts
     }
 
     /*
@@ -52,6 +54,6 @@ public class SetClawPreset extends CommandBase {
 
     // Make this return true when this Command no longer needs to run execute()
     public boolean isFinished() {
-        return Timer.getFPGATimestamp() >= startingTime + 2;
+        return timer.get() >= 2;
     }
 }
