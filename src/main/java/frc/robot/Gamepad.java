@@ -57,7 +57,7 @@ public class Gamepad {
         double divisor;
 
         if (driveController.getRawButton(Constants.Y_Button)) {
-            divisor = 10;
+            divisor = Constants.SNAIL_SPEED;
         }
         else {
             divisor = 1;
@@ -68,9 +68,9 @@ public class Gamepad {
         }
 
         robotSubsystem.drive(new SwerveSubsystem.SwerveRequest(
-        driveController.getRawAxis(Constants.rightJoystickXAxis)/divisor, 
-        -driveController.getRawAxis(Constants.leftJoystickXAxis)/divisor, 
-        -driveController.getRawAxis(Constants.leftJoystickYAxis)/divisor));
+        driveController.getRawAxis(Constants.rightJoystickXAxis) * divisor, 
+        -driveController.getRawAxis(Constants.leftJoystickXAxis) * divisor, 
+        -driveController.getRawAxis(Constants.leftJoystickYAxis) * divisor));
     }
 
     public void arm(ArmSubsystem arm) {

@@ -10,19 +10,18 @@ import frc.robot.auton.RunAuton;
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.ClawPneumatics;
 
-public class SetClawPreset extends CommandBase {
+public class SetClawPneumatics extends CommandBase {
 
-    protected ArmSubsystem arm;
+    protected ClawPneumatics clawPneumatics;
     int position;
     double startingTime;
-
    /*
     * 1.   Constructor - Might have parameters for this command such as target positions of devices. Should also set the name of the command for debugging purposes.
     *  This will be used if the status is viewed in the dashboard. And the command should require (reserve) any devices is might use.
     */
-    public SetClawPreset(ArmSubsystem arm, int position) {
+    public SetClawPneumatics(ClawPneumatics clawPneumatics, int position) {
         this.position = position;
-        this.arm = arm;
+        this.clawPneumatics = clawPneumatics;
         startingTime = Timer.getFPGATimestamp();
     }
 
@@ -36,22 +35,19 @@ public class SetClawPreset extends CommandBase {
      *  subsystem is moving to, the command might set the target position for the subsystem in initialize() and have an empty execute() method.
      */
     public void execute() {
-        if (position == 1) {
-            arm.defaultTarget();
+        if (position == 1) { // open
+            clawPneumatics.setLow();
         }
         else if (position == 2) {
-            arm.pickupTarget();
+            clawPneumatics.setHigh();
         }
         else if (position == 3) {
-            arm.mediumTarget();
-        }
-        else if (position == 4) {
-            arm.highTarget();
+            clawPneumatics.setOff();
         }
     }
 
     // Make this return true when this Command no longer needs to run execute()
     public boolean isFinished() {
-        return Timer.getFPGATimestamp() >= startingTime + 2;
+        return Timer.getFPGATimestamp() >= startingTime + 0.5;
     }
 }
