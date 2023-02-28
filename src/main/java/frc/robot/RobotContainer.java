@@ -38,12 +38,13 @@ public class RobotContainer {
   private void configureBindings() {}
 
   public Command getAutonomousCommand() {
-    if (isCenter.getSelected()) {
-      return centerCommand;
-    }
-    else {
-      return sideCommand;
-    }
+    return centerCommand;
+    // if (isCenter.getSelected()) {
+    //   return centerCommand;
+    // }
+    // else {
+    //   return sideCommand;
+    // }
     // return Commands.print("No autonomous command configured");
   }
 }

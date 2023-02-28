@@ -72,10 +72,10 @@ public final class Constants {
     /* 
     ALL WHEEL OFFSETS BELOW
     */
-    public static double DRIVETRAIN_FRONT_LEFT_ENCODER_OFFSET = (0.340576) * 2 * Math.PI; // number in parenthesis is in rotations
-    public static double DRIVETRAIN_FRONT_RIGHT_ENCODER_OFFSET = (0.936279) * 2 * Math.PI;
-    public static double DRIVETRAIN_BACK_LEFT_ENCODER_OFFSET = (0.885498) * 2 * Math.PI;
-    public static double DRIVETRAIN_BACK_RIGHT_ENCODER_OFFSET = (0.816406) * 2 * Math.PI;
+    public static double DRIVETRAIN_FRONT_LEFT_ENCODER_OFFSET = (0.301270) * 2 * Math.PI; // number in parenthesis is in rotations
+    public static double DRIVETRAIN_FRONT_RIGHT_ENCODER_OFFSET = (0.935059) * 2 * Math.PI;
+    public static double DRIVETRAIN_BACK_LEFT_ENCODER_OFFSET = (0.906494) * 2 * Math.PI;
+    public static double DRIVETRAIN_BACK_RIGHT_ENCODER_OFFSET = (0.801758) * 2 * Math.PI;
 
 
     
@@ -117,8 +117,8 @@ public final class Constants {
     // public static final double TRACKWIDTH = 1;
     // public static final double WHEELBASE = 1;
 
-    public static final double SPEED_DIVISOR = 4; // what the max speed should be divided by, 1 is max power
+    public static final double SPEED_DIVISOR = 1; // what the max speed should be divided by, 1 is max power
     public static final double ARM_SPEED = 20; // speed of the arms when adjusting manually
-    public static final double SNAIL_SPEED = 0.1; // between 0 and 1 for constant speed mode
+    public static final double SNAIL_SPEED = 0.2; // between 0 and 1 for constant speed mode
 
 }
