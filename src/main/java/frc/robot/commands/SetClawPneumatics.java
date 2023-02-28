@@ -1,6 +1,7 @@
 package frc.robot.commands;
 
 import java.util.Set;
+import edu.wpi.first.wpilibj.smartdashboard.*;
 
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
@@ -51,6 +52,7 @@ public class SetClawPneumatics extends CommandBase {
 
     // Make this return true when this Command no longer needs to run execute()
     public boolean isFinished() {
-        return timer.get() >= 0.5;
+        SmartDashboard.putNumber("TIMER", timer.get());
+        return timer.get() >= 1;
     }
 }

@@ -1,7 +1,11 @@
 package frc.robot.subsystems;
 
 import com.ctre.phoenixpro.hardware.TalonFX;
+import com.ctre.phoenixpro.signals.ControlModeValue;
+import com.ctre.phoenixpro.controls.DutyCycleOut;
 import com.ctre.phoenixpro.controls.Follower;
+import com.ctre.phoenixpro.controls.MotionMagicDutyCycle;
+import com.ctre.phoenixpro.controls.MotionMagicTorqueCurrentFOC;
 import com.ctre.phoenixpro.controls.MotionMagicVoltage;
 import com.ctre.phoenixpro.controls.PositionVoltage;
 import com.ctre.phoenixpro.controls.TorqueCurrentFOC;
@@ -68,12 +72,10 @@ public class ArmSubsystem {
         
         Slot0Configs slot0ConfigsSmall = new Slot0Configs();
         Slot0Configs slot0ConfigsBig = new Slot0Configs();
-
         slot0ConfigsSmall.kP = presetSmallP; 
         slot0ConfigsSmall.kI = presetSmallI;
         slot0ConfigsSmall.kD = presetSmallD;
         slot0ConfigsSmall.kS = presetSmallS;
-
         slot0ConfigsBig.kP = presetBigP; 
         slot0ConfigsBig.kI = presetBigI;
         slot0ConfigsBig.kD = presetBigD;
@@ -94,14 +96,14 @@ public class ArmSubsystem {
 
 
         motionMagicConfigsPresets = talonFXConfigsPreset.MotionMagic;
-        motionMagicConfigsPresets.MotionMagicCruiseVelocity = 40;
-        motionMagicConfigsPresets.MotionMagicAcceleration = 200;
-        motionMagicConfigsPresets.MotionMagicJerk = 1800;
+        motionMagicConfigsPresets.MotionMagicCruiseVelocity = 20;
+        motionMagicConfigsPresets.MotionMagicAcceleration = 100;
+        motionMagicConfigsPresets.MotionMagicJerk = 900;
 
-        // motionMagicConfigsManual = talonFXConfigsManual.MotionMagic;
-        // motionMagicConfigsManual.MotionMagicCruiseVelocity = 6;
-        // motionMagicConfigsManual.MotionMagicAcceleration = 40;
-        // motionMagicConfigsManual.MotionMagicJerk = 800;
+        motionMagicConfigsManual = talonFXConfigsManual.MotionMagic;
+        motionMagicConfigsManual.MotionMagicCruiseVelocity = 6;
+        motionMagicConfigsManual.MotionMagicAcceleration = 40;
+        motionMagicConfigsManual.MotionMagicJerk = 800;
         
         bigArmMotor.getConfigurator().apply(motionMagicConfigsPresets);
         smallArmMotor.getConfigurator().apply(motionMagicConfigsPresets);
@@ -111,17 +113,22 @@ public class ArmSubsystem {
     }
 
     public void setSmallArmSpeed(double speed){
-        //smallArmPos = smallArmMotorPosition + speed;
-        smallArmMotor.setControl(torqueDrive.withOutput(speed));
+        smallArmMotor.getConfigurator().apply(motionMagicConfigsManual);
+
+        smallArmPos = smallArmMotorPosition + speed;
+        smallArmMotor.setControl(positionTargetPreset.withPosition(smallArmPos).withFeedForward(0.05)); // feed forward counters gravity
         // smallArmMotor.setControl(m_voltageVelocity.withVelocity(speed));
+        // smallArmMotor.setControl(torqueDrive.withOutput(speed));
         
         bigArmMotorPosition = bigArmMotor.getPosition().getValue();
         smallArmMotorPosition = smallArmMotor.getPosition().getValue();
     }
 
     public void setBigArmSpeed(double speed) {
-        //bigArmPos = bigArmMotorPosition + speed;
-        bigArmMotor.setControl(torqueDrive.withOutput(speed));
+        bigArmMotor.getConfigurator().apply(motionMagicConfigsManual);
+
+        bigArmPos = smallArmMotorPosition + speed;
+        smallArmMotor.setControl(positionTargetPreset.withPosition(bigArmPos).withFeedForward(0.05));         // bigArmMotor.setControl(torqueDrive.withOutput(speed));
         // bigArmMotor.setControl(m_voltageVelocity.withVelocity(speed));
 
         bigArmMotorPosition = bigArmMotor.getPosition().getValue();
@@ -137,6 +144,7 @@ public class ArmSubsystem {
     }
 
     public void smallArmPosition(double smallArmAngle) {
+        smallArmMotor.getConfigurator().apply(motionMagicConfigsPresets);
         smallArmMotor.setControl(positionTargetPreset.withPosition(smallArmAngle).withFeedForward(0.05));
 
         bigArmMotorPosition = bigArmMotor.getPosition().getValue();
@@ -144,6 +152,7 @@ public class ArmSubsystem {
     }
 
     public void bigArmPosition(double bigArmAngle) {
+        bigArmMotor.getConfigurator().apply(motionMagicConfigsPresets);
         bigArmMotor.setControl(positionTargetPreset.withPosition(bigArmAngle).withFeedForward(0.05));
 
         bigArmMotorPosition = bigArmMotor.getPosition().getValue();

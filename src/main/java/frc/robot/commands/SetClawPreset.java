@@ -9,6 +9,8 @@ import frc.robot.auton.AutonControlScheme;
 import frc.robot.auton.RunAuton;
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.ClawPneumatics;
+import edu.wpi.first.wpilibj.smartdashboard.*;
+
 
 public class SetClawPreset extends CommandBase {
 

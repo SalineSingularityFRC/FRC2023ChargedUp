@@ -3,6 +3,7 @@ package frc.robot.auton;
 import com.ctre.phoenixpro.hardware.Pigeon2;
 
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import frc.robot.Constants;
 import frc.robot.commands.DriveDistance;
 import frc.robot.commands.GetOnChargeStation;
 import frc.robot.commands.SetClawPneumatics;
@@ -23,10 +24,10 @@ public class CenterCommand extends SequentialCommandGroup {
         this.arm = arm;
         this.gyro = gyro;
 
-        new SequentialCommandGroup(
+        addCommands(
             new SetClawPreset(arm, 4), 
             new SetClawPneumatics(clawPneumatics, 1),
-            new DriveDistance(drive, 100, 0),
+            new DriveDistance(drive, Constants.encoderToChargeDistance, Math.PI),
             new GetOnChargeStation(drive, gyro),
             new SetClawPreset(arm, 1)
         );
