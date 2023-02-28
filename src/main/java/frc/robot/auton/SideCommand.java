@@ -3,6 +3,7 @@ package frc.robot.auton;
 import com.ctre.phoenixpro.hardware.Pigeon2;
 
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import frc.robot.Constants;
 import frc.robot.commands.DriveDistance;
 import frc.robot.commands.GetOnChargeStation;
 import frc.robot.commands.SetClawPneumatics;
@@ -23,12 +24,14 @@ public class SideCommand extends SequentialCommandGroup {
         this.drive = drive;
         this.arm = arm;
         this.gyro = gyro;
-    
-        addCommands(new SetClawPreset(arm, 4));
-        addCommands(new SetClawPneumatics(clawPneumatics, 1));
-        addCommands(new DriveDistance(drive, 100, Math.PI)); // get out of community
-        addCommands(new SetClawPreset(arm, 1));
-        addCommands(new TurnAngle(drive, Math.PI));
+
+        addCommands(
+            new SetClawPreset(arm, 4),
+            new SetClawPneumatics(clawPneumatics, 1),
+            new DriveDistance(drive, Constants.encoderToOutsideCommunityDistance, Math.PI), // get out of community
+            new SetClawPreset(arm, 1),
+            new TurnAngle(drive, Math.PI)
+        );
     }
 }
 

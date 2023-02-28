@@ -17,6 +17,7 @@ import frc.robot.subsystems.SwerveSubsystem;
 public class RobotContainer {
 
   SendableChooser<Boolean> isCenter = new SendableChooser<>();
+
   private CenterCommand centerCommand;
   private SideCommand sideCommand;
   protected ClawPneumatics clawPneumatics;
@@ -33,18 +34,15 @@ public class RobotContainer {
     this.gyro = gyro;
     this.centerCommand = new CenterCommand(arm, clawPneumatics, drive, gyro);
     this.sideCommand = new SideCommand(arm, clawPneumatics, drive, gyro);
+
+    // isCenter.setDefaultOption("Center Auto", centerCommand);
+    // isCenter.addOption("Side Auto", sideCommand);
   }
 
   private void configureBindings() {}
 
   public Command getAutonomousCommand() {
     return centerCommand;
-    // if (isCenter.getSelected()) {
-    //   return centerCommand;
-    // }
-    // else {
-    //   return sideCommand;
-    // }
-    // return Commands.print("No autonomous command configured");
+    // return sideCommand
   }
 }

@@ -117,8 +117,14 @@ public final class Constants {
     // public static final double TRACKWIDTH = 1;
     // public static final double WHEELBASE = 1;
 
-    public static final double SPEED_DIVISOR = 1; // what the max speed should be divided by, 1 is max power
+    public static final double SPEED_DIVISOR = 4; // what the max speed should be divided by, 1 is max power
     public static final double ARM_SPEED = 20; // speed of the arms when adjusting manually
     public static final double SNAIL_SPEED = 0.2; // between 0 and 1 for constant speed mode
+
+    public static final double encoderToChargeDistance = 44.4694981;
+    public static final double encoderToOutsideCommunityDistance = 87.30208217;
+    // 1.832716884 is the number of inches per 1 encoder value
+    // ~80 (plus offset) to the center of the charge station for robot
+    // ~160 is the distance to leave the community plus some extra cushion
 
 }
