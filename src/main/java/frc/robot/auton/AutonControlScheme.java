@@ -56,11 +56,11 @@ public class AutonControlScheme {
                 rotations = 0;
             }
 
-            drive.drive(new SwerveSubsystem.SwerveRequest(rotations, x, y), false);
+            drive.drive(new SwerveSubsystem.SwerveRequest(rotations, x, y));
             changeInEncoderValue = Math.abs(drive.getSwerveModule(0).getPosition() - startingEncoderValue);
         }
         
-        drive.drive(new SwerveSubsystem.SwerveRequest(0, 0, 0), false);
+        drive.drive(new SwerveSubsystem.SwerveRequest(0, 0, 0));
 
     }    
 
@@ -69,7 +69,7 @@ public class AutonControlScheme {
         double finalAngle = drive.getRobotAngle() + angle;
         while(autonEnabled && drive.getRobotAngle() < finalAngle){ 
             SmartDashboard.putNumber("Auton Turn Angle Robot Angle", drive.getRobotAngle());
-            drive.drive(new SwerveSubsystem.SwerveRequest(0.5, 0.0, 0.0), false);
+            drive.drive(new SwerveSubsystem.SwerveRequest(0.5, 0.0, 0.0));
             // if(drive.getRobotAngle() < 0){
             //     drive.drive(new SwerveSubsystem.SwerveRequest(0.5, 0.0, 0.0), false);
             // } 

@@ -12,6 +12,8 @@ public class ClawPneumatics{
 	
 	Compressor pcmCompressor = new Compressor(Constants.Compressor_ID, PneumaticsModuleType.REVPH);
 
+	public boolean isClawClosed = true;
+
     public ClawPneumatics(int forwardChannel, int reverseChannel) {
         doubleSolenoid = new DoubleSolenoid(PneumaticsModuleType.REVPH, forwardChannel, reverseChannel);
 		doubleSolenoid.set(DoubleSolenoid.Value.kOff);
@@ -24,10 +26,12 @@ public class ClawPneumatics{
 	
 	public void setHigh() { // we believe that setHigh is closing the claw
 		doubleSolenoid.set(DoubleSolenoid.Value.kForward);
+		isClawClosed = true;
 	}
 	
-	public void setLow() { 
+	public void setLow() { // opening the claw (maybe????)
 		doubleSolenoid.set(DoubleSolenoid.Value.kReverse);
+		isClawClosed = false;
 	}
 	
 	public void setOff() {

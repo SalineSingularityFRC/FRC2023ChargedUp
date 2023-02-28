@@ -37,10 +37,10 @@ public class GetOnChargeStation extends CommandBase {
     public void execute() {
         double roll = gyro.getRoll().getValue();
         if (roll > 1) {
-            drive.drive(new SwerveSubsystem.SwerveRequest(0, 0, -1), false); // drive backwards
+            drive.drive(new SwerveSubsystem.SwerveRequest(0, 0, -1)); // drive backwards
         }
         else if (roll < -1) {
-            drive.drive(new SwerveSubsystem.SwerveRequest(0, 0, 1), false); // drive forward
+            drive.drive(new SwerveSubsystem.SwerveRequest(0, 0, 1)); // drive forward
         }
         else {
             isFinished = true;
