@@ -60,6 +60,12 @@ public final class Constants {
     public static final int left_Button = 5;
     public static final int right_Button = 6;
     public static final int Back_Button = 7;
+    public static final int Start_Button = 8;
+    public static final int L_joystick_Button = 9;
+    public static final int R_joystick_Button = 10;
+
+
+
 
 
 

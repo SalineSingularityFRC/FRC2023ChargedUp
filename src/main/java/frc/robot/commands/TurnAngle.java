@@ -36,7 +36,7 @@ public class TurnAngle extends CommandBase {
     public void execute() {
         double finalAngle = drive.getRobotAngle() + angle;
         if (drive.getRobotAngle() < finalAngle) { 
-            drive.drive(new SwerveSubsystem.SwerveRequest(0.5, 0.0, 0.0), false);
+            drive.drive(new SwerveSubsystem.SwerveRequest(0.5, 0.0, 0.0));
         }
         else {
             isFinished = true;

@@ -20,7 +20,7 @@ public class Gamepad {
     private Joystick driveController;
     private Joystick armController;
 
-    private boolean isConstantMode;
+    // private boolean isConstantMode;
 
     /**
      * 
@@ -35,15 +35,17 @@ public class Gamepad {
     public void armPneumatics(ClawPneumatics clawPneumatics) {
         SmartDashboard.putBoolean("if True then not full yet", clawPneumatics.isNotFull());
 
-        if(driveController.getRawButton(Constants.Y_Button)) {
-            clawPneumatics.setHigh();
+        if(driveController.getRawButtonPressed(Constants.A_Button)) {
+            if (clawPneumatics.isClawClosed) {
+                clawPneumatics.setLow();
+            }
+            else {
+                clawPneumatics.setHigh();
+            }
         }
-        else if(driveController.getRawButton(Constants.A_Button)) {
-            clawPneumatics.setLow();
-        } 
-        else {
+        else if(driveController.getRawButtonReleased(Constants.A_Button)) {
             clawPneumatics.setOff();
-        }
+        } 
         
 
         if (driveController.getRawButton(Constants.B_Button)) {
@@ -52,11 +54,13 @@ public class Gamepad {
     }
 
     public void swerveDrive(SwerveSubsystem robotSubsystem) {
-        if (driveController.getRawButton(Constants.Back_Button)) {
-            isConstantMode = true;
+        double divisor;
+
+        if (driveController.getRawButton(Constants.Y_Button)) {
+            divisor = 10;
         }
         else {
-            isConstantMode = false;
+            divisor = 1;
         }
 
         if (driveController.getRawButton(Constants.X_Button)) {
@@ -64,26 +68,38 @@ public class Gamepad {
         }
 
         robotSubsystem.drive(new SwerveSubsystem.SwerveRequest(
-        driveController.getRawAxis(Constants.rightJoystickXAxis), 
-        -driveController.getRawAxis(Constants.leftJoystickXAxis), 
-        -driveController.getRawAxis(Constants.leftJoystickYAxis)),
-        isConstantMode);
+        driveController.getRawAxis(Constants.rightJoystickXAxis)/divisor, 
+        -driveController.getRawAxis(Constants.leftJoystickXAxis)/divisor, 
+        -driveController.getRawAxis(Constants.leftJoystickYAxis)/divisor));
     }
 
     public void arm(ArmSubsystem arm) {
         SmartDashboard.putNumber("Encoder value big arm", arm.bigArmMotor.getPosition().getValue());
         SmartDashboard.putNumber("Encoder value small arm", arm.smallArmMotor.getPosition().getValue());
-        if(driveController.getPOV() == 0){
-            arm.highTarget();
+        // if(driveController.getPOV() == 0){
+        //     arm.highTarget();
+        // }
+        // else if(driveController.getPOV() == 90){
+        //     arm.mediumTarget();
+        // }
+        // else if(driveController.getPOV() == 180){
+        //     arm.pickupTarget();
+        // }
+        // else if (driveController.getPOV() == 270) {
+        //     arm.defaultTarget();
+        // }
+
+        if (driveController.getRawButton(Constants.R_joystick_Button)) {
+            arm.defaultTarget();
         }
-        else if(driveController.getPOV() == 90){
-            arm.mediumTarget();
-        }
-        else if(driveController.getPOV() == 180){
+        else if(driveController.getRawButton(Constants.L_joystick_Button)) {
             arm.pickupTarget();
         }
-        else if (driveController.getPOV() == 270) {
-            arm.defaultTarget();
+        else if (driveController.getRawButton(Constants.Start_Button)) {
+            arm.highTarget();
+        }
+        else if(driveController.getRawButton(Constants.Back_Button)) {
+            arm.mediumTarget();
         }
 
 

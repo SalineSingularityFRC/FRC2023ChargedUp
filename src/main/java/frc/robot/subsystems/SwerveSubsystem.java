@@ -73,7 +73,7 @@ public class SwerveSubsystem {
         }
     }
 
-    public void drive(SwerveRequest swerveRequest, boolean isConstantMode) { // takes in the inputs from the controller
+    public void drive(SwerveRequest swerveRequest) { // takes in the inputs from the controller
         ChassisVelocity chassisVelocity;
         boolean isMoving = true;
         
@@ -82,19 +82,18 @@ public class SwerveSubsystem {
         SmartDashboard.putNumber("rotation", swerveRequest.rotation);
 
         // vector direction and turning is not changed, but speed is reduced to a constant 
-        if (isConstantMode) {
-            if (swerveRequest.rotation > 0) {
-                swerveRequest.rotation = Constants.SNAIL_SPEED;
-            }
-            else if (swerveRequest.rotation < 0) {
-                swerveRequest.rotation = -Constants.SNAIL_SPEED;
-            }
+        // if (isConstantMode) {
+        //     // if (swerveRequest.rotation > 0) {
+        //     //     swerveRequest.rotation = Constants.SNAIL_SPEED;
+        //     // }
+        //     // else if (swerveRequest.rotation < 0) {
+        //     //     swerveRequest.rotation = -Constants.SNAIL_SPEED;
+        //     // }
 
-            double divisor = Constants.SNAIL_SPEED / (Math.pow((Math.pow(swerveRequest.movement.x, 2) * Math.pow(swerveRequest.movement.y, 2)), 0.5));
-            swerveRequest.movement.x *= divisor;
-            swerveRequest.movement.y *= divisor;
-        }
-
+        //     // double divisor = Constants.SNAIL_SPEED / (Math.pow((Math.pow(swerveRequest.movement.x, 2) * Math.pow(swerveRequest.movement.y, 2)), 0.5));
+        //     // swerveRequest.movement.x *= divisor;
+        //     // swerveRequest.movement.y *= divisor;
+        // }
 
 
 
@@ -103,6 +102,8 @@ public class SwerveSubsystem {
         if (Math.abs(swerveRequest.movement.x) < 0.05 
             && Math.abs(swerveRequest.movement.y) < 0.05 
             && Math.abs(swerveRequest.rotation) < 0.05) {
+
+            targetAngle = Double.MAX_VALUE;
             for (int i = 0; i < swerveModules.length; i++) {
                 swerveModules[i].coast();
             }
@@ -111,18 +112,17 @@ public class SwerveSubsystem {
         else {
 
             // this is to drive straight
-            if (Math.abs(swerveRequest.rotation) < 0.05 && targetAngle == Double.MAX_VALUE) {
-                targetAngle = getRobotAngle();
-            }
-            else if (Math.abs(swerveRequest.rotation) < 0.05 && targetAngle != Double.MAX_VALUE
-            && (Math.abs(swerveRequest.movement.x) > 0.05 || Math.abs(swerveRequest.movement.y) > 0.05) ) {
+            if (Math.abs(swerveRequest.rotation) < 0.05) {
+                if (targetAngle == Double.MAX_VALUE) {
+                    targetAngle = getRobotAngle();
+                }
+
                 double difference = getRobotAngle() - targetAngle; 
                 swerveRequest.rotation = difference;
             }
             else {
                 targetAngle = Double.MAX_VALUE;
             }
-
 
             chassisVelocity = new ChassisVelocity(swerveRequest.movement, swerveRequest.rotation); 
 
