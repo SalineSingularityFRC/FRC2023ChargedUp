@@ -36,6 +36,7 @@ public class Robot extends TimedRobot {
 
     runAuton = new RunAuton(arm, clawPneumatics, robotSubsystem, robotSubsystem.gyro, "blue"); // CHANGE COLOR LATER
     m_robotContainer = new RobotContainer(arm, clawPneumatics, robotSubsystem, robotSubsystem.gyro);
+    robotSubsystem.resetGyro();
   }
 
   @Override

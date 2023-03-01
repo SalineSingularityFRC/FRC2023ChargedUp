@@ -12,11 +12,14 @@ import com.ctre.phoenixpro.controls.TorqueCurrentFOC;
 
 import frc.robot.Constants;
 
+import java.time.Duration;
+
 import com.ctre.phoenixpro.configs.MotionMagicConfigs;
 import com.ctre.phoenixpro.configs.Slot0Configs;
 import com.ctre.phoenixpro.configs.Slot1Configs;
 import com.ctre.phoenixpro.configs.TalonFXConfiguration;
 
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.*;
 import com.ctre.phoenixpro.controls.VelocityVoltage;
 
@@ -24,6 +27,8 @@ public class ArmSubsystem {
     public TalonFX smallArmMotor;
     public TalonFX bigArmMotor;
     public TalonFX bigArmMotor2;
+
+    private Timer timer = new Timer();
 
     private MotionMagicVoltage positionTargetPreset = new MotionMagicVoltage(0).withSlot(0).withEnableFOC(true);
     private MotionMagicVoltage positionTargetManual = new MotionMagicVoltage(0).withSlot(1).withEnableFOC(true);
@@ -128,7 +133,7 @@ public class ArmSubsystem {
         bigArmMotor.getConfigurator().apply(motionMagicConfigsManual);
 
         bigArmPos = smallArmMotorPosition + speed;
-        smallArmMotor.setControl(positionTargetPreset.withPosition(bigArmPos).withFeedForward(0.05));         // bigArmMotor.setControl(torqueDrive.withOutput(speed));
+        bigArmMotor.setControl(positionTargetPreset.withPosition(bigArmPos).withFeedForward(0.05));         // bigArmMotor.setControl(torqueDrive.withOutput(speed));
         // bigArmMotor.setControl(m_voltageVelocity.withVelocity(speed));
 
         bigArmMotorPosition = bigArmMotor.getPosition().getValue();
@@ -163,6 +168,12 @@ public class ArmSubsystem {
 
     public void highTarget(){
         setPosition(Constants.SmallArm_highTarget , Constants.BigArm_highTarget);
+    }   
+    public void autonHighTarget(Timer timer) {
+        bigArmPosition(Constants.BigArm_highTarget);
+        if (timer.get() >= 1) {
+            smallArmPosition(Constants.SmallArm_highTarget);
+        }
     }
     public void mediumTarget(){
         setPosition(Constants.SmallArm_mediumTarget, Constants.BigArm_mediumTarget);

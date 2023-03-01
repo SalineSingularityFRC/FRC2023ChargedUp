@@ -95,7 +95,7 @@ public final class Constants {
     */
     public static final double MAX_ANGLE_INACCURACY = Math.PI/ 24;
     
-    public static final double BigArm_highTarget = 31.763672;
+    public static final double BigArm_highTarget = 29.763672;
     public static final double BigArm_mediumTarget = 14.476562;
     public static final double BigArm_pickup = 1.953125;
     public static final double BigArm_default = 2.494141;
@@ -117,7 +117,7 @@ public final class Constants {
     // public static final double TRACKWIDTH = 1;
     // public static final double WHEELBASE = 1;
 
-    public static final double SPEED_DIVISOR = 4; // what the max speed should be divided by, 1 is max power
+    public static final double SPEED_DIVISOR = 1; // what the max speed should be divided by, 1 is max power
     public static final double ARM_SPEED = 20; // speed of the arms when adjusting manually
     public static final double SNAIL_SPEED = 0.2; // between 0 and 1 for constant speed mode
 
