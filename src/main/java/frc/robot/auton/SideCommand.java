@@ -26,10 +26,10 @@ public class SideCommand extends SequentialCommandGroup {
         this.gyro = gyro;
 
         addCommands(
-            new SetClawPreset(arm, 4),
+            new SetClawPreset(arm, 5),
             new SetClawPneumatics(clawPneumatics, 1),
-            new DriveDistance(drive, Constants.encoderToOutsideCommunityDistance, Math.PI), // get out of community
-            new SetClawPreset(arm, 1),
+            new DriveDistance(drive, Constants.encoderToChargeDistance, 0).alongWith(
+                new SetClawPreset(arm, 1)),
             new TurnAngle(drive, Math.PI)
         );
     }
