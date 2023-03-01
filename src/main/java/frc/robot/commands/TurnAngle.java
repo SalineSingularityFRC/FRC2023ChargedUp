@@ -15,6 +15,7 @@ public class TurnAngle extends CommandBase {
     protected SwerveSubsystem drive;
     private double angle;
     private boolean isFinished = false;
+    private double finalAngle;
    /*
     * 1.   Constructor - Might have parameters for this command such as target positions of devices. Should also set the name of the command for debugging purposes.
     *  This will be used if the status is viewed in the dashboard. And the command should require (reserve) any devices is might use.
@@ -27,6 +28,7 @@ public class TurnAngle extends CommandBase {
     //    initialize() - This method sets up the command and is called immediately before the command is executed for the first time and every subsequent time it is started .
     //  Any initialization code should be here.
     public void initialize() {
+        finalAngle = drive.getRobotAngle() + angle;
     }
 
     /*
@@ -34,7 +36,6 @@ public class TurnAngle extends CommandBase {
      *  subsystem is moving to, the command might set the target position for the subsystem in initialize() and have an empty execute() method.
      */
     public void execute() {
-        double finalAngle = drive.getRobotAngle() + angle;
         if (drive.getRobotAngle() < finalAngle) { 
             drive.drive(new SwerveSubsystem.SwerveRequest(0.5, 0.0, 0.0));
         }

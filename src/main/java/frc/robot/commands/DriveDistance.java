@@ -2,6 +2,7 @@ package frc.robot.commands;
 
 import java.util.Set;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.Subsystem;
 import frc.robot.auton.AutonControlScheme;
@@ -16,6 +17,9 @@ public class DriveDistance extends CommandBase {
     private double distance;
     private double angle;
     private boolean isFinished = false;
+    private double startingEncoderValue;
+    private double changeInEncoderValue = 0;
+
    /*
     * 1.   Constructor - Might have parameters for this command such as target positions of devices. Should also set the name of the command for debugging purposes.
     *  This will be used if the status is viewed in the dashboard. And the command should require (reserve) any devices is might use.
@@ -29,6 +33,7 @@ public class DriveDistance extends CommandBase {
     //    initialize() - This method sets up the command and is called immediately before the command is executed for the first time and every subsequent time it is started .
     //  Any initialization code should be here.
     public void initialize() {
+        startingEncoderValue = drive.getSwerveModule(0).getPosition();
     }
 
     /*
@@ -36,9 +41,6 @@ public class DriveDistance extends CommandBase {
      *  subsystem is moving to, the command might set the target position for the subsystem in initialize() and have an empty execute() method.
      */
     public void execute() {
-        double startingEncoderValue = drive.getSwerveModule(0).getPosition();
-        double changeInEncoderValue = 0;
-
         // double rotations;
         // double startingAngle = drive.getRobotAngle();
         double x = -Math.sin(angle);
@@ -56,7 +58,7 @@ public class DriveDistance extends CommandBase {
             //     rotations = 0;
             // }
 
-            drive.drive(new SwerveSubsystem.SwerveRequest(0, x, y));
+            drive.drive(new SwerveSubsystem.SwerveRequest(0, x/5, y/5));
             changeInEncoderValue = Math.abs(drive.getSwerveModule(0).getPosition() - startingEncoderValue);
         }
         else {

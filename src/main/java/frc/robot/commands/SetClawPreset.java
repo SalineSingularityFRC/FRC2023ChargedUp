@@ -52,10 +52,13 @@ public class SetClawPreset extends CommandBase {
         else if (position == 4) {
             arm.highTarget();
         }
+        else if (position == 5) {
+            arm.autonHighTarget(timer);
+        }
     }
 
     // Make this return true when this Command no longer needs to run execute()
     public boolean isFinished() {
-        return timer.get() >= 2;
+        return timer.get() >= 2.5;
     }
 }

@@ -4,6 +4,7 @@ import java.util.Set;
 
 import com.ctre.phoenixpro.hardware.Pigeon2;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.Subsystem;
 import frc.robot.auton.AutonControlScheme;
@@ -22,6 +23,7 @@ public class GetOnChargeStation extends CommandBase {
     *  This will be used if the status is viewed in the dashboard. And the command should require (reserve) any devices is might use.
     */
     public GetOnChargeStation(SwerveSubsystem drive, Pigeon2 gyro) {
+        this.drive = drive;
         this.gyro = gyro;
     }
 
@@ -35,14 +37,17 @@ public class GetOnChargeStation extends CommandBase {
      *  subsystem is moving to, the command might set the target position for the subsystem in initialize() and have an empty execute() method.
      */
     public void execute() {
-        double roll = gyro.getRoll().getValue();
-        if (roll > 1) {
-            drive.drive(new SwerveSubsystem.SwerveRequest(0, 0, -1)); // drive backwards
+        double pitch = gyro.getPitch().getValue();
+        double speed = pitch / 15;
+        SmartDashboard.putNumber("PITCH", pitch);
+        if (pitch > 2) {
+            drive.drive(new SwerveSubsystem.SwerveRequest(0, 0, -0.2 * speed)); // drive backwards
         }
-        else if (roll < -1) {
-            drive.drive(new SwerveSubsystem.SwerveRequest(0, 0, 1)); // drive forward
+        else if (pitch < -2) {
+            drive.drive(new SwerveSubsystem.SwerveRequest(0, 0, 0.2 * speed)); // drive forward
         }
         else {
+            drive.drive(new SwerveSubsystem.SwerveRequest(0, 0, 0));
             isFinished = true;
         }
     }
