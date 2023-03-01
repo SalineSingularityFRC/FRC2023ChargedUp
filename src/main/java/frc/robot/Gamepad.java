@@ -7,6 +7,7 @@ import frc.robot.subsystems.SwerveSubsystem;
 
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.Timer;
 
 /**
  * 
@@ -16,6 +17,8 @@ import edu.wpi.first.wpilibj.Joystick;
 public class Gamepad {
 
     String allianceColor = DriverStation.getAlliance().toString();
+
+    Timer timer = new Timer();
     
     private Joystick driveController;
     private Joystick armController;
@@ -96,7 +99,11 @@ public class Gamepad {
             arm.pickupTarget();
         }
         else if (driveController.getRawButton(Constants.Start_Button)) {
-            arm.highTarget();
+            if (driveController.getRawButtonPressed(Constants.Start_Button)) {
+                timer.reset();
+                timer.start();
+            }
+            arm.autonHighTarget(timer);
         }
         else if(driveController.getRawButton(Constants.Back_Button)) {
             arm.mediumTarget();

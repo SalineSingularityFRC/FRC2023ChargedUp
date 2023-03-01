@@ -101,7 +101,7 @@ public class ArmSubsystem {
 
 
         motionMagicConfigsPresets = talonFXConfigsPreset.MotionMagic;
-        motionMagicConfigsPresets.MotionMagicCruiseVelocity = 20;
+        motionMagicConfigsPresets.MotionMagicCruiseVelocity = 40;
         motionMagicConfigsPresets.MotionMagicAcceleration = 100;
         motionMagicConfigsPresets.MotionMagicJerk = 900;
 
