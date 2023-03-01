@@ -9,8 +9,6 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.Subsystem;
-import frc.robot.auton.AutonControlScheme;
-import frc.robot.auton.RunAuton;
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.ClawPneumatics;
 import frc.robot.subsystems.SwerveSubsystem;
@@ -24,7 +22,6 @@ public class Robot extends TimedRobot {
 
   private ArmSubsystem arm;
   private ClawPneumatics clawPneumatics;
-  private RunAuton runAuton;
 
   @Override
   public void robotInit() {
@@ -34,7 +31,6 @@ public class Robot extends TimedRobot {
     arm = new ArmSubsystem(false, false);
     clawPneumatics = new ClawPneumatics(9, 6); // check these channel #s later
 
-    runAuton = new RunAuton(arm, clawPneumatics, robotSubsystem, robotSubsystem.gyro, "blue"); // CHANGE COLOR LATER
     m_robotContainer = new RobotContainer(arm, clawPneumatics, robotSubsystem, robotSubsystem.gyro);
     robotSubsystem.resetGyro();
   }
@@ -58,21 +54,15 @@ public class Robot extends TimedRobot {
 
   @Override
   public void autonomousInit() {
-    AutonControlScheme.autonEnabled = true;
      
     m_autonomousCommand = m_robotContainer.getAutonomousCommand();
-
-    //may not be needed
-    //robotSubsystem.resetGyro(); //Only for testing, need to make sure that gyro value is set to 0 on init
     
     if (m_autonomousCommand != null) {
       
       m_autonomousCommand.schedule();
       SmartDashboard.putNumber("Auton Turned On", 1);
     }
-    
-    // runAuton.testAutonCommands();
-    
+        
   }
 
   @Override
@@ -90,10 +80,7 @@ public class Robot extends TimedRobot {
     // m_robotContainer.getDefaultCommand());
     if (m_autonomousCommand != null) {
       m_autonomousCommand.cancel();
-      AutonControlScheme.autonEnabled = false;
-      SmartDashboard.putBoolean("Auton Turned Off", true); //May not be needed: Checking to see auton is turned off when switch to teleop
     }
-  
   }
 
   @Override
