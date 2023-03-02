@@ -49,6 +49,7 @@ public class SwerveSubsystem {
     public SwerveSubsystem() {
         // gyro = new NavX(Port.kMXP);
         gyro = new Pigeon2(Constants.GYRO_CANCODER_ID, Constants.CANIVORE);
+        resetGyro();
         
         vectorKinematics[FL] = new Vector(Constants.TRACKWIDTH / 2.0, Constants.WHEELBASE / 2.0);
         vectorKinematics[FR] = new Vector(Constants.TRACKWIDTH / 2.0, -Constants.WHEELBASE / 2.0);    
@@ -95,8 +96,11 @@ public class SwerveSubsystem {
         //     // swerveRequest.movement.y *= divisor;
         // }
 
+        SmartDashboard.putNumber("X VALUE", swerveRequest.movement.x);
+        SmartDashboard.putNumber("Y VALUE", swerveRequest.movement.y);
+        SmartDashboard.putNumber("ROTATION", swerveRequest.rotation);
 
-
+        
         // this is to make sure if both the joysticks are at neutral position, the robot and wheels don't move or turn at all
         // 0.05 value can be increased if the joystick is increasingly inaccurate at neutral position
         if (Math.abs(swerveRequest.movement.x) < 0.05 
@@ -116,9 +120,11 @@ public class SwerveSubsystem {
                 if (targetAngle == Double.MAX_VALUE) {
                     targetAngle = getRobotAngle();
                 }
-
-                double difference = getRobotAngle() - targetAngle; 
-                swerveRequest.rotation = difference;
+                else {
+                    double difference = targetAngle - getRobotAngle(); 
+                    swerveRequest.rotation = difference;
+                    SmartDashboard.putNumber("Difference", difference);
+                }
             }
             else {
                 targetAngle = Double.MAX_VALUE;
@@ -131,6 +137,11 @@ public class SwerveSubsystem {
                 isMoving = false; // this boolean is to ensure that gyro wont be used if it is just turning
             }
         }
+
+        SmartDashboard.putNumber("TARGET ANGLE", targetAngle);
+        SmartDashboard.putNumber("GET ROBOT ANGLE", getRobotAngle());
+
+
 
         Vector[] moduleOutputs = swerveKinematics.toModuleVelocities(chassisVelocity); 
         SwerveKinematics.normalizeModuleVelocities(moduleOutputs, 1); // these two lines are what calculates the module angles for swerve
