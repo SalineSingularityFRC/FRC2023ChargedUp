@@ -32,7 +32,6 @@ public class Robot extends TimedRobot {
     clawPneumatics = new ClawPneumatics(9, 6); // check these channel #s later
 
     m_robotContainer = new RobotContainer(arm, clawPneumatics, robotSubsystem, robotSubsystem.gyro);
-    robotSubsystem.resetGyro();
   }
 
   @Override
