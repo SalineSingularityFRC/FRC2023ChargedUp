@@ -40,6 +40,7 @@ public class SwerveSubsystem {
 
     private double targetAngle = Double.MAX_VALUE;
 
+    private double startingAngle;
     /*
      * This constructor should create an instance of the pidgeon class, and should
      * construct four copies of the
@@ -50,6 +51,7 @@ public class SwerveSubsystem {
         // gyro = new NavX(Port.kMXP);
         gyro = new Pigeon2(Constants.GYRO_CANCODER_ID, Constants.CANIVORE);
         resetGyro();
+        startingAngle = getRobotAngle();
         
         vectorKinematics[FL] = new Vector(Constants.TRACKWIDTH / 2.0, Constants.WHEELBASE / 2.0);
         vectorKinematics[FR] = new Vector(Constants.TRACKWIDTH / 2.0, -Constants.WHEELBASE / 2.0);    
@@ -75,8 +77,9 @@ public class SwerveSubsystem {
     }
 
     public void drive(SwerveRequest swerveRequest) { // takes in the inputs from the controller
+        double currentRobotAngle = getRobotAngle();
         ChassisVelocity chassisVelocity;
-        boolean isMoving = true;
+        boolean isMoving = false;
         
         SmartDashboard.putNumber("x", swerveRequest.movement.x);
         SmartDashboard.putNumber("y", swerveRequest.movement.y);
@@ -131,13 +134,17 @@ public class SwerveSubsystem {
 
             SmartDashboard.putNumber("ROTATION", swerveRequest.rotation);
 
-            chassisVelocity = new ChassisVelocity(swerveRequest.movement, swerveRequest.rotation); 
-
-            if (Math.abs(swerveRequest.movement.x) < 0.05 
-            && Math.abs(swerveRequest.movement.y) < 0.05) {
-                isMoving = false; // this boolean is to ensure that gyro wont be used if it is just turning
-            }
+            // if (Math.abs(swerveRequest.movement.x) < 0.05 
+            // && Math.abs(swerveRequest.movement.y) < 0.05) {
+            //     isMoving = false; // this boolean is to ensure that gyro wont be used if it is just turning
+            // }
         }
+
+        double difference = (currentRobotAngle - startingAngle) % (2*Math.PI);
+        double x = -swerveRequest.movement.y * Math.sin(difference) + swerveRequest.movement.x * Math.cos(difference);
+        double y = swerveRequest.movement.y * Math.cos(difference) + swerveRequest.movement.x * Math.sin(difference);
+
+        chassisVelocity = new ChassisVelocity(new Vector(x, y), swerveRequest.rotation); 
 
         SmartDashboard.putNumber("TARGET ANGLE", targetAngle);
         SmartDashboard.putNumber("GET ROBOT ANGLE", getRobotAngle());
