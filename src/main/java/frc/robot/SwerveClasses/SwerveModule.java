@@ -41,7 +41,7 @@ public class SwerveModule {
         angleMotor = new SwerveAngle(Can_ID_angleMotor, canNetwork);
 
         MotorOutputConfigs motorOutputConfigs = new MotorOutputConfigs();
-        motorOutputConfigs.NeutralMode = NeutralModeValue.Brake;
+        motorOutputConfigs.NeutralMode = NeutralModeValue.Coast;
         driveMotor.getConfigurator().apply(motorOutputConfigs);
 
         driveMotor.setInverted(isInverted);

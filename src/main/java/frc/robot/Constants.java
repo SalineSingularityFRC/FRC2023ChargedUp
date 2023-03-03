@@ -72,10 +72,10 @@ public final class Constants {
     /* 
     ALL WHEEL OFFSETS BELOW
     */
-    public static double DRIVETRAIN_FRONT_LEFT_ENCODER_OFFSET = (0.463867) * 2 * Math.PI; // number in parenthesis is in rotations
-    public static double DRIVETRAIN_FRONT_RIGHT_ENCODER_OFFSET = (0.884521) * 2 * Math.PI;
-    public static double DRIVETRAIN_BACK_LEFT_ENCODER_OFFSET = (0.063965) * 2 * Math.PI;
-    public static double DRIVETRAIN_BACK_RIGHT_ENCODER_OFFSET = (0.811768) * 2 * Math.PI;
+    public static double DRIVETRAIN_FRONT_LEFT_ENCODER_OFFSET = (0.442627) * 2 * Math.PI; // number in parenthesis is in rotations
+    public static double DRIVETRAIN_FRONT_RIGHT_ENCODER_OFFSET = (0.857422) * 2 * Math.PI; // 0.884521
+    public static double DRIVETRAIN_BACK_LEFT_ENCODER_OFFSET = (0.110107) * 2 * Math.PI; //  0.063965
+    public static double DRIVETRAIN_BACK_RIGHT_ENCODER_OFFSET = (0.821533) * 2 * Math.PI; // 0.811768
 
 
     
@@ -121,7 +121,7 @@ public final class Constants {
     public static final double ARM_SPEED = 20; // speed of the arms when adjusting manually
     public static final double SNAIL_SPEED = 0.2; // between 0 and 1 for constant speed mode
 
-    public static final double encoderToChargeDistance = 40.4694981;
+    public static final double encoderToChargeDistance = 48.4694981;
     public static final double encoderToOutsideCommunityDistance = 87.30208217;
     // 1.832716884 is the number of inches per 1 encoder value
     // ~80 (plus offset) to the center of the charge station for robot

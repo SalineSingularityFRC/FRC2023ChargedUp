@@ -35,14 +35,14 @@ public class GetOnChargeStation extends CommandBase {
      *  subsystem is moving to, the command might set the target position for the subsystem in initialize() and have an empty execute() method.
      */
     public void execute() {
-        double pitch = gyro.getPitch().getValue();
-        double speed = pitch / 15;
+        double pitch = gyro.getRoll().getValue();
+        double speed = Math.abs(pitch / 15);
         SmartDashboard.putNumber("PITCH", pitch);
-        if (pitch > 1) {
-            drive.drive(new SwerveSubsystem.SwerveRequest(0, 0, 0.15 * speed)); // drive backwards
+        if (pitch > 3) {
+            drive.drive(new SwerveSubsystem.SwerveRequest(0, 0, -0.4 * speed)); // drive backwards
         }
-        else if (pitch < -1) {
-            drive.drive(new SwerveSubsystem.SwerveRequest(0, 0, -0.7 * speed)); // drive forward
+        else if (pitch < -3) {
+            drive.drive(new SwerveSubsystem.SwerveRequest(0, 0, 0.4 * speed)); // drive forward
         }
         else {
             drive.drive(new SwerveSubsystem.SwerveRequest(0, 0, 0));
