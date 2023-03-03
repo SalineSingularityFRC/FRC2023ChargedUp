@@ -39,10 +39,10 @@ public class GetOnChargeStation extends CommandBase {
         double speed = Math.abs(pitch / 15);
         SmartDashboard.putNumber("PITCH", pitch);
         if (pitch > 3) {
-            drive.drive(new SwerveSubsystem.SwerveRequest(0, 0, -0.4 * speed)); // drive backwards
+            drive.drive(new SwerveSubsystem.SwerveRequest(0, 0, -0.10 * speed)); // drive backwards
         }
         else if (pitch < -3) {
-            drive.drive(new SwerveSubsystem.SwerveRequest(0, 0, 0.4 * speed)); // drive forward
+            drive.drive(new SwerveSubsystem.SwerveRequest(0, 0, 0.10 * speed)); // drive forward
         }
         else {
             drive.drive(new SwerveSubsystem.SwerveRequest(0, 0, 0));
