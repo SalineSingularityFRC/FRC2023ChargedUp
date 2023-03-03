@@ -98,7 +98,6 @@ public class SwerveSubsystem {
 
         SmartDashboard.putNumber("X VALUE", swerveRequest.movement.x);
         SmartDashboard.putNumber("Y VALUE", swerveRequest.movement.y);
-        SmartDashboard.putNumber("ROTATION", swerveRequest.rotation);
 
         
         // this is to make sure if both the joysticks are at neutral position, the robot and wheels don't move or turn at all
@@ -116,19 +115,21 @@ public class SwerveSubsystem {
         else {
 
             // this is to drive straight
-            if (Math.abs(swerveRequest.rotation) < 0.05) {
-                if (targetAngle == Double.MAX_VALUE) {
-                    targetAngle = getRobotAngle();
-                }
-                else {
-                    double difference = targetAngle - getRobotAngle(); 
-                    swerveRequest.rotation = difference;
-                    SmartDashboard.putNumber("Difference", difference);
-                }
-            }
-            else {
-                targetAngle = Double.MAX_VALUE;
-            }
+            // if (Math.abs(swerveRequest.rotation) < 0.05) {
+            //     if (targetAngle == Double.MAX_VALUE) {
+            //         targetAngle = getRobotAngle();
+            //     }
+            //     else {
+            //         double difference = targetAngle - getRobotAngle(); 
+            //         swerveRequest.rotation = difference;
+            //         SmartDashboard.putNumber("Difference", difference);
+            //     }
+            // }
+            // else {
+            //     targetAngle = Double.MAX_VALUE;
+            // }
+
+            SmartDashboard.putNumber("ROTATION", swerveRequest.rotation);
 
             chassisVelocity = new ChassisVelocity(swerveRequest.movement, swerveRequest.rotation); 
 
