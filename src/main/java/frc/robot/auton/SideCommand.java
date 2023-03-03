@@ -28,9 +28,9 @@ public class SideCommand extends SequentialCommandGroup {
         addCommands(
             new SetClawPreset(arm, 5),
             new SetClawPneumatics(clawPneumatics, 1),
-            new DriveDistance(drive, Constants.encoderToChargeDistance, 0).alongWith(
-                new SetClawPreset(arm, 1)),
-            new TurnAngle(drive, Math.PI)
+            new DriveDistance(drive, Constants.encoderToOutsideCommunityDistance, 0).alongWith(
+                new SetClawPreset(arm, 1))
+            // ,new TurnAngle(drive, Math.PI)
         );
     }
 }
