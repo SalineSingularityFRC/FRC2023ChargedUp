@@ -171,7 +171,7 @@ public class ArmSubsystem {
     }   
     public void autonHighTarget(Timer timer) {
         bigArmPosition(Constants.BigArm_highTarget);
-        if (timer.get() >= 1) {
+        if (timer.get() >= 0.7) {
             smallArmPosition(Constants.SmallArm_highTarget);
         }
     }
