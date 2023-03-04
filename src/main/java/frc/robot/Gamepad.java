@@ -58,13 +58,14 @@ public class Gamepad {
 
     public void swerveDrive(SwerveSubsystem robotSubsystem) {
         double divisor;
+        divisor = 1;
 
-        if (driveController.getRawButton(Constants.Y_Button)) {
-            divisor = Constants.SNAIL_SPEED;
-        }
-        else {
-            divisor = 1;
-        }
+        // if (driveController.getRawButton(Constants.Y_Button)) {
+        //     divisor = Constants.SNAIL_SPEED;
+        // }
+        // else {
+        //     divisor = 1;
+        // }
 
         if (driveController.getRawButtonPressed(Constants.X_Button)) {
             robotSubsystem.resetGyro();
@@ -104,6 +105,13 @@ public class Gamepad {
                 timer.start();
             }
             arm.autonHighTarget(timer);
+        }
+        else if(driveController.getRawButton(Constants.Y_Button)){
+            if (driveController.getRawButtonPressed(Constants.Y_Button)) {
+                timer.reset();
+                timer.start();
+            }
+            arm.pickupFallenCone(timer);
         }
         else if(driveController.getRawButton(Constants.Back_Button)) {
             arm.mediumTarget();

@@ -175,6 +175,13 @@ public class ArmSubsystem {
             smallArmPosition(Constants.SmallArm_highTarget);
         }
     }
+
+    public void pickupFallenCone(Timer timer) {
+        bigArmPosition(Constants.BigArm_pickupFallenCone);
+        if (timer.get() >= 0.9) {
+            smallArmPosition(Constants.SmallArm_pickupFallenCone);
+        }
+    }
     public void mediumTarget(){
         setPosition(Constants.SmallArm_mediumTarget, Constants.BigArm_mediumTarget);
     }
