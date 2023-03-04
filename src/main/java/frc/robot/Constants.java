@@ -99,12 +99,13 @@ public final class Constants {
     public static final double BigArm_mediumTarget = 10.801270;
     public static final double BigArm_pickup = 1.953125;
     public static final double BigArm_default = 2.494141;
+    public static final double BigArm_pickupFallenCone = 14.338379;
 
-    public static final double SmallArm_highTarget =  24.0;
+    public static final double SmallArm_highTarget =  24.4;
     public static final double SmallArm_mediumTarget = 9.434082;
-    public static final double SmallArm_pickup = 18.303809;
+    public static final double SmallArm_pickup = 19.803809;
     public static final double SmallArm_default = 2.765625;
-
+    public static final double SmallArm_pickupFallenCone = 38.658691;
 
     // 15.479004 position for bigarm for smallarm to freely rotate
     // 42.833496 highest position for big arm
