@@ -50,7 +50,6 @@ public class SwerveSubsystem {
     public SwerveSubsystem() {
         // gyro = new NavX(Port.kMXP);
         gyro = new Pigeon2(Constants.GYRO_CANCODER_ID, Constants.CANIVORE);
-        resetGyro();
         startingAngle = getRobotAngle() + Math.PI;
         
         vectorKinematics[FL] = new Vector(Constants.TRACKWIDTH / 2.0, Constants.WHEELBASE / 2.0);
@@ -235,7 +234,7 @@ public class SwerveSubsystem {
      */
     public double getRobotAngle() {
         //return ((360 - gyro.getAngle().toDegrees()) * Math.PI) / 180; // for NavX
-        return ((360 - (gyro.getAngle())+ 90) * Math.PI) / 180; // returns in counterclockwise hence why 360 minus
+        return ((360 - (gyro.getAngle())+ 180) * Math.PI) / 180; // returns in counterclockwise hence why 360 minus
         // it is gyro.getAngle() - 90 because the pigeon for this robot is facing west (north is forward)
     }
 
