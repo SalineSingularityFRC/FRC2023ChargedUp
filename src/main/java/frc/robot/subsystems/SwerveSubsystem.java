@@ -78,11 +78,9 @@ public class SwerveSubsystem {
     public void drive(SwerveRequest swerveRequest) { // takes in the inputs from the controller
         double currentRobotAngle = getRobotAngle();
         ChassisVelocity chassisVelocity;
-        boolean isMoving = false;
         
         SmartDashboard.putNumber("x", swerveRequest.movement.x);
         SmartDashboard.putNumber("y", swerveRequest.movement.y);
-        SmartDashboard.putNumber("rotation", swerveRequest.rotation);
 
         // vector direction and turning is not changed, but speed is reduced to a constant 
         // if (isConstantMode) {
@@ -97,10 +95,6 @@ public class SwerveSubsystem {
         //     // swerveRequest.movement.x *= divisor;
         //     // swerveRequest.movement.y *= divisor;
         // }
-
-        SmartDashboard.putNumber("X VALUE", swerveRequest.movement.x);
-        SmartDashboard.putNumber("Y VALUE", swerveRequest.movement.y);
-
         
         // this is to make sure if both the joysticks are at neutral position, the robot and wheels don't move or turn at all
         // 0.05 value can be increased if the joystick is increasingly inaccurate at neutral position
@@ -117,39 +111,33 @@ public class SwerveSubsystem {
         else {
 
             // this is to drive straight
-            // if (Math.abs(swerveRequest.rotation) < 0.05) {
-            //     if (targetAngle == Double.MAX_VALUE) {
-            //         targetAngle = getRobotAngle();
-            //     }
-            //     else {
-            //         double difference = targetAngle - getRobotAngle(); 
-            //         swerveRequest.rotation = difference;
-            //         SmartDashboard.putNumber("Difference", difference);
-            //     }
-            // }
-            // else {
-            //     targetAngle = Double.MAX_VALUE;
-            // }
+            if (Math.abs(swerveRequest.rotation) < 0.05) {
+                if (targetAngle == Double.MAX_VALUE) {
+                    targetAngle = getRobotAngle();
+                }
+                else {
+                    double difference = targetAngle - getRobotAngle(); 
+                    swerveRequest.rotation = difference;
+                    SmartDashboard.putNumber("Difference", difference);
+                }
+            }
+            else {
+                targetAngle = Double.MAX_VALUE;
+            }
 
             SmartDashboard.putNumber("ROTATION", swerveRequest.rotation);
-
-            // if (Math.abs(swerveRequest.movement.x) < 0.05 
-            // && Math.abs(swerveRequest.movement.y) < 0.05) {
-            //     isMoving = false; // this boolean is to ensure that gyro wont be used if it is just turning
-            // }
+            SmartDashboard.putNumber("TARGET ANGLE", targetAngle);
+            SmartDashboard.putNumber("GET ROBOT ANGLE", getRobotAngle());
         }
 
+        // this is to change the vector value from robo centric to field centric
         double difference = (currentRobotAngle - startingAngle) % (2*Math.PI);
         double x = -swerveRequest.movement.y * Math.sin(difference) + swerveRequest.movement.x * Math.cos(difference);
         double y = swerveRequest.movement.y * Math.cos(difference) + swerveRequest.movement.x * Math.sin(difference);
 
         chassisVelocity = new ChassisVelocity(new Vector(x, y), swerveRequest.rotation); 
 
-        SmartDashboard.putNumber("TARGET ANGLE", targetAngle);
-        SmartDashboard.putNumber("GET ROBOT ANGLE", getRobotAngle());
-
-
-
+        
         Vector[] moduleOutputs = swerveKinematics.toModuleVelocities(chassisVelocity); 
         SwerveKinematics.normalizeModuleVelocities(moduleOutputs, 1); // these two lines are what calculates the module angles for swerve
         for (int i = 0; i < moduleOutputs.length; i++) {
@@ -162,14 +150,14 @@ public class SwerveSubsystem {
             // TO-DO research on why we need this, but for now, it works as it is so its fine
             if (i == 1) {
                 i = 2;
-                request = driveInstructions(moduleOutputs[i], isMoving);
+                request = driveInstructions(moduleOutputs[i]);
                 i = 1;
             } else if (i == 2) {
                 i = 1;
-                request = driveInstructions(moduleOutputs[i], isMoving);
+                request = driveInstructions(moduleOutputs[i]);
                 i = 2;
             } else {
-                request = driveInstructions(moduleOutputs[i], isMoving); 
+                request = driveInstructions(moduleOutputs[i]); 
                 /* 
                 this method is used to convert the vector that the swerveKinematics outputs for each wheel
                 into direction and speed instructions that the module.drive method can take in
@@ -191,11 +179,11 @@ public class SwerveSubsystem {
      * direction vector for
      * which way the module should travel and outputs the SwerveDriveRequest instruction for the individual module
      */
-    public SwerveDriveRequest driveInstructions(Vector vector, boolean isMoving) { 
+    public SwerveDriveRequest driveInstructions(Vector vector) { 
         double x = vector.x;
         double y = vector.y;
 
-        double speed = Math.sqrt(Math.pow(x, 2) + Math.pow(y, 2)) / Constants.SPEED_DIVISOR; // speed kills
+        double speed = Math.sqrt(Math.pow(x, 2) + Math.pow(y, 2)) / Constants.SPEED_DIVISOR;
         double angle;
 
         if (y == 0) { // y = 0 wouldn't work because fraction
@@ -222,9 +210,6 @@ public class SwerveSubsystem {
             angle = 0;
         }
 
-        if (isMoving) { // if false, then it is only turning and does not want to be affected by the gyro
-            angle += this.getRobotAngle() % (2 * Math.PI); // this is to make it field centric
-        }
         return new SwerveDriveRequest(speed, angle);
     }
     
@@ -235,7 +220,7 @@ public class SwerveSubsystem {
     public double getRobotAngle() {
         //return ((360 - gyro.getAngle().toDegrees()) * Math.PI) / 180; // for NavX
         return ((360 - (gyro.getAngle())+ 180) * Math.PI) / 180; // returns in counterclockwise hence why 360 minus
-        // it is gyro.getAngle() - 90 because the pigeon for this robot is facing west (north is forward)
+        // it is gyro.getAngle() - 180 because the pigeon for this robot is facing backwards
     }
 
     public void resetGyro() {

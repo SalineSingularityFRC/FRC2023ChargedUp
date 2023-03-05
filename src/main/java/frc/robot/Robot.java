@@ -61,7 +61,6 @@ public class Robot extends TimedRobot {
     if (m_autonomousCommand != null) {
       
       m_autonomousCommand.schedule();
-      SmartDashboard.putNumber("Auton Turned On", 1);
     }
         
   }

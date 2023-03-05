@@ -72,32 +72,15 @@ public class Gamepad {
         }
 
         robotSubsystem.drive(new SwerveSubsystem.SwerveRequest(
-        driveController.getRawAxis(Constants.rightJoystickXAxis) * divisor, 
-        -driveController.getRawAxis(Constants.leftJoystickXAxis) * divisor, 
-        -driveController.getRawAxis(Constants.leftJoystickYAxis) * divisor));
+        driveController.getRawAxis(Constants.rightJoystickXAxis), 
+        -driveController.getRawAxis(Constants.leftJoystickXAxis), 
+        -driveController.getRawAxis(Constants.leftJoystickYAxis)));
     }
 
     public void arm(ArmSubsystem arm) {
         SmartDashboard.putNumber("Encoder value big arm", arm.bigArmMotor.getPosition().getValue());
         SmartDashboard.putNumber("Encoder value small arm", arm.smallArmMotor.getPosition().getValue());
-        // if(driveController.getPOV() == 0){
-        //     arm.highTarget();
-        // }
-        // else if(driveController.getPOV() == 90){
-        //     arm.mediumTarget();
-        // }
-        // else if(driveController.getPOV() == 180){
-        //     arm.pickupTarget();
-        // }
-        // else if (driveController.getPOV() == 270) {
-        //     arm.defaultTarget();
-        // }
-
         if (driveController.getRawButton(Constants.R_joystick_Button)) {
-            // if (driveController.getRawButtonPressed(Constants.R_joystick_Button)) {
-            //     timer.reset();
-            //     timer.start();
-            // }
             arm.defaultTarget();
         }
         else if(driveController.getRawButton(Constants.L_joystick_Button)) {

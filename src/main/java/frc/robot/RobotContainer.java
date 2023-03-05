@@ -16,7 +16,7 @@ import frc.robot.subsystems.SwerveSubsystem;
 
 public class RobotContainer {
 
-  SendableChooser<Boolean> isCenter = new SendableChooser<>();
+  // SendableChooser<Boolean> isCenter = new SendableChooser<>();
 
   private CenterCommand centerCommand;
   private SideCommand sideCommand;
@@ -27,7 +27,7 @@ public class RobotContainer {
 
   public RobotContainer(ArmSubsystem arm, ClawPneumatics clawPneumatics, SwerveSubsystem drive, Pigeon2 gyro) {
     configureBindings();
-    SmartDashboard.putData(isCenter);
+    // SmartDashboard.putData(isCenter);
     this.clawPneumatics = clawPneumatics;
     this.drive = drive;
     this.arm = arm;
@@ -43,6 +43,6 @@ public class RobotContainer {
 
   public Command getAutonomousCommand() {
     return centerCommand;
-    //return sideCommand;
+    // return sideCommand
   }
 }
