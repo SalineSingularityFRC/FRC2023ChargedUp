@@ -28,12 +28,10 @@ public class ArmSubsystem {
     public TalonFX bigArmMotor;
     public TalonFX bigArmMotor2;
 
-    private Timer timer = new Timer();
-
     private MotionMagicVoltage positionTargetPreset = new MotionMagicVoltage(0).withSlot(0).withEnableFOC(true);
-    private MotionMagicVoltage positionTargetManual = new MotionMagicVoltage(0).withSlot(1).withEnableFOC(true);
+    // private MotionMagicVoltage positionTargetManual = new MotionMagicVoltage(0).withSlot(1).withEnableFOC(true);
 
-    private TorqueCurrentFOC torqueDrive = new TorqueCurrentFOC(0).withDeadband(1).withMaxAbsDutyCycle(.4);
+    // private TorqueCurrentFOC torqueDrive = new TorqueCurrentFOC(0).withDeadband(1).withMaxAbsDutyCycle(.4);
 
     private TalonFXConfiguration talonFXConfigsPreset = new TalonFXConfiguration();
     private TalonFXConfiguration talonFXConfigsManual = new TalonFXConfiguration();
@@ -45,20 +43,20 @@ public class ArmSubsystem {
     private double bigArmPos;
     private double smallArmPos;
 
-    private final double presetSmallP = 2.0;
-    private final double presetSmallI = 0.02;
-    private final double presetSmallD = 0.02;
-    private final double presetSmallS = 0.06;
+    // private final double presetSmallP = 2.0;
+    // private final double presetSmallI = 0.02;
+    // private final double presetSmallD = 0.02;
+    // private final double presetSmallS = 0.06;
 
-    private final double presetBigP = 8.0;
-    private final double presetBigI = 0.08;
-    private final double presetBigD = 0.08;
-    private final double presetBigS = 0.06;
+    // private final double presetBigP = 8.0;
+    // private final double presetBigI = 0.08;
+    // private final double presetBigD = 0.08;
+    // private final double presetBigS = 0.06;
 
-    private final double manualP = 4.0;
-    private final double manualI = 0.0;
-    private final double manualD = 0.0;
-    private final double manualS = 0; // counters static friction
+    // private final double manualP = 4.0;
+    // private final double manualI = 0.0;
+    // private final double manualD = 0.0;
+    // private final double manualS = 0; // counters static friction
 
     private double bigArmMotorPosition;
     private double smallArmMotorPosition;
@@ -75,29 +73,29 @@ public class ArmSubsystem {
 
 
         
-        Slot0Configs slot0ConfigsSmall = new Slot0Configs();
-        Slot0Configs slot0ConfigsBig = new Slot0Configs();
-        slot0ConfigsSmall.kP = presetSmallP; 
-        slot0ConfigsSmall.kI = presetSmallI;
-        slot0ConfigsSmall.kD = presetSmallD;
-        slot0ConfigsSmall.kS = presetSmallS;
-        slot0ConfigsBig.kP = presetBigP; 
-        slot0ConfigsBig.kI = presetBigI;
-        slot0ConfigsBig.kD = presetBigD;
-        slot0ConfigsBig.kS = presetBigS;
+        // Slot0Configs slot0ConfigsSmall = new Slot0Configs();
+        // Slot0Configs slot0ConfigsBig = new Slot0Configs();
+        // slot0ConfigsSmall.kP = presetSmallP; 
+        // slot0ConfigsSmall.kI = presetSmallI;
+        // slot0ConfigsSmall.kD = presetSmallD;
+        // slot0ConfigsSmall.kS = presetSmallS;
+        // slot0ConfigsBig.kP = presetBigP; 
+        // slot0ConfigsBig.kI = presetBigI;
+        // slot0ConfigsBig.kD = presetBigD;
+        // slot0ConfigsBig.kS = presetBigS;
 
-        Slot1Configs slot1Configs = new Slot1Configs();
-        slot1Configs.kP = manualP; 
-        slot1Configs.kI = manualI;
-        slot1Configs.kD = manualD;
-        slot1Configs.kS = manualS;
+        // Slot1Configs slot1Configs = new Slot1Configs();
+        // slot1Configs.kP = manualP; 
+        // slot1Configs.kI = manualI;
+        // slot1Configs.kD = manualD;
+        // slot1Configs.kS = manualS;
 
 
-        bigArmMotor.getConfigurator().apply(slot0ConfigsBig);
-        smallArmMotor.getConfigurator().apply(slot0ConfigsSmall);
+        // bigArmMotor.getConfigurator().apply(slot0ConfigsBig);
+        // smallArmMotor.getConfigurator().apply(slot0ConfigsSmall);
 
-        bigArmMotor.getConfigurator().apply(slot1Configs);
-        smallArmMotor.getConfigurator().apply(slot1Configs);
+        // bigArmMotor.getConfigurator().apply(slot1Configs);
+        // smallArmMotor.getConfigurator().apply(slot1Configs);
 
 
         motionMagicConfigsPresets = talonFXConfigsPreset.MotionMagic;
@@ -122,8 +120,6 @@ public class ArmSubsystem {
 
         smallArmPos = smallArmMotorPosition + speed;
         smallArmMotor.setControl(positionTargetPreset.withPosition(smallArmPos).withFeedForward(0.05)); // feed forward counters gravity
-        // smallArmMotor.setControl(m_voltageVelocity.withVelocity(speed));
-        // smallArmMotor.setControl(torqueDrive.withOutput(speed));
         
         bigArmMotorPosition = bigArmMotor.getPosition().getValue();
         smallArmMotorPosition = smallArmMotor.getPosition().getValue();
@@ -133,8 +129,7 @@ public class ArmSubsystem {
         bigArmMotor.getConfigurator().apply(motionMagicConfigsManual);
 
         bigArmPos = smallArmMotorPosition + speed;
-        bigArmMotor.setControl(positionTargetPreset.withPosition(bigArmPos).withFeedForward(0.05));         // bigArmMotor.setControl(torqueDrive.withOutput(speed));
-        // bigArmMotor.setControl(m_voltageVelocity.withVelocity(speed));
+        bigArmMotor.setControl(positionTargetPreset.withPosition(bigArmPos).withFeedForward(0.05));         
 
         bigArmMotorPosition = bigArmMotor.getPosition().getValue();
         smallArmMotorPosition = smallArmMotor.getPosition().getValue();
@@ -175,19 +170,12 @@ public class ArmSubsystem {
             smallArmPosition(Constants.SmallArm_highTarget);
         }
     }
-
     public void sliderTarget(Timer timer) {
         bigArmPosition(Constants.BigArm_slider);
         if (timer.get() >= 0.7) {
             smallArmPosition(Constants.SmallArm_Slider);
         }
-    }
-
-    public void pickupFallenCone(Timer timer) {
-        bigArmPosition(Constants.BigArm_pickupFallenCone);
-        if (timer.get() >= 0.9) {
-            smallArmPosition(Constants.SmallArm_pickupFallenCone);
-        }
+        // reworkout the timing of these
     }
     public void mediumTarget(){
         setPosition(Constants.SmallArm_mediumTarget, Constants.BigArm_mediumTarget);

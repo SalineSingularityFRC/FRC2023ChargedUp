@@ -50,7 +50,6 @@ public class SetClawPneumatics extends CommandBase {
 
     // Make this return true when this Command no longer needs to run execute()
     public boolean isFinished() {
-        SmartDashboard.putNumber("TIMER", timer.get());
         return timer.get() >= 1;
     }
 }

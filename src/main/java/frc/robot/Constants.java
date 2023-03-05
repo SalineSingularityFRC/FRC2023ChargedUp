@@ -99,14 +99,12 @@ public final class Constants {
     public static final double BigArm_mediumTarget = 10.801270;
     public static final double BigArm_pickup = 1.953125;
     public static final double BigArm_default = 2.494141;
-    public static final double BigArm_pickupFallenCone = 14.338379; //
     public static final double BigArm_slider = 29.277344;
 
     public static final double SmallArm_highTarget =  24.6;
     public static final double SmallArm_mediumTarget = 9.434082;
     public static final double SmallArm_pickup = 19.403809;
     public static final double SmallArm_default = 2.765625;
-    public static final double SmallArm_pickupFallenCone = 38.658691;//
     public static final double SmallArm_Slider = 26.835449; 
 
     // 15.479004 position for bigarm for smallarm to freely rotate
@@ -129,5 +127,4 @@ public final class Constants {
     // 1.832716884 is the number of inches per 1 encoder value
     // ~80 (plus offset) to the center of the charge station for robot
     // ~160 is the distance to leave the community plus some extra cushion
-
 }
