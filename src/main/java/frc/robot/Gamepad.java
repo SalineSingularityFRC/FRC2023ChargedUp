@@ -94,6 +94,10 @@ public class Gamepad {
         // }
 
         if (driveController.getRawButton(Constants.R_joystick_Button)) {
+            // if (driveController.getRawButtonPressed(Constants.R_joystick_Button)) {
+            //     timer.reset();
+            //     timer.start();
+            // }
             arm.defaultTarget();
         }
         else if(driveController.getRawButton(Constants.L_joystick_Button)) {
@@ -111,7 +115,7 @@ public class Gamepad {
                 timer.reset();
                 timer.start();
             }
-            arm.pickupFallenCone(timer);
+            arm.sliderTarget(timer);
         }
         else if(driveController.getRawButton(Constants.Back_Button)) {
             arm.mediumTarget();

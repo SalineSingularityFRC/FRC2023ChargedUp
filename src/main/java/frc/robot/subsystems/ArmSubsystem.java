@@ -176,6 +176,13 @@ public class ArmSubsystem {
         }
     }
 
+    public void sliderTarget(Timer timer) {
+        bigArmPosition(Constants.BigArm_slider);
+        if (timer.get() >= 0.7) {
+            smallArmPosition(Constants.SmallArm_Slider);
+        }
+    }
+
     public void pickupFallenCone(Timer timer) {
         bigArmPosition(Constants.BigArm_pickupFallenCone);
         if (timer.get() >= 0.9) {
@@ -190,6 +197,12 @@ public class ArmSubsystem {
     }
     public void defaultTarget(){
         setPosition(Constants.SmallArm_default, Constants.BigArm_default);
+    }
+    public void defaultTarget(Timer timer) {
+        bigArmPosition(Constants.BigArm_default);
+        if (timer.get() >= 0.4) {
+            smallArmPosition(Constants.SmallArm_default);
+        }
     }
 
 

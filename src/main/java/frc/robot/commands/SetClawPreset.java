@@ -38,6 +38,7 @@ public class SetClawPreset extends CommandBase {
      *  subsystem is moving to, the command might set the target position for the subsystem in initialize() and have an empty execute() method.
      */
     public void execute() {
+
         if (position == 1) {
             arm.defaultTarget();
         }

@@ -38,10 +38,10 @@ public class GetOnChargeStation extends CommandBase {
         double pitch = gyro.getRoll().getValue();
         double speed = Math.abs(pitch / 15);
         SmartDashboard.putNumber("PITCH", pitch);
-        if (pitch > 3) {
+        if (pitch > 2.5) {
             drive.drive(new SwerveSubsystem.SwerveRequest(0, 0, -0.10 * speed)); // drive backwards
         }
-        else if (pitch < -3) {
+        else if (pitch < -2.5) {
             drive.drive(new SwerveSubsystem.SwerveRequest(0, 0, 0.10 * speed)); // drive forward
         }
         else {
