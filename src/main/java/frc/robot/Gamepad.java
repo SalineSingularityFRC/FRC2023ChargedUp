@@ -80,27 +80,47 @@ public class Gamepad {
     public void arm(ArmSubsystem arm) {
         SmartDashboard.putNumber("Encoder value big arm", arm.bigArmMotor.getPosition().getValue());
         SmartDashboard.putNumber("Encoder value small arm", arm.smallArmMotor.getPosition().getValue());
-        if (driveController.getRawButton(Constants.R_joystick_Button)) {
+        // if (driveController.getRawButton(Constants.R_joystick_Button)) {
+        //     arm.defaultTarget();
+        // }
+        // else if(driveController.getRawButton(Constants.L_joystick_Button)) {
+        //     arm.pickupTarget();
+        // }
+        // else if (driveController.getRawButton(Constants.Start_Button)) {
+        //     if (driveController.getRawButtonPressed(Constants.Start_Button)) {
+        //         timer.reset();
+        //         timer.start();
+        //     }
+        //     arm.autonHighTarget(timer);
+        // }
+        // else if(driveController.getRawButton(Constants.Y_Button)){
+        //     if (driveController.getRawButtonPressed(Constants.Y_Button)) {
+        //         timer.reset();
+        //         timer.start();
+        //     }
+        //     arm.sliderTarget(timer);
+        // }
+        // else if(driveController.getRawButton(Constants.Back_Button)) {
+        //     arm.mediumTarget();
+        // }
+
+        if (driveController.getRawButtonPressed(Constants.R_joystick_Button)) {
             arm.defaultTarget();
         }
-        else if(driveController.getRawButton(Constants.L_joystick_Button)) {
+        else if(driveController.getRawButtonPressed(Constants.L_joystick_Button)) {
             arm.pickupTarget();
         }
-        else if (driveController.getRawButton(Constants.Start_Button)) {
-            if (driveController.getRawButtonPressed(Constants.Start_Button)) {
-                timer.reset();
-                timer.start();
-            }
+        else if (driveController.getRawButtonPressed(Constants.Start_Button)) {
+            timer.reset();
+            timer.start();
             arm.autonHighTarget(timer);
         }
-        else if(driveController.getRawButton(Constants.Y_Button)){
-            if (driveController.getRawButtonPressed(Constants.Y_Button)) {
-                timer.reset();
-                timer.start();
-            }
+        else if(driveController.getRawButtonPressed(Constants.Y_Button)){
+            timer.reset();
+            timer.start();
             arm.sliderTarget(timer);
         }
-        else if(driveController.getRawButton(Constants.Back_Button)) {
+        else if(driveController.getRawButtonPressed(Constants.Back_Button)) {
             arm.mediumTarget();
         }
 

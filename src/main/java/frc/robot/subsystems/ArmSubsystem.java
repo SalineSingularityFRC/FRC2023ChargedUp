@@ -43,20 +43,20 @@ public class ArmSubsystem {
     private double bigArmPos;
     private double smallArmPos;
 
-    // private final double presetSmallP = 2.0;
-    // private final double presetSmallI = 0.02;
-    // private final double presetSmallD = 0.02;
-    // private final double presetSmallS = 0.06;
+    private final double presetSmallP = 2.0;
+    private final double presetSmallI = 0.02;
+    private final double presetSmallD = 0.02;
+    private final double presetSmallS = 0.06;
 
-    // private final double presetBigP = 8.0;
-    // private final double presetBigI = 0.08;
-    // private final double presetBigD = 0.08;
-    // private final double presetBigS = 0.06;
+    private final double presetBigP = 8.0;
+    private final double presetBigI = 0.08;
+    private final double presetBigD = 0.08;
+    private final double presetBigS = 0.06;
 
-    // private final double manualP = 4.0;
-    // private final double manualI = 0.0;
-    // private final double manualD = 0.0;
-    // private final double manualS = 0; // counters static friction
+    private final double manualP = 4.0;
+    private final double manualI = 0.0;
+    private final double manualD = 0.0;
+    private final double manualS = 0; // counters static friction
 
     private double bigArmMotorPosition;
     private double smallArmMotorPosition;
@@ -73,29 +73,29 @@ public class ArmSubsystem {
 
 
         
-        // Slot0Configs slot0ConfigsSmall = new Slot0Configs();
-        // Slot0Configs slot0ConfigsBig = new Slot0Configs();
-        // slot0ConfigsSmall.kP = presetSmallP; 
-        // slot0ConfigsSmall.kI = presetSmallI;
-        // slot0ConfigsSmall.kD = presetSmallD;
-        // slot0ConfigsSmall.kS = presetSmallS;
-        // slot0ConfigsBig.kP = presetBigP; 
-        // slot0ConfigsBig.kI = presetBigI;
-        // slot0ConfigsBig.kD = presetBigD;
-        // slot0ConfigsBig.kS = presetBigS;
+        Slot0Configs slot0ConfigsSmall = new Slot0Configs();
+        Slot0Configs slot0ConfigsBig = new Slot0Configs();
+        slot0ConfigsSmall.kP = presetSmallP; 
+        slot0ConfigsSmall.kI = presetSmallI;
+        slot0ConfigsSmall.kD = presetSmallD;
+        slot0ConfigsSmall.kS = presetSmallS;
+        slot0ConfigsBig.kP = presetBigP; 
+        slot0ConfigsBig.kI = presetBigI;
+        slot0ConfigsBig.kD = presetBigD;
+        slot0ConfigsBig.kS = presetBigS;
 
-        // Slot1Configs slot1Configs = new Slot1Configs();
-        // slot1Configs.kP = manualP; 
-        // slot1Configs.kI = manualI;
-        // slot1Configs.kD = manualD;
-        // slot1Configs.kS = manualS;
+        Slot1Configs slot1Configs = new Slot1Configs();
+        slot1Configs.kP = manualP; 
+        slot1Configs.kI = manualI;
+        slot1Configs.kD = manualD;
+        slot1Configs.kS = manualS;
 
 
-        // bigArmMotor.getConfigurator().apply(slot0ConfigsBig);
-        // smallArmMotor.getConfigurator().apply(slot0ConfigsSmall);
+        bigArmMotor.getConfigurator().apply(slot0ConfigsBig);
+        smallArmMotor.getConfigurator().apply(slot0ConfigsSmall);
 
-        // bigArmMotor.getConfigurator().apply(slot1Configs);
-        // smallArmMotor.getConfigurator().apply(slot1Configs);
+        bigArmMotor.getConfigurator().apply(slot1Configs);
+        smallArmMotor.getConfigurator().apply(slot1Configs);
 
 
         motionMagicConfigsPresets = talonFXConfigsPreset.MotionMagic;
@@ -147,16 +147,14 @@ public class ArmSubsystem {
         smallArmMotor.getConfigurator().apply(motionMagicConfigsPresets);
         smallArmMotor.setControl(positionTargetPreset.withPosition(smallArmAngle).withFeedForward(0.05));
 
-        bigArmMotorPosition = bigArmMotor.getPosition().getValue();
-        smallArmMotorPosition = smallArmMotor.getPosition().getValue();
+        smallArmMotorPosition = smallArmAngle;
     }
 
     public void bigArmPosition(double bigArmAngle) {
         bigArmMotor.getConfigurator().apply(motionMagicConfigsPresets);
         bigArmMotor.setControl(positionTargetPreset.withPosition(bigArmAngle).withFeedForward(0.05));
 
-        bigArmMotorPosition = bigArmMotor.getPosition().getValue();
-        smallArmMotorPosition = smallArmMotor.getPosition().getValue();
+        bigArmMotorPosition = bigArmAngle;
     }
 
 
@@ -185,12 +183,6 @@ public class ArmSubsystem {
     }
     public void defaultTarget(){
         setPosition(Constants.SmallArm_default, Constants.BigArm_default);
-    }
-    public void defaultTarget(Timer timer) {
-        bigArmPosition(Constants.BigArm_default);
-        if (timer.get() >= 0.4) {
-            smallArmPosition(Constants.SmallArm_default);
-        }
     }
 
 
