@@ -18,7 +18,8 @@ public class Gamepad {
 
     String allianceColor = DriverStation.getAlliance().toString();
 
-    Timer timer = new Timer();
+    Timer highTargetTimer = new Timer();
+    Timer sliderTimer = new Timer();
     
     private Joystick driveController;
     private Joystick armController;
@@ -80,29 +81,17 @@ public class Gamepad {
     public void arm(ArmSubsystem arm) {
         SmartDashboard.putNumber("Encoder value big arm", arm.bigArmMotor.getPosition().getValue());
         SmartDashboard.putNumber("Encoder value small arm", arm.smallArmMotor.getPosition().getValue());
-        // if (driveController.getRawButton(Constants.R_joystick_Button)) {
-        //     arm.defaultTarget();
-        // }
-        // else if(driveController.getRawButton(Constants.L_joystick_Button)) {
-        //     arm.pickupTarget();
-        // }
-        // else if (driveController.getRawButton(Constants.Start_Button)) {
-        //     if (driveController.getRawButtonPressed(Constants.Start_Button)) {
-        //         timer.reset();
-        //         timer.start();
-        //     }
-        //     arm.autonHighTarget(timer);
-        // }
-        // else if(driveController.getRawButton(Constants.Y_Button)){
-        //     if (driveController.getRawButtonPressed(Constants.Y_Button)) {
-        //         timer.reset();
-        //         timer.start();
-        //     }
-        //     arm.sliderTarget(timer);
-        // }
-        // else if(driveController.getRawButton(Constants.Back_Button)) {
-        //     arm.mediumTarget();
-        // }
+        if (highTargetTimer.get() >= 0.7) {
+            arm.autonHighTarget2();
+            highTargetTimer.stop();
+            highTargetTimer.reset();
+        }
+
+        if (sliderTimer.get() >= 0.7) {
+            arm.sliderTarget2();
+            sliderTimer.stop();
+            sliderTimer.reset();
+        } // redo the timing for this
 
         if (driveController.getRawButtonPressed(Constants.R_joystick_Button)) {
             arm.defaultTarget();
@@ -111,14 +100,12 @@ public class Gamepad {
             arm.pickupTarget();
         }
         else if (driveController.getRawButtonPressed(Constants.Start_Button)) {
-            timer.reset();
-            timer.start();
-            arm.autonHighTarget(timer);
+            arm.autonHighTarget1();
+            highTargetTimer.start();
         }
         else if(driveController.getRawButtonPressed(Constants.Y_Button)){
-            timer.reset();
-            timer.start();
-            arm.sliderTarget(timer);
+            arm.sliderTarget1();
+            sliderTimer.start();
         }
         else if(driveController.getRawButtonPressed(Constants.Back_Button)) {
             arm.mediumTarget();

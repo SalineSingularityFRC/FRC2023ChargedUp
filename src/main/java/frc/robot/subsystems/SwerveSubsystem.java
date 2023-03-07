@@ -116,7 +116,7 @@ public class SwerveSubsystem {
                     targetAngle = getRobotAngle();
                 }
                 else {
-                    double difference = targetAngle - getRobotAngle(); 
+                    double difference = getRobotAngle() - targetAngle; 
                     swerveRequest.rotation = difference;
                     SmartDashboard.putNumber("Difference", difference);
                 }
