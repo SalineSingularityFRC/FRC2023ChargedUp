@@ -161,20 +161,28 @@ public class ArmSubsystem {
 
     public void highTarget(){
         setPosition(Constants.SmallArm_highTarget , Constants.BigArm_highTarget);
-    }   
+    } 
+    
     public void autonHighTarget(Timer timer) {
+        autonHighTarget1();
+        if (timer.get() >= 0.7) {
+            autonHighTarget2();        
+        }
+    }
+    public void autonHighTarget1() {
         bigArmPosition(Constants.BigArm_highTarget);
-        if (timer.get() >= 0.7) {
-            smallArmPosition(Constants.SmallArm_highTarget);
-        }
     }
-    public void sliderTarget(Timer timer) {
+    public void autonHighTarget2() {
+        smallArmPosition(Constants.SmallArm_highTarget);
+    }
+
+    public void sliderTarget1() {
         bigArmPosition(Constants.BigArm_slider);
-        if (timer.get() >= 0.7) {
-            smallArmPosition(Constants.SmallArm_Slider);
-        }
-        // reworkout the timing of these
     }
+    public void sliderTarget2() {
+        smallArmPosition(Constants.SmallArm_Slider);
+    }
+
     public void mediumTarget(){
         setPosition(Constants.SmallArm_mediumTarget, Constants.BigArm_mediumTarget);
     }
