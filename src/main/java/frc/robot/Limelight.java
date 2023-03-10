@@ -66,4 +66,36 @@ public class Limelight {
     public void setpipeline(Limelight limelight, int pipe){
         limelight.pipeLine.setNumber(pipe);
     }
+
+    /**
+     * tv Whether the limelight has any valid targets (0 or 1)
+     */
+    public boolean getIsTargetFound() {
+        NetworkTableEntry tv = table.getEntry("tv");
+        double v = tv.getDouble(0);
+        if (v == 0.0f){
+            return false;
+        }else {
+            return true;
+        }
+    }
+    /**
+     * tx Horizontal Offset From Crosshair To Target (-27 degrees to 27 degrees)
+     */
+    public double getdegRotationToTarget() {
+        NetworkTableEntry tx = table.getEntry("tx");
+        double x = tx.getDouble(0.0);
+        return x;
+    }
+    
+    /**
+     * Uses tx to align the robot parallel to to the aprilTag (target)
+     * Takes in the swerveSubsystem because need accsess to wheels
+     * If the robot is aligned farther, then drive faster
+     * The method first gets the degree offset to zero then drives the (not known) distance to align the arm to the target
+     */
+    public void alignToTarget() {
+        if (getdegRotationToTarget() > 20) {
+        }
+    }
 }
