@@ -75,7 +75,7 @@ public class SwerveSubsystem {
         }
     }
 
-    public void drive(SwerveRequest swerveRequest) { // takes in the inputs from the controller
+    public void drive(SwerveRequest swerveRequest, boolean fieldCentric) { // takes in the inputs from the controller
         double currentRobotAngle = getRobotAngle();
         ChassisVelocity chassisVelocity;
         
@@ -130,10 +130,15 @@ public class SwerveSubsystem {
             SmartDashboard.putNumber("GET ROBOT ANGLE", getRobotAngle());
         }
 
+        double x = swerveRequest.movement.x;
+        double y = swerveRequest.movement.y;
+
         // this is to change the vector value from robo centric to field centric
-        double difference = (currentRobotAngle - startingAngle) % (2*Math.PI);
-        double x = -swerveRequest.movement.y * Math.sin(difference) + swerveRequest.movement.x * Math.cos(difference);
-        double y = swerveRequest.movement.y * Math.cos(difference) + swerveRequest.movement.x * Math.sin(difference);
+        if (fieldCentric) {
+            double difference = (currentRobotAngle - startingAngle) % (2*Math.PI);
+            x = -swerveRequest.movement.y * Math.sin(difference) + swerveRequest.movement.x * Math.cos(difference);
+            y = swerveRequest.movement.y * Math.cos(difference) + swerveRequest.movement.x * Math.sin(difference);
+        }
 
         chassisVelocity = new ChassisVelocity(new Vector(x, y), swerveRequest.rotation); 
 
