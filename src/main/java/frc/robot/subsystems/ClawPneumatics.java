@@ -17,6 +17,7 @@ public class ClawPneumatics{
     public ClawPneumatics(int forwardChannel, int reverseChannel) {
         doubleSolenoid = new DoubleSolenoid(PneumaticsModuleType.REVPH, forwardChannel, reverseChannel);
 		doubleSolenoid.set(DoubleSolenoid.Value.kOff);
+		// disableCompressor();
 		enableCompressor();
     }
 

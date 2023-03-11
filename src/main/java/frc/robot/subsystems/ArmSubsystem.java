@@ -1,5 +1,6 @@
 package frc.robot.subsystems;
 
+import com.ctre.phoenixpro.hardware.CANcoder;
 import com.ctre.phoenixpro.hardware.TalonFX;
 import com.ctre.phoenixpro.signals.ControlModeValue;
 import com.ctre.phoenixpro.controls.DutyCycleOut;
@@ -27,6 +28,8 @@ public class ArmSubsystem {
     public TalonFX smallArmMotor;
     public TalonFX bigArmMotor;
     public TalonFX bigArmMotor2;
+
+    public CANcoder bigArmEncoder;
 
     private MotionMagicVoltage positionTargetPreset = new MotionMagicVoltage(0).withSlot(0).withEnableFOC(true);
     // private MotionMagicVoltage positionTargetManual = new MotionMagicVoltage(0).withSlot(1).withEnableFOC(true);
@@ -70,6 +73,8 @@ public class ArmSubsystem {
 
         bigArmMotor2 = new TalonFX(Constants.BIG_ARM_Motor_2_ID, Constants.CANBUS);
         bigArmMotor2.setControl(new Follower(Constants.BIG_ARM_Motor_ID, true));
+
+        // bigArmEncoder = new CANcoder(, );
 
 
         

@@ -22,6 +22,7 @@ public class Robot extends TimedRobot {
 
   private ArmSubsystem arm;
   private ClawPneumatics clawPneumatics;
+  private Limelight limelight;
 
   @Override
   public void robotInit() {
@@ -33,6 +34,8 @@ public class Robot extends TimedRobot {
 
     m_robotContainer = new RobotContainer(arm, clawPneumatics, robotSubsystem, robotSubsystem.gyro);
     robotSubsystem.resetGyro();
+
+    limelight = new Limelight();
   }
 
   @Override
@@ -85,9 +88,13 @@ public class Robot extends TimedRobot {
 
   @Override
   public void teleopPeriodic() {
-    teleopDrive.swerveDrive(robotSubsystem);
+    teleopDrive.swerveDrive(robotSubsystem, limelight, arm, clawPneumatics);
     teleopDrive.arm(arm);
     teleopDrive.armPneumatics(clawPneumatics);
+
+    limelight.runLimelight();
+    SmartDashboard.putBoolean("is target found", limelight.getIsTargetFound());
+    SmartDashboard.putNumber("gyro", robotSubsystem.getRobotAngle());
 
     CommandScheduler.getInstance().run();
   }

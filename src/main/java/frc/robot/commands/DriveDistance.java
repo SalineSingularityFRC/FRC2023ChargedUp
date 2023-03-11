@@ -56,11 +56,11 @@ public class DriveDistance extends CommandBase {
             //     rotations = 0;
             // }
 
-            drive.drive(new SwerveSubsystem.SwerveRequest(0, x/5, y/5));
+            drive.drive(new SwerveSubsystem.SwerveRequest(0, x/5, y/5), true);
             changeInEncoderValue = Math.abs(drive.getSwerveModule(0).getPosition() - startingEncoderValue);
         }
         else {
-            drive.drive(new SwerveSubsystem.SwerveRequest(0, 0, 0));
+            drive.drive(new SwerveSubsystem.SwerveRequest(0, 0, 0), true);
             isFinished = true;
         }
     }

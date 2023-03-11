@@ -57,7 +57,7 @@ public class Gamepad {
         }
     }
 
-    public void swerveDrive(SwerveSubsystem robotSubsystem) {
+    public void swerveDrive(SwerveSubsystem robotSubsystem, Limelight limelight, ArmSubsystem arm, ClawPneumatics claw) {
         double divisor;
         divisor = 1;
 
@@ -67,15 +67,19 @@ public class Gamepad {
         // else {
         //     divisor = 1;
         // }
-
-        if (driveController.getRawButtonPressed(Constants.X_Button)) {
-            robotSubsystem.resetGyro();
+        if (driveController.getPOV() == 0) {
+            limelight.pickupCube(robotSubsystem, arm, claw);
         }
-
-        robotSubsystem.drive(new SwerveSubsystem.SwerveRequest(
-        driveController.getRawAxis(Constants.rightJoystickXAxis), 
-        -driveController.getRawAxis(Constants.leftJoystickXAxis), 
-        -driveController.getRawAxis(Constants.leftJoystickYAxis)));
+        else {
+            if (driveController.getRawButtonPressed(Constants.X_Button)) {
+                robotSubsystem.resetGyro();
+            }
+    
+            robotSubsystem.drive(new SwerveSubsystem.SwerveRequest(
+            driveController.getRawAxis(Constants.rightJoystickXAxis), 
+            -driveController.getRawAxis(Constants.leftJoystickXAxis), 
+            -driveController.getRawAxis(Constants.leftJoystickYAxis)), true);
+        }
     }
 
     public void arm(ArmSubsystem arm) {
