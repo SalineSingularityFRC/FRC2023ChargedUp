@@ -27,6 +27,8 @@ public class SwerveModule {
     private TalonFX driveMotor;
 
     private final VelocityVoltage m_voltageVelocity = new VelocityVoltage(0, true, 0, 0, false);
+    public MotorOutputConfigs motorOutputConfigs = new MotorOutputConfigs();
+    ;
 
     private final double absolutePositionEncoderOffset;
 
@@ -39,10 +41,6 @@ public class SwerveModule {
         m_encoder = new CANcoder(Can_ID_canCoder, canNetwork);
         driveMotor = new TalonFX(Can_ID_driveMotor, canNetwork);
         angleMotor = new SwerveAngle(Can_ID_angleMotor, canNetwork);
-
-        MotorOutputConfigs motorOutputConfigs = new MotorOutputConfigs();
-        motorOutputConfigs.NeutralMode = NeutralModeValue.Coast;
-        driveMotor.getConfigurator().apply(motorOutputConfigs);
 
         driveMotor.setInverted(isInverted);
 
@@ -89,6 +87,25 @@ public class SwerveModule {
 
     public double getEncoderPosition() {
         return (m_encoder.getAbsolutePosition().getValue() * 2 * Math.PI) - absolutePositionEncoderOffset;
+    }
+
+    public void setCoastMode() {
+        motorOutputConfigs.NeutralMode = NeutralModeValue.Coast;
+        driveMotor.getConfigurator().apply(motorOutputConfigs);
+    }
+
+    public void setBrakeMode() {
+        motorOutputConfigs.NeutralMode = NeutralModeValue.Brake;
+        driveMotor.getConfigurator().apply(motorOutputConfigs);
+    }
+
+    public boolean isCoast() {
+        if (motorOutputConfigs.NeutralMode == NeutralModeValue.Coast) {
+            return true;
+        }
+        else {
+            return false; // it is brake mode
+        }
     }
 
 

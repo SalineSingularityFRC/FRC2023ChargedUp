@@ -67,12 +67,20 @@ public class Gamepad {
         // else {
         //     divisor = 1;
         // }
-        if (driveController.getPOV() == 0) {
+        if (armController.getRawButton(Constants.A_Button)) {
             limelight.pickupCube(robotSubsystem, arm, claw);
         }
         else {
             if (driveController.getRawButtonPressed(Constants.X_Button)) {
                 robotSubsystem.resetGyro();
+            }
+            if (armController.getRawButtonPressed(Constants.Start_Button)) {
+                if (robotSubsystem.isCoast()) {
+                    robotSubsystem.setBrakeMode();
+                }
+                else {
+                    robotSubsystem.setCoastMode();
+                }
             }
     
             robotSubsystem.drive(new SwerveSubsystem.SwerveRequest(

@@ -117,35 +117,37 @@ public class Limelight {
 
             if (ta.getDouble(0) > 2.7) {
                 y *= -0.15;
+                if (y < -0.5) {
+                    y = -0.5;
+                }
             }
             else if (ta.getDouble(0) < 2.6) {
                 y *= 0.15;
+                if (y > 0.5) {
+                    y = 0.5;
+                } 
             }
             else {
                 y = 0;
             }
-            if (y > 0.5) {
-                y = 0.5;
-            } 
-            else if (y < -0.5) {
-                y = -0.5;
-            }
+            
 
             if (tx.getDouble(0) > 10) {
                 x = -0.02;
+                if (x < -0.5) {
+                    x = -0.5;
+                }
             }
             else if (tx.getDouble(0) < 9) {
                 x = 0.02;
+                if (x > 0.5) {
+                    x = 0.5;
+                } 
             }
             else {
                 x = 0;
             }
-            if (x > 0.5) {
-                x = 0.5;
-            } 
-            else if (x < -0.5) {
-                x = -0.5;
-            }
+
 
             if (rotation == 0 && x == 0 && y == 0) {
                 claw.setHigh();
