@@ -236,4 +236,21 @@ public class SwerveSubsystem {
     public SwerveModule getSwerveModule(int module) {
         return swerveModules[module];
     }
+
+    public void setBrakeMode() {
+        for (int i = 0; i < 4; i++) {
+            swerveModules[i].setBrakeMode();
+        }
+    }
+
+    public void setCoastMode() {
+        for (int i = 0; i < 4; i++) {
+            swerveModules[i].setCoastMode();
+        }
+    }
+
+    public boolean isCoast() {
+        return swerveModules[0].isCoast();
+    }
+
 }
