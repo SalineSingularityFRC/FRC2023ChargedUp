@@ -115,16 +115,16 @@ public class Limelight {
             // }
 
 
-            if (ta.getDouble(0) > 2.7) {
-                y *= -0.15;
+            if (ta.getDouble(0) >= 2.5) {
+                y *= -0.80;
                 if (y < -0.5) {
-                    y = -0.5;
+                    y = -1;
                 }
             }
-            else if (ta.getDouble(0) < 2.6) {
-                y *= 0.15;
+            else if (ta.getDouble(0) < 2.5) {
+                y *= 0.80;
                 if (y > 0.5) {
-                    y = 0.5;
+                    y = 1;
                 } 
             }
             else {
@@ -132,16 +132,16 @@ public class Limelight {
             }
             
 
-            if (tx.getDouble(0) > 10) {
-                x = -0.02;
+            if (tx.getDouble(0) >= 9.5) {
+                x *= -0.30;
                 if (x < -0.5) {
-                    x = -0.5;
+                    x = -1;
                 }
             }
-            else if (tx.getDouble(0) < 9) {
-                x = 0.02;
+            else if (tx.getDouble(0) < 9.5) {
+                x *= 0.30;
                 if (x > 0.5) {
-                    x = 0.5;
+                    x = 1;
                 } 
             }
             else {
@@ -149,8 +149,8 @@ public class Limelight {
             }
 
 
-            if (rotation == 0 && x == 0 && y == 0) {
-                claw.setHigh();
+            if (tx.getDouble(0) > 10 && tx.getDouble(0) < 9 && ta.getDouble(0) < 2.5 && ta.getDouble(0) > 2.7) {
+                claw.setLow();
                 return true;
             }
 

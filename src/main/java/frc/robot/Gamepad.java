@@ -67,6 +67,9 @@ public class Gamepad {
         // else {
         //     divisor = 1;
         // }
+
+        SmartDashboard.putBoolean("Is it coast", robotSubsystem.isCoast());
+        
         if (armController.getRawButton(Constants.A_Button)) {
             limelight.pickupCube(robotSubsystem, arm, claw);
         }
