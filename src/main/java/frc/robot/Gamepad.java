@@ -58,26 +58,24 @@ public class Gamepad {
     }
 
     public void swerveDrive(SwerveSubsystem robotSubsystem, Limelight limelight, ArmSubsystem arm, ClawPneumatics claw) {
-        double divisor;
-        divisor = 1;
-
-        // if (driveController.getRawButton(Constants.Y_Button)) {
-        //     divisor = Constants.SNAIL_SPEED;
-        // }
-        // else {
-        //     divisor = 1;
-        // }
-
         SmartDashboard.putBoolean("Is it coast", robotSubsystem.isCoast());
-        
-        if (armController.getRawButtonPressed(Constants.A_Button)) {
-            limelight.isDone = false;
+        // limelight commands below
+        if (armController.getRawButtonPressed(Constants.A_Button) || armController.getRawButtonPressed(Constants.B_Button)) {
+            limelight.isTurningDone = false;
+            robotSubsystem.setBrakeMode();
         }
+        if (armController.getRawButtonReleased(Constants.A_Button) || armController.getRawButtonReleased(Constants.B_Button)) {
+            robotSubsystem.setCoastMode();
+        }
+
         if (armController.getRawButton(Constants.A_Button)) {
-            //limelight.pickupCube(robotSubsystem, arm, claw);
-            limelight.pickupCube(robotSubsystem);
+            limelight.pickup(robotSubsystem, arm, claw, true);
+        }  
+        else if (armController.getRawButton(Constants.B_Button)) {
+            limelight.pickup(robotSubsystem, arm, claw, false);
         }
-        else {
+
+        else { // no limelight commands
             if (driveController.getRawButtonPressed(Constants.X_Button)) {
                 robotSubsystem.resetGyro();
             }
@@ -101,7 +99,7 @@ public class Gamepad {
         SmartDashboard.putNumber("Encoder value big arm", arm.bigArmMotor.getPosition().getValue());
         SmartDashboard.putNumber("Encoder value small arm", arm.smallArmMotor.getPosition().getValue());
         if (highTargetTimer.get() >= 0.7) {
-            arm.autonHighTarget2();
+            arm.highTarget2();
             highTargetTimer.stop();
             highTargetTimer.reset();
         }
@@ -119,7 +117,7 @@ public class Gamepad {
             arm.pickupTarget();
         }
         else if (driveController.getRawButtonPressed(Constants.Start_Button)) {
-            arm.autonHighTarget1();
+            arm.highTarget1();
             highTargetTimer.start();
         }
         else if(driveController.getRawButtonPressed(Constants.Y_Button)){

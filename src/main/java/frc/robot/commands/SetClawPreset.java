@@ -49,10 +49,7 @@ public class SetClawPreset extends CommandBase {
             arm.mediumTarget();
         }
         else if (position == 4) {
-            arm.highTarget();
-        }
-        else if (position == 5) {
-            arm.autonHighTarget(timer);
+            arm.highTarget(timer);
         }
     }
 

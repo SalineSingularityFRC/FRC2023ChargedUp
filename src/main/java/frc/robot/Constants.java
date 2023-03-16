@@ -118,7 +118,7 @@ public final class Constants {
     // public static final double TRACKWIDTH = 1;
     // public static final double WHEELBASE = 1;
 
-    public static final double SPEED_DIVISOR = 4; // what the max speed should be divided by, 1 is max power
+    public static final double SPEED_DIVISOR = 1; // what the max speed should be divided by, 1 is max power
     public static final double ARM_SPEED = 20; // speed of the arms when adjusting manually
     public static final double SNAIL_SPEED = 0.2; // between 0 and 1 for constant speed mode
 
