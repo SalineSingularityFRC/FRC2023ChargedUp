@@ -18,6 +18,9 @@ public class Limelight {
     public double target_distance = 0.0;
 
 
+    public boolean isDone;
+
+
     public Limelight() {
 
         table = NetworkTableInstance.getDefault().getTable("limelight");
@@ -89,79 +92,87 @@ public class Limelight {
         }
     }
 
-    public boolean pickupCube(SwerveSubsystem drive, ArmSubsystem arm, ClawPneumatics claw) {
+    public boolean pickupCube(SwerveSubsystem drive) {
         setpipeline(2);
-        arm.pickupTarget();
-        if (claw.isClawClosed) {
-            claw.setLow();
-        }
-        else {
-            claw.setOff();
+        if (!isDone) {
+            isDone = turnAngle(drive);
         }
 
-        double rotation = 0;
-        double x = Math.abs(9.5 - ta.getDouble(0));
-        double y = Math.abs(2.65-ta.getDouble(0));
-        if (getIsTargetFound()) {
-            // We do see the target, execute aiming code
-            // if (drive.getRobotAngle() % (Math.PI * 2) > 0.1) {
-            //     rotation = -0.05;
-            // }
-            // else if (drive.getRobotAngle() % (Math.PI * 2) < 0.1) {
-            //     rotation = 0.05;
-            // }
-            // else {
-            //     rotation = 0;
-            // }
+        return true;
+    }
+    // public boolean pickupCube(SwerveSubsystem drive, ArmSubsystem arm, ClawPneumatics claw) {
+    //     setpipeline(2);
+    //     arm.pickupTarget();
+    //     if (claw.isClawClosed) {
+    //         claw.setLow();
+    //     }
+    //     else {
+    //         claw.setOff();
+    //     }
+
+    //     double rotation = 0;
+    //     double x = Math.abs(9.5 - ta.getDouble(0));
+    //     double y = Math.abs(2.65-ta.getDouble(0));
+    //     if (getIsTargetFound()) {
+    //         // We do see the target, execute aiming code
+    //         // if (drive.getRobotAngle() % (Math.PI * 2) > 0.1) {
+    //         //     rotation = -0.05;
+    //         // }
+    //         // else if (drive.getRobotAngle() % (Math.PI * 2) < 0.1) {
+    //         //     rotation = 0.05;
+    //         // }
+    //         // else {
+    //         //     rotation = 0;
+    //         // }
 
 
-            if (ta.getDouble(0) >= 2.5) {
-                y *= -0.80;
-                if (y < -0.5) {
-                    y = -1;
-                }
-            }
-            else if (ta.getDouble(0) < 2.5) {
-                y *= 0.80;
-                if (y > 0.5) {
-                    y = 1;
-                } 
-            }
-            else {
-                y = 0;
-            }
+    //         if (ta.getDouble(0) >= 2.5) {
+    //             y *= -0.80;
+    //             if (y < -0.5) {
+    //                 y = -1;
+    //             }
+    //         }
+    //         else if (ta.getDouble(0) < 2.5) {
+    //             y *= 0.80;
+    //             if (y > 0.5) {
+    //                 y = 1;
+    //             } 
+    //         }
+    //         else {
+    //             y = 0;
+    //         }
             
 
-            if (tx.getDouble(0) >= 9.5) {
-                x *= -0.30;
-                if (x < -0.5) {
-                    x = -1;
-                }
-            }
-            else if (tx.getDouble(0) < 9.5) {
-                x *= 0.30;
-                if (x > 0.5) {
-                    x = 1;
-                } 
-            }
-            else {
-                x = 0;
-            }
+    //         if (tx.getDouble(0) >= 9.5) {
+    //             x *= -0.30;
+    //             if (x < -0.5) {
+    //                 x = -1;
+    //             }
+    //         }
+    //         else if (tx.getDouble(0) < 9.5) {
+    //             x *= 0.30;
+    //             if (x > 0.5) {
+    //                 x = 1;
+    //             } 
+    //         }
+    //         else {
+    //             x = 0;
+    //         }
 
 
-            if (tx.getDouble(0) > 10 && tx.getDouble(0) < 9 && ta.getDouble(0) < 2.5 && ta.getDouble(0) > 2.7) {
-                claw.setLow();
-                return true;
-            }
+    //         if (tx.getDouble(0) > 10 && tx.getDouble(0) < 9 && ta.getDouble(0) < 2.5 && ta.getDouble(0) > 2.7) {
+    //             claw.setLow();
+    //             return true;
+    //         }
 
-            drive.drive(new SwerveRequest(rotation, x, y), false);
-            return true;
-        }
-        else {
-            return false;
-            // did not see anything
-        }
-    }
+    //         drive.drive(new SwerveRequest(rotation, x, y), false);
+    //         return true;
+    //     }
+    //     else {
+    //         return false;
+    //         // did not see anything
+    //     }
+    // }
     
     /**
      * Uses tx to align the robot parallel to to the aprilTag (target)
@@ -171,6 +182,32 @@ public class Limelight {
      */
     public void alignToTarget() {
         if (tx.getDouble(0.0) > 20) {
+        }
+    }
+    
+    public boolean turnAngle(SwerveSubsystem drive){
+ 
+        double speed = Math.abs(9.5 - tx.getDouble(0) / 15);
+        
+        if (tx.getDouble(0) >= 9.5) {
+            speed *= 1;
+            if(speed > 0.5){
+                speed = 0.5;
+            }
+        } else if (tx.getDouble(0) < 9.5) {
+            speed *= -1;
+            if(speed < -0.5){
+                speed = -0.5;
+            }
+        } 
+        
+        if (tx.getDouble(0) >= 8.5 && tx.getDouble(0) <= 10.5) {
+            drive.drive(new SwerveRequest(0 , 0, 0), false);
+            return true;
+        }
+        else {
+            drive.drive(new SwerveRequest(speed , 0, 0), false);
+            return false;
         }
     }
 }

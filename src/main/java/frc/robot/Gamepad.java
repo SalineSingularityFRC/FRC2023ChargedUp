@@ -70,8 +70,12 @@ public class Gamepad {
 
         SmartDashboard.putBoolean("Is it coast", robotSubsystem.isCoast());
         
+        if (armController.getRawButtonPressed(Constants.A_Button)) {
+            limelight.isDone = false;
+        }
         if (armController.getRawButton(Constants.A_Button)) {
-            limelight.pickupCube(robotSubsystem, arm, claw);
+            //limelight.pickupCube(robotSubsystem, arm, claw);
+            limelight.pickupCube(robotSubsystem);
         }
         else {
             if (driveController.getRawButtonPressed(Constants.X_Button)) {
