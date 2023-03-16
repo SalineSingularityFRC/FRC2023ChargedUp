@@ -1,5 +1,6 @@
 package frc.robot;
 
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
@@ -14,15 +15,15 @@ public class Limelight {
     private NetworkTable table;
     public NetworkTableEntry tx, ty, ta, tv, ledMode, camMode, pipeLine, crop;
 
-    //TODO Find limelight distance value
-    public double target_distance = 0.0;
+    private double[] localization;
+    private double poseX, poseY, yaw;
 
 
-    public boolean isDone;
+    public boolean isTurningDone;
+    public final double minimumSpeed = 0.05;
 
 
     public Limelight() {
-
         table = NetworkTableInstance.getDefault().getTable("limelight");
         tx = table.getEntry("tx");
         ty = table.getEntry("ty");
@@ -35,28 +36,36 @@ public class Limelight {
         //state of LEDs: 1.0 - on, 2.0 - blink, 3.0 - off
         ledMode = table.getEntry("ledMode");
 
-        //set pipeLine
         pipeLine = table.getEntry("pipeline");
 
 
-        setCamMode(0);
+        localization = table.getEntry("botpose").getDoubleArray(new double[6]);
+        poseX = localization[0];
+        poseY = localization[1];
+        yaw = localization[5];
+
+
+        setCamMode(0); // set to vision mode
         ledOff();
         setpipeline(1);
     }
 
-    public void runLimelight() {
+    public void runLimelight() { // to put smartdashboard values
         SmartDashboard.putNumber("tx", tx.getDouble(0.0));
         SmartDashboard.putNumber("ty", ty.getDouble(0.0));
         SmartDashboard.putNumber("ta", ta.getDouble(0.0));
-        SmartDashboard.putNumber("tv", tv.getDouble(0.0));
+
+        SmartDashboard.putNumber("poseX", poseX);
+        SmartDashboard.putNumber("poseY", poseY);
+        SmartDashboard.putNumber("yaw", yaw);
     }
 
-    // turns on the LEDs, takes in a LimeLight object
+    // turns on the LEDs
     public void ledOn() {
         ledMode.setDouble(3.0);
     }
 
-    // turns off the LEDs, takes in a LimeLight object
+    // turns off the LEDs
     public void ledOff() {
         ledMode.setDouble(0.0);
     }
@@ -71,18 +80,6 @@ public class Limelight {
         pipeLine.setNumber(pipe);
     }
 
-    /**
-     * tv Whether the limelight has any valid targets (0 or 1)
-     */
-    // public boolean getIsTargetFound() {
-    //     double v = tv.getDouble(0);
-    //     if (v == 0.0){
-    //         return false;
-    //     }else {
-    //         return true;
-    //     }
-    // }
-
     public boolean getIsTargetFound() {
         double a = ta.getDouble(0);
         if (a <= 0.05){
@@ -92,122 +89,120 @@ public class Limelight {
         }
     }
 
-    public boolean pickupCube(SwerveSubsystem drive) {
-        setpipeline(2);
-        if (!isDone) {
-            isDone = turnAngle(drive);
+    // public boolean pickupCube(SwerveSubsystem drive) {
+    //     setpipeline(2);
+    //     if (!isTurningDone) {
+    //         isTurningDone = turnAngle(drive);
+    //     }
+
+    //     return true;
+    // }
+
+
+    public boolean pickup(SwerveSubsystem drive, ArmSubsystem arm, ClawPneumatics claw, boolean isCube) {
+        if (isCube) {
+            setpipeline(2);
+        }
+        else {
+            setpipeline(1); // is cone
         }
 
-        return true;
-    }
-    // public boolean pickupCube(SwerveSubsystem drive, ArmSubsystem arm, ClawPneumatics claw) {
-    //     setpipeline(2);
-    //     arm.pickupTarget();
-    //     if (claw.isClawClosed) {
-    //         claw.setLow();
-    //     }
-    //     else {
-    //         claw.setOff();
-    //     }
+        arm.pickupTarget();
 
-    //     double rotation = 0;
-    //     double x = Math.abs(9.5 - ta.getDouble(0));
-    //     double y = Math.abs(2.65-ta.getDouble(0));
-    //     if (getIsTargetFound()) {
-    //         // We do see the target, execute aiming code
-    //         // if (drive.getRobotAngle() % (Math.PI * 2) > 0.1) {
-    //         //     rotation = -0.05;
-    //         // }
-    //         // else if (drive.getRobotAngle() % (Math.PI * 2) < 0.1) {
-    //         //     rotation = 0.05;
-    //         // }
-    //         // else {
-    //         //     rotation = 0;
-    //         // }
+        if (claw.isClawClosed) {
+            claw.setLow();
+        }
+        else {
+            claw.setOff();
+        }
 
-
-    //         if (ta.getDouble(0) >= 2.5) {
-    //             y *= -0.80;
-    //             if (y < -0.5) {
-    //                 y = -1;
-    //             }
-    //         }
-    //         else if (ta.getDouble(0) < 2.5) {
-    //             y *= 0.80;
-    //             if (y > 0.5) {
-    //                 y = 1;
-    //             } 
-    //         }
-    //         else {
-    //             y = 0;
-    //         }
-            
-
-    //         if (tx.getDouble(0) >= 9.5) {
-    //             x *= -0.30;
-    //             if (x < -0.5) {
-    //                 x = -1;
-    //             }
-    //         }
-    //         else if (tx.getDouble(0) < 9.5) {
-    //             x *= 0.30;
-    //             if (x > 0.5) {
-    //                 x = 1;
-    //             } 
-    //         }
-    //         else {
-    //             x = 0;
-    //         }
+        if (!isTurningDone) {
+            isTurningDone = turnAngle(drive);
+            return false;
+        }
+        else {
+            // We see the target and are aimed at it, drive forwards now
+            double x = 0;
+            // double y = Math.abs(2.65 - ta.getDouble(0));
+            double y = 0;
+            if (ta.getDouble(0) <= 2.5) {
+                // 0.26 is a specific multiplier that makes speed hit exactly 0.7 if ta is approx 0 (very far away)
+                x = ((2.5 - ta.getDouble(0)) * 0.26) + minimumSpeed; 
+                if(x > 0.7){
+                    x = 0.7;
+                }
+            }
+            // if (tx.getDouble(0) >= 9.5) {
+            //     x *= -0.30;
+            //     if (x < -0.5) {
+            //         x = -1;
+            //     }
+            // }
+            // else if (tx.getDouble(0) < 9.5) {
+            //     x *= 0.30;
+            //     if (x > 0.5) {
+            //         x = 1;
+            //     } 
+            // }
+            // else {
+            //     x = 0;
+            // }
 
 
-    //         if (tx.getDouble(0) > 10 && tx.getDouble(0) < 9 && ta.getDouble(0) < 2.5 && ta.getDouble(0) > 2.7) {
-    //             claw.setLow();
-    //             return true;
-    //         }
+            // if (tx.getDouble(0) > 10 && tx.getDouble(0) < 9 && ta.getDouble(0) < 2.5 && ta.getDouble(0) > 2.7) {
+            //     claw.setLow();
+            //     return true;
+            // }
 
-    //         drive.drive(new SwerveRequest(rotation, x, y), false);
-    //         return true;
-    //     }
-    //     else {
-    //         return false;
-    //         // did not see anything
-    //     }
-    // }
-    
-    /**
-     * Uses tx to align the robot parallel to to the aprilTag (target)
-     * Takes in the swerveSubsystem because need accsess to wheels
-     * If the robot is aligned farther, then drive faster
-     * The method first gets the degree offset to zero then drives the (not known) distance to align the arm to the target
-     */
-    public void alignToTarget() {
-        if (tx.getDouble(0.0) > 20) {
+            if (x != 0) { // we really want the sensor for this tbh
+                claw.setHigh();
+                return true;
+            }
+
+            drive.drive(new SwerveRequest(0, x, y), false);
+            return false;
         }
     }
     
     public boolean turnAngle(SwerveSubsystem drive){
- 
-        double speed = Math.abs(9.5 - tx.getDouble(0) / 15);
-        
-        if (tx.getDouble(0) >= 9.5) {
-            speed *= 1;
-            if(speed > 0.5){
-                speed = 0.5;
+        if (getIsTargetFound()) {
+
+            double speed = 0;
+            if (tx.getDouble(0) >= 9.5) {
+                // 0.0275 is a specific multiplier that makes speed hit exactly 0.6 if bot is off by 20 degrees to the left
+                speed = ((tx.getDouble(0) - 9.5) * 0.0275) + minimumSpeed; 
+                if(speed > 0.6){
+                    speed = 0.6;
+                }
             }
-        } else if (tx.getDouble(0) < 9.5) {
-            speed *= -1;
-            if(speed < -0.5){
-                speed = -0.5;
+            else if (tx.getDouble(0) <= 8.5) {
+                // 0.0275 is a specific multiplier that makes speed hit exactly -0.6 if bot is off by 20 degrees to the right
+                speed = ((8.5 - tx.getDouble(0)) * 0.0275) + minimumSpeed; 
+                if(speed > 0.6){
+                    speed = 0.6;
+                }
+    
+                speed *= -1; // because we want to turn clockwise here
             }
-        } 
-        
-        if (tx.getDouble(0) >= 8.5 && tx.getDouble(0) <= 10.5) {
-            drive.drive(new SwerveRequest(0 , 0, 0), false);
-            return true;
+            else { 
+                drive.drive(new SwerveRequest(0 , 0, 0), false);
+                return true; // we are angled correctly
+            }
+    
+            drive.drive(new SwerveRequest(speed, 0, 0), false);
+            return false;
+
         }
         else {
-            drive.drive(new SwerveRequest(speed , 0, 0), false);
             return false;
+            // did not see anything
         }
     }
+
+
+
+    // psuedo code
+    // public boolean scoreCubes(SwerveSubsystem drive, ArmSubsystem arm, ClawPneumatics claw, boolean isHighTarget) {
+
+    // } 
 }

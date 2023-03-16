@@ -164,24 +164,27 @@ public class ArmSubsystem {
 
 
 
-    public void highTarget(){
-        setPosition(Constants.SmallArm_highTarget , Constants.BigArm_highTarget);
-    } 
     
-    public void autonHighTarget(Timer timer) {
-        autonHighTarget1();
+    public void highTarget(Timer timer) { // these will still be used for auton and limelight, which have the luxury of calling this method over and over
+        highTarget1();
         if (timer.get() >= 0.7) {
-            autonHighTarget2();        
+            highTarget2();        
         }
     }
-    public void autonHighTarget1() {
+    public void highTarget1() { // these individual commands labeled 1 and 2 are for gamepad to call (so you only need to press it once)
         bigArmPosition(Constants.BigArm_highTarget);
     }
-    public void autonHighTarget2() {
+    public void highTarget2() {
         smallArmPosition(Constants.SmallArm_highTarget);
     }
 
-    public void sliderTarget1() {
+    public void sliderTarget(Timer timer) { // same comment as highTarget
+        sliderTarget1();
+        if (timer.get() >= 0.7) {
+            sliderTarget2();        
+        }
+    }
+    public void sliderTarget1() { // same comment as highTarget1
         bigArmPosition(Constants.BigArm_slider);
     }
     public void sliderTarget2() {
