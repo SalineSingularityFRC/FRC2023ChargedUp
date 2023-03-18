@@ -16,10 +16,10 @@ import edu.wpi.first.wpilibj.Timer;
  */
 public class Gamepad {
 
-    String allianceColor = DriverStation.getAlliance().toString();
+    public String allianceColor = DriverStation.getAlliance().toString();
 
-    Timer highTargetTimer = new Timer();
-    Timer sliderTimer = new Timer();
+    private Timer highTargetTimer = new Timer();
+    private Timer sliderTimer = new Timer();
     
     private Joystick driveController;
     private Joystick armController;

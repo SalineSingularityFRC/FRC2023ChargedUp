@@ -29,12 +29,7 @@ public class ArmSubsystem {
     public TalonFX bigArmMotor;
     public TalonFX bigArmMotor2;
 
-    public CANcoder bigArmEncoder;
-
     private MotionMagicVoltage positionTargetPreset = new MotionMagicVoltage(0).withSlot(0).withEnableFOC(true);
-    // private MotionMagicVoltage positionTargetManual = new MotionMagicVoltage(0).withSlot(1).withEnableFOC(true);
-
-    // private TorqueCurrentFOC torqueDrive = new TorqueCurrentFOC(0).withDeadband(1).withMaxAbsDutyCycle(.4);
 
     private TalonFXConfiguration talonFXConfigsPreset = new TalonFXConfiguration();
     private TalonFXConfiguration talonFXConfigsManual = new TalonFXConfiguration();
@@ -73,9 +68,6 @@ public class ArmSubsystem {
 
         bigArmMotor2 = new TalonFX(Constants.BIG_ARM_Motor_2_ID, Constants.CANBUS);
         bigArmMotor2.setControl(new Follower(Constants.BIG_ARM_Motor_ID, true));
-
-        // bigArmEncoder = new CANcoder(, );
-
 
         
         Slot0Configs slot0ConfigsSmall = new Slot0Configs();
