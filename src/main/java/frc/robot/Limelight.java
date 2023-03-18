@@ -20,7 +20,7 @@ public class Limelight {
 
 
     public boolean isTurningDone;
-    public final double minimumSpeed = 0.05;
+    public final double minimumSpeed = 0.04;
 
 
     public Limelight() {
@@ -123,30 +123,29 @@ public class Limelight {
         else {
             // We see the target and are aimed at it, drive forwards now
             double x = 0;
-            // double y = Math.abs(2.65 - ta.getDouble(0));
             double y = 0;
             if (ta.getDouble(0) <= 2.5) {
                 // 0.26 is a specific multiplier that makes speed hit exactly 0.7 if ta is approx 0 (very far away)
-                x = ((2.5 - ta.getDouble(0)) * 0.26) + minimumSpeed; 
-                if(x > 0.7){
-                    x = 0.7;
+                y = ((2.5 - ta.getDouble(0)) * 0.13) + minimumSpeed; 
+                if(y > 0.35){
+                    y = 0.35;
                 }
             }
-            // if (tx.getDouble(0) >= 9.5) {
-            //     x *= -0.30;
-            //     if (x < -0.5) {
-            //         x = -1;
-            //     }
-            // }
-            // else if (tx.getDouble(0) < 9.5) {
-            //     x *= 0.30;
-            //     if (x > 0.5) {
-            //         x = 1;
-            //     } 
-            // }
-            // else {
-            //     x = 0;
-            // }
+
+            if (tx.getDouble(0) >= 9.5) {
+                x = ((tx.getDouble(0) - 9.5) * 0.01) + minimumSpeed; 
+                if (x < -0.5) {
+                    x = -1;
+                }
+
+                x *= -1;
+            }
+            else if (tx.getDouble(0) < 8.5) {
+                x = (8.5 - (tx.getDouble(0)) * 0.01) + minimumSpeed; 
+                if (x > 0.5) {
+                    x = 1;
+                } 
+            }
 
 
             // if (tx.getDouble(0) > 10 && tx.getDouble(0) < 9 && ta.getDouble(0) < 2.5 && ta.getDouble(0) > 2.7) {
@@ -154,7 +153,7 @@ public class Limelight {
             //     return true;
             // }
 
-            if (x != 0) { // we really want the sensor for this tbh
+            if (y != 0) { // we really want the sensor for this tbh
                 claw.setHigh();
                 return true;
             }
@@ -170,18 +169,19 @@ public class Limelight {
             double speed = 0;
             if (tx.getDouble(0) >= 9.5) {
                 // 0.0275 is a specific multiplier that makes speed hit exactly 0.6 if bot is off by 20 degrees to the left
-                speed = ((tx.getDouble(0) - 9.5) * 0.0275) + minimumSpeed; 
-                if(speed > 0.6){
-                    speed = 0.6;
+                speed = ((tx.getDouble(0) - 9.5) * 0.005) + minimumSpeed; 
+                if(speed > 0.2){
+                    speed = 0.2;
                 }
+
             }
             else if (tx.getDouble(0) <= 8.5) {
                 // 0.0275 is a specific multiplier that makes speed hit exactly -0.6 if bot is off by 20 degrees to the right
-                speed = ((8.5 - tx.getDouble(0)) * 0.0275) + minimumSpeed; 
-                if(speed > 0.6){
-                    speed = 0.6;
+                speed = ((8.5 - tx.getDouble(0)) * 0.01) + minimumSpeed; 
+                if(speed > 0.2){
+                    speed = 0.2;
                 }
-    
+
                 speed *= -1; // because we want to turn clockwise here
             }
             else { 
@@ -190,13 +190,9 @@ public class Limelight {
             }
     
             drive.drive(new SwerveRequest(speed, 0, 0), false);
-            return false;
-
         }
-        else {
-            return false;
-            // did not see anything
-        }
+        
+        return false;
     }
 
 
