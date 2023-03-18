@@ -82,20 +82,6 @@ public class SwerveSubsystem {
         SmartDashboard.putNumber("x", swerveRequest.movement.x);
         SmartDashboard.putNumber("y", swerveRequest.movement.y);
 
-        // vector direction and turning is not changed, but speed is reduced to a constant 
-        // if (isConstantMode) {
-        //     // if (swerveRequest.rotation > 0) {
-        //     //     swerveRequest.rotation = Constants.SNAIL_SPEED;
-        //     // }
-        //     // else if (swerveRequest.rotation < 0) {
-        //     //     swerveRequest.rotation = -Constants.SNAIL_SPEED;
-        //     // }
-
-        //     // double divisor = Constants.SNAIL_SPEED / (Math.pow((Math.pow(swerveRequest.movement.x, 2) * Math.pow(swerveRequest.movement.y, 2)), 0.5));
-        //     // swerveRequest.movement.x *= divisor;
-        //     // swerveRequest.movement.y *= divisor;
-        // }
-        
         // this is to make sure if both the joysticks are at neutral position, the robot and wheels don't move or turn at all
         // 0.05 value can be increased if the joystick is increasingly inaccurate at neutral position
         if (Math.abs(swerveRequest.movement.x) < 0.05 
@@ -133,7 +119,12 @@ public class SwerveSubsystem {
         double x = swerveRequest.movement.x;
         double y = swerveRequest.movement.y;
 
-        // this is to change the vector value from robo centric to field centric
+        /*
+        This is to change the vector value from robo centric to field centric
+        The code is used to calculate the x and y components of the joystick input in the field-centric coordinate system. 
+        The difference variable is the difference between the robot’s orientation and the field’s orientation. 
+        The code uses Math.sin() and Math.cos() functions to calculate the x and y components of the joystick input in the field-centric coordinate system
+         */
         if (fieldCentric) {
             double difference = (currentRobotAngle - startingAngle) % (2*Math.PI);
             x = -swerveRequest.movement.y * Math.sin(difference) + swerveRequest.movement.x * Math.cos(difference);

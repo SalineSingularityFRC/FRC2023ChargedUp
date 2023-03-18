@@ -15,6 +15,6 @@ public class LightSensor {
         trigger.setLimitsVoltage(0.2, 1);
     }
     public boolean isSensed(){
-        return trigger.getTriggerState();
+        return !trigger.getTriggerState();
     }
 }
