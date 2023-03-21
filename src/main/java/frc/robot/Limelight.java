@@ -99,7 +99,7 @@ public class Limelight {
     // }
 
 
-    public boolean pickup(SwerveSubsystem drive, ArmSubsystem arm, ClawPneumatics claw, boolean isCube) {
+    public boolean pickup(SwerveSubsystem drive, ArmSubsystem arm, ClawPneumatics claw, LightSensor lightSensor, boolean isCube) {
         if (isCube) {
             setpipeline(2);
         }
@@ -108,12 +108,10 @@ public class Limelight {
         }
 
         arm.pickupTarget();
+        ledOff();
 
         if (claw.isClawClosed) {
             claw.setLow();
-        }
-        else {
-            claw.setOff();
         }
 
         if (!isTurningDone) {
@@ -147,13 +145,7 @@ public class Limelight {
                 } 
             }
 
-
-            // if (tx.getDouble(0) > 10 && tx.getDouble(0) < 9 && ta.getDouble(0) < 2.5 && ta.getDouble(0) > 2.7) {
-            //     claw.setLow();
-            //     return true;
-            // }
-
-            if (y != 0) { // we really want the sensor for this tbh
+            if (lightSensor.isSensed()) { // we really want the sensor for this tbh
                 claw.setHigh();
                 return true;
             }

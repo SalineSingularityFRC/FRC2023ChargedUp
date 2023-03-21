@@ -36,15 +36,18 @@ public class Gamepad {
         armController = new Joystick(armControllerPort);
     }
 
-    public void armPneumatics(ClawPneumatics clawPneumatics) {
+    public void armPneumatics(ClawPneumatics clawPneumatics, LightSensor lightSensor) {
         SmartDashboard.putBoolean("if True then not full yet", clawPneumatics.isNotFull());
 
-        if(driveController.getRawButtonPressed(Constants.A_Button)) {
+        if(lightSensor.isSensed() && driveController.getPOV() == 0) {
+            clawPneumatics.setHigh();
+        }
+        else if(driveController.getRawButtonPressed(Constants.A_Button)) {
             if (clawPneumatics.isClawClosed) {
-                clawPneumatics.setLow();
+                clawPneumatics.setHigh();
             }
             else {
-                clawPneumatics.setHigh();
+                clawPneumatics.setLow();
             }
         }
         else if(driveController.getRawButtonReleased(Constants.A_Button)) {
@@ -57,7 +60,7 @@ public class Gamepad {
         }
     }
 
-    public void swerveDrive(SwerveSubsystem robotSubsystem, Limelight limelight, ArmSubsystem arm, ClawPneumatics claw) {
+    public void swerveDrive(SwerveSubsystem robotSubsystem, Limelight limelight, ArmSubsystem arm, ClawPneumatics claw, LightSensor lightSensor) {
         SmartDashboard.putBoolean("Is it coast", robotSubsystem.isCoast());
         // limelight commands below
         if (armController.getRawButtonPressed(Constants.A_Button) || armController.getRawButtonPressed(Constants.B_Button)) {
@@ -69,10 +72,10 @@ public class Gamepad {
         }
 
         if (armController.getRawButton(Constants.A_Button)) {
-            limelight.pickup(robotSubsystem, arm, claw, true);
+            limelight.pickup(robotSubsystem, arm, claw, lightSensor, true);
         }  
         else if (armController.getRawButton(Constants.B_Button)) {
-            limelight.pickup(robotSubsystem, arm, claw, false);
+            limelight.pickup(robotSubsystem, arm, claw, lightSensor, false);
         }
 
         else { // no limelight commands

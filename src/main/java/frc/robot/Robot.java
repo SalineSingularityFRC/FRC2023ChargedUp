@@ -23,19 +23,21 @@ public class Robot extends TimedRobot {
   private ArmSubsystem arm;
   private ClawPneumatics clawPneumatics;
   private Limelight limelight;
+  private LightSensor lightSensor; 
 
   @Override
   public void robotInit() {
     robotSubsystem = new SwerveSubsystem();
     teleopDrive = new Gamepad(Constants.DRIVE_CONTROLLER, Constants.ARM_CONTROLLER);
 
-    arm = new ArmSubsystem(false, false);
+    arm = new ArmSubsystem(false, true);
     clawPneumatics = new ClawPneumatics(9, 6); // check these channel #s later
 
     m_robotContainer = new RobotContainer(arm, clawPneumatics, robotSubsystem, robotSubsystem.gyro);
     robotSubsystem.resetGyro();
 
     limelight = new Limelight();
+    lightSensor = new LightSensor();
   }
 
   @Override
@@ -88,13 +90,16 @@ public class Robot extends TimedRobot {
 
   @Override
   public void teleopPeriodic() {
-    teleopDrive.swerveDrive(robotSubsystem, limelight, arm, clawPneumatics);
+    teleopDrive.swerveDrive(robotSubsystem, limelight, arm, clawPneumatics, lightSensor);
     teleopDrive.arm(arm);
-    teleopDrive.armPneumatics(clawPneumatics);
+    teleopDrive.armPneumatics(clawPneumatics, lightSensor);
 
     limelight.runLimelight();
     SmartDashboard.putBoolean("is target found", limelight.getIsTargetFound());
     SmartDashboard.putNumber("gyro", robotSubsystem.getRobotAngle());
+
+    SmartDashboard.putBoolean("is sensed", lightSensor.isSensed());
+    SmartDashboard.putNumber("volts", lightSensor.volts());
 
     CommandScheduler.getInstance().run();
   }

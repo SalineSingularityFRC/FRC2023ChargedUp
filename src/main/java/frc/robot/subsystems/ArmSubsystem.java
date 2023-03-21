@@ -3,6 +3,7 @@ package frc.robot.subsystems;
 import com.ctre.phoenixpro.hardware.CANcoder;
 import com.ctre.phoenixpro.hardware.TalonFX;
 import com.ctre.phoenixpro.signals.ControlModeValue;
+import com.ctre.phoenixpro.signals.FeedbackSensorSourceValue;
 import com.ctre.phoenixpro.controls.DutyCycleOut;
 import com.ctre.phoenixpro.controls.Follower;
 import com.ctre.phoenixpro.controls.MotionMagicDutyCycle;
@@ -19,6 +20,7 @@ import com.ctre.phoenixpro.configs.MotionMagicConfigs;
 import com.ctre.phoenixpro.configs.Slot0Configs;
 import com.ctre.phoenixpro.configs.Slot1Configs;
 import com.ctre.phoenixpro.configs.TalonFXConfiguration;
+import com.ctre.phoenixpro.configs.TalonFXConfigurator;
 
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.*;
@@ -41,15 +43,15 @@ public class ArmSubsystem {
     private double bigArmPos;
     private double smallArmPos;
 
-    private final double presetSmallP = 2.0;
-    private final double presetSmallI = 0.02;
-    private final double presetSmallD = 0.02;
-    private final double presetSmallS = 0.06;
+    private final double presetSmallP = 2.0*30;
+    private final double presetSmallI = 0.02*10;
+    private final double presetSmallD = 0.02*10;
+    private final double presetSmallS = 0.06*10;
 
-    private final double presetBigP = 8.0;
-    private final double presetBigI = 0.08;
-    private final double presetBigD = 0.08;
-    private final double presetBigS = 0.06;
+    private final double presetBigP = 8.0*20;
+    private final double presetBigI = 0.08*10;
+    private final double presetBigD = 0.08*10;
+    private final double presetBigS = 0.06*10;
 
     private final double manualP = 4.0;
     private final double manualI = 0.0;
@@ -61,15 +63,29 @@ public class ArmSubsystem {
     
     public ArmSubsystem(boolean bigArmIsInverted, boolean smallArmIsInverted) {
         smallArmMotor = new TalonFX(Constants.SMALL_ARM_MOTOR_ID, Constants.CANBUS);
+
+        TalonFXConfiguration config = new TalonFXConfiguration();
+        config.Feedback.FeedbackSensorSource = FeedbackSensorSourceValue.RemoteCANcoder;
+        config.Feedback.FeedbackRemoteSensorID = Constants.SMALL_ARM_CANCODER_ID;
+        smallArmMotor.getConfigurator().apply(config);
         smallArmMotor.setInverted(smallArmIsInverted);
 
+
         bigArmMotor = new TalonFX(Constants.BIG_ARM_Motor_ID, Constants.CANBUS);
+
+        config = new TalonFXConfiguration();
+        config.Feedback.FeedbackSensorSource = FeedbackSensorSourceValue.RemoteCANcoder;
+        config.Feedback.FeedbackRemoteSensorID = Constants.BIG_ARM_CANCODER_ID;
+        bigArmMotor.getConfigurator().apply(config);
         bigArmMotor.setInverted(bigArmIsInverted);
+
 
         bigArmMotor2 = new TalonFX(Constants.BIG_ARM_Motor_2_ID, Constants.CANBUS);
         bigArmMotor2.setControl(new Follower(Constants.BIG_ARM_Motor_ID, true));
 
-        
+    
+
+
         Slot0Configs slot0ConfigsSmall = new Slot0Configs();
         Slot0Configs slot0ConfigsBig = new Slot0Configs();
         slot0ConfigsSmall.kP = presetSmallP; 
@@ -96,14 +112,14 @@ public class ArmSubsystem {
 
 
         motionMagicConfigsPresets = talonFXConfigsPreset.MotionMagic;
-        motionMagicConfigsPresets.MotionMagicCruiseVelocity = 40;
-        motionMagicConfigsPresets.MotionMagicAcceleration = 100;
-        motionMagicConfigsPresets.MotionMagicJerk = 900;
+        motionMagicConfigsPresets.MotionMagicCruiseVelocity = 40/30;
+        motionMagicConfigsPresets.MotionMagicAcceleration = 100/40;
+        motionMagicConfigsPresets.MotionMagicJerk = 900/30;
 
         motionMagicConfigsManual = talonFXConfigsManual.MotionMagic;
-        motionMagicConfigsManual.MotionMagicCruiseVelocity = 6;
-        motionMagicConfigsManual.MotionMagicAcceleration = 40;
-        motionMagicConfigsManual.MotionMagicJerk = 800;
+        motionMagicConfigsManual.MotionMagicCruiseVelocity = 6/30;
+        motionMagicConfigsManual.MotionMagicAcceleration = 40/40;
+        motionMagicConfigsManual.MotionMagicJerk = 800/30;
         
         bigArmMotor.getConfigurator().apply(motionMagicConfigsPresets);
         smallArmMotor.getConfigurator().apply(motionMagicConfigsPresets);
