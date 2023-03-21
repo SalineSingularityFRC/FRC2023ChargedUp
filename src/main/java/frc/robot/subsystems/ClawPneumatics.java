@@ -26,13 +26,13 @@ public class ClawPneumatics{
 	}
 	
 	public void setHigh() { // we believe that setHigh is closing the claw
-		doubleSolenoid.set(DoubleSolenoid.Value.kForward);
-		isClawClosed = true;
+		doubleSolenoid.set(DoubleSolenoid.Value.kReverse);
+		isClawClosed = false;
 	}
 	
 	public void setLow() { // opening the claw (maybe????)
-		doubleSolenoid.set(DoubleSolenoid.Value.kReverse);
-		isClawClosed = false;
+		doubleSolenoid.set(DoubleSolenoid.Value.kForward);
+		isClawClosed = true;
 	}
 	
 	public void setOff() {
