@@ -63,15 +63,22 @@ public class Gamepad {
     public void swerveDrive(SwerveSubsystem robotSubsystem, Limelight limelight, ArmSubsystem arm, ClawPneumatics claw, LightSensor lightSensor) {
         SmartDashboard.putBoolean("Is it coast", robotSubsystem.isCoast());
         // limelight commands below
-        if (armController.getRawButtonPressed(Constants.A_Button) || armController.getRawButtonPressed(Constants.B_Button)) {
+        if (armController.getRawButtonPressed(Constants.A_Button) || armController.getRawButtonPressed(Constants.B_Button)
+                || armController.getRawButtonPressed(Constants.X_Button)) {
             limelight.isTurningDone = false;
+            limelight.scoringTimer.stop(); // just in case
+            limelight.scoringTimer.reset();
             robotSubsystem.setBrakeMode();
         }
-        if (armController.getRawButtonReleased(Constants.A_Button) || armController.getRawButtonReleased(Constants.B_Button)) {
+        if (armController.getRawButtonReleased(Constants.A_Button) || armController.getRawButtonReleased(Constants.B_Button)
+                || armController.getRawButtonReleased(Constants.X_Button)) {
             robotSubsystem.setCoastMode();
         }
 
-        if (armController.getRawButton(Constants.A_Button)) {
+        if (armController.getRawButton(Constants.X_Button)) {
+            limelight.scoreCones(robotSubsystem, arm, claw);
+        }
+        else if (armController.getRawButton(Constants.A_Button)) {
             limelight.pickup(robotSubsystem, arm, claw, lightSensor, true);
         }  
         else if (armController.getRawButton(Constants.B_Button)) {

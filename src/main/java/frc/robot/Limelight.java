@@ -22,6 +22,9 @@ public class Limelight {
     public boolean isTurningDone;
     public final double minimumSpeed = 0.04;
 
+    public Timer scoringTimer = new Timer();
+
+
 
     public Limelight() {
         table = NetworkTableInstance.getDefault().getTable("limelight");
@@ -132,16 +135,16 @@ public class Limelight {
 
             if (tx.getDouble(0) >= 9.5) {
                 x = ((tx.getDouble(0) - 9.5) * 0.01) + minimumSpeed; 
-                if (x < -0.5) {
-                    x = -1;
+                if (x < -0.2) {
+                    x = -0.2;
                 }
 
                 x *= -1;
             }
             else if (tx.getDouble(0) < 8.5) {
                 x = (8.5 - (tx.getDouble(0)) * 0.01) + minimumSpeed; 
-                if (x > 0.5) {
-                    x = 1;
+                if (x > 0.2) {
+                    x = 0.2;
                 } 
             }
 
@@ -160,7 +163,7 @@ public class Limelight {
 
             double speed = 0;
             if (tx.getDouble(0) >= 9.5) {
-                // 0.0275 is a specific multiplier that makes speed hit exactly 0.6 if bot is off by 20 degrees to the left
+                // 0.005 is a specific multiplier that makes speed hit exactly 0.2 if bot is off by 20 degrees to the left
                 speed = ((tx.getDouble(0) - 9.5) * 0.005) + minimumSpeed; 
                 if(speed > 0.2){
                     speed = 0.2;
@@ -168,7 +171,7 @@ public class Limelight {
 
             }
             else if (tx.getDouble(0) <= 8.5) {
-                // 0.0275 is a specific multiplier that makes speed hit exactly -0.6 if bot is off by 20 degrees to the right
+                // 0.01 is a specific multiplier that makes speed hit exactly -0.2 if bot is off by 20 degrees to the right
                 speed = ((8.5 - tx.getDouble(0)) * 0.01) + minimumSpeed; 
                 if(speed > 0.2){
                     speed = 0.2;
@@ -184,6 +187,66 @@ public class Limelight {
             drive.drive(new SwerveRequest(speed, 0, 0), false);
         }
         
+        return false;
+    }
+
+    public boolean scoreCones(SwerveSubsystem drive, ArmSubsystem arm, ClawPneumatics claw) {
+        arm.defaultTarget();
+        ledOn();
+        setpipeline(4);
+
+        double robotAngle = (drive.getRobotAngle() % (Math.PI * 2)) * (180/Math.PI); // in angles
+        double x = 0;
+        double y = 0;
+
+        // 0.00061 is a specific multipler to make the rotation peak at 0.15 (including min speed) 
+        double rotation = (180 - robotAngle) * 0.00061;
+        if (rotation >= 0) {
+            rotation += minimumSpeed;
+        }
+        else {
+            rotation -= minimumSpeed;
+        }
+
+
+        if (ta.getDouble(0) <= 2.5) {
+            y = ((2.5 - ta.getDouble(0)) * 0.13) + minimumSpeed; 
+            if(y > 0.2){
+                y = 0.2;
+            }
+        }
+
+        if (tx.getDouble(0) >= 9.5) {
+            x = ((tx.getDouble(0) - 9.5) * 0.0075) + minimumSpeed; 
+            if (x < -0.15) {
+                x = -0.15;
+            }
+
+            x *= -1;
+        }
+        else if (tx.getDouble(0) < 8.5) {
+            x = (8.5 - (tx.getDouble(0)) * 0.0075) + minimumSpeed; 
+            if (x > 0.15) {
+                x = 0.15;
+            } 
+        }
+
+
+
+
+        if (tx.getDouble(0) <= 9.5 && tx.getDouble(0) > 8.5 && ta.getDouble(0) > 2.5
+                        && robotAngle <= 181 && robotAngle >= 179) { 
+            scoringTimer.start();
+            arm.highTarget(scoringTimer);
+            if (scoringTimer.get() >= 1)  {
+                claw.setLow();
+                return true;
+            }
+        }
+        else {
+            drive.drive(new SwerveRequest(rotation, x, y), true); // we want field centric here
+        }
+
         return false;
     }
 
