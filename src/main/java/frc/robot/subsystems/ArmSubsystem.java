@@ -4,6 +4,7 @@ import com.ctre.phoenixpro.hardware.CANcoder;
 import com.ctre.phoenixpro.hardware.TalonFX;
 import com.ctre.phoenixpro.signals.ControlModeValue;
 import com.ctre.phoenixpro.signals.FeedbackSensorSourceValue;
+import com.ctre.phoenixpro.signals.NeutralModeValue;
 import com.ctre.phoenixpro.controls.DutyCycleOut;
 import com.ctre.phoenixpro.controls.Follower;
 import com.ctre.phoenixpro.controls.MotionMagicDutyCycle;
@@ -43,12 +44,12 @@ public class ArmSubsystem {
     private double bigArmPos;
     private double smallArmPos;
 
-    private final double presetSmallP = 2.0*30;
+    private final double presetSmallP = 2.0*20;
     private final double presetSmallI = 0.02*10;
     private final double presetSmallD = 0.02*10;
     private final double presetSmallS = 0.06*10;
 
-    private final double presetBigP = 8.0*20;
+    private final double presetBigP = 8.0*14;
     private final double presetBigI = 0.08*10;
     private final double presetBigD = 0.08*10;
     private final double presetBigS = 0.06*10;
@@ -67,6 +68,7 @@ public class ArmSubsystem {
         TalonFXConfiguration config = new TalonFXConfiguration();
         config.Feedback.FeedbackSensorSource = FeedbackSensorSourceValue.RemoteCANcoder;
         config.Feedback.FeedbackRemoteSensorID = Constants.SMALL_ARM_CANCODER_ID;
+        config.MotorOutput.NeutralMode = NeutralModeValue.Brake;
         smallArmMotor.getConfigurator().apply(config);
         smallArmMotor.setInverted(smallArmIsInverted);
 
@@ -76,6 +78,7 @@ public class ArmSubsystem {
         config = new TalonFXConfiguration();
         config.Feedback.FeedbackSensorSource = FeedbackSensorSourceValue.RemoteCANcoder;
         config.Feedback.FeedbackRemoteSensorID = Constants.BIG_ARM_CANCODER_ID;
+        config.MotorOutput.NeutralMode = NeutralModeValue.Brake;
         bigArmMotor.getConfigurator().apply(config);
         bigArmMotor.setInverted(bigArmIsInverted);
 
@@ -122,6 +125,7 @@ public class ArmSubsystem {
         motionMagicConfigsManual.MotionMagicJerk = 800/30;
         
         bigArmMotor.getConfigurator().apply(motionMagicConfigsPresets);
+
         smallArmMotor.getConfigurator().apply(motionMagicConfigsPresets);
 
         bigArmMotorPosition = bigArmMotor.getPosition().getValue();
@@ -205,8 +209,21 @@ public class ArmSubsystem {
     public void pickupTarget(){
         setPosition(Constants.SmallArm_pickup, Constants.BigArm_pickup);
     }
+
     public void defaultTarget(){
         setPosition(Constants.SmallArm_default, Constants.BigArm_default);
+    }
+    public void defaultTargetTimer(Timer timer){
+        defaultTarget1();
+        if (timer.get() >= 0.7) {
+            defaultTarget2();       
+        }
+    }
+    public void defaultTarget1() { 
+        smallArmPosition(Constants.SmallArm_default);
+    }
+    public void defaultTarget2() {
+        bigArmPosition(Constants.BigArm_default);
     }
 
 

@@ -20,7 +20,7 @@ public class Limelight {
 
 
     public boolean isTurningDone;
-    public final double minimumSpeed = 0.04;
+    public final double minimumSpeed = 0.06;
 
     public Timer scoringTimer = new Timer();
 
@@ -92,14 +92,6 @@ public class Limelight {
         }
     }
 
-    // public boolean pickupCube(SwerveSubsystem drive) {
-    //     setpipeline(2);
-    //     if (!isTurningDone) {
-    //         isTurningDone = turnAngle(drive);
-    //     }
-
-    //     return true;
-    // }
 
 
     public boolean pickup(SwerveSubsystem drive, ArmSubsystem arm, ClawPneumatics claw, LightSensor lightSensor, boolean isCube) {
@@ -125,26 +117,28 @@ public class Limelight {
             // We see the target and are aimed at it, drive forwards now
             double x = 0;
             double y = 0;
-            if (ta.getDouble(0) <= 2.5) {
+            if (ty.getDouble(0) >= -18) {
                 // 0.26 is a specific multiplier that makes speed hit exactly 0.7 if ta is approx 0 (very far away)
-                y = ((2.5 - ta.getDouble(0)) * 0.13) + minimumSpeed; 
+                y = ((18 + ty.getDouble(0)) * 0.013) + minimumSpeed; 
                 if(y > 0.35){
                     y = 0.35;
                 }
+
+                SmartDashboard.putNumber("y value", y);
             }
 
             if (tx.getDouble(0) >= 9.5) {
-                x = ((tx.getDouble(0) - 9.5) * 0.01) + minimumSpeed; 
-                if (x < -0.2) {
-                    x = -0.2;
+                x = ((tx.getDouble(0) - 9.5) * 0.005) + minimumSpeed; 
+                if (x < -0.1) {
+                    x = -0.1;
                 }
 
                 x *= -1;
             }
             else if (tx.getDouble(0) < 8.5) {
-                x = (8.5 - (tx.getDouble(0)) * 0.01) + minimumSpeed; 
-                if (x > 0.2) {
-                    x = 0.2;
+                x = (8.5 - (tx.getDouble(0)) * 0.005) + minimumSpeed; 
+                if (x > 0.1) {
+                    x = 0.1;
                 } 
             }
 
@@ -190,10 +184,17 @@ public class Limelight {
         return false;
     }
 
+
+
+
+
+
+
+
     public boolean scoreCones(SwerveSubsystem drive, ArmSubsystem arm, ClawPneumatics claw) {
         arm.defaultTarget();
         ledOn();
-        setpipeline(4);
+        setpipeline(3);
 
         double robotAngle = (drive.getRobotAngle() % (Math.PI * 2)) * (180/Math.PI); // in angles
         double x = 0;
@@ -209,23 +210,24 @@ public class Limelight {
         }
 
 
-        if (ta.getDouble(0) <= 2.5) {
-            y = ((2.5 - ta.getDouble(0)) * 0.13) + minimumSpeed; 
-            if(y > 0.2){
-                y = 0.2;
+        if (ty.getDouble(0) >= 1.5) {
+            // 0.016 is a specific multiplier that makes speed hit exactly 0.3 if ty is approx 16.5
+            y = ((ty.getDouble(0) - 1.5) * 0.016) + minimumSpeed; 
+            if(y > 0.3){
+                y = 0.30;
             }
         }
 
-        if (tx.getDouble(0) >= 9.5) {
-            x = ((tx.getDouble(0) - 9.5) * 0.0075) + minimumSpeed; 
+        if (tx.getDouble(0) >= 14.5) {
+            x = ((tx.getDouble(0) - 14.5) * 0.0055) + minimumSpeed; 
             if (x < -0.15) {
                 x = -0.15;
             }
 
             x *= -1;
         }
-        else if (tx.getDouble(0) < 8.5) {
-            x = (8.5 - (tx.getDouble(0)) * 0.0075) + minimumSpeed; 
+        else if (tx.getDouble(0) < 13.5) {
+            x = (13.5 - (tx.getDouble(0)) * 0.0055) + minimumSpeed; 
             if (x > 0.15) {
                 x = 0.15;
             } 
@@ -234,7 +236,7 @@ public class Limelight {
 
 
 
-        if (tx.getDouble(0) <= 9.5 && tx.getDouble(0) > 8.5 && ta.getDouble(0) > 2.5
+        if (tx.getDouble(0) <= 13.5 && tx.getDouble(0) >= 14.5 && ty.getDouble(0) <= 1.5
                         && robotAngle <= 181 && robotAngle >= 179) { 
             scoringTimer.start();
             arm.highTarget(scoringTimer);
@@ -249,11 +251,4 @@ public class Limelight {
 
         return false;
     }
-
-
-
-    // psuedo code
-    // public boolean scoreCubes(SwerveSubsystem drive, ArmSubsystem arm, ClawPneumatics claw, boolean isHighTarget) {
-
-    // } 
 }

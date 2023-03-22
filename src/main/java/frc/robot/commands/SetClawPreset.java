@@ -40,7 +40,7 @@ public class SetClawPreset extends CommandBase {
     public void execute() {
 
         if (position == 1) {
-            arm.defaultTarget();
+            arm.defaultTargetTimer(timer);
         }
         else if (position == 2) {
             arm.pickupTarget();

@@ -20,6 +20,7 @@ public class Gamepad {
 
     private Timer highTargetTimer = new Timer();
     private Timer sliderTimer = new Timer();
+    private Timer defaultTimer = new Timer();
     
     private Joystick driveController;
     private Joystick armController;
@@ -113,15 +114,21 @@ public class Gamepad {
             highTargetTimer.stop();
             highTargetTimer.reset();
         }
-
-        if (sliderTimer.get() >= 0.7) {
+        if (sliderTimer.get() >= 0.7) { // redo the timing for this
             arm.sliderTarget2();
             sliderTimer.stop();
             sliderTimer.reset();
-        } // redo the timing for this
+        } 
+        if (sliderTimer.get() >= 0.5) {
+            arm.defaultTarget2();
+            defaultTimer.stop();
+            defaultTimer.reset();
+        } 
+
 
         if (driveController.getRawButtonPressed(Constants.R_joystick_Button)) {
-            arm.defaultTarget();
+            arm.defaultTarget1();
+            defaultTimer.start();
         }
         else if(driveController.getRawButtonPressed(Constants.L_joystick_Button)) {
             arm.pickupTarget();
