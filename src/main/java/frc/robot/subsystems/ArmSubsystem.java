@@ -54,10 +54,10 @@ public class ArmSubsystem {
     private final double presetBigD = 0.08*10;
     private final double presetBigS = 0.06*10;
 
-    private final double manualP = 4.0;
-    private final double manualI = 0.0;
-    private final double manualD = 0.0;
-    private final double manualS = 0; // counters static friction
+    private final double manualP = 8.0*14;
+    private final double manualI = 0.08*10;
+    private final double manualD = 0.08*10;
+    private final double manualS = 0.06*10; // counters static friction
 
     private double bigArmMotorPosition;
     private double smallArmMotorPosition;
@@ -120,8 +120,8 @@ public class ArmSubsystem {
         motionMagicConfigsPresets.MotionMagicJerk = 900/30;
 
         motionMagicConfigsManual = talonFXConfigsManual.MotionMagic;
-        motionMagicConfigsManual.MotionMagicCruiseVelocity = 6/30;
-        motionMagicConfigsManual.MotionMagicAcceleration = 40/40;
+        motionMagicConfigsManual.MotionMagicCruiseVelocity = 35/30;
+        motionMagicConfigsManual.MotionMagicAcceleration = 100/40;
         motionMagicConfigsManual.MotionMagicJerk = 800/30;
         
         bigArmMotor.getConfigurator().apply(motionMagicConfigsPresets);
@@ -148,7 +148,7 @@ public class ArmSubsystem {
     public void setBigArmSpeed(double speed) {
         bigArmMotor.getConfigurator().apply(motionMagicConfigsManual);
 
-        bigArmPos = smallArmMotorPosition + speed;
+        bigArmPos = bigArmMotorPosition + speed;
         bigArmMotor.setControl(positionTargetPreset.withPosition(bigArmPos).withFeedForward(0.05));         
 
         bigArmMotorPosition = bigArmMotor.getPosition().getValue();
@@ -233,6 +233,10 @@ public class ArmSubsystem {
     public void maintainPosition() {
         smallArmMotor.setControl(positionTargetPreset.withPosition(smallArmMotorPosition));
         bigArmMotor.setControl(positionTargetPreset.withPosition(bigArmMotorPosition));
+
+        SmartDashboard.putNumber("big arm pos", bigArmMotorPosition);
+        SmartDashboard.putNumber("small arm pos", smallArmMotorPosition);
+
     }
 
 }
