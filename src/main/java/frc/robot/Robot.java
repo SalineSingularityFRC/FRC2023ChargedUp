@@ -24,6 +24,7 @@ public class Robot extends TimedRobot {
   private ClawPneumatics clawPneumatics;
   private Limelight limelight;
   private LightSensor lightSensor; 
+  private CANdleSystem candle;
 
   @Override
   public void robotInit() {
@@ -38,6 +39,7 @@ public class Robot extends TimedRobot {
 
     limelight = new Limelight();
     lightSensor = new LightSensor();
+    candle = new CANdleSystem();
   }
 
   @Override
@@ -92,7 +94,7 @@ public class Robot extends TimedRobot {
   public void teleopPeriodic() {
     teleopDrive.swerveDrive(robotSubsystem, limelight, arm, clawPneumatics, lightSensor);
     teleopDrive.arm(arm);
-    teleopDrive.armPneumatics(clawPneumatics, lightSensor);
+    teleopDrive.armPneumatics(clawPneumatics, lightSensor, candle);
 
     limelight.runLimelight();
     SmartDashboard.putBoolean("is target found", limelight.getIsTargetFound());
