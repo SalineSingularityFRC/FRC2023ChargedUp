@@ -106,7 +106,7 @@ public final class Constants {
 
     public static final double SmallArm_highTarget =  0.002441;
     public static final double SmallArm_mediumTarget = 0.218994;
-    public static final double SmallArm_pickup = 0.113018;
+    public static final double SmallArm_pickup = 0.09706018;
     public static final double SmallArm_default = 0.394062;
     public static final double SmallArm_Slider = 0.002441; // change
 
@@ -122,7 +122,7 @@ public final class Constants {
     // public static final double WHEELBASE = 1;
 
     public static final double SPEED_DIVISOR = 1; // what the max speed should be divided by, 1 is max power
-    public static final double ARM_SPEED = 20; // speed of the arms when adjusting manually
+    public static final double ARM_SPEED = 0.1; // speed of the arms when adjusting manually
 
     public static final double encoderToChargeDistance = 45.4694981;
     public static final double encoderToOutsideCommunityDistance = 87.30208217;
