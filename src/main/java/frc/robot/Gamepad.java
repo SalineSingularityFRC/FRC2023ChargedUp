@@ -37,12 +37,19 @@ public class Gamepad {
         armController = new Joystick(armControllerPort);
     }
 
-    public void armPneumatics(ClawPneumatics clawPneumatics, LightSensor lightSensor) {
+    public void armPneumatics(ClawPneumatics clawPneumatics, LightSensor lightSensor, CANdleSystem candle) {
         SmartDashboard.putBoolean("if True then not full yet", clawPneumatics.isNotFull());
 
-        if(lightSensor.isSensed() && driveController.getPOV() == 0) {
+        if(armController.getRawButtonPressed(Constants.Y_Button)) {
+            candle.turnOn();
+        }
+        if(armController.getRawButtonReleased(Constants.Y_Button)) {
+            candle.turnOff();
+        }
+        if(lightSensor.isSensed() && armController.getRawButton(Constants.Y_Button)) {
             clawPneumatics.setHigh();
         }
+        
         else if(driveController.getRawButtonPressed(Constants.A_Button)) {
             if (clawPneumatics.isClawClosed) {
                 clawPneumatics.setHigh();
