@@ -126,6 +126,9 @@ public class ArmSubsystem {
         
         bigArmMotor.getConfigurator().apply(motionMagicConfigsPresets);
 
+        motionMagicConfigsPresets.MotionMagicAcceleration = 100/50;
+        motionMagicConfigsPresets.MotionMagicCruiseVelocity = .7;
+
         smallArmMotor.getConfigurator().apply(motionMagicConfigsPresets);
 
         bigArmMotorPosition = bigArmMotor.getPosition().getValue();

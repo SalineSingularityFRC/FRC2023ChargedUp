@@ -116,7 +116,7 @@ public class Gamepad {
     public void arm(ArmSubsystem arm) {
         SmartDashboard.putNumber("Encoder value big arm", arm.bigArmMotor.getPosition().getValue());
         SmartDashboard.putNumber("Encoder value small arm", arm.smallArmMotor.getPosition().getValue());
-        if (highTargetTimer.get() >= 0.7) {
+        if (highTargetTimer.get() >= 0.25) {
             arm.highTarget2();
             highTargetTimer.stop();
             highTargetTimer.reset();
@@ -126,11 +126,12 @@ public class Gamepad {
             sliderTimer.stop();
             sliderTimer.reset();
         } 
-        if (sliderTimer.get() >= 0.5) {
+        if (defaultTimer.get() >= 0.3) {
             arm.defaultTarget2();
             defaultTimer.stop();
             defaultTimer.reset();
         } 
+        
 
 
         if (driveController.getRawButtonPressed(Constants.R_joystick_Button)) {
