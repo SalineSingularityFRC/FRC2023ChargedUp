@@ -40,13 +40,13 @@ public class Gamepad {
     public void armPneumatics(ClawPneumatics clawPneumatics, LightSensor lightSensor, CANdleSystem candle) {
         SmartDashboard.putBoolean("if True then not full yet", clawPneumatics.isNotFull());
 
-        if(armController.getRawButtonPressed(Constants.Y_Button)) {
+        if(armController.getRawButtonPressed(Constants.right_Button)) {
             candle.turnOn();
         }
-        if(armController.getRawButtonReleased(Constants.Y_Button)) {
+        if(armController.getRawButtonReleased(Constants.right_Button)) {
             candle.turnOff();
         }
-        if(lightSensor.isSensed() && armController.getRawButton(Constants.Y_Button)) {
+        if(lightSensor.isSensed() && (armController.getRawButton(Constants.right_Button) || armController.getRawButton(Constants.left_Button))) {
             clawPneumatics.setHigh();
         }
         
@@ -93,7 +93,7 @@ public class Gamepad {
             limelight.pickup(robotSubsystem, arm, claw, lightSensor, false);
         }
 
-        else { // no limelight commands
+        else { // no limelight commands`
             if (driveController.getRawButtonPressed(Constants.X_Button)) {
                 robotSubsystem.resetGyro();
             }
@@ -134,22 +134,22 @@ public class Gamepad {
         
 
 
-        if (driveController.getRawButtonPressed(Constants.R_joystick_Button)) {
+        if (driveController.getRawButtonPressed(Constants.R_joystick_Button) || armController.getRawButtonPressed(Constants.X_Button)) {
             arm.defaultTarget1();
             defaultTimer.start();
         }
-        else if(driveController.getRawButtonPressed(Constants.L_joystick_Button)) {
+        else if(driveController.getRawButtonPressed(Constants.L_joystick_Button) || armController.getRawButtonPressed(Constants.A_Button)) {
             arm.pickupTarget();
         }
-        else if (driveController.getRawButtonPressed(Constants.Start_Button)) {
+        else if (driveController.getRawButtonPressed(Constants.Start_Button) || armController.getRawButtonPressed(Constants.Y_Button)) {
             arm.highTarget1();
             highTargetTimer.start();
         }
-        else if(driveController.getRawButtonPressed(Constants.Y_Button)){
+        else if(driveController.getRawButtonPressed(Constants.Y_Button) || armController.getRawButtonPressed(Constants.Back_Button)){
             arm.sliderTarget1();
             sliderTimer.start();
         }
-        else if(driveController.getRawButtonPressed(Constants.Back_Button)) {
+        else if(driveController.getRawButtonPressed(Constants.Back_Button) || armController.getRawButtonPressed(Constants.B_Button)) {
             arm.mediumTarget();
         }
 

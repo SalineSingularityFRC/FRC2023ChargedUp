@@ -127,16 +127,16 @@ public class Limelight {
                 SmartDashboard.putNumber("y value", y);
             }
 
-            if (tx.getDouble(0) >= 9.5) {
-                x = ((tx.getDouble(0) - 9.5) * 0.005) + minimumSpeed; 
+            if (tx.getDouble(0) >= 9.25) {
+                x = ((tx.getDouble(0) - 9.25) * 0.005) + minimumSpeed; 
                 if (x < -0.1) {
                     x = -0.1;
                 }
 
                 x *= -1;
             }
-            else if (tx.getDouble(0) < 8.5) {
-                x = (8.5 - (tx.getDouble(0)) * 0.005) + minimumSpeed; 
+            else if (tx.getDouble(0) < 8.75) {
+                x = (8.75 - (tx.getDouble(0)) * 0.005) + minimumSpeed; 
                 if (x > 0.1) {
                     x = 0.1;
                 } 

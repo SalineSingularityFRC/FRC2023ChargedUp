@@ -18,7 +18,7 @@ public final class Constants {
     public static final int FR_ANGLE_ID = 16;
     public static final int FR_Motor_ID = 12;
     public static final int FR_CANCODER_ID = 44;
-    public static final boolean FR_isInverted = false;
+    public static final boolean FR_isInverted = true;
 
     public static final int BL_ANGLE_ID = 11;
     public static final int BL_Motor_ID = 13;
@@ -106,7 +106,7 @@ public final class Constants {
 
     public static final double SmallArm_highTarget =  0.002441;
     public static final double SmallArm_mediumTarget = 0.218994;
-    public static final double SmallArm_pickup = 0.09706018;
+    public static final double SmallArm_pickup = 0.089206018;
     public static final double SmallArm_default = 0.394062;
     public static final double SmallArm_Slider = 0.002441; // change
 
