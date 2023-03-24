@@ -122,7 +122,7 @@ public final class Constants {
     // public static final double WHEELBASE = 1;
 
     public static final double SPEED_DIVISOR = 1; // what the max speed should be divided by, 1 is max power
-    public static final double ARM_SPEED = 0.1; // speed of the arms when adjusting manually
+    public static final double ARM_SPEED = 0.005; // speed of the arms when adjusting manually
 
     public static final double encoderToChargeDistance = 45.4694981;
     public static final double encoderToOutsideCommunityDistance = 87.30208217;
