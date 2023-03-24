@@ -5,6 +5,8 @@ import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.ClawPneumatics;
 import frc.robot.subsystems.SwerveSubsystem;
 
+import javax.lang.model.util.ElementScanner14;
+
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.Timer;
@@ -71,40 +73,42 @@ public class Gamepad {
     public void swerveDrive(SwerveSubsystem robotSubsystem, Limelight limelight, ArmSubsystem arm, ClawPneumatics claw, LightSensor lightSensor) {
         SmartDashboard.putBoolean("Is it coast", robotSubsystem.isCoast());
         // limelight commands below
-        if (armController.getRawButtonPressed(Constants.A_Button) || armController.getRawButtonPressed(Constants.B_Button)
-                || armController.getRawButtonPressed(Constants.X_Button)) {
+
+        if (armController.getPOV() == 0) {
+            limelight.turnToAngle(robotSubsystem);
+        }
+
+
+        if (armController.getRawButtonPressed(Constants.L_joystick_Button) || armController.getRawButtonPressed(Constants.R_joystick_Button)) {
             limelight.isTurningDone = false;
             limelight.scoringTimer.stop(); // just in case
             limelight.scoringTimer.reset();
             robotSubsystem.setBrakeMode();
         }
-        if (armController.getRawButtonReleased(Constants.A_Button) || armController.getRawButtonReleased(Constants.B_Button)
-                || armController.getRawButtonReleased(Constants.X_Button)) {
+        if (armController.getRawButtonReleased(Constants.L_joystick_Button) || armController.getRawButtonReleased(Constants.R_joystick_Button)) {
             robotSubsystem.setCoastMode();
         }
 
-        if (armController.getRawButton(Constants.X_Button)) {
-            limelight.scoreCones(robotSubsystem, arm, claw);
-        }
-        else if (armController.getRawButton(Constants.A_Button)) {
-            limelight.pickup(robotSubsystem, arm, claw, lightSensor, true);
-        }  
-        else if (armController.getRawButton(Constants.B_Button)) {
+
+        if (armController.getRawButton(Constants.L_joystick_Button)) {
             limelight.pickup(robotSubsystem, arm, claw, lightSensor, false);
+        }  
+        else if (armController.getRawButton(Constants.R_joystick_Button)) {
+            limelight.pickup(robotSubsystem, arm, claw, lightSensor, true);
         }
 
         else { // no limelight commands`
             if (driveController.getRawButtonPressed(Constants.X_Button)) {
                 robotSubsystem.resetGyro();
             }
-            if (armController.getRawButtonPressed(Constants.Start_Button)) {
-                if (robotSubsystem.isCoast()) {
-                    robotSubsystem.setBrakeMode();
-                }
-                else {
-                    robotSubsystem.setCoastMode();
-                }
-            }
+            // if (armController.getRawButtonPressed(Constants.Start_Button)) {
+            //     if (robotSubsystem.isCoast()) {
+            //         robotSubsystem.setBrakeMode();
+            //     }
+            //     else {
+            //         robotSubsystem.setCoastMode();
+            //     }
+            // }
     
             robotSubsystem.drive(new SwerveSubsystem.SwerveRequest(
             driveController.getRawAxis(Constants.rightJoystickXAxis), 
@@ -145,13 +149,16 @@ public class Gamepad {
             arm.highTarget1();
             highTargetTimer.start();
         }
-        else if(driveController.getRawButtonPressed(Constants.Y_Button) || armController.getRawButtonPressed(Constants.Back_Button)){
+        else if(driveController.getRawButtonPressed(Constants.Y_Button) || armController.getRawButtonPressed(Constants.Start_Button)){
             arm.sliderTarget1();
             sliderTimer.start();
         }
         else if(driveController.getRawButtonPressed(Constants.Back_Button) || armController.getRawButtonPressed(Constants.B_Button)) {
             arm.mediumTarget();
         }
+        // else if(armController.getRawButtonPressed(Constants.Back_Button)) {
+        //     pickupFallenCone();
+        // }
 
 
         else if (driveController.getRawAxis(Constants.leftTrigger) > 0.05) {

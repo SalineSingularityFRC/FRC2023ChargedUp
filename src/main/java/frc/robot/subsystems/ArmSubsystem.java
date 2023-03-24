@@ -38,6 +38,8 @@ public class ArmSubsystem {
     private TalonFXConfiguration talonFXConfigsManual = new TalonFXConfiguration();
 
     private MotionMagicConfigs motionMagicConfigsPresets;
+    private MotionMagicConfigs motionMagicConfigsPresetsSmall;
+
     private MotionMagicConfigs motionMagicConfigsManual;
 
 
@@ -54,10 +56,10 @@ public class ArmSubsystem {
     private final double presetBigD = 0.08*10;
     private final double presetBigS = 0.06*10;
 
-    private final double manualP = 8.0*14;
-    private final double manualI = 0.08*10;
-    private final double manualD = 0.08*10;
-    private final double manualS = 0.06*10; // counters static friction
+    private final double manualP = 8;
+    private final double manualI = 0.8;
+    private final double manualD = 0.8;
+    private final double manualS = 0.6; // counters static friction
 
     private double bigArmMotorPosition;
     private double smallArmMotorPosition;
@@ -126,10 +128,12 @@ public class ArmSubsystem {
         
         bigArmMotor.getConfigurator().apply(motionMagicConfigsPresets);
 
-        motionMagicConfigsPresets.MotionMagicAcceleration = 100/50;
-        motionMagicConfigsPresets.MotionMagicCruiseVelocity = .7;
+        motionMagicConfigsPresetsSmall = talonFXConfigsPreset.MotionMagic;
+        motionMagicConfigsPresetsSmall.MotionMagicJerk = 900/30;
+        motionMagicConfigsPresetsSmall.MotionMagicAcceleration = 100/50;
+        motionMagicConfigsPresetsSmall.MotionMagicCruiseVelocity = .7;
 
-        smallArmMotor.getConfigurator().apply(motionMagicConfigsPresets);
+        smallArmMotor.getConfigurator().apply(motionMagicConfigsPresetsSmall);
 
         bigArmMotorPosition = bigArmMotor.getPosition().getValue();
         smallArmMotorPosition = smallArmMotor.getPosition().getValue();
@@ -139,8 +143,8 @@ public class ArmSubsystem {
         smallArmMotor.getConfigurator().apply(motionMagicConfigsManual);
 
         smallArmPos = smallArmMotorPosition + speed;
-        smallArmMotor.setControl(positionTargetPreset.withPosition(smallArmPos).withFeedForward(0.05)); // feed forward counters gravity
-        
+        smallArmMotor.setControl(positionTargetPreset.withPosition(smallArmPos).withFeedForward(0.05).withSlot(1)); // feed forward counters gravity
+
         bigArmMotorPosition = bigArmMotor.getPosition().getValue();
         smallArmMotorPosition = smallArmMotor.getPosition().getValue();
     }
@@ -149,7 +153,7 @@ public class ArmSubsystem {
         bigArmMotor.getConfigurator().apply(motionMagicConfigsManual);
 
         bigArmPos = bigArmMotorPosition + speed;
-        bigArmMotor.setControl(positionTargetPreset.withPosition(bigArmPos).withFeedForward(0.05));         
+        bigArmMotor.setControl(positionTargetPreset.withPosition(bigArmPos).withFeedForward(0.05).withSlot(1));
 
         bigArmMotorPosition = bigArmMotor.getPosition().getValue();
         smallArmMotorPosition = smallArmMotor.getPosition().getValue();
@@ -164,15 +168,15 @@ public class ArmSubsystem {
     }
 
     public void smallArmPosition(double smallArmAngle) {
-        smallArmMotor.getConfigurator().apply(motionMagicConfigsPresets);
-        smallArmMotor.setControl(positionTargetPreset.withPosition(smallArmAngle).withFeedForward(0.05));
+        smallArmMotor.getConfigurator().apply(motionMagicConfigsPresetsSmall);
+        smallArmMotor.setControl(positionTargetPreset.withPosition(smallArmAngle).withFeedForward(0.05).withSlot(0));
 
         smallArmMotorPosition = smallArmAngle;
     }
 
     public void bigArmPosition(double bigArmAngle) {
         bigArmMotor.getConfigurator().apply(motionMagicConfigsPresets);
-        bigArmMotor.setControl(positionTargetPreset.withPosition(bigArmAngle).withFeedForward(0.05));
+        bigArmMotor.setControl(positionTargetPreset.withPosition(bigArmAngle).withFeedForward(0.05).withSlot(0));
 
         bigArmMotorPosition = bigArmAngle;
     }
@@ -231,8 +235,11 @@ public class ArmSubsystem {
 
 
     public void maintainPosition() {
-        smallArmMotor.setControl(positionTargetPreset.withPosition(smallArmMotorPosition));
-        bigArmMotor.setControl(positionTargetPreset.withPosition(bigArmMotorPosition));
+        bigArmMotor.getConfigurator().apply(motionMagicConfigsPresets);
+        smallArmMotor.getConfigurator().apply(motionMagicConfigsPresetsSmall);
+
+        smallArmMotor.setControl(positionTargetPreset.withPosition(smallArmMotorPosition).withSlot(0));
+        bigArmMotor.setControl(positionTargetPreset.withPosition(bigArmMotorPosition).withSlot(0));
 
         SmartDashboard.putNumber("big arm pos", bigArmMotorPosition);
         SmartDashboard.putNumber("small arm pos", smallArmMotorPosition);
