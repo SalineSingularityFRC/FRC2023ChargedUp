@@ -170,10 +170,10 @@ public class Gamepad {
 
 
         else if (driveController.getRawAxis(Constants.rightTrigger) > 0.05) {
-            arm.setSmallArmSpeed(Constants.ARM_SPEED);
+            arm.setSmallArmSpeed(-Constants.ARM_SPEED);
         }
         else if(driveController.getRawButton(Constants.right_Button)) {
-            arm.setSmallArmSpeed(-Constants.ARM_SPEED);
+            arm.setSmallArmSpeed(Constants.ARM_SPEED);
         }
 
 

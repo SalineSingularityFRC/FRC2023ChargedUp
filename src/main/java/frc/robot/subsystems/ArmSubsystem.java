@@ -20,6 +20,7 @@ import java.time.Duration;
 import com.ctre.phoenixpro.configs.MotionMagicConfigs;
 import com.ctre.phoenixpro.configs.Slot0Configs;
 import com.ctre.phoenixpro.configs.Slot1Configs;
+import com.ctre.phoenixpro.configs.Slot2Configs;
 import com.ctre.phoenixpro.configs.TalonFXConfiguration;
 import com.ctre.phoenixpro.configs.TalonFXConfigurator;
 
@@ -56,8 +57,8 @@ public class ArmSubsystem {
     private final double presetBigD = 0.08*10;
     private final double presetBigS = 0.06*10;
 
-    private final double manualP = 8;
-    private final double manualI = 0.8;
+    private final double manualP = 8*24;
+    private final double manualI = 0.8*14;
     private final double manualD = 0.8;
     private final double manualS = 0.6; // counters static friction
 
@@ -108,12 +109,21 @@ public class ArmSubsystem {
         slot1Configs.kD = manualD;
         slot1Configs.kS = manualS;
 
+        Slot2Configs slot2Configs = new Slot2Configs();
+        slot1Configs.kP = manualP; 
+        slot1Configs.kI = manualI;
+        slot1Configs.kD = manualD;
+        slot1Configs.kS = manualS;
+
 
         bigArmMotor.getConfigurator().apply(slot0ConfigsBig);
         smallArmMotor.getConfigurator().apply(slot0ConfigsSmall);
 
         bigArmMotor.getConfigurator().apply(slot1Configs);
         smallArmMotor.getConfigurator().apply(slot1Configs);
+
+        bigArmMotor.getConfigurator().apply(slot2Configs);
+        smallArmMotor.getConfigurator().apply(slot2Configs);
 
 
         motionMagicConfigsPresets = talonFXConfigsPreset.MotionMagic;
@@ -122,8 +132,8 @@ public class ArmSubsystem {
         motionMagicConfigsPresets.MotionMagicJerk = 900/30;
 
         motionMagicConfigsManual = talonFXConfigsManual.MotionMagic;
-        motionMagicConfigsManual.MotionMagicCruiseVelocity = 35/30;
-        motionMagicConfigsManual.MotionMagicAcceleration = 100/40;
+        motionMagicConfigsManual.MotionMagicCruiseVelocity = 40/30;
+        motionMagicConfigsManual.MotionMagicAcceleration = 70/40;
         motionMagicConfigsManual.MotionMagicJerk = 800/30;
         
         bigArmMotor.getConfigurator().apply(motionMagicConfigsPresets);
@@ -140,20 +150,27 @@ public class ArmSubsystem {
     }
 
     public void setSmallArmSpeed(double speed){
-        smallArmMotor.getConfigurator().apply(motionMagicConfigsManual);
-
+        // smallArmMotor.getConfigurator().apply(motionMagicConfigsManual);
         smallArmPos = smallArmMotorPosition + speed;
-        smallArmMotor.setControl(positionTargetPreset.withPosition(smallArmPos).withFeedForward(0.05).withSlot(1)); // feed forward counters gravity
+        if (speed < 0) {
+            smallArmMotor.setControl(positionTargetPreset.withPosition(smallArmPos).withFeedForward(0.05).withSlot(2));
 
+        } else {
+            smallArmMotor.setControl(positionTargetPreset.withPosition(smallArmPos).withFeedForward(0.05).withSlot(1));
+        }
         bigArmMotorPosition = bigArmMotor.getPosition().getValue();
         smallArmMotorPosition = smallArmMotor.getPosition().getValue();
     }
 
     public void setBigArmSpeed(double speed) {
-        bigArmMotor.getConfigurator().apply(motionMagicConfigsManual);
-
+        // bigArmMotor.getConfigurator().apply(motionMagicConfigsManual);
         bigArmPos = bigArmMotorPosition + speed;
-        bigArmMotor.setControl(positionTargetPreset.withPosition(bigArmPos).withFeedForward(0.05).withSlot(1));
+        if (speed < 0) {
+            bigArmMotor.setControl(positionTargetPreset.withPosition(bigArmPos).withFeedForward(0.05).withSlot(2));
+
+        } else {
+            bigArmMotor.setControl(positionTargetPreset.withPosition(bigArmPos).withFeedForward(0.05).withSlot(1));
+        }
 
         bigArmMotorPosition = bigArmMotor.getPosition().getValue();
         smallArmMotorPosition = smallArmMotor.getPosition().getValue();

@@ -253,7 +253,7 @@ public class Limelight {
     }
 
     public void turnToAngle(SwerveSubsystem drive) {
-        double robotAngle = (drive.getRobotAngle() % (Math.PI * 2)) * (180/Math.PI); // in angles
+        double robotAngle = (drive.getRobotAngle() % (Math.PI * 2)) * (180/Math.PI); // in degrees
         SmartDashboard.putNumber("robotAngle", robotAngle);
         double rotation = (180 - robotAngle) * 0.0061;
         if (rotation >= 0) {
