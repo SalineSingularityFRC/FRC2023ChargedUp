@@ -125,6 +125,7 @@ public final class Constants {
     public static final double ARM_SPEED = 0.005; // speed of the arms when adjusting manually
 
     public static final double encoderToChargeDistance = 45.4694981;
+    public static final double encoderCenterCommunity = 100;
     public static final double encoderToOutsideCommunityDistance = 87.30208217;
     // 1.832716884 is the number of inches per 1 encoder value
     // ~80 (plus offset) to the center of the charge station for robot
