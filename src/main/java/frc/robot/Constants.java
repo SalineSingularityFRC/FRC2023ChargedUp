@@ -104,7 +104,7 @@ public final class Constants {
     public static final double BigArm_default = 0.386709;
     public static final double BigArm_slider = 0.552246; // change later
 
-    public static final double SmallArm_highTarget =  0.002441;
+    public static final double SmallArm_highTarget =  0.002041;
     public static final double SmallArm_mediumTarget = 0.218994;
     public static final double SmallArm_pickup = 0.089206018;
     public static final double SmallArm_default = 0.394062;
