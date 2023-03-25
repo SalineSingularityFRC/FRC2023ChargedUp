@@ -12,10 +12,10 @@ public class LightSensor {
         analog = new AnalogInput(3);
         trigger = new AnalogTrigger(analog);
         analog.setAverageBits(2);
-        trigger.setLimitsVoltage(0.5, 1);
+        trigger.setLimitsVoltage(1, 3);
     }
     public boolean isSensed(){
-        return trigger.getTriggerState();
+        return !trigger.getTriggerState();
     }
     public double volts() {
         return analog.getVoltage();

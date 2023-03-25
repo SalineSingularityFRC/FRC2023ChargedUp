@@ -39,16 +39,16 @@ public class Gamepad {
         armController = new Joystick(armControllerPort);
     }
 
-    public void armPneumatics(ClawPneumatics clawPneumatics, LightSensor lightSensor, CANdleSystem candle) {
+    public void armPneumatics(ClawPneumatics clawPneumatics, LightSensor lightSensor) {
         SmartDashboard.putBoolean("if True then not full yet", clawPneumatics.isNotFull());
 
-        if(armController.getRawButtonPressed(Constants.right_Button)) {
-            candle.turnOn();
-        }
-        if(armController.getRawButtonReleased(Constants.right_Button)) {
-            candle.turnOff();
-        }
-        if(lightSensor.isSensed() && (armController.getRawButton(Constants.right_Button) || armController.getRawButton(Constants.left_Button))) {
+        // if(armController.getRawButtonPressed(Constants.right_Button)) {
+        //     candle.turnOn();
+        // }
+        // if(armController.getRawButtonReleased(Constants.right_Button)) {
+        //     candle.turnOff();
+        // }
+        if(lightSensor.isSensed() && (armController.getRawButton(Constants.right_Button))) {
             clawPneumatics.setHigh();
         }
         
@@ -101,14 +101,14 @@ public class Gamepad {
             if (driveController.getRawButtonPressed(Constants.X_Button)) {
                 robotSubsystem.resetGyro();
             }
-            // if (armController.getRawButtonPressed(Constants.Start_Button)) {
-            //     if (robotSubsystem.isCoast()) {
-            //         robotSubsystem.setBrakeMode();
-            //     }
-            //     else {
-            //         robotSubsystem.setCoastMode();
-            //     }
-            // }
+            if (armController.getRawButtonPressed(Constants.left_Button)) {
+                if (robotSubsystem.isCoast()) {
+                    robotSubsystem.setBrakeMode();
+                }
+                else {
+                    robotSubsystem.setCoastMode();
+                }
+            }
     
             robotSubsystem.drive(new SwerveSubsystem.SwerveRequest(
             driveController.getRawAxis(Constants.rightJoystickXAxis), 

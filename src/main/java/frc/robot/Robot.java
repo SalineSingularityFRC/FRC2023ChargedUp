@@ -4,6 +4,7 @@
 
 package frc.robot;
 
+import edu.wpi.first.wpilibj.PowerDistribution;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -24,10 +25,16 @@ public class Robot extends TimedRobot {
   private ClawPneumatics clawPneumatics;
   private Limelight limelight;
   private LightSensor lightSensor; 
-  private CANdleSystem candle;
+  //private CANdleSystem candle;
 
   @Override
   public void robotInit() {
+
+    //Required to allow power to the switchable port on the power distrubution hub and allow sensor to use max power
+    PowerDistribution PD = new PowerDistribution();
+    PD.setSwitchableChannel(true); 
+
+
     robotSubsystem = new SwerveSubsystem();
     teleopDrive = new Gamepad(Constants.DRIVE_CONTROLLER, Constants.ARM_CONTROLLER);
 
@@ -39,7 +46,7 @@ public class Robot extends TimedRobot {
 
     limelight = new Limelight();
     lightSensor = new LightSensor();
-    candle = new CANdleSystem();
+    //candle = new CANdleSystem();
   }
 
   @Override
@@ -94,7 +101,7 @@ public class Robot extends TimedRobot {
   public void teleopPeriodic() {
     teleopDrive.swerveDrive(robotSubsystem, limelight, arm, clawPneumatics, lightSensor);
     teleopDrive.arm(arm);
-    teleopDrive.armPneumatics(clawPneumatics, lightSensor, candle);
+    teleopDrive.armPneumatics(clawPneumatics, lightSensor);
 
     limelight.runLimelight();
     SmartDashboard.putBoolean("is target found", limelight.getIsTargetFound());
