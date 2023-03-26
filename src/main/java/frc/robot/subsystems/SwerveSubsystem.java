@@ -89,13 +89,14 @@ public class SwerveSubsystem {
             && Math.abs(swerveRequest.rotation) < 0.05) {
 
             targetAngle = Double.MAX_VALUE;
+        
             for (int i = 0; i < swerveModules.length; i++) {
                 swerveModules[i].coast();
             }
             return;
         }
         else {
-
+          
             // this is to drive straight
             if (Math.abs(swerveRequest.rotation) < 0.05) {
                 if (targetAngle == Double.MAX_VALUE) {

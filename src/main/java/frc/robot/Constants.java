@@ -75,10 +75,10 @@ public final class Constants {
     /* 
     ALL WHEEL OFFSETS BELOW
     */
-    public static double DRIVETRAIN_FRONT_LEFT_ENCODER_OFFSET = (0.342285) * 2 * Math.PI; // number in parenthesis is in rotations
-    public static double DRIVETRAIN_FRONT_RIGHT_ENCODER_OFFSET = (0.731201) * 2 * Math.PI; // 0.884521
-    public static double DRIVETRAIN_BACK_LEFT_ENCODER_OFFSET = (0.144043) * 2 * Math.PI; //  0.063965
-    public static double DRIVETRAIN_BACK_RIGHT_ENCODER_OFFSET = (0.815186) * 2 * Math.PI; // 0.811768
+    public static double DRIVETRAIN_FRONT_LEFT_ENCODER_OFFSET = (0.265869) * 2 * Math.PI; // number in parenthesis is in rotations
+    public static double DRIVETRAIN_FRONT_RIGHT_ENCODER_OFFSET = (0.679443) * 2 * Math.PI; // 0.884521
+    public static double DRIVETRAIN_BACK_LEFT_ENCODER_OFFSET = (0.117920) * 2 * Math.PI; //  0.063965
+    public static double DRIVETRAIN_BACK_RIGHT_ENCODER_OFFSET = (0.789307) * 2 * Math.PI; // 0.811768
 
 
     
@@ -102,13 +102,15 @@ public final class Constants {
     public static final double BigArm_mediumTarget = 0.439697;
     public static final double BigArm_pickup = 0.386709;
     public static final double BigArm_default = 0.386709;
-    public static final double BigArm_slider = 0.552246; // change later
+    public static final double BigArm_slider = 0.568115; // change later
+    public static final double BigArm_pickupCone = 0.552246; //change later
 
     public static final double SmallArm_highTarget =  0.002041;
     public static final double SmallArm_mediumTarget = 0.218994;
     public static final double SmallArm_pickup = 0.089206018;
     public static final double SmallArm_default = 0.394062;
-    public static final double SmallArm_Slider = 0.002441; // change
+    public static final double SmallArm_Slider = -0.109619; // change
+    public static final double SmallArm_pickupCone =  0.002441; //change later
 
     // 15.479004 position for bigarm for smallarm to freely rotate
     // 42.833496 highest position for big arm

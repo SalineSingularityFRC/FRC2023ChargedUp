@@ -63,7 +63,7 @@ public class ArmSubsystem {
     private final double manualS = 0.6; // counters static friction
 
     private double bigArmMotorPosition;
-    private double smallArmMotorPosition;
+    public double smallArmMotorPosition;
     
     public ArmSubsystem(boolean bigArmIsInverted, boolean smallArmIsInverted) {
         smallArmMotor = new TalonFX(Constants.SMALL_ARM_MOTOR_ID, Constants.CANBUS);
@@ -158,6 +158,7 @@ public class ArmSubsystem {
         } else {
             smallArmMotor.setControl(positionTargetPreset.withPosition(smallArmPos).withFeedForward(0.05).withSlot(1));
         }
+        SmartDashboard.putNumber("SMALL ARM POSITION MANUAL", smallArmMotorPosition);
         bigArmMotorPosition = bigArmMotor.getPosition().getValue();
         smallArmMotorPosition = smallArmMotor.getPosition().getValue();
     }
@@ -232,6 +233,15 @@ public class ArmSubsystem {
     }
     public void pickupTarget(){
         setPosition(Constants.SmallArm_pickup, Constants.BigArm_pickup);
+    }
+    
+
+    public void pickupFallenCone1(){
+        smallArmPosition(Constants.SmallArm_pickupCone);
+    }
+
+    public void pickupFallenCone2(){
+        smallArmPosition(Constants.BigArm_pickupCone);
     }
 
     public void defaultTarget(){
