@@ -32,7 +32,7 @@ public class SideCommand extends SequentialCommandGroup {
         this.lime = lime;
         this.sensor = sensor;
         addCommands(
-            new SetClawPreset(arm, 5),
+            new SetClawPreset(arm, 4),
             new SetClawPneumatics(clawPneumatics, 1),
             new DriveDistance(drive, Constants.encoderToOutsideCommunityDistance, 0).alongWith(
                 new SetClawPreset(arm, 1))

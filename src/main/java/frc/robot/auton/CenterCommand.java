@@ -25,7 +25,7 @@ public class CenterCommand extends SequentialCommandGroup {
         this.gyro = gyro;
 
         addCommands(
-           new SetClawPreset(arm, 5), 
+           new SetClawPreset(arm, 4), 
             new SetClawPneumatics(clawPneumatics, 1),
             // new DriveDistance(drive, Constants.encoderCenterCommunity, 0).alongWith(
             //     new SetClawPreset(arm, 1)),
