@@ -256,14 +256,18 @@ public class Limelight {
         double robotAngle = (drive.getRobotAngle() % (Math.PI * 2)) * (180/Math.PI); // in degrees
         SmartDashboard.putNumber("robotAngle", robotAngle);
         double rotation = (180 - robotAngle) * 0.0061;
-        if (rotation >= 0) {
-            rotation += minimumSpeed;
-        }
-        else {
+        if (rotation >= minimumSpeed) {
             rotation -= minimumSpeed;
         }
+        else if(rotation <= -minimumSpeed){
+            rotation += minimumSpeed;
+        } else {
+            rotation = 0;
+            return;
+        }
 
-        drive.drive(new SwerveRequest(rotation, 0, 0), true); 
+        
+        drive.drive(new SwerveRequest(rotation, 0.1, 0), false); 
 
     }
 }

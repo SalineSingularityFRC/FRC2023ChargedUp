@@ -23,6 +23,7 @@ public class Gamepad {
     private Timer highTargetTimer = new Timer();
     private Timer sliderTimer = new Timer();
     private Timer defaultTimer = new Timer();
+    private Timer pickupFallenConeTimer = new Timer();
     
     private Joystick driveController;
     private Joystick armController;
@@ -135,6 +136,12 @@ public class Gamepad {
             defaultTimer.stop();
             defaultTimer.reset();
         } 
+        if (pickupFallenConeTimer.get() >= 0.4) {
+            arm.pickupFallenCone2();
+            pickupFallenConeTimer.stop();
+            pickupFallenConeTimer.reset();
+        } 
+        
         
 
 
@@ -156,9 +163,10 @@ public class Gamepad {
         else if(driveController.getRawButtonPressed(Constants.Back_Button) || armController.getRawButtonPressed(Constants.B_Button)) {
             arm.mediumTarget();
         }
-        // else if(armController.getRawButtonPressed(Constants.Back_Button)) {
-        //     pickupFallenCone();
-        // }
+        else if(armController.getRawButtonPressed(Constants.Back_Button)) {
+            arm.pickupFallenCone1();
+            pickupFallenConeTimer.start();
+        }
 
 
         else if (driveController.getRawAxis(Constants.leftTrigger) > 0.05) {
