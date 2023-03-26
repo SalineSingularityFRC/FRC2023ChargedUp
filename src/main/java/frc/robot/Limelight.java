@@ -267,7 +267,7 @@ public class Limelight {
         }
 
         
-        drive.drive(new SwerveRequest(rotation, 0.1, 0), false); 
+        drive.drive(new SwerveRequest(rotation, 0, 0), false); 
 
     }
 }
