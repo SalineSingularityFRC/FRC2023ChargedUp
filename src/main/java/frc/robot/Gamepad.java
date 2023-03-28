@@ -24,7 +24,10 @@ public class Gamepad {
     private Timer sliderTimer = new Timer();
     private Timer defaultTimer = new Timer();
     private Timer pickupFallenConeTimer = new Timer();
-    
+    private Timer clawCloseTimer = new Timer();
+    private Timer clawOpenTimer = new Timer();
+
+
     private Joystick driveController;
     private Joystick armController;
 
@@ -40,7 +43,7 @@ public class Gamepad {
         armController = new Joystick(armControllerPort);
     }
 
-    public void armPneumatics(ClawPneumatics clawPneumatics, LightSensor lightSensor) {
+    public void armPneumatics(ClawPneumatics clawPneumatics, LightSensor lightSensor, ArmSubsystem arm) {
         SmartDashboard.putBoolean("if True then not full yet", clawPneumatics.isNotFull());
 
         // if(armController.getRawButtonPressed(Constants.right_Button)) {
@@ -49,16 +52,37 @@ public class Gamepad {
         // if(armController.getRawButtonReleased(Constants.right_Button)) {
         //     candle.turnOff();
         // }
+        if (clawCloseTimer.get() >= 0.25) {
+            if( (arm.smallArmMotorPosition + (Constants.ARM_SPEED*4.5)) < Constants.SmallArm_default){
+                arm.smallArmMotorPosition += Constants.ARM_SPEED*4.5;
+                arm.maintainPosition();
+            }
+            clawCloseTimer.stop();
+            clawCloseTimer.reset();
+        }
+
+        if (clawOpenTimer.get() >= 0.25) {
+            clawPneumatics.setLow();
+            clawOpenTimer.stop();
+            clawOpenTimer.reset();
+        }
+
         if(lightSensor.isSensed() && (armController.getRawButton(Constants.right_Button))) {
             clawPneumatics.setHigh();
+            clawCloseTimer.start();
         }
         
         else if(driveController.getRawButtonPressed(Constants.A_Button)) {
             if (clawPneumatics.isClawClosed) {
-                clawPneumatics.setHigh();
+                if(arm.bigArmMotorPosition > Constants.BigArm_pickup){
+                    arm.smallArmMotorPosition -= Constants.ARM_SPEED*9;
+                }
+                arm.maintainPosition();
+                clawOpenTimer.start();
             }
             else {
-                clawPneumatics.setLow();
+                clawPneumatics.setHigh();
+                clawCloseTimer.start();
             }
         }
         else if(driveController.getRawButtonReleased(Constants.A_Button)) {

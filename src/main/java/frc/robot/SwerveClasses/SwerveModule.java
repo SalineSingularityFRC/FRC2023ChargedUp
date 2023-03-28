@@ -8,6 +8,7 @@ import com.ctre.phoenixpro.hardware.CANcoder;
 import com.ctre.phoenixpro.hardware.TalonFX;
 import com.ctre.phoenixpro.signals.InvertedValue;
 import com.ctre.phoenixpro.signals.NeutralModeValue;
+import com.ctre.phoenixpro.configs.CurrentLimitsConfigs;
 import com.ctre.phoenixpro.configs.MotorOutputConfigs;
 import com.ctre.phoenixpro.controls.VelocityVoltage;
 
@@ -41,6 +42,10 @@ public class SwerveModule {
     public SwerveModule(int Can_ID_driveMotor, int Can_ID_angleMotor, int Can_ID_canCoder, double zeroPosition, String canNetwork, boolean isInverted) { // add a zeroPosition thing
         m_encoder = new CANcoder(Can_ID_canCoder, canNetwork);
         driveMotor = new TalonFX(Can_ID_driveMotor, canNetwork);
+        CurrentLimitsConfigs current = new CurrentLimitsConfigs();
+        current.SupplyCurrentLimit = 30;
+        current.SupplyCurrentLimitEnable = true;
+        driveMotor.getConfigurator().apply(current);
         angleMotor = new SwerveAngle(Can_ID_angleMotor, canNetwork);
 
         driveMotor.setInverted(isInverted);

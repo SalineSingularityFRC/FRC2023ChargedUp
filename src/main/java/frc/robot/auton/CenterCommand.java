@@ -26,10 +26,10 @@ public class CenterCommand extends SequentialCommandGroup {
 
         addCommands(
            new SetClawPreset(arm, 4), 
-            new SetClawPneumatics(clawPneumatics, 1),
+            new SetClawPneumatics(clawPneumatics, 1, arm),
             // new DriveDistance(drive, Constants.encoderCenterCommunity, 0).alongWith(
             //     new SetClawPreset(arm, 1)),
-            new DriveDistance(drive, Constants.encoderToChargeDistance, 0).alongWith(
+            new DriveDistance(drive, Constants.encoderToChargeDistance, 0, 1/5).alongWith(
                 new SetClawPreset(arm, 1)),
             new GetOnChargeStation(drive, gyro).repeatedly()
         );

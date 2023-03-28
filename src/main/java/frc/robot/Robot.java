@@ -44,7 +44,7 @@ public class Robot extends TimedRobot {
     lightSensor = new LightSensor();
 
     m_robotContainer = new RobotContainer(arm, clawPneumatics, robotSubsystem, robotSubsystem.gyro, limelight, lightSensor);
-    robotSubsystem.resetGyro();
+   // robotSubsystem.resetGyro();
 
   
     //candle = new CANdleSystem();
@@ -53,6 +53,8 @@ public class Robot extends TimedRobot {
   @Override
   public void robotPeriodic() {
     CommandScheduler.getInstance().run();
+    SmartDashboard.putNumber("ROBOT ANGLE ALL THE TIME", robotSubsystem.getRobotAngle());
+    SmartDashboard.putNumber("ROBOT GYGROZERO ANGLE ALL THE TIME", robotSubsystem.gyroZero);
   }
 
   @Override
@@ -72,6 +74,7 @@ public class Robot extends TimedRobot {
      
     m_autonomousCommand = m_robotContainer.getAutonomousCommand();
     robotSubsystem.resetGyro();
+    robotSubsystem.setBrakeMode();
     
     if (m_autonomousCommand != null) {
       
@@ -96,13 +99,14 @@ public class Robot extends TimedRobot {
     if (m_autonomousCommand != null) {
       m_autonomousCommand.cancel();
     }
+    robotSubsystem.setCoastMode();
   }
 
   @Override
   public void teleopPeriodic() {
     teleopDrive.swerveDrive(robotSubsystem, limelight, arm, clawPneumatics, lightSensor);
     teleopDrive.arm(arm);
-    teleopDrive.armPneumatics(clawPneumatics, lightSensor);
+    teleopDrive.armPneumatics(clawPneumatics, lightSensor, arm);
 
     limelight.runLimelight();
     SmartDashboard.putBoolean("is target found", limelight.getIsTargetFound());

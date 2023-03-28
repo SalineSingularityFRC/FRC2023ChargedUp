@@ -1,8 +1,10 @@
 package frc.robot.SwerveClasses;
 
+import com.ctre.phoenixpro.configs.MotorOutputConfigs;
 import com.ctre.phoenixpro.configs.Slot0Configs;
 import com.ctre.phoenixpro.controls.PositionVoltage;
 import com.ctre.phoenixpro.hardware.TalonFX;
+import com.ctre.phoenixpro.signals.NeutralModeValue;
 import com.revrobotics.AbsoluteEncoder;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -20,11 +22,11 @@ public class SwerveAngle {
     private TalonFX angleMotor;
     private PositionVoltage positionTarget;
 
-    private final double kP = 6.0;
+    private final double kP = 12.0;
     private final double kI = 0.0;
     private final double kD = 0.0;
 
-
+    private final double kS = 0.05;
     /* 
      * Our constructor needs to take a parameter that determines which CAN ID the falcon we are using has 
      * and it needs to initialize the falcon motor and configure it (things like PID values and such)
@@ -32,6 +34,7 @@ public class SwerveAngle {
    
     public SwerveAngle(int angleMotorId, String canNetwork) {
         angleMotor = new TalonFX(angleMotorId, canNetwork);
+        MotorOutputConfigs configs = new MotorOutputConfigs();
         zeroPositionOffset = 0;
         positionTarget = new PositionVoltage(0).withSlot(0);
         
@@ -39,8 +42,11 @@ public class SwerveAngle {
         slot0Configs.kP = kP; 
         slot0Configs.kI = kI;
         slot0Configs.kD = kD;
+        slot0Configs.kS = kS;
 
+        configs.NeutralMode = NeutralModeValue.Brake;
         angleMotor.getConfigurator().apply(slot0Configs);
+        angleMotor.getConfigurator().apply(configs);
         angleMotor.setInverted(false);
     }
      

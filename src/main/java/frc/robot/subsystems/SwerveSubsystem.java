@@ -37,6 +37,7 @@ public class SwerveSubsystem {
     private final Vector[] vectorKinematics = new Vector[4];
     private final SwerveKinematics swerveKinematics;
 
+    public double gyroZero = 0;
 
     private double targetAngle = Double.MAX_VALUE;
 
@@ -216,12 +217,13 @@ public class SwerveSubsystem {
      */
     public double getRobotAngle() {
         //return ((360 - gyro.getAngle().toDegrees()) * Math.PI) / 180; // for NavX
-        return ((360 - (gyro.getAngle())+ 180) * Math.PI) / 180; // returns in counterclockwise hence why 360 minus
+        return ((180 - (gyro.getAngle() - gyroZero)) * Math.PI) / 180; // returns in counterclockwise hence why 360 minus
         // it is gyro.getAngle() - 180 because the pigeon for this robot is facing backwards
     }
 
     public void resetGyro() {
-        gyro.reset();
+       // gyro.reset();
+        gyroZero =  gyro.getAngle();
     }
 
 

@@ -3,6 +3,7 @@ package frc.robot.subsystems;
 import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants;
 
@@ -13,10 +14,11 @@ public class ClawPneumatics{
 	Compressor pcmCompressor = new Compressor(Constants.Compressor_ID, PneumaticsModuleType.REVPH);
 	private ArmSubsystem arm;
 	public boolean isClawClosed = true;
-
+	private Timer timer;
     public ClawPneumatics(int forwardChannel, int reverseChannel, ArmSubsystem arm) {
         doubleSolenoid = new DoubleSolenoid(PneumaticsModuleType.REVPH, forwardChannel, reverseChannel);
 		doubleSolenoid.set(DoubleSolenoid.Value.kOff);
+		this.timer = new Timer();
 		this.arm = arm;
 		// disableCompressor();
 		enableCompressor();
@@ -29,16 +31,14 @@ public class ClawPneumatics{
 	public void setHigh() { // we believe that setHigh is closing the claw
 		
 		doubleSolenoid.set(DoubleSolenoid.Value.kReverse);
-		isClawClosed = false;
-		if(arm.smallArmMotorPosition < Constants.SmallArm_default){
-			arm.smallArmMotorPosition += Constants.ARM_SPEED*4.5;
-			arm.maintainPosition();
-		}
+		isClawClosed = true;
+		
 	}
 	
 	public void setLow() { // opening the claw (maybe????)
 		doubleSolenoid.set(DoubleSolenoid.Value.kForward);
-		isClawClosed = true;
+		
+		isClawClosed = false;
 	}
 	
 	public void setOff() {

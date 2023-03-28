@@ -62,7 +62,7 @@ public class ArmSubsystem {
     private final double manualD = 0.8;
     private final double manualS = 0.6; // counters static friction
 
-    private double bigArmMotorPosition;
+    public double bigArmMotorPosition;
     public double smallArmMotorPosition;
     
     public ArmSubsystem(boolean bigArmIsInverted, boolean smallArmIsInverted) {
@@ -204,7 +204,7 @@ public class ArmSubsystem {
     
     public void highTarget(Timer timer) { // these will still be used for auton and limelight, which have the luxury of calling this method over and over
         highTarget1();
-        if (timer.get() >= 0.7) {
+        if (timer.get() >= 0.25) {
             highTarget2();        
         }
     }

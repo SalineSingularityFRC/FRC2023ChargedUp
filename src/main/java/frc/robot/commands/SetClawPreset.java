@@ -55,6 +55,6 @@ public class SetClawPreset extends CommandBase {
 
     // Make this return true when this Command no longer needs to run execute()
     public boolean isFinished() {
-        return timer.get() >= 2.5;
+        return timer.get() >= 1.3;
     }
 }
