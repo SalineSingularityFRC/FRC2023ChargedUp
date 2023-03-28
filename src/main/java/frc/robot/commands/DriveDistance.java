@@ -2,6 +2,7 @@ package frc.robot.commands;
 
 import java.util.Set;
 
+import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.Subsystem;
@@ -17,21 +18,27 @@ public class DriveDistance extends CommandBase {
     private boolean isFinished = false;
     private double startingEncoderValue;
     private double changeInEncoderValue = 0;
+    private double speed;
+    private PIDController controller;
 
    /*
     * 1.   Constructor - Might have parameters for this command such as target positions of devices. Should also set the name of the command for debugging purposes.
     *  This will be used if the status is viewed in the dashboard. And the command should require (reserve) any devices is might use.
     */
-    public DriveDistance(SwerveSubsystem drive, double distance, double angle) {
+    public DriveDistance(SwerveSubsystem drive, double distance, double angle, double speed) {
         this.drive = drive;
         this.distance = distance;
         this.angle = angle;
+        this.speed = speed;
+        this.controller = new PIDController(0.1, 0, 0);
+        
     }
 
     //    initialize() - This method sets up the command and is called immediately before the command is executed for the first time and every subsequent time it is started .
     //  Any initialization code should be here.
     public void initialize() {
         startingEncoderValue = drive.getSwerveModule(0).getPosition();
+        this.controller.setSetpoint(distance);
     }
 
     /*
@@ -55,9 +62,17 @@ public class DriveDistance extends CommandBase {
             // else { // robot is (relatively) straight
             //     rotations = 0;
             // }
-
-            drive.drive(new SwerveSubsystem.SwerveRequest(0, x/5, y/5), true);
+            
+            
             changeInEncoderValue = Math.abs(drive.getSwerveModule(0).getPosition() - startingEncoderValue);
+            double multiplier = this.controller.calculate(changeInEncoderValue);
+            x *= multiplier;
+            y *= multiplier;
+            if(x > speed) x = speed;
+            if(y > speed) y = speed;
+            if(x < -speed) x = -speed;
+            if(y < -speed) y = -speed;
+            drive.drive(new SwerveSubsystem.SwerveRequest(0, x, y), true);
         }
         else {
             drive.drive(new SwerveSubsystem.SwerveRequest(0, 0, 0), true);
