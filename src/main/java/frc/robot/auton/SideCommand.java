@@ -36,8 +36,8 @@ public class SideCommand extends SequentialCommandGroup {
             new SetClawPneumatics(clawPneumatics, 1, arm),
             new DriveDistance(drive, Constants.encoderToOutsideCommunityDistance, 0, 0.5).alongWith(
                 new SetClawPreset(arm, 1)),
-            new TurnAngle(drive, 0)
-            //new AutonLimelight(drive, lime, arm, clawPneumatics, sensor)
+            new TurnAngle(drive, 6),
+            new AutonLimelight(drive, lime, arm, clawPneumatics, sensor)
          
         );
     }

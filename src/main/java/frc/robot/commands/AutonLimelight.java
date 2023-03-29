@@ -13,6 +13,7 @@ public class AutonLimelight extends CommandBase {
     protected ArmSubsystem arm;
     protected ClawPneumatics claw;
     protected LightSensor sensor;
+    protected boolean isFinished;
   
    /*
     * 1.   Constructor - Might have parameters for this command such as target positions of devices. Should also set the name of the command for debugging purposes.
@@ -29,8 +30,8 @@ public class AutonLimelight extends CommandBase {
     //    initialize() - This method sets up the command and is called immediately before the command is executed for the first time and every subsequent time it is started .
     //  Any initialization code should be here.
     public void initialize() {
-        
-    }
+
+    }   
 
     /*
      *   execute() - This method is called periodically (about every 20ms) and does the work of the command. Sometimes, if there is a position a
@@ -38,11 +39,11 @@ public class AutonLimelight extends CommandBase {
      */
     public void execute() {
         
-        lime.pickup(drive, arm, claw, sensor, true);
+        isFinished = lime.pickup(drive, arm, claw, sensor, true);
     }
 
     // Make this return true when this Command no longer needs to run execute()
     public boolean isFinished() {
-        return claw.isClawClosed;
+        return isFinished;
     }
 }

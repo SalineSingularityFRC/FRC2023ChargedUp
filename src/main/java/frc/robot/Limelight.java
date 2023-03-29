@@ -2,10 +2,12 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import frc.robot.Constants;
+import frc.robot.commands.TurnAngle;
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.ClawPneumatics;
 import frc.robot.subsystems.SwerveSubsystem;
@@ -21,13 +23,15 @@ public class Limelight {
 
     public boolean isTurningDone;
     public final double minimumSpeed = 0.06;
-
+    PIDController driveController;
+    PIDController turnController;
     public Timer scoringTimer = new Timer();
 
 
 
     public Limelight() {
         table = NetworkTableInstance.getDefault().getTable("limelight");
+
         tx = table.getEntry("tx");
         ty = table.getEntry("ty");
         ta = table.getEntry("ta");
@@ -47,7 +51,12 @@ public class Limelight {
         poseY = localization[1];
         yaw = localization[5];
 
-
+        driveController = new PIDController(0.0026, 0, 0);
+        driveController.setSetpoint(-16);
+        //driveController.setTolerance(0.5);
+        turnController = new PIDController(0.005, 0, 0.0008/8);
+        turnController.setSetpoint(9);
+        //driveController.setTolerance(0.5);
         setCamMode(0); // set to vision mode
         ledOff();
         setpipeline(1);
@@ -109,76 +118,98 @@ public class Limelight {
             claw.setLow();
         }
 
-        if (!isTurningDone) {
+        if (tx.getDouble(0) < 7 || tx.getDouble(0) > 11){
+           isTurningDone = false;
+        }
+        if(!isTurningDone){
             isTurningDone = turnAngle(drive);
-            return false;
         }
         else {
+       
+            double y = driveController.calculate(ty.getDouble(0));
+            if(y > 0 ) y += 0.06; 
+            if(y < 0) y -= 0.06;
+            SmartDashboard.putNumber("Calculated Y value", y);
             // We see the target and are aimed at it, drive forwards now
-            double x = 0;
-            double y = 0;
-            if (ty.getDouble(0) >= -18) {
-                // 0.26 is a specific multiplier that makes speed hit exactly 0.7 if ta is approx 0 (very far away)
-                y = ((18 + ty.getDouble(0)) * 0.013) + minimumSpeed; 
-                if(y > 0.35){
-                    y = 0.35;
+            if(isCube){
+                if (driveController.atSetpoint()) { // we really want the sensor for this tbh
+                    claw.setHigh();
+                    return true;
                 }
+            } else {
+                
+               
+               
+                // if (ty.getDouble(0) >= -18) {
+                //     // 0.26 is a specific multiplier that makes speed hit exactly 0.7 if ta is approx 0 (very far away)
+                //     y = ((18 + ty.getDouble(0)) * 0.013) + minimumSpeed; 
+                //     if(y > 0.35){
+                //         y = 0.35;
+                //     }
 
-                SmartDashboard.putNumber("y value", y);
-            }
+                //     SmartDashboard.putNumber("y value", y);
+                // }
 
-            if (tx.getDouble(0) >= 9.25) {
-                x = ((tx.getDouble(0) - 9.25) * 0.005) + minimumSpeed; 
-                if (x < -0.1) {
-                    x = -0.1;
+            
+
+                // if (tx.getDouble(0) >= 9.25) {
+                //     x = ((tx.getDouble(0) - 9.25) * 0.005) + minimumSpeed; 
+                //     if (x < -0.1) {
+                //         x = -0.1;
+                //     }
+
+                //     x *= -1;
+                // }
+                // else if (tx.getDouble(0) < 8.75) {
+                //     x = (8.75 - (tx.getDouble(0)) * 0.005) + minimumSpeed; 
+                //     if (x > 0.1) {
+                //         x = 0.1;
+                //     } 
+                // }
+
+                if (lightSensor.isSensed()) { // we really want the sensor for this tbh
+                    claw.setHigh();
+                    return true;
                 }
-
-                x *= -1;
             }
-            else if (tx.getDouble(0) < 8.75) {
-                x = (8.75 - (tx.getDouble(0)) * 0.005) + minimumSpeed; 
-                if (x > 0.1) {
-                    x = 0.1;
-                } 
-            }
-
-            if (lightSensor.isSensed()) { // we really want the sensor for this tbh
-                claw.setHigh();
-                return true;
-            }
-
-            drive.drive(new SwerveRequest(0, x, y), false);
-            return false;
+    
+            double speed = turnController.calculate(tx.getDouble(0));
+            drive.drive(new SwerveRequest(-speed, 0, -y), false);
         }
+
+       return false;
     }
     
     public boolean turnAngle(SwerveSubsystem drive){
         if (getIsTargetFound()) {
 
-            double speed = 0;
-            if (tx.getDouble(0) >= 9.5) {
-                // 0.005 is a specific multiplier that makes speed hit exactly 0.2 if bot is off by 20 degrees to the left
-                speed = ((tx.getDouble(0) - 9.5) * 0.005) + minimumSpeed; 
-                if(speed > 0.2){
-                    speed = 0.2;
-                }
+            double speed = turnController.calculate(tx.getDouble(0));
+            if(speed > 0 ) speed += 0.05; 
+            if(speed < 0) speed -= 0.05;
+            // if (tx.getDouble(0) >= 9.5) {
+            //     // 0.005 is a specific multiplier that makes speed hit exactly 0.2 if bot is off by 20 degrees to the left
+            //     //speed = ((tx.getDouble(0) - 9.5) * 0.005) + minimumSpeed; 
+            //     if(speed > 0.2){
+            //         speed = 0.2;
+            //     }
 
-            }
-            else if (tx.getDouble(0) <= 8.5) {
-                // 0.01 is a specific multiplier that makes speed hit exactly -0.2 if bot is off by 20 degrees to the right
-                speed = ((8.5 - tx.getDouble(0)) * 0.01) + minimumSpeed; 
-                if(speed > 0.2){
-                    speed = 0.2;
-                }
+            // }
+            // else if (tx.getDouble(0) <= 8.5) {
+            //     // 0.01 is a specific multiplier that makes speed hit exactly -0.2 if bot is off by 20 degrees to the right
+            //     speed = ((8.5 - tx.getDouble(0)) * 0.01) + minimumSpeed; 
+            //     if(speed > 0.2){
+            //         speed = 0.2;
+            //     }
 
-                speed *= -1; // because we want to turn clockwise here
-            }
-            else { 
-                drive.drive(new SwerveRequest(0 , 0, 0), false);
+            //     speed *= -1; // because we want to turn clockwise here
+            // }
+            if(turnController.atSetpoint()) { 
+                turnController.reset();
+                //drive.drive(new SwerveRequest(0 , 0, 0), false);
                 return true; // we are angled correctly
             }
     
-            drive.drive(new SwerveRequest(speed, 0, 0), false);
+            drive.drive(new SwerveRequest(-speed, 0, 0), false);
         }
         
         return false;
