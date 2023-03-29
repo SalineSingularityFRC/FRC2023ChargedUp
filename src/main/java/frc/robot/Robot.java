@@ -44,7 +44,7 @@ public class Robot extends TimedRobot {
     lightSensor = new LightSensor();
 
     m_robotContainer = new RobotContainer(arm, clawPneumatics, robotSubsystem, robotSubsystem.gyro, limelight, lightSensor);
-   // robotSubsystem.resetGyro();
+    robotSubsystem.resetGyro();
 
   
     //candle = new CANdleSystem();

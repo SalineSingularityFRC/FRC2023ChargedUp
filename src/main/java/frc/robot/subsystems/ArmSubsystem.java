@@ -158,9 +158,10 @@ public class ArmSubsystem {
         } else {
             smallArmMotor.setControl(positionTargetPreset.withPosition(smallArmPos).withFeedForward(0.05).withSlot(1));
         }
-        SmartDashboard.putNumber("SMALL ARM POSITION MANUAL", smallArmMotorPosition);
+        
         bigArmMotorPosition = bigArmMotor.getPosition().getValue();
         smallArmMotorPosition = smallArmMotor.getPosition().getValue();
+        SmartDashboard.putNumber("SMALL ARM POSITION MANUAL", smallArmMotorPosition);
     }
 
     public void setBigArmSpeed(double speed) {
@@ -175,6 +176,7 @@ public class ArmSubsystem {
 
         bigArmMotorPosition = bigArmMotor.getPosition().getValue();
         smallArmMotorPosition = smallArmMotor.getPosition().getValue();
+        SmartDashboard.putNumber("BIG ARM POSITION MANUAL", bigArmMotorPosition);
     }
 
 
@@ -237,11 +239,11 @@ public class ArmSubsystem {
     
 
     public void pickupFallenCone1(){
-        smallArmPosition(Constants.SmallArm_pickupCone);
+        bigArmPosition(Constants.BigArm_pickupCone);
     }
 
     public void pickupFallenCone2(){
-        smallArmPosition(Constants.BigArm_pickupCone);
+        smallArmPosition(Constants.SmallArm_pickupCone);
     }
 
     public void defaultTarget(){
