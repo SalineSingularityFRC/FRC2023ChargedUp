@@ -9,7 +9,8 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import frc.robot.auton.CenterCommand;
-import frc.robot.auton.SideCommand;
+import frc.robot.auton.LeftSideCommand;
+import frc.robot.auton.RightSideCommand;
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.ClawPneumatics;
 import frc.robot.subsystems.SwerveSubsystem;
@@ -19,7 +20,8 @@ public class RobotContainer {
   // SendableChooser<Boolean> isCenter = new SendableChooser<>();
 
   private CenterCommand centerCommand;
-  private SideCommand sideCommand;
+  private LeftSideCommand leftSideCommand;
+  private RightSideCommand rightSideCommand;
   protected ClawPneumatics clawPneumatics;
   protected SwerveSubsystem drive;
   protected ArmSubsystem arm;
@@ -38,8 +40,8 @@ public class RobotContainer {
     this.sensor = sensor;
 
     this.centerCommand = new CenterCommand(arm, clawPneumatics, drive, gyro);
-    this.sideCommand = new SideCommand(arm, clawPneumatics, drive, gyro, lime, sensor);
-
+    this.leftSideCommand = new LeftSideCommand(arm, clawPneumatics, drive, gyro, lime, sensor);
+    this.rightSideCommand = new RightSideCommand(arm, clawPneumatics, drive, gyro, lime, sensor);
     // isCenter.setDefaultOption("Center Auto", centerCommand);
     // isCenter.addOption("Side Auto", sideCommand);
   }
@@ -48,6 +50,7 @@ public class RobotContainer {
 
   public Command getAutonomousCommand() {
     //return centerCommand;
-    return sideCommand;
+    return rightSideCommand;
+    //return leftSideCommand;
   }
 }

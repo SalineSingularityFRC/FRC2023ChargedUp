@@ -20,19 +20,18 @@ public class DriveDistance extends CommandBase {
     private double changeInEncoderValue = 0;
     private double speed;
     private PIDController controller;
-    private int pos;
+
     private boolean brake;
 
    /*
     * 1.   Constructor - Might have parameters for this command such as target positions of devices. Should also set the name of the command for debugging purposes.
     *  This will be used if the status is viewed in the dashboard. And the command should require (reserve) any devices is might use.
     */
-    public DriveDistance(SwerveSubsystem drive, double distance, double angle, double speed, int pos, boolean brake) {
+    public DriveDistance(SwerveSubsystem drive, double distance, double angle, double speed, boolean brake) {
         this.drive = drive;
         this.distance = distance;
         this.angle = angle;
         this.speed = speed;
-        this.pos = pos;
         this.brake = brake;
         this.controller = new PIDController(0.1, 0, 0);
         
@@ -61,7 +60,7 @@ public class DriveDistance extends CommandBase {
         double y = Math.cos(angle);
         SmartDashboard.putNumber("CHANGEIN ENCODER", changeInEncoderValue);
         SmartDashboard.putNumber("DISTANCE ", distance);
-        if ((changeInEncoderValue <= distance && pos == 1) || (changeInEncoderValue >= distance && pos == 2)) {
+        if (changeInEncoderValue <= distance) {
             // double difference = drive.getRobotAngle() - startingAngle; 
             // if (difference > 0.01) { // robot is facing left of the desired angle
             //     rotations = 0.1;
@@ -76,7 +75,7 @@ public class DriveDistance extends CommandBase {
             
             changeInEncoderValue = Math.abs(drive.getSwerveModule(0).getPosition() - startingEncoderValue);
             double multiplier = this.controller.calculate(changeInEncoderValue);
-            if(pos == 2) multiplier = -multiplier;
+            // if(pos == 2) multiplier = -multiplier;
             x *= multiplier;
             y *= multiplier;
             if(x > speed) x = speed;

@@ -17,7 +17,7 @@ import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.ClawPneumatics;
 import frc.robot.subsystems.SwerveSubsystem;
 
-public class SideCommand extends SequentialCommandGroup {
+public class LeftSideCommand extends SequentialCommandGroup {
     protected ClawPneumatics clawPneumatics;
     protected SwerveSubsystem drive;
     protected ArmSubsystem arm;
@@ -25,7 +25,7 @@ public class SideCommand extends SequentialCommandGroup {
     protected Limelight lime;
     protected LightSensor sensor;
 
-    public SideCommand(ArmSubsystem arm, ClawPneumatics clawPneumatics, SwerveSubsystem drive, Pigeon2 gyro, Limelight lime, LightSensor sensor){
+    public LeftSideCommand(ArmSubsystem arm, ClawPneumatics clawPneumatics, SwerveSubsystem drive, Pigeon2 gyro, Limelight lime, LightSensor sensor){
         this.clawPneumatics = clawPneumatics;
         this.drive = drive;
         this.arm = arm;
@@ -35,16 +35,21 @@ public class SideCommand extends SequentialCommandGroup {
         addCommands(
             new SetClawPreset(arm, 4),
             new SetClawPneumatics(clawPneumatics, 1, arm),
-            // new DriveDistance(drive, Constants.encoderToOutsideCommunityDistance, 0, 0.5, 1).alongWith(
-            //     new SetClawPreset(arm, 1)),
-            new SetClawPreset(arm, 1),
+            new DriveDistance(drive, Constants.encoderToOutsideCommunityDistance, 0, 0.5,false).alongWith(
+                new SetClawPreset(arm, 1)),
+            // new SetClawPreset(arm, 1),
             new TurnAngle(drive, 6),
             new SetClawPneumatics(clawPneumatics, 1, arm),
             new AutonLimelight(drive, lime, arm, clawPneumatics, sensor),
             new SetClawPreset(arm, 1),
+            new TurnAngle(drive, Math.PI/2),
+            new DriveDistance(drive, 1.5, Math.PI/2, 0.5, false),
             new TurnAngle(drive, Math.PI),
-            new DriveDistance(drive, 0.2, 0, 0.5, 2, false),
+            new DriveDistance(drive, 60, Math.PI, 0.5, false),
+            new SetClawPreset(arm, 4),
             new ScoreAuton(drive, lime, arm, clawPneumatics)
+                
+            
             
 
         );
