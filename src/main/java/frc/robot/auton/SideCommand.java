@@ -43,7 +43,7 @@ public class SideCommand extends SequentialCommandGroup {
             new AutonLimelight(drive, lime, arm, clawPneumatics, sensor),
             new SetClawPreset(arm, 1),
             new TurnAngle(drive, Math.PI),
-            new DriveDistance(drive, -10, 0, 0.5, 2),
+            new DriveDistance(drive, 0.2, 0, 0.5, 2, false),
             new ScoreAuton(drive, lime, arm, clawPneumatics)
             
 

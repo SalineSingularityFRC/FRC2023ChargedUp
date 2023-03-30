@@ -42,7 +42,8 @@ public class AutonLimelight extends CommandBase {
      *  subsystem is moving to, the command might set the target position for the subsystem in initialize() and have an empty execute() method.
      */
     public void execute() {
-        if(this.lime.pickupTimer.get() >= 0.9){
+        if(this.lime.pickupTimer.get() >= 0.95){
+            drive.drive(new SwerveSubsystem.SwerveRequest(0, 0, 0), true);
             claw.setHigh();
         } else {
             lime.pickup(drive, arm, claw, sensor, true, true);
@@ -51,6 +52,6 @@ public class AutonLimelight extends CommandBase {
 
     // Make this return true when this Command no longer needs to run execute()
     public boolean isFinished() {
-        return this.lime.pickupTimer.get() >= .92;
+        return this.lime.pickupTimer.get() >= .96;
     }
 }
