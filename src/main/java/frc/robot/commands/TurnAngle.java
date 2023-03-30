@@ -24,7 +24,7 @@ public class TurnAngle extends CommandBase {
     public TurnAngle(SwerveSubsystem drive, double angle) {
         this.drive = drive;
         this.angle = angle;
-        this.controller = new PIDController(Math.PI / 5, 0, 0);
+        this.controller = new PIDController(Math.PI / 6, 0, 0);
         //this.controller.setTolerance(Math.PI / 36);
     }
 

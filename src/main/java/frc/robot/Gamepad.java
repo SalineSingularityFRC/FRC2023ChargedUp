@@ -125,10 +125,10 @@ public class Gamepad {
             limelight.scoringTimer.reset();
             robotSubsystem.setBrakeMode();
         }
-        if(armController.getRawButtonPressed(Constants.left_Button)){
-            limelight.isTurningDone = false;
-            limelight.turnController.setP(0.001);
-        }
+        // if(armController.getRawButtonPressed(Constants.left_Button)){
+        //     limelight.isTurningDone = false;
+        //     limelight.turnController.setP(0.001);
+        // }
         if (armController.getRawButtonReleased(Constants.L_joystick_Button) || armController.getRawButtonReleased(Constants.R_joystick_Button)) {
             robotSubsystem.setCoastMode();
         }
@@ -140,24 +140,23 @@ public class Gamepad {
         else if (armController.getRawButton(Constants.R_joystick_Button) && !claw.isClawClosed) {
             limelight.pickup(robotSubsystem, arm, claw, lightSensor, true, true);
         }
-        else if (armController.getRawButton(Constants.left_Button)) {
-            limelight.score(robotSubsystem, arm, claw, true);
-        }
+        // else if (armController.getRawButton(Constants.left_Button)) {
+        //     limelight.score(robotSubsystem, arm, claw, true);
+        // }
 
         else { // no limelight commands`
             if (driveController.getRawButtonPressed(Constants.X_Button)) {
                 robotSubsystem.resetGyro();
             }
             
-            // if (armController.getRawButton(Constants.left_Button)) {
-            //     limelight.score(robotSubsystem, arm, claw, true);
-            //     // if (robotSubsystem.isCoast()) {
-            //     //     robotSubsystem.setBrakeMode();
-            //     // }
-            //     // else {
-            //     //     robotSubsystem.setCoastMode();
-            //     // }
-            // }
+            if (armController.getRawButton(Constants.left_Button)) {
+                if (robotSubsystem.isCoast()) {
+                    robotSubsystem.setBrakeMode();
+                }
+                else {
+                    robotSubsystem.setCoastMode();
+                }
+            }
     
             robotSubsystem.drive(new SwerveSubsystem.SwerveRequest(
             driveController.getRawAxis(Constants.rightJoystickXAxis), 

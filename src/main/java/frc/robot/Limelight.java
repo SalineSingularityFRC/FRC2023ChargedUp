@@ -53,7 +53,7 @@ public class Limelight {
         poseY = localization[1];
         yaw = localization[5];
 
-        driveController = new PIDController(0.0049, 0, 0); //0.0056 orginally
+        driveController = new PIDController(0.0025, 0, 0); //0.0056 orginally
         driveController.setSetpoint(-18);
 
         //driveController.setTolerance(0.5);
@@ -61,7 +61,7 @@ public class Limelight {
         turnController.setSetpoint(9);
        
         scoreDriveController = new PIDController(0.0056, 0, 0);
-        scoreDriveController.setSetpoint(1.6); //FIND RIGHT TA VALUE
+        scoreDriveController.setSetpoint(1.7); //FIND RIGHT TA VALUE
 
         //driveController.setTolerance(0.5);
         setCamMode(0); // set to vision mode
@@ -261,7 +261,7 @@ public class Limelight {
         } else {
             setpipeline(3);
         }
-        if (tx.getDouble(0) < 7 || tx.getDouble(0) > 11){
+        if (tx.getDouble(0) < 6.5 || tx.getDouble(0) > 11.5){
             isTurningDone = false;
         }
         if(!isTurningDone){
@@ -269,6 +269,7 @@ public class Limelight {
         }
         else {
             if (scoreDriveController.atSetpoint()) { 
+                claw.setLow();
                 return true;
             }
 

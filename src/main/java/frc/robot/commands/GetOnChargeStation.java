@@ -4,6 +4,7 @@ import java.util.Set;
 
 import com.ctre.phoenixpro.hardware.Pigeon2;
 
+import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.Subsystem;
@@ -16,6 +17,7 @@ public class GetOnChargeStation extends CommandBase {
     protected SwerveSubsystem drive;
     protected Pigeon2 gyro;
     private boolean isFinished = false;
+    private PIDController controller;
    /*
     * 1.   Constructor - Might have parameters for this command such as target positions of devices. Should also set the name of the command for debugging purposes.
     *  This will be used if the status is viewed in the dashboard. And the command should require (reserve) any devices is might use.
@@ -23,11 +25,14 @@ public class GetOnChargeStation extends CommandBase {
     public GetOnChargeStation(SwerveSubsystem drive, Pigeon2 gyro) {
         this.drive = drive;
         this.gyro = gyro;
+        this.controller = new PIDController(0.1 * 1/15, 0, 0);
+        this.controller.setSetpoint(0);
     }
 
     //    initialize() - This method sets up the command and is called immediately before the command is executed for the first time and every subsequent time it is started .
     //  Any initialization code should be here.
     public void initialize() {
+        drive.setBrakeMode();
     }
 
     /*
@@ -36,14 +41,19 @@ public class GetOnChargeStation extends CommandBase {
      */
     public void execute() {
         double pitch = gyro.getRoll().getValue();
-        double speed = Math.abs(pitch / 15);
+        //double speed = Math.abs(pitch / 15);
+        double speed = this.controller.calculate(pitch);
         SmartDashboard.putNumber("PITCH", pitch);
-        if (pitch > 2.5) {
-            drive.drive(new SwerveSubsystem.SwerveRequest(0, 0, -0.10 * speed), true); // drive backwards
+
+        if(!this.controller.atSetpoint()){
+            drive.drive(new SwerveSubsystem.SwerveRequest(0, 0, -speed), true);
         }
-        else if (pitch < -2.5) {
-            drive.drive(new SwerveSubsystem.SwerveRequest(0, 0, 0.10 * speed), true); // drive forward
-        }
+        // if (pitch > 2.5) {
+        //     drive.drive(new SwerveSubsystem.SwerveRequest(0, 0, -0.10 * speed), true); // drive backwards
+        // }
+        // else if (pitch < -2.5) {
+        //     drive.drive(new SwerveSubsystem.SwerveRequest(0, 0, 0.10 * speed), true); // drive forward
+        // }
         else {
             drive.drive(new SwerveSubsystem.SwerveRequest(0, 0, 0), true);
             isFinished = true;
