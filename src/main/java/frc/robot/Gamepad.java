@@ -97,43 +97,67 @@ public class Gamepad {
 
     public void swerveDrive(SwerveSubsystem robotSubsystem, Limelight limelight, ArmSubsystem arm, ClawPneumatics claw, LightSensor lightSensor) {
         SmartDashboard.putBoolean("Is it coast", robotSubsystem.isCoast());
+        SmartDashboard.putNumber("PICKUP TIMER", limelight.pickupTimer.get());
+        SmartDashboard.putBoolean("PICKUPTIEMR CODE RAN THROUGH", false);
+        if(limelight.pickupTimer.get() >= 0.9){
+            SmartDashboard.putBoolean("PICKUPTIEMR CODE RAN THROUGH", true);
+            robotSubsystem.drive(new SwerveSubsystem.SwerveRequest(0, 0, 0), true);
+            claw.setHigh();
+            
+            limelight.pickupTimer.stop();
+            limelight.pickupTimer.reset();
+        }
         // limelight commands below
 
         if (armController.getPOV() == 0) {
             limelight.turnToAngle(robotSubsystem);
         }
+        
 
-
+    
         if (armController.getRawButtonPressed(Constants.L_joystick_Button) || armController.getRawButtonPressed(Constants.R_joystick_Button)) {
+            claw.setLow();
+            limelight.turnController.setP(0.0025);
             limelight.isTurningDone = false;
+            limelight.pickupTimer.stop(); // just in case
+            limelight.pickupTimer.reset();
             limelight.scoringTimer.stop(); // just in case
             limelight.scoringTimer.reset();
             robotSubsystem.setBrakeMode();
+        }
+        if(armController.getRawButtonPressed(Constants.left_Button)){
+            limelight.isTurningDone = false;
+            limelight.turnController.setP(0.001);
         }
         if (armController.getRawButtonReleased(Constants.L_joystick_Button) || armController.getRawButtonReleased(Constants.R_joystick_Button)) {
             robotSubsystem.setCoastMode();
         }
 
 
-        if (armController.getRawButton(Constants.L_joystick_Button)) {
-            limelight.pickup(robotSubsystem, arm, claw, lightSensor, false);
+        if (armController.getRawButton(Constants.L_joystick_Button) && !claw.isClawClosed) {
+            limelight.pickup(robotSubsystem, arm, claw, lightSensor, false, false);
         }  
-        else if (armController.getRawButton(Constants.R_joystick_Button)) {
-            limelight.pickup(robotSubsystem, arm, claw, lightSensor, true);
+        else if (armController.getRawButton(Constants.R_joystick_Button) && !claw.isClawClosed) {
+            limelight.pickup(robotSubsystem, arm, claw, lightSensor, true, true);
+        }
+        else if (armController.getRawButton(Constants.left_Button)) {
+            limelight.score(robotSubsystem, arm, claw, true);
         }
 
         else { // no limelight commands`
             if (driveController.getRawButtonPressed(Constants.X_Button)) {
                 robotSubsystem.resetGyro();
             }
-            if (armController.getRawButtonPressed(Constants.left_Button)) {
-                if (robotSubsystem.isCoast()) {
-                    robotSubsystem.setBrakeMode();
-                }
-                else {
-                    robotSubsystem.setCoastMode();
-                }
-            }
+            
+            // if (armController.getRawButton(Constants.left_Button)) {
+            //     limelight.score(robotSubsystem, arm, claw, true);
+            //     // if (robotSubsystem.isCoast()) {
+            //     //     robotSubsystem.setBrakeMode();
+            //     // }
+            //     // else {
+            //     //     robotSubsystem.setCoastMode();
+            //     // }
+            // }
     
             robotSubsystem.drive(new SwerveSubsystem.SwerveRequest(
             driveController.getRawAxis(Constants.rightJoystickXAxis), 

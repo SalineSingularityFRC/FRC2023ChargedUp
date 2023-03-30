@@ -51,7 +51,7 @@ public class SwerveSubsystem {
     public SwerveSubsystem() {
         // gyro = new NavX(Port.kMXP);
         gyro = new Pigeon2(Constants.GYRO_CANCODER_ID, Constants.CANIVORE);
-        //startingAngle = getRobotAngle() + Math.PI;
+        
         
         vectorKinematics[FL] = new Vector(Constants.TRACKWIDTH / 2.0, Constants.WHEELBASE / 2.0);
         vectorKinematics[FR] = new Vector(Constants.TRACKWIDTH / 2.0, -Constants.WHEELBASE / 2.0);    
@@ -225,6 +225,7 @@ public class SwerveSubsystem {
     public void resetGyro() {
        // gyro.reset();
         gyroZero =  gyro.getAngle();
+        this.startingAngle = getRobotAngle() + Math.PI;
     }
 
 

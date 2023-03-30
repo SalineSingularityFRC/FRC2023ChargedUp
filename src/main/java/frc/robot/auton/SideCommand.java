@@ -9,6 +9,7 @@ import frc.robot.Limelight;
 import frc.robot.commands.AutonLimelight;
 import frc.robot.commands.DriveDistance;
 import frc.robot.commands.GetOnChargeStation;
+import frc.robot.commands.ScoreAuton;
 import frc.robot.commands.SetClawPneumatics;
 import frc.robot.commands.SetClawPreset;
 import frc.robot.commands.TurnAngle;
@@ -34,11 +35,18 @@ public class SideCommand extends SequentialCommandGroup {
         addCommands(
             new SetClawPreset(arm, 4),
             new SetClawPneumatics(clawPneumatics, 1, arm),
-            new DriveDistance(drive, Constants.encoderToOutsideCommunityDistance, 0, 0.5).alongWith(
-                new SetClawPreset(arm, 1)),
+            // new DriveDistance(drive, Constants.encoderToOutsideCommunityDistance, 0, 0.5, 1).alongWith(
+            //     new SetClawPreset(arm, 1)),
+            new SetClawPreset(arm, 1),
             new TurnAngle(drive, 6),
-            new AutonLimelight(drive, lime, arm, clawPneumatics, sensor)
-         
+            new SetClawPneumatics(clawPneumatics, 1, arm),
+            new AutonLimelight(drive, lime, arm, clawPneumatics, sensor),
+            new SetClawPreset(arm, 1),
+            new TurnAngle(drive, Math.PI),
+            new DriveDistance(drive, -10, 0, 0.5, 2),
+            new ScoreAuton(drive, lime, arm, clawPneumatics)
+            
+
         );
     }
 }

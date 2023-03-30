@@ -7,7 +7,7 @@ import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.ClawPneumatics;
 import frc.robot.subsystems.SwerveSubsystem;
 
-public class AutonLimelight extends CommandBase {
+public class ScoreAuton extends CommandBase {
     protected SwerveSubsystem drive;
     protected Limelight lime;
     protected ArmSubsystem arm;
@@ -19,22 +19,19 @@ public class AutonLimelight extends CommandBase {
     * 1.   Constructor - Might have parameters for this command such as target positions of devices. Should also set the name of the command for debugging purposes.
     *  This will be used if the status is viewed in the dashboard. And the command should require (reserve) any devices is might use.
     */
-    public AutonLimelight(SwerveSubsystem drive, Limelight lime, ArmSubsystem arm, ClawPneumatics claw, LightSensor sensor) {
+    public ScoreAuton(SwerveSubsystem drive, Limelight lime, ArmSubsystem arm, ClawPneumatics claw) {
         this.drive = drive;
         this.lime = lime;
         this.arm = arm;
         this.claw = claw;
-        this.sensor = sensor;
     }
 
     //    initialize() - This method sets up the command and is called immediately before the command is executed for the first time and every subsequent time it is started .
     //  Any initialization code should be here.
     public void initialize() {
-        this.claw.setLow();
-        this.lime.turnController.setP(0.0025);
+        isFinished = false;
         this.lime.isTurningDone = false;
-        this.lime.pickupTimer.stop();
-        this.lime.pickupTimer.reset();
+        this.lime.turnController.setP(0.001);
     }   
 
     /*
@@ -42,15 +39,15 @@ public class AutonLimelight extends CommandBase {
      *  subsystem is moving to, the command might set the target position for the subsystem in initialize() and have an empty execute() method.
      */
     public void execute() {
-        if(this.lime.pickupTimer.get() >= 0.9){
+        if(this.lime.pickupTimer.get() >= 1){
             claw.setHigh();
         } else {
-            lime.pickup(drive, arm, claw, sensor, true, true);
+           isFinished = lime.score(drive, arm, claw, true);
         }
     }
 
     // Make this return true when this Command no longer needs to run execute()
     public boolean isFinished() {
-        return this.lime.pickupTimer.get() >= .92;
+        return isFinished;
     }
 }
