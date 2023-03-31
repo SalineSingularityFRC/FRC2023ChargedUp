@@ -25,7 +25,7 @@ public class GetOnChargeStation extends CommandBase {
     public GetOnChargeStation(SwerveSubsystem drive, Pigeon2 gyro) {
         this.drive = drive;
         this.gyro = gyro;
-        this.controller = new PIDController(0.1 * 1/15, 0, 0);
+        this.controller = new PIDController(0.1, 0, 0);
         this.controller.setSetpoint(0);
     }
 
@@ -41,19 +41,19 @@ public class GetOnChargeStation extends CommandBase {
      */
     public void execute() {
         double pitch = gyro.getRoll().getValue();
-        //double speed = Math.abs(pitch / 15);
-        double speed = this.controller.calculate(pitch);
-        SmartDashboard.putNumber("PITCH", pitch);
+        double speed = Math.abs(pitch / 15);
+        // double speed = this.controller.calculate(pitch);
+        // SmartDashboard.putNumber("PITCH", pitch);
 
-        if(!this.controller.atSetpoint()){
-            drive.drive(new SwerveSubsystem.SwerveRequest(0, 0, -speed), true);
+        // if(!this.controller.atSetpoint()){
+        //     drive.drive(new SwerveSubsystem.SwerveRequest(0, 0, -speed), true);
+        // }
+        if (pitch > 2.5) {
+            drive.drive(new SwerveSubsystem.SwerveRequest(0, 0, -0.10 * speed), true); // drive backwards
         }
-        // if (pitch > 2.5) {
-        //     drive.drive(new SwerveSubsystem.SwerveRequest(0, 0, -0.10 * speed), true); // drive backwards
-        // }
-        // else if (pitch < -2.5) {
-        //     drive.drive(new SwerveSubsystem.SwerveRequest(0, 0, 0.10 * speed), true); // drive forward
-        // }
+        else if (pitch < -2.5) {
+            drive.drive(new SwerveSubsystem.SwerveRequest(0, 0, 0.10 * speed), true); // drive forward
+        }
         else {
             drive.drive(new SwerveSubsystem.SwerveRequest(0, 0, 0), true);
             isFinished = true;

@@ -126,7 +126,11 @@ public final class Constants {
     public static final double SPEED_DIVISOR = 1; // what the max speed should be divided by, 1 is max power
     public static final double ARM_SPEED = 0.005; // speed of the arms when adjusting manually
 
+    //CHARGE STATION COMMUNITY DISTANCE:
+    //public static final double encoderToChargeDistance = 65.4694981;
+
     public static final double encoderToChargeDistance = 45.4694981;
+    
     public static final double encoderCenterCommunity = 100;
     public static final double encoderToOutsideCommunityDistance = 87.30208217;
     // 1.832716884 is the number of inches per 1 encoder value
