@@ -61,7 +61,7 @@ public class DriveDistance extends CommandBase {
         double y = Math.cos(angle);
         SmartDashboard.putNumber("CHANGEIN ENCODER", changeInEncoderValue);
         SmartDashboard.putNumber("DISTANCE ", distance);
-        if (changeInEncoderValue <= distance) {
+        if (Math.abs(changeInEncoderValue) <= distance) {
             // double difference = drive.getRobotAngle() - startingAngle; 
             // if (difference > 0.01) { // robot is facing left of the desired angle
             //     rotations = 0.1;
@@ -74,7 +74,7 @@ public class DriveDistance extends CommandBase {
             // }
             
             
-            changeInEncoderValue = Math.abs(drive.getSwerveModule(0).getPosition() - startingEncoderValue);
+            changeInEncoderValue = drive.getSwerveModule(0).getPosition() - startingEncoderValue;
             double multiplier = this.controller.calculate(changeInEncoderValue);
             // if(pos == 2) multiplier = -multiplier;
             x *= multiplier;
