@@ -51,10 +51,6 @@ public class RightSideCommand extends SequentialCommandGroup {
             new DriveDistance(drive, 60, Math.PI, 0.5, false),
             new SetClawPreset(arm, 4),
             new ScoreAuton(drive, lime, arm, clawPneumatics)
-                
-            
-            
-
         );
     }
 }
