@@ -41,6 +41,7 @@ public class DriveDistance extends CommandBase {
     //  Any initialization code should be here.
     public void initialize() {
         startingEncoderValue = drive.getSwerveModule(0).getPosition();
+        changeInEncoderValue = 0;
         this.controller.setSetpoint(distance);
         if(this.brake){
             drive.setBrakeMode();

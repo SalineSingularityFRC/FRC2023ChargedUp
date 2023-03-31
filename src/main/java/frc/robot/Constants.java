@@ -109,7 +109,7 @@ public final class Constants {
     public static final double SmallArm_mediumTarget = 0.268994;
     public static final double SmallArm_pickup = 0.110840;
     public static final double SmallArm_default = 0.374062;
-    public static final double SmallArm_Slider = 0.0; 
+    public static final double SmallArm_Slider = -0.057857; 
     public static final double SmallArm_pickupCone =  -0.147461; 
 
     // 15.479004 position for bigarm for smallarm to freely rotate

@@ -139,10 +139,10 @@ public class Limelight {
                     double speed = turnController.calculate(tx.getDouble(0));
                     drive.drive(new SwerveSubsystem.SwerveRequest(-speed, 0, 0.1), false);
                    
-                    // if(pickupTimer.get() >= 0.02){
-                    //     drive.drive(new SwerveRequest(0, 0, 0.1), false);
-                    //     return true;
-                    // }
+                    if(pickupTimer.get() >= 0.02){
+                        drive.drive(new SwerveRequest(0, 0, 0.1), false);
+                        return true;
+                    }
                 }
             }
         } else {
@@ -234,11 +234,11 @@ public class Limelight {
                 //drive.drive(new SwerveRequest(0 , 0, 0), false);
                 return true; // we are angled correctly
             }
-            if(pickup){
-                if(pickupTimer.get() == 0) drive.drive(new SwerveRequest(-speed, 0, 0), false);
-            } else {
-                drive.drive(new SwerveRequest(-speed, 0, 0), false);
-            }
+            // if(pickup){
+            //     if(pickupTimer.get() == 0) drive.drive(new SwerveRequest(-speed, 0, 0), false);
+            // } else {
+            //     drive.drive(new SwerveRequest(-speed, 0, 0), false);
+            // }
     
             
         }
