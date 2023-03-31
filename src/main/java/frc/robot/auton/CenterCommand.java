@@ -29,7 +29,7 @@ public class CenterCommand extends SequentialCommandGroup {
             new SetClawPneumatics(clawPneumatics, 1, arm),
             new DriveDistance(drive, Constants.encoderToChargeDistance, 0, 0.2, false).alongWith(
                 new SetClawPreset(arm, 1)),
-            new DriveDistance(drive, 3, Math.PI, 0.2, true),
+            //new DriveDistance(drive, 3, Math.PI, 0.2, true),
             new GetOnChargeStation(drive, gyro).repeatedly()
         );
     }

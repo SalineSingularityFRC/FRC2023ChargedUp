@@ -41,7 +41,7 @@ public class GetOnChargeStation extends CommandBase {
      */
     public void execute() {
         double pitch = gyro.getRoll().getValue();
-        double speed = Math.abs(pitch / 15);
+        double speed = Math.abs(pitch / 13);
         // double speed = this.controller.calculate(pitch);
         // SmartDashboard.putNumber("PITCH", pitch);
 
