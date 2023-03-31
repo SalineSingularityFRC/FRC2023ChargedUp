@@ -50,7 +50,7 @@ public class RobotContainer {
 
   public Command getAutonomousCommand() {
     //return centerCommand;
-    return rightSideCommand;
-    //return leftSideCommand;
+    //return rightSideCommand;
+    return leftSideCommand;
   }
 }

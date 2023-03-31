@@ -45,11 +45,11 @@ public class RightSideCommand extends SequentialCommandGroup {
             new SetClawPneumatics(clawPneumatics, 1, arm),
             new AutonLimelight(drive, lime, arm, clawPneumatics, sensor),
             new SetClawPreset(arm, 1),
-            new DriveDistance(drive, 1.5, Math.PI / 2, 0.5, false),
-            new TurnAngle(drive,  Math.PI),
-            new DriveDistance(drive, 60, Math.PI, 0.5, false),
-            new SetClawPreset(arm, 4),
-            new ScoreAuton(drive, lime, arm, clawPneumatics)
+            //new DriveDistance(drive, 1.5, Math.PI / 2, 0.5, false),
+            new TurnAngle(drive,  Math.PI)
+            // new DriveDistance(drive, 60, Math.PI, 0.5, false),
+            // new SetClawPreset(arm, 4),
+            // new ScoreAuton(drive, lime, arm, clawPneumatics)
         );
     }
 }
