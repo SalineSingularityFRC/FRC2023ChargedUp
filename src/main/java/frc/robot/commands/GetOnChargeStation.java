@@ -48,10 +48,10 @@ public class GetOnChargeStation extends CommandBase {
         // if(!this.controller.atSetpoint()){
         //     drive.drive(new SwerveSubsystem.SwerveRequest(0, 0, -speed), true);
         // }
-        if (pitch > 2.5) {
+        if (pitch > 2.3) {
             drive.drive(new SwerveSubsystem.SwerveRequest(0, 0, -0.10 * speed), true); // drive backwards
         }
-        else if (pitch < -2.5) {
+        else if (pitch < -2.3) {
             drive.drive(new SwerveSubsystem.SwerveRequest(0, 0, 0.10 * speed), true); // drive forward
         }
         else {
