@@ -127,7 +127,7 @@ public final class Constants {
     public static final double ARM_SPEED = 0.005; // speed of the arms when adjusting manually
 
     //CHARGE STATION COMMUNITY DISTANCE:
-    public static final double encoderToChargeDistance = 86.4694981;
+    public static final double encoderToChargeDistance = 96.4694981;
 
     //public static final double encoderToChargeDistance = 45.4694981;
     

@@ -4,6 +4,7 @@ import com.ctre.phoenixpro.hardware.Pigeon2;
 
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.Constants;
+import frc.robot.commands.AutonTime;
 import frc.robot.commands.DriveDistance;
 import frc.robot.commands.GetOnChargeStation;
 import frc.robot.commands.SetClawPneumatics;
@@ -27,9 +28,12 @@ public class CenterCommand extends SequentialCommandGroup {
         addCommands(
            new SetClawPreset(arm, 4), 
             new SetClawPneumatics(clawPneumatics, 1, arm),
-            new DriveDistance(drive, Constants.encoderToChargeDistance, 0, 0.4, false).alongWith(
+            new DriveDistance(drive, Constants.encoderToChargeDistance, 0, 0.4, true).alongWith(
                 new SetClawPreset(arm, 1)),
-            new DriveDistance(drive, 25, Math.PI, 0.3, true),
+            new AutonTime(1),
+        
+            new DriveDistance(drive, 51, Math.PI, 0.19, true),
+        
             new GetOnChargeStation(drive, gyro).repeatedly()
         );
     }
