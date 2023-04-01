@@ -39,7 +39,7 @@ public class Robot extends TimedRobot {
     teleopDrive = new Gamepad(Constants.DRIVE_CONTROLLER, Constants.ARM_CONTROLLER);
 
     arm = new ArmSubsystem(false, true);
-    clawPneumatics = new ClawPneumatics(9, 6, arm); // check these channel #s later
+    clawPneumatics = new ClawPneumatics(9, 10, arm); // check these channel #s later
     limelight = new Limelight();
     lightSensor = new LightSensor();
 
