@@ -49,8 +49,8 @@ public class RobotContainer {
   private void configureBindings() {}
 
   public Command getAutonomousCommand() {
-    //return centerCommand;
+    return centerCommand;
     //return rightSideCommand;
-    return leftSideCommand;
+    //return leftSideCommand;
   }
 }

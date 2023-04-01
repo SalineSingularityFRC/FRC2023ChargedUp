@@ -75,10 +75,10 @@ public final class Constants {
     /* 
     ALL WHEEL OFFSETS BELOW
     */
-    public static double DRIVETRAIN_FRONT_LEFT_ENCODER_OFFSET = (0.019043) * 2 * Math.PI; // number in parenthesis is in rotations
-    public static double DRIVETRAIN_FRONT_RIGHT_ENCODER_OFFSET = (0.424316) * 2 * Math.PI; // 0.884521
-    public static double DRIVETRAIN_BACK_LEFT_ENCODER_OFFSET = (0.119873) * 2 * Math.PI; //  0.063965
-    public static double DRIVETRAIN_BACK_RIGHT_ENCODER_OFFSET = (0.697266) * 2 * Math.PI; // 0.811768
+    public static double DRIVETRAIN_FRONT_LEFT_ENCODER_OFFSET = (0.974365) * 2 * Math.PI; // number in parenthesis is in rotations
+    public static double DRIVETRAIN_FRONT_RIGHT_ENCODER_OFFSET = (0.446289) * 2 * Math.PI; // 0.884521
+    public static double DRIVETRAIN_BACK_LEFT_ENCODER_OFFSET = (0.129639) * 2 * Math.PI; //  0.063965
+    public static double DRIVETRAIN_BACK_RIGHT_ENCODER_OFFSET = (0.703369) * 2 * Math.PI; // 0.811768
 
 
     
@@ -127,9 +127,9 @@ public final class Constants {
     public static final double ARM_SPEED = 0.005; // speed of the arms when adjusting manually
 
     //CHARGE STATION COMMUNITY DISTANCE:
-    //public static final double encoderToChargeDistance = 65.4694981;
+    public static final double encoderToChargeDistance = 86.4694981;
 
-    public static final double encoderToChargeDistance = 45.4694981;
+    //public static final double encoderToChargeDistance = 45.4694981;
     
     public static final double encoderCenterCommunity = 100;
     public static final double encoderToOutsideCommunityDistance = 87.30208217;
