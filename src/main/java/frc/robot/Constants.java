@@ -75,10 +75,10 @@ public final class Constants {
     /* 
     ALL WHEEL OFFSETS BELOW
     */
-    public static double DRIVETRAIN_FRONT_LEFT_ENCODER_OFFSET = (0.974365) * 2 * Math.PI; // number in parenthesis is in rotations
-    public static double DRIVETRAIN_FRONT_RIGHT_ENCODER_OFFSET = (0.446289) * 2 * Math.PI; // 0.884521
-    public static double DRIVETRAIN_BACK_LEFT_ENCODER_OFFSET = (0.129639) * 2 * Math.PI; //  0.063965
-    public static double DRIVETRAIN_BACK_RIGHT_ENCODER_OFFSET = (0.703369) * 2 * Math.PI; // 0.811768
+    public static double DRIVETRAIN_FRONT_LEFT_ENCODER_OFFSET = (0.938232) * 2 * Math.PI; // number in parenthesis is in rotations
+    public static double DRIVETRAIN_FRONT_RIGHT_ENCODER_OFFSET = (0.449463) * 2 * Math.PI; // 0.884521
+    public static double DRIVETRAIN_BACK_LEFT_ENCODER_OFFSET = (0.17407) * 2 * Math.PI; //  0.063965
+    public static double DRIVETRAIN_BACK_RIGHT_ENCODER_OFFSET = (0.682373) * 2 * Math.PI; // 0.811768
 
 
     
@@ -105,12 +105,12 @@ public final class Constants {
     public static final double BigArm_slider =  0.569092; //Fine tune
     public static final double BigArm_pickupCone = 0.477295; 
 
-    public static final double SmallArm_highTarget =  0.052041;
-    public static final double SmallArm_mediumTarget = 0.268994;
-    public static final double SmallArm_pickup = 0.110840;
-    public static final double SmallArm_default = 0.374062;
-    public static final double SmallArm_Slider = -0.077637; 
-    public static final double SmallArm_pickupCone =  -0.147461; 
+    public static final double SmallArm_highTarget =  0.052041-0.275391;
+    public static final double SmallArm_mediumTarget = 0.268994-0.275391;
+    public static final double SmallArm_pickup = 0.110840-0.275391;
+    public static final double SmallArm_default = 0.374062-0.275391;
+    public static final double SmallArm_Slider = -0.077637-0.275391; 
+    public static final double SmallArm_pickupCone =  -0.147461-0.275391; 
 
     // 15.479004 position for bigarm for smallarm to freely rotate
     // 42.833496 highest position for big arm
