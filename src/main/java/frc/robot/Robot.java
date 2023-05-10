@@ -10,6 +10,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.Subsystem;
+import frc.robot.SwerveClasses.SwerveOdometry;
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.ClawPneumatics;
 import frc.robot.subsystems.SwerveSubsystem;
@@ -25,6 +26,7 @@ public class Robot extends TimedRobot {
   private ClawPneumatics clawPneumatics;
   private Limelight limelight;
   private LightSensor lightSensor; 
+  private SwerveOdometry odometry;
   //private CANdleSystem candle;
 
   @Override
@@ -33,10 +35,10 @@ public class Robot extends TimedRobot {
     //Required to allow power to the switchable port on the power distrubution hub and allow sensor to use max power
     PowerDistribution PD = new PowerDistribution();
     PD.setSwitchableChannel(true); 
-
-
+  
     robotSubsystem = new SwerveSubsystem();
     teleopDrive = new Gamepad(Constants.DRIVE_CONTROLLER, Constants.ARM_CONTROLLER);
+    odometry = new SwerveOdometry(robotSubsystem);
 
     arm = new ArmSubsystem(false, true);
     clawPneumatics = new ClawPneumatics(9, 10, arm); // check these channel #s later
@@ -55,6 +57,9 @@ public class Robot extends TimedRobot {
     CommandScheduler.getInstance().run();
     SmartDashboard.putNumber("ROBOT ANGLE ALL THE TIME", robotSubsystem.getRobotAngle());
     SmartDashboard.putNumber("ROBOT GYGROZERO ANGLE ALL THE TIME", robotSubsystem.gyroZero);
+    odometry.update();
+    SmartDashboard.putNumber("Odometry X", odometry.position().getX() );
+    SmartDashboard.putNumber("Odometry Y", odometry.position().getY() );
   }
 
   @Override
