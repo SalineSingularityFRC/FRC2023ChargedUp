@@ -58,8 +58,8 @@ public class Robot extends TimedRobot {
     SmartDashboard.putNumber("ROBOT ANGLE ALL THE TIME", robotSubsystem.getRobotAngle());
     SmartDashboard.putNumber("ROBOT GYGROZERO ANGLE ALL THE TIME", robotSubsystem.gyroZero);
     odometry.update();
-    SmartDashboard.putNumber("Odometry X", odometry.position().getX() );
-    SmartDashboard.putNumber("Odometry Y", odometry.position().getY() );
+    SmartDashboard.putNumber("Odometry X", odometry.getX() );
+    SmartDashboard.putNumber("Odometry Y", odometry.getY() );
   }
 
   @Override

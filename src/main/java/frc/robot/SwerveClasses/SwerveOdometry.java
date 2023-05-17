@@ -62,6 +62,12 @@ public class SwerveOdometry {
     public Pose2d position(){
         return swerveOdometry.getPoseMeters();
     }
+    public double getX(){
+        return position().getX();
+    }
+    public double getY(){
+        return position().getY();
+    }
     public void resetPosition(){
         swerveOdometry.resetPosition(gyro.getRotation2d(), new SwerveModulePosition[] {
             new SwerveModulePosition(swerveModules[FL].getEncoderPosition(), new Rotation2d(swerveModules[FL].getPosition())),
