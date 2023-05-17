@@ -62,6 +62,7 @@ public class SwerveModule {
 
     // method takes in a direction and speed value and sets the wheels to that in the most efficient way possible
     public boolean drive(SwerveDriveRequest request) {
+        SmartDashboard.putNumber("Velocity", request.velocity);
         SwerveAngle.AnglePosition angle = angleMotor.setAngle(request.direction);
         // the setAngle function returns an enum that specifies whether the wheels should spin forwards or backwards
         if (angle == SwerveAngle.AnglePosition.Positive) { 
