@@ -51,10 +51,10 @@ public class SwerveOdometry {
 
     public void update(){
         swerveOdometry.update(gyro.getRotation2d(), new SwerveModulePosition[] {
-            new SwerveModulePosition(swerveModules[FL].getEncoderPosition(), new Rotation2d(swerveModules[FL].getPosition())),
-            new SwerveModulePosition(swerveModules[FR].getEncoderPosition(), new Rotation2d(swerveModules[FR].getPosition())),
-            new SwerveModulePosition(swerveModules[BL].getEncoderPosition(), new Rotation2d(swerveModules[BL].getPosition())),
-            new SwerveModulePosition(swerveModules[BR].getEncoderPosition(), new Rotation2d(swerveModules[BR].getPosition())),
+            new SwerveModulePosition(swerveModules[FL].getPosition(), new Rotation2d(swerveModules[FL].getEncoderPosition())),
+            new SwerveModulePosition(swerveModules[FR].getPosition(), new Rotation2d(swerveModules[FR].getEncoderPosition())),
+            new SwerveModulePosition(swerveModules[BL].getPosition(), new Rotation2d(swerveModules[BL].getEncoderPosition())),
+            new SwerveModulePosition(swerveModules[BR].getPosition(), new Rotation2d(swerveModules[BR].getEncoderPosition())),
           });
     }
 
@@ -68,6 +68,7 @@ public class SwerveOdometry {
     public double getY(){
         return position().getY();
     }
+    
     public void resetPosition(){
         swerveOdometry.resetPosition(gyro.getRotation2d(), new SwerveModulePosition[] {
             new SwerveModulePosition(swerveModules[FL].getEncoderPosition(), new Rotation2d(swerveModules[FL].getPosition())),

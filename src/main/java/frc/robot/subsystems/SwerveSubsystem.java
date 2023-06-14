@@ -133,12 +133,15 @@ public class SwerveSubsystem {
             x = -swerveRequest.movement.y * Math.sin(difference) + swerveRequest.movement.x * Math.cos(difference);
             y = swerveRequest.movement.y * Math.cos(difference) + swerveRequest.movement.x * Math.sin(difference);
         }
-
+       
         chassisVelocity = new ChassisVelocity(new Vector(x, y), swerveRequest.rotation); 
-
+     
         
         Vector[] moduleOutputs = swerveKinematics.toModuleVelocities(chassisVelocity); 
+        SmartDashboard.putNumber("MODULE OUTPUTS WHELL IDK X", moduleOutputs[0].x);
+        SmartDashboard.putNumber("MODULE OUTPUES WHELL IDK Y", moduleOutputs[0].y);
         SwerveKinematics.normalizeModuleVelocities(moduleOutputs, 1); // these two lines are what calculates the module angles for swerve
+      
         for (int i = 0; i < moduleOutputs.length; i++) {
             SwerveModule module = swerveModules[i];
             SwerveDriveRequest request;
