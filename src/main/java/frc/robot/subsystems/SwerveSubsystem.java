@@ -2,6 +2,9 @@ package frc.robot.subsystems;
 
 import com.ctre.phoenixpro.hardware.Pigeon2;
 
+import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
+import edu.wpi.first.math.kinematics.SwerveModuleState;
 // import edu.wpi.first.wpilibj.I2C.Port;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants;
@@ -175,6 +178,20 @@ public class SwerveSubsystem {
             module.drive(request);
         }
     }
+
+    /*
+     * Odometry 
+     */
+    public void setModuleStates(SwerveModuleState[] desiredStates) {
+        //The 2nd Parameter is for MaxSpeedMetersPerSecond 
+        //Initial Value was 3
+        SwerveDriveKinematics.desaturateWheelSpeeds(desiredStates, 3);
+        swerveModules[FL].setDesiredState(desiredStates[0]);
+        swerveModules[FR].setDesiredState(desiredStates[1]);
+        swerveModules[BL].setDesiredState(desiredStates[2]);
+        swerveModules[BR].setDesiredState(desiredStates[3]);
+      }
+   
 
     /*
      * This method takes a field-centric 
