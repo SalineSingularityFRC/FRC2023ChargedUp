@@ -9,6 +9,7 @@ import frc.robot.commands.DriveDistance;
 import frc.robot.commands.GetOnChargeStation;
 import frc.robot.commands.SetClawPneumatics;
 import frc.robot.commands.SetClawPreset;
+import frc.robot.commands.SwerveDistance;
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.ClawPneumatics;
 import frc.robot.subsystems.SwerveSubsystem;
@@ -26,15 +27,16 @@ public class CenterCommand extends SequentialCommandGroup {
         this.gyro = gyro;
 
         addCommands(
-           new SetClawPreset(arm, 4), 
-            new SetClawPneumatics(clawPneumatics, 1, arm),
-            new DriveDistance(drive, Constants.encoderToChargeDistance, 0, 0.4, true).alongWith(
-                new SetClawPreset(arm, 1)),
-            new AutonTime(1),
+        //    new SetClawPreset(arm, 4), 
+        //     new SetClawPneumatics(clawPneumatics, 1, arm),
+        //     new DriveDistance(drive, Constants.encoderToChargeDistance, 0, 0.4, true).alongWith(
+        //         new SetClawPreset(arm, 1)),
+        //     new AutonTime(1),
         
-            new DriveDistance(drive, 51, Math.PI, 0.19, true),
+        //     new DriveDistance(drive, 51, Math.PI, 0.19, true),
         
-            new GetOnChargeStation(drive, gyro).repeatedly()
+        //     new GetOnChargeStation(drive, gyro).repeatedly()
+            new SwerveDistance(drive, 3, 0, 0.4, true)
         );
     }
 }

@@ -2,6 +2,9 @@ package frc.robot.subsystems;
 
 import com.ctre.phoenixpro.hardware.Pigeon2;
 
+import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
+import edu.wpi.first.math.kinematics.SwerveModuleState;
 // import edu.wpi.first.wpilibj.I2C.Port;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants;
@@ -10,6 +13,7 @@ import frc.robot.SwerveClasses.SwerveDriveRequest;
 import frc.robot.SwerveClasses.SwerveKinematics;
 import frc.robot.SwerveClasses.SwerveModule;
 import frc.robot.SwerveClasses.Vector;
+import edu.wpi.first.wpilibj2.command.Subsystem;
 
 // import com.kauailabs.navx.frc.AHRS;
 // import frc.robot.DumbNavXClasses.NavX;
@@ -19,7 +23,7 @@ import frc.robot.SwerveClasses.Vector;
  * This class provides functions to drive at a given angle and direction,
  * and performs the calculations required to achieve that
  */
-public class SwerveSubsystem {
+public class SwerveSubsystem implements Subsystem {
 // public class SwerveSubsystem implements UpdateManager.Updatable {
     /*
      * This class should own the pidgeon 2.0 IMU gyroscope that we will be using and
@@ -175,6 +179,20 @@ public class SwerveSubsystem {
             module.drive(request);
         }
     }
+
+    /*
+     * Odometry 
+     */
+    public void setModuleStates(SwerveModuleState[] desiredStates) {
+        //The 2nd Parameter is for MaxSpeedMetersPerSecond 
+        //Initial Value was 3
+        SwerveDriveKinematics.desaturateWheelSpeeds(desiredStates, 3);
+        swerveModules[FL].setDesiredState(desiredStates[0]);
+        swerveModules[FR].setDesiredState(desiredStates[1]);
+        swerveModules[BL].setDesiredState(desiredStates[2]);
+        swerveModules[BR].setDesiredState(desiredStates[3]);
+      }
+   
 
     /*
      * This method takes a field-centric 

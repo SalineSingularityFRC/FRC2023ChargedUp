@@ -75,10 +75,10 @@ public final class Constants {
     /* 
     ALL WHEEL OFFSETS BELOW
     */
-    public static double DRIVETRAIN_FRONT_LEFT_ENCODER_OFFSET = (0.938232) * 2 * Math.PI; // number in parenthesis is in rotations
-    public static double DRIVETRAIN_FRONT_RIGHT_ENCODER_OFFSET = (0.449463) * 2 * Math.PI; // 0.884521
-    public static double DRIVETRAIN_BACK_LEFT_ENCODER_OFFSET = (0.17407) * 2 * Math.PI; //  0.063965
-    public static double DRIVETRAIN_BACK_RIGHT_ENCODER_OFFSET = (0.682373) * 2 * Math.PI; // 0.811768
+    public static double DRIVETRAIN_FRONT_LEFT_ENCODER_OFFSET = (0.900391) * 2 * Math.PI; // number in parenthesis is in rotations
+    public static double DRIVETRAIN_FRONT_RIGHT_ENCODER_OFFSET = (0.496826) * 2 * Math.PI; // 0.884521
+    public static double DRIVETRAIN_BACK_LEFT_ENCODER_OFFSET = (0.414551) * 2 * Math.PI; //  0.063965
+    public static double DRIVETRAIN_BACK_RIGHT_ENCODER_OFFSET = (0.563232) * 2 * Math.PI; // 0.811768
 
 
     

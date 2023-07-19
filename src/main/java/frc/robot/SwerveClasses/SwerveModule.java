@@ -1,8 +1,12 @@
 package frc.robot.SwerveClasses;
 import com.revrobotics.AbsoluteEncoder;
 
+import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj2.command.PIDCommand;
 
 import com.ctre.phoenixpro.hardware.CANcoder;
 import com.ctre.phoenixpro.hardware.TalonFX;
@@ -31,6 +35,8 @@ public class SwerveModule {
     private final VelocityVoltage m_voltageVelocity = new VelocityVoltage(0, true, 0, 0, false);
     public MotorOutputConfigs motorOutputConfigs = new MotorOutputConfigs();
     ;
+    private final PIDController m_drivePIDController = new PIDController(1, 0, 0);
+    private final PIDController m_turningPIDController = new PIDController(1, 0, 0);
 
     private final double absolutePositionEncoderOffset;
 
@@ -94,10 +100,22 @@ public class SwerveModule {
      * The talon says we are at an angle but sometimes that might not be the right angle. 
      * The zeroAngle is what we use to offset(balance) whatever we're reading off the talon
      */
+
+    
     public void resetZeroAngle() {
         angleMotor.setZeroAngle(getEncoderPosition());
     }
+ /*
+     * This method is used in Swerve Odometry
+    */
+    public void setDesiredState(SwerveModuleState desiredState) {
+        SwerveModuleState state = SwerveModuleState.optimize(desiredState, new Rotation2d(getEncoderPosition()));
 
+        double driveOutput = m_drivePIDController.calculate(state.angle.getRotations(), state.speedMetersPerSecond);
+        double turnOutput = m_turningPIDController.calculate(getEncoderPosition(), state.angle.getRadians());
+        driveMotor.set(driveOutput);
+        angleMotor.setAngle(turnOutput);
+    } 
     public double getEncoderPosition() {
         return (m_encoder.getAbsolutePosition().getValue() * 2 * Math.PI) - absolutePositionEncoderOffset;
     }

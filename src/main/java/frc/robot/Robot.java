@@ -41,7 +41,8 @@ public class Robot extends TimedRobot {
     odometry = new SwerveOdometry(robotSubsystem);
 
     arm = new ArmSubsystem(false, true);
-    clawPneumatics = new ClawPneumatics(9, 10, arm); // check these channel #s later
+    //clawPneumatics = new ClawPneumatics(9, 10, arm); // check these channel #s later
+    clawPneumatics = null;
     limelight = new Limelight();
     lightSensor = new LightSensor();
 
