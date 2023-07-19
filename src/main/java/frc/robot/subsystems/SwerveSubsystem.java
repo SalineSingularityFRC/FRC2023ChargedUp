@@ -13,6 +13,7 @@ import frc.robot.SwerveClasses.SwerveDriveRequest;
 import frc.robot.SwerveClasses.SwerveKinematics;
 import frc.robot.SwerveClasses.SwerveModule;
 import frc.robot.SwerveClasses.Vector;
+import edu.wpi.first.wpilibj2.command.Subsystem;
 
 // import com.kauailabs.navx.frc.AHRS;
 // import frc.robot.DumbNavXClasses.NavX;
@@ -22,7 +23,7 @@ import frc.robot.SwerveClasses.Vector;
  * This class provides functions to drive at a given angle and direction,
  * and performs the calculations required to achieve that
  */
-public class SwerveSubsystem {
+public class SwerveSubsystem implements Subsystem {
 // public class SwerveSubsystem implements UpdateManager.Updatable {
     /*
      * This class should own the pidgeon 2.0 IMU gyroscope that we will be using and

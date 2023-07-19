@@ -81,7 +81,15 @@ public class SwerveDistance extends CommandBase {
             // End 3 meters straight ahead of where we started, facing forward
             new Pose2d(3, 0, new Rotation2d(0)),
             config);
-        this.swerve = new SwerveControllerCommand(trajectory, odometry.position(), kinematics, new PIDController(1, 0, 0),  new PIDController(1, 0, 0), thetaController, drive::setModuleStates, drive);
+        this.swerve = new SwerveControllerCommand(
+            trajectory, 
+            odometry::position, 
+            kinematics, 
+            new PIDController(1, 0, 0),  
+            new PIDController(1, 0, 0), 
+            thetaController, 
+            drive::setModuleStates, 
+            drive);
         if(this.brake){
             drive.setBrakeMode();
         } else {
