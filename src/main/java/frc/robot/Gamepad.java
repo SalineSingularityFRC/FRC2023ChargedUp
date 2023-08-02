@@ -7,6 +7,8 @@ import frc.robot.subsystems.SwerveSubsystem;
 
 import javax.lang.model.util.ElementScanner14;
 
+import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.Timer;
@@ -43,8 +45,15 @@ public class Gamepad {
         armController = new Joystick(armControllerPort);
     }
 
+    
+    public void driveConstant(SwerveSubsystem robotSubsystem){
+        SwerveModuleState desiredState = new SwerveModuleState();
+        desiredState.angle = new Rotation2d(0);
+        desiredState.speedMetersPerSecond = 1;
+        robotSubsystem.setModuleState(desiredState);
+    }
     public void armPneumatics(ClawPneumatics clawPneumatics, LightSensor lightSensor, ArmSubsystem arm) {
-        SmartDashboard.putBoolean("if True then not full yet", clawPneumatics.isNotFull());
+        //SmartDashboard.putBoolean("if True then not full yet", clawPneumatics.isNotFull());
 
         // if(armController.getRawButtonPressed(Constants.right_Button)) {
         //     candle.turnOn();

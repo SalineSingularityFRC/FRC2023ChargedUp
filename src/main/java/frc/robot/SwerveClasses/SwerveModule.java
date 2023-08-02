@@ -35,17 +35,17 @@ public class SwerveModule {
     private final VelocityVoltage m_voltageVelocity = new VelocityVoltage(0, true, 0, 0, false);
     public MotorOutputConfigs motorOutputConfigs = new MotorOutputConfigs();
     ;
-    private final PIDController m_drivePIDController = new PIDController(1, 0, 0);
-    private final PIDController m_turningPIDController = new PIDController(1, 0, 0);
+    private final PIDController m_drivePIDController = new PIDController(.5, 0, 0);
+    private final PIDController m_turningPIDController = new PIDController(.2, 0, 0);
 
     private final double absolutePositionEncoderOffset;
-
+    private String name;
     /*
      * This constructor needs to take two parameters, one for the CAN ID of the drive motor and one for the CAN ID of the
      * angle motor
      * It should initialize our drive motor and create a SwerveAngle, passing the CAN ID to the SwerveAngle constructor
      */
-    public SwerveModule(int Can_ID_driveMotor, int Can_ID_angleMotor, int Can_ID_canCoder, double zeroPosition, String canNetwork, boolean isInverted) { // add a zeroPosition thing
+    public SwerveModule(int Can_ID_driveMotor, int Can_ID_angleMotor, int Can_ID_canCoder, double zeroPosition, String canNetwork, boolean isInverted, String name) { // add a zeroPosition thing
         m_encoder = new CANcoder(Can_ID_canCoder, canNetwork);
         driveMotor = new TalonFX(Can_ID_driveMotor, canNetwork);
         CurrentLimitsConfigs current = new CurrentLimitsConfigs();
@@ -53,7 +53,7 @@ public class SwerveModule {
         current.SupplyCurrentLimitEnable = true;
         driveMotor.getConfigurator().apply(current);
         angleMotor = new SwerveAngle(Can_ID_angleMotor, canNetwork);
-
+        this.name = name;
         driveMotor.setInverted(isInverted);
         if (isInverted) {
             motorOutputConfigs.Inverted = InvertedValue.Clockwise_Positive;
@@ -110,11 +110,13 @@ public class SwerveModule {
     */
     public void setDesiredState(SwerveModuleState desiredState) {
         SwerveModuleState state = SwerveModuleState.optimize(desiredState, new Rotation2d(getEncoderPosition()));
-
-        double driveOutput = m_drivePIDController.calculate(state.angle.getRotations(), state.speedMetersPerSecond);
+        SmartDashboard.putNumber("State Speed " + name, state.speedMetersPerSecond);
+        double driveOutput = m_drivePIDController.calculate(driveMotor.get(), state.speedMetersPerSecond);
+        SmartDashboard.putNumber("State DriveOut " + name, driveOutput);
         double turnOutput = m_turningPIDController.calculate(getEncoderPosition(), state.angle.getRadians());
+
         driveMotor.set(driveOutput);
-        angleMotor.setAngle(turnOutput);
+        angleMotor.setAngle(state.angle.getRadians());
     } 
     public double getEncoderPosition() {
         return (m_encoder.getAbsolutePosition().getValue() * 2 * Math.PI) - absolutePositionEncoderOffset;
