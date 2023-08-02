@@ -64,10 +64,10 @@ public class SwerveSubsystem implements Subsystem {
 
         swerveKinematics = new SwerveKinematics(vectorKinematics);
 
-        swerveModules[FL] = new SwerveModule(Constants.FL_Motor_ID, Constants.FL_ANGLE_ID, Constants.FL_CANCODER_ID, Constants.DRIVETRAIN_FRONT_LEFT_ENCODER_OFFSET, Constants.CANIVORE, Constants.FL_isInverted);
-        swerveModules[FR] = new SwerveModule(Constants.FR_Motor_ID, Constants.FR_ANGLE_ID, Constants.FR_CANCODER_ID, Constants.DRIVETRAIN_FRONT_RIGHT_ENCODER_OFFSET, Constants.CANIVORE, Constants.FR_isInverted);
-        swerveModules[BL] = new SwerveModule(Constants.BL_Motor_ID, Constants.BL_ANGLE_ID, Constants.BL_CANCODER_ID, Constants.DRIVETRAIN_BACK_LEFT_ENCODER_OFFSET, Constants.CANIVORE, Constants.BL_isInverted);
-        swerveModules[BR] = new SwerveModule(Constants.BR_Motor_ID, Constants.BR_ANGLE_ID, Constants.BR_CANCODER_ID, Constants.DRIVETRAIN_BACK_RIGHT_ENCODER_OFFSET, Constants.CANIVORE, Constants.BR_isInverted);
+        swerveModules[FL] = new SwerveModule(Constants.FL_Motor_ID, Constants.FL_ANGLE_ID, Constants.FL_CANCODER_ID, Constants.DRIVETRAIN_FRONT_LEFT_ENCODER_OFFSET, Constants.CANIVORE, Constants.FL_isInverted, "FL");
+        swerveModules[FR] = new SwerveModule(Constants.FR_Motor_ID, Constants.FR_ANGLE_ID, Constants.FR_CANCODER_ID, Constants.DRIVETRAIN_FRONT_RIGHT_ENCODER_OFFSET, Constants.CANIVORE, Constants.FR_isInverted, "FR");
+        swerveModules[BL] = new SwerveModule(Constants.BL_Motor_ID, Constants.BL_ANGLE_ID, Constants.BL_CANCODER_ID, Constants.DRIVETRAIN_BACK_LEFT_ENCODER_OFFSET, Constants.CANIVORE, Constants.BL_isInverted, "BL");
+        swerveModules[BR] = new SwerveModule(Constants.BR_Motor_ID, Constants.BR_ANGLE_ID, Constants.BR_CANCODER_ID, Constants.DRIVETRAIN_BACK_RIGHT_ENCODER_OFFSET, Constants.CANIVORE, Constants.BR_isInverted, "BR");
     }
 
     public static class SwerveRequest { // this class represents what our controller is telling our robot to do
@@ -186,13 +186,22 @@ public class SwerveSubsystem implements Subsystem {
     public void setModuleStates(SwerveModuleState[] desiredStates) {
         //The 2nd Parameter is for MaxSpeedMetersPerSecond 
         //Initial Value was 3
-        SwerveDriveKinematics.desaturateWheelSpeeds(desiredStates, 3);
+        //SwerveDriveKinematics.desaturateWheelSpeeds(desiredStates, 3);
         swerveModules[FL].setDesiredState(desiredStates[0]);
         swerveModules[FR].setDesiredState(desiredStates[1]);
         swerveModules[BL].setDesiredState(desiredStates[2]);
         swerveModules[BR].setDesiredState(desiredStates[3]);
       }
-   
+      public void setModuleState(SwerveModuleState desiredStates) {
+        //The 2nd Parameter is for MaxSpeedMetersPerSecond 
+        //Initial Value was 3
+        //SwerveDriveKinematics.desaturateWheelSpeeds(desiredStates, 3);
+        swerveModules[FL].setDesiredState(desiredStates);
+        swerveModules[FR].setDesiredState(desiredStates);
+        //swerveModules[BL].setDesiredState(desiredStates);
+        swerveModules[BR].setDesiredState(desiredStates);
+      
+      }
 
     /*
      * This method takes a field-centric 

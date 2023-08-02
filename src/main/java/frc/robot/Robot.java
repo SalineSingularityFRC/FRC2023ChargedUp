@@ -81,7 +81,7 @@ public class Robot extends TimedRobot {
     m_autonomousCommand = m_robotContainer.getAutonomousCommand();
     robotSubsystem.resetGyro();
     robotSubsystem.setBrakeMode();
-    
+    odometry.resetPosition();
     if (m_autonomousCommand != null) {
       
       m_autonomousCommand.schedule();
@@ -91,6 +91,7 @@ public class Robot extends TimedRobot {
 
   @Override
   public void autonomousPeriodic() {
+    CommandScheduler.getInstance().run();
   }
 
   @Override
@@ -110,16 +111,16 @@ public class Robot extends TimedRobot {
 
   @Override
   public void teleopPeriodic() {
-    teleopDrive.swerveDrive(robotSubsystem, limelight, arm, clawPneumatics, lightSensor);
-    teleopDrive.arm(arm);
-    teleopDrive.armPneumatics(clawPneumatics, lightSensor, arm);
-
+    // teleopDrive.swerveDrive(robotSubsystem, limelight, arm, clawPneumatics, lightSensor);
+    // teleopDrive.arm(arm);
+    // teleopDrive.armPneumatics(clawPneumatics, lightSensor, arm);
+    teleopDrive.driveConstant(robotSubsystem);
     //limelight.runLimelight();
-    SmartDashboard.putBoolean("is target found", limelight.getIsTargetFound());
-    SmartDashboard.putNumber("gyro", robotSubsystem.getRobotAngle());
+    // SmartDashboard.putBoolean("is target found", limelight.getIsTargetFound());
+    // SmartDashboard.putNumber("gyro", robotSubsystem.getRobotAngle());
 
-    SmartDashboard.putBoolean("is sensed", lightSensor.isSensed());
-    SmartDashboard.putNumber("volts", lightSensor.volts());
+    // SmartDashboard.putBoolean("is sensed", lightSensor.isSensed());
+    // SmartDashboard.putNumber("volts", lightSensor.volts());
 
     CommandScheduler.getInstance().run();
   }

@@ -9,6 +9,7 @@ import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
+import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.math.trajectory.TrajectoryConfig;
 import edu.wpi.first.math.trajectory.TrajectoryGenerator;
@@ -77,7 +78,7 @@ public class SwerveDistance extends CommandBase {
             // Start at the origin facing the +X direction
             new Pose2d(0, 0, new Rotation2d(0)),
             // Pass through these two interior waypoints, making an 's' curve path
-            List.of(new Translation2d(1, 1), new Translation2d(2, -1)),
+            List.of(),//new Translation2d(1, 1), new Translation2d(2, -1)),
             // End 3 meters straight ahead of where we started, facing forward
             new Pose2d(3, 0, new Rotation2d(0)),
             config);
@@ -85,8 +86,8 @@ public class SwerveDistance extends CommandBase {
             trajectory, 
             odometry::position, 
             kinematics, 
-            new PIDController(1, 0, 0),  
-            new PIDController(1, 0, 0), 
+            new PIDController(0.0001, 0, 0),  
+            new PIDController(0.0001, 0, 0), 
             thetaController, 
             drive::setModuleStates, 
             drive);
@@ -102,7 +103,15 @@ public class SwerveDistance extends CommandBase {
      *  subsystem is moving to, the command might set the target position for the subsystem in initialize() and have an empty execute() method.
      */
     public void execute() {
-          
+        SwerveModuleState[] desiredStates = new SwerveModuleState[4];
+        desiredStates[0] = new SwerveModuleState(0.5, new Rotation2d(0));
+        desiredStates[1] = new SwerveModuleState(.5, new Rotation2d(0));
+        desiredStates[2] = new SwerveModuleState(.5, new Rotation2d(0));
+        desiredStates[3] = new SwerveModuleState(.5, new Rotation2d(0));
+        this.drive.setModuleStates(
+            desiredStates
+        );
+        
     }
 
     // Make this return true when this Command no longer needs to run execute()
