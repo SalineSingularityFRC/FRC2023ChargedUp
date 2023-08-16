@@ -51,10 +51,10 @@ public class SwerveOdometry {
 
     public void update(){
         swerveOdometry.update(gyro.getRotation2d(), new SwerveModulePosition[] {
-            new SwerveModulePosition(swerveModules[FL].getPosition() , new Rotation2d(swerveModules[FL].getEncoderPosition())),
-            new SwerveModulePosition(swerveModules[FR].getPosition(), new Rotation2d(swerveModules[FR].getEncoderPosition())),
-            new SwerveModulePosition(swerveModules[BL].getPosition(), new Rotation2d(swerveModules[BL].getEncoderPosition())),
-            new SwerveModulePosition(swerveModules[BR].getPosition(), new Rotation2d(swerveModules[BR].getEncoderPosition())),
+            new SwerveModulePosition(swerveModules[FL].getPosition() , new Rotation2d(swerveModules[FL].getEncoderPosition() + Math.PI/2)),
+            new SwerveModulePosition(swerveModules[FR].getPosition(), new Rotation2d(swerveModules[FR].getEncoderPosition()+ Math.PI/2)),
+            new SwerveModulePosition(swerveModules[BL].getPosition(), new Rotation2d(swerveModules[BL].getEncoderPosition()+ Math.PI/2)),
+            new SwerveModulePosition(swerveModules[BR].getPosition(), new Rotation2d(swerveModules[BR].getEncoderPosition() + Math.PI/2)),
           });
     }
 
