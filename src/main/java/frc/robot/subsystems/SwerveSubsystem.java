@@ -198,7 +198,7 @@ public class SwerveSubsystem implements Subsystem {
         //SwerveDriveKinematics.desaturateWheelSpeeds(desiredStates, 3);
         swerveModules[FL].setDesiredState(desiredStates);
         swerveModules[FR].setDesiredState(desiredStates);
-        //swerveModules[BL].setDesiredState(desiredStates);
+        swerveModules[BL].setDesiredState(desiredStates);
         swerveModules[BR].setDesiredState(desiredStates);
       
       }

@@ -86,8 +86,8 @@ public class SwerveDistance extends CommandBase {
             trajectory, 
             odometry::position, 
             kinematics, 
-            new PIDController(0.0001, 0, 0),  
-            new PIDController(0.0001, 0, 0), 
+            new PIDController(1, 0, 0),  
+            new PIDController(1, 0, 0), 
             thetaController, 
             drive::setModuleStates, 
             drive);
@@ -103,14 +103,15 @@ public class SwerveDistance extends CommandBase {
      *  subsystem is moving to, the command might set the target position for the subsystem in initialize() and have an empty execute() method.
      */
     public void execute() {
-        SwerveModuleState[] desiredStates = new SwerveModuleState[4];
-        desiredStates[0] = new SwerveModuleState(0.5, new Rotation2d(0));
-        desiredStates[1] = new SwerveModuleState(.5, new Rotation2d(0));
-        desiredStates[2] = new SwerveModuleState(.5, new Rotation2d(0));
-        desiredStates[3] = new SwerveModuleState(.5, new Rotation2d(0));
-        this.drive.setModuleStates(
-            desiredStates
-        );
+        // SwerveModuleState[] desiredStates = new SwerveModuleState[4];
+        // desiredStates[0] = new SwerveModuleState(0.5, new Rotation2d(0));
+        // desiredStates[1] = new SwerveModuleState(.5, new Rotation2d(0));
+        // desiredStates[2] = new SwerveModuleState(.5, new Rotation2d(0));
+        // desiredStates[3] = new SwerveModuleState(.5, new Rotation2d(0));
+        // this.drive.setModuleStates(
+        //     desiredStates
+        // );
+        this.swerve.execute();
         
     }
 
