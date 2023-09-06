@@ -36,7 +36,7 @@ public final class Constants {
 
     public static final int Compressor_ID = 1;
 
-    public static final int SMALL_ARM_CANCODER_ID = 20;
+    public static final int SMALL_ARM_CANCODER_ID = 22;
     public static final int BIG_ARM_CANCODER_ID = 21;
 
     public static final String CANBUS = "rio";
@@ -105,12 +105,12 @@ public final class Constants {
     public static final double BigArm_slider =  0.569092; //Fine tune
     public static final double BigArm_pickupCone = 0.477295; 
 
-    public static final double SmallArm_highTarget =  0.052041-0.275391;
-    public static final double SmallArm_mediumTarget = 0.268994-0.275391;
-    public static final double SmallArm_pickup = 0.110840-0.275391;
-    public static final double SmallArm_default = 0.374062-0.275391;
-    public static final double SmallArm_Slider = -0.077637-0.275391; 
-    public static final double SmallArm_pickupCone =  -0.147461-0.275391; 
+    public static final double SmallArm_highTarget =  (0.052041-0.275391) + 0.15;
+    public static final double SmallArm_mediumTarget = (0.268994-0.275391) + 0.15;
+    public static final double SmallArm_pickup = (0.110840-0.275391) + 0.15;
+    public static final double SmallArm_default = (0.374062-0.275391) + 0.15;
+    public static final double SmallArm_Slider = (-0.077637-0.275391) + 0.15; 
+    public static final double SmallArm_pickupCone =  (-0.147461-0.275391) + 0.15; 
 
     // 15.479004 position for bigarm for smallarm to freely rotate
     // 42.833496 highest position for big arm

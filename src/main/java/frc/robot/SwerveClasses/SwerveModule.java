@@ -109,6 +109,7 @@ public class SwerveModule {
      * This method is used in Swerve Odometry
     */
     public void setDesiredState(SwerveModuleState desiredState) {
+        // desiredState.speedMetersPerSecond *= 0.3;
         SwerveModuleState state = SwerveModuleState.optimize(desiredState, new Rotation2d(getEncoderPosition()));
         SmartDashboard.putNumber("State Speed " + name, state.speedMetersPerSecond);
         double driveOutput = m_drivePIDController.calculate(driveMotor.get(), state.speedMetersPerSecond);
