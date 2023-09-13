@@ -46,12 +46,12 @@ public class Gamepad {
     }
 
     
-    public void driveConstant(SwerveSubsystem robotSubsystem){
+     public void driveConstant(SwerveSubsystem robotSubsystem){
         SwerveModuleState desiredState = new SwerveModuleState();
         desiredState.angle = new Rotation2d();
         desiredState.speedMetersPerSecond = 1;
         robotSubsystem.setModuleState(desiredState);
-    }
+     } 
     public void armPneumatics(ClawPneumatics clawPneumatics, LightSensor lightSensor, ArmSubsystem arm) {
         //SmartDashboard.putBoolean("if True then not full yet", clawPneumatics.isNotFull());
 
