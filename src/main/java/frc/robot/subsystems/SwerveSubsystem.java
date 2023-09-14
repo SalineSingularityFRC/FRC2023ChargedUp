@@ -37,8 +37,8 @@ public class SwerveSubsystem implements Subsystem {
     private final int BL = 2;
     private final int BR = 3;
 
-    private SwerveModule[] swerveModules = new SwerveModule[4];
-    private final Vector[] vectorKinematics = new Vector[4];
+    public SwerveModule[] swerveModules = new SwerveModule[4];
+    public final Vector[] vectorKinematics = new Vector[4];
     private final SwerveKinematics swerveKinematics;
 
     public double gyroZero = 0;
