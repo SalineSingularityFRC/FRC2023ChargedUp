@@ -4,9 +4,6 @@ import edu.wpi.first.wpilibj.smartdashboard.*;
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.ClawPneumatics;
 import frc.robot.subsystems.SwerveSubsystem;
-
-import javax.lang.model.util.ElementScanner14;
-
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj.DriverStation;
