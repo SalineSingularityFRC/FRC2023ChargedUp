@@ -1,8 +1,6 @@
 package frc.robot.SwerveClasses;
 
-
 import com.ctre.phoenixpro.hardware.Pigeon2;
-
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
@@ -13,64 +11,105 @@ import frc.robot.Constants;
 import frc.robot.subsystems.SwerveSubsystem;
 
 public class SwerveOdometry {
-    SwerveDriveOdometry swerveOdometry;
-    public Pigeon2 gyro;
+  SwerveDriveOdometry swerveOdometry;
+  public Pigeon2 gyro;
 
-    private final int FL = 0;
-    private final int FR = 1;
-    private final int BL = 2;
-    private final int BR = 3;
+  private final int FL = 0;
+  private final int FR = 1;
+  private final int BL = 2;
+  private final int BR = 3;
 
-    private final SwerveDriveKinematics swerveKinematics;
+  private final SwerveDriveKinematics swerveKinematics;
 
-    private SwerveModule[] swerveModules = new SwerveModule[4];
-    private final Translation2d[] vectorKinematics = new Translation2d[4];
-    private SwerveSubsystem subsystem;
-    public SwerveOdometry(SwerveSubsystem subsystem){
-        this.subsystem = subsystem;
-        gyro = subsystem.gyro;
-        vectorKinematics[FL] = new Translation2d(Constants.TRACKWIDTH / 2.0, Constants.WHEELBASE / 2.0);
-        vectorKinematics[FR] = new Translation2d(Constants.TRACKWIDTH / 2.0, -Constants.WHEELBASE / 2.0);    
-        vectorKinematics[BL] = new Translation2d(-Constants.TRACKWIDTH / 2.0, Constants.WHEELBASE / 2.0);   
-        vectorKinematics[BR] = new Translation2d(-Constants.TRACKWIDTH / 2.0, -Constants.WHEELBASE / 2.0);
+  private SwerveModule[] swerveModules = new SwerveModule[4];
+  private final Translation2d[] vectorKinematics = new Translation2d[4];
+  private SwerveSubsystem subsystem;
 
-        swerveKinematics = new SwerveDriveKinematics(vectorKinematics[FL], vectorKinematics[FR], vectorKinematics[BL], vectorKinematics[BR]);
+  public SwerveOdometry(SwerveSubsystem subsystem) {
+    this.subsystem = subsystem;
+    gyro = subsystem.gyro;
+    vectorKinematics[FL] = new Translation2d(Constants.TRACKWIDTH / 2.0, Constants.WHEELBASE / 2.0);
+    vectorKinematics[FR] =
+        new Translation2d(Constants.TRACKWIDTH / 2.0, -Constants.WHEELBASE / 2.0);
+    vectorKinematics[BL] =
+        new Translation2d(-Constants.TRACKWIDTH / 2.0, Constants.WHEELBASE / 2.0);
+    vectorKinematics[BR] =
+        new Translation2d(-Constants.TRACKWIDTH / 2.0, -Constants.WHEELBASE / 2.0);
 
-        swerveOdometry = new SwerveDriveOdometry(swerveKinematics, gyro.getRotation2d(),  new SwerveModulePosition[] {
-            new SwerveModulePosition(subsystem.swerveModules[FL].getPosition() , new Rotation2d(subsystem.swerveModules[FL].getEncoderPosition())),
-            new SwerveModulePosition(subsystem.swerveModules[FR].getPosition(), new Rotation2d(subsystem.swerveModules[FR].getEncoderPosition())),
-            new SwerveModulePosition(subsystem.swerveModules[BL].getPosition(), new Rotation2d(subsystem.swerveModules[BL].getEncoderPosition())),
-            new SwerveModulePosition(subsystem.swerveModules[BR].getPosition(), new Rotation2d(subsystem.swerveModules[BR].getEncoderPosition())),
-          }, new Pose2d(0, 0, new Rotation2d()));;
+    swerveKinematics =
+        new SwerveDriveKinematics(
+            vectorKinematics[FL], vectorKinematics[FR], vectorKinematics[BL], vectorKinematics[BR]);
 
-    }
+    swerveOdometry =
+        new SwerveDriveOdometry(
+            swerveKinematics,
+            gyro.getRotation2d(),
+            new SwerveModulePosition[] {
+              new SwerveModulePosition(
+                  subsystem.swerveModules[FL].getPosition(),
+                  new Rotation2d(subsystem.swerveModules[FL].getEncoderPosition())),
+              new SwerveModulePosition(
+                  subsystem.swerveModules[FR].getPosition(),
+                  new Rotation2d(subsystem.swerveModules[FR].getEncoderPosition())),
+              new SwerveModulePosition(
+                  subsystem.swerveModules[BL].getPosition(),
+                  new Rotation2d(subsystem.swerveModules[BL].getEncoderPosition())),
+              new SwerveModulePosition(
+                  subsystem.swerveModules[BR].getPosition(),
+                  new Rotation2d(subsystem.swerveModules[BR].getEncoderPosition())),
+            },
+            new Pose2d(0, 0, new Rotation2d()));
+    ;
+  }
 
-    public void update(){
-        swerveOdometry.update(gyro.getRotation2d(), new SwerveModulePosition[] {
-            new SwerveModulePosition(subsystem.swerveModules[FL].getPosition() , new Rotation2d(subsystem.swerveModules[FL].getEncoderPosition())),
-            new SwerveModulePosition(subsystem.swerveModules[FR].getPosition(), new Rotation2d(subsystem.swerveModules[FR].getEncoderPosition())),
-            new SwerveModulePosition(subsystem.swerveModules[BL].getPosition(), new Rotation2d(subsystem.swerveModules[BL].getEncoderPosition())),
-            new SwerveModulePosition(subsystem.swerveModules[BR].getPosition(), new Rotation2d(subsystem.swerveModules[BR].getEncoderPosition())),
-          });
-    }
+  public void update() {
+    swerveOdometry.update(
+        gyro.getRotation2d(),
+        new SwerveModulePosition[] {
+          new SwerveModulePosition(
+              subsystem.swerveModules[FL].getPosition(),
+              new Rotation2d(subsystem.swerveModules[FL].getEncoderPosition())),
+          new SwerveModulePosition(
+              subsystem.swerveModules[FR].getPosition(),
+              new Rotation2d(subsystem.swerveModules[FR].getEncoderPosition())),
+          new SwerveModulePosition(
+              subsystem.swerveModules[BL].getPosition(),
+              new Rotation2d(subsystem.swerveModules[BL].getEncoderPosition())),
+          new SwerveModulePosition(
+              subsystem.swerveModules[BR].getPosition(),
+              new Rotation2d(subsystem.swerveModules[BR].getEncoderPosition())),
+        });
+  }
 
-    
-    public Pose2d position(){
-        return swerveOdometry.getPoseMeters();
-    }
-    public double getX(){
-        return position().getX();
-    }
-    public double getY(){
-        return position().getY();
-    }
-    
-    public void resetPosition(){
-        swerveOdometry.resetPosition(gyro.getRotation2d(), new SwerveModulePosition[] {
-            new SwerveModulePosition(subsystem.swerveModules[FL].getPosition() , new Rotation2d(subsystem.swerveModules[FL].getEncoderPosition())),
-            new SwerveModulePosition(subsystem.swerveModules[FR].getPosition(), new Rotation2d(subsystem.swerveModules[FR].getEncoderPosition())),
-            new SwerveModulePosition(subsystem.swerveModules[BL].getPosition(), new Rotation2d(subsystem.swerveModules[BL].getEncoderPosition())),
-            new SwerveModulePosition(subsystem.swerveModules[BR].getPosition(), new Rotation2d(subsystem.swerveModules[BR].getEncoderPosition())),
-          }, new Pose2d(0, 0, new Rotation2d()));
-    }
+  public Pose2d position() {
+    return swerveOdometry.getPoseMeters();
+  }
+
+  public double getX() {
+    return position().getX();
+  }
+
+  public double getY() {
+    return position().getY();
+  }
+
+  public void resetPosition() {
+    swerveOdometry.resetPosition(
+        gyro.getRotation2d(),
+        new SwerveModulePosition[] {
+          new SwerveModulePosition(
+              subsystem.swerveModules[FL].getPosition(),
+              new Rotation2d(subsystem.swerveModules[FL].getEncoderPosition())),
+          new SwerveModulePosition(
+              subsystem.swerveModules[FR].getPosition(),
+              new Rotation2d(subsystem.swerveModules[FR].getEncoderPosition())),
+          new SwerveModulePosition(
+              subsystem.swerveModules[BL].getPosition(),
+              new Rotation2d(subsystem.swerveModules[BL].getEncoderPosition())),
+          new SwerveModulePosition(
+              subsystem.swerveModules[BR].getPosition(),
+              new Rotation2d(subsystem.swerveModules[BR].getEncoderPosition())),
+        },
+        new Pose2d(0, 0, new Rotation2d()));
+  }
 }
