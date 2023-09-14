@@ -25,7 +25,8 @@ public class RobotContainer {
   protected ArmSubsystem arm;
   protected Pigeon2 gyro;
   protected Limelight lime;
-  protected LightSensor sensor;
+  protected LightSensor cubeSensor;
+  protected LightSensor coneSensor;
 
   public RobotContainer(
       ArmSubsystem arm,
@@ -33,7 +34,8 @@ public class RobotContainer {
       SwerveSubsystem drive,
       Pigeon2 gyro,
       Limelight lime,
-      LightSensor sensor,
+      LightSensor cubeSensor,
+      LightSensor coneSensor,
       SwerveOdometry odometry) {
     configureBindings();
     // SmartDashboard.putData(isCenter);
@@ -42,11 +44,11 @@ public class RobotContainer {
     this.arm = arm;
     this.gyro = gyro;
     this.lime = lime;
-    this.sensor = sensor;
+    this.cubeSensor = cubeSensor;
 
     this.centerCommand = new CenterCommand(arm, clawPneumatics, drive, gyro, odometry);
-    this.leftSideCommand = new LeftSideCommand(arm, clawPneumatics, drive, gyro, lime, sensor);
-    this.rightSideCommand = new RightSideCommand(arm, clawPneumatics, drive, gyro, lime, sensor);
+    this.leftSideCommand = new LeftSideCommand(arm, clawPneumatics, drive, gyro, lime, cubeSensor);
+    this.rightSideCommand = new RightSideCommand(arm, clawPneumatics, drive, gyro, lime, cubeSensor);
     // isCenter.setDefaultOption("Center Auto", centerCommand);
     // isCenter.addOption("Side Auto", sideCommand);
   }

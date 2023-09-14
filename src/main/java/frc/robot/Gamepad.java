@@ -96,7 +96,8 @@ public class Gamepad {
       Limelight limelight,
       ArmSubsystem arm,
       ClawPneumatics claw,
-      LightSensor lightSensor) {
+      LightSensor cubeLightSensor,
+      LightSensor coneLightSensor) {
     SmartDashboard.putBoolean("Is it coast", robotSubsystem.isCoast());
     SmartDashboard.putNumber("PICKUP TIMER", limelight.pickupTimer.get());
     SmartDashboard.putBoolean("PICKUPTIEMR CODE RAN THROUGH", false);
@@ -135,9 +136,9 @@ public class Gamepad {
     }
 
     if (armController.getRawButton(Constants.L_joystick_Button) && !claw.isClawClosed) {
-      limelight.pickup(robotSubsystem, arm, claw, lightSensor, false, false);
+      limelight.pickup(robotSubsystem, arm, claw, cubeLightSensor, coneLightSensor, false, false);
     } else if (armController.getRawButton(Constants.R_joystick_Button) && !claw.isClawClosed) {
-      limelight.pickup(robotSubsystem, arm, claw, lightSensor, true, true);
+      limelight.pickup(robotSubsystem, arm, claw, cubeLightSensor, coneLightSensor,true, true);
     }
     // else if (armController.getRawButton(Constants.left_Button)) {
     //     limelight.score(robotSubsystem, arm, claw, true);
