@@ -35,6 +35,7 @@ public class ArmSubsystem {
   private double bigArmPos;
   private double smallArmPos;
 
+  //TODO: Move constants to constants file
   private final double presetSmallP = 2.0 * 20;
   private final double presetSmallI = 0.02 * 10;
   private final double presetSmallD = 0.02 * 10;
