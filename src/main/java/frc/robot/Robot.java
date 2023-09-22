@@ -46,8 +46,8 @@ public class Robot extends TimedRobot {
     clawPneumatics = new ClawPneumatics(9, 10, arm); // check these channel #s later
 
     limelight = new Limelight();
-    cubelightSensor = new LightSensor(3);
-    conelightSensor = new LightSensor(2); //Confirm later
+    cubelightSensor = new LightSensor(Constants.CUBE_SENSOR_CHANNEL);
+    conelightSensor = new LightSensor(Constants.CONE_SENSOR_CHANNEL); 
 
     m_robotContainer =
         new RobotContainer(
@@ -119,7 +119,7 @@ public class Robot extends TimedRobot {
   public void teleopPeriodic() {
     teleopDrive.swerveDrive(robotSubsystem, limelight, arm, clawPneumatics, cubelightSensor, conelightSensor);
     teleopDrive.arm(arm);
-    teleopDrive.armPneumatics(clawPneumatics, cubelightSensor, arm);
+    teleopDrive.armPneumatics(clawPneumatics, cubelightSensor,conelightSensor, arm);
     //teleopDrive.swerveDrive(robotSubsystem, limelight, arm, clawPneumatics, cubelightSensor, conelightSensor);
     limelight.runLimelight();
     SmartDashboard.putBoolean("is target found", limelight.getIsTargetFound());
