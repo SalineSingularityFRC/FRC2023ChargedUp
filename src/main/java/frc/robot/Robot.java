@@ -9,8 +9,7 @@ import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
-import edu.wpi.first.wpilibj2.command.Subsystem;
- import frc.robot.SwerveClasses.SwerveOdometry;
+import frc.robot.SwerveClasses.SwerveOdometry;
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.ClawPneumatics;
 import frc.robot.subsystems.SwerveSubsystem;
@@ -25,32 +24,41 @@ public class Robot extends TimedRobot {
   private ArmSubsystem arm;
   private ClawPneumatics clawPneumatics;
   private Limelight limelight;
-  private LightSensor lightSensor; 
+  private LightSensor lightSensor;
   private SwerveOdometry odometry;
-  //private CANdleSystem candle;
+
+  // private CANdleSystem candle;
 
   @Override
   public void robotInit() {
 
-    //Required to allow power to the switchable port on the power distrubution hub and allow sensor to use max power
+    // Required to allow power to the switchable port on the power distrubution hub and allow sensor
+    // to use max power
     PowerDistribution PD = new PowerDistribution();
-    PD.setSwitchableChannel(true); 
-  
+    PD.setSwitchableChannel(true);
+
     robotSubsystem = new SwerveSubsystem();
     teleopDrive = new Gamepad(Constants.DRIVE_CONTROLLER, Constants.ARM_CONTROLLER);
     odometry = new SwerveOdometry(robotSubsystem);
 
     arm = new ArmSubsystem(false, true);
-    //clawPneumatics = new ClawPneumatics(9, 10, arm); // check these channel #s later
-    clawPneumatics = null;
+    clawPneumatics = new ClawPneumatics(9, 10, arm); // check these channel #s later
+
     limelight = new Limelight();
     lightSensor = new LightSensor();
 
-    m_robotContainer = new RobotContainer(arm, clawPneumatics, robotSubsystem, robotSubsystem.gyro, limelight, lightSensor);
+    m_robotContainer =
+        new RobotContainer(
+            arm,
+            clawPneumatics,
+            robotSubsystem,
+            robotSubsystem.gyro,
+            limelight,
+            lightSensor,
+            odometry);
     robotSubsystem.resetGyro();
 
-  
-    //candle = new CANdleSystem();
+    // candle = new CANdleSystem();
   }
 
   @Override
@@ -59,34 +67,30 @@ public class Robot extends TimedRobot {
     SmartDashboard.putNumber("ROBOT ANGLE ALL THE TIME", robotSubsystem.getRobotAngle());
     SmartDashboard.putNumber("ROBOT GYGROZERO ANGLE ALL THE TIME", robotSubsystem.gyroZero);
     odometry.update();
-    SmartDashboard.putNumber("Odometry X", odometry.getX() );
-    SmartDashboard.putNumber("Odometry Y", odometry.getY() );
+    SmartDashboard.putNumber("Odometry X", odometry.getX());
+    SmartDashboard.putNumber("Odometry Y", odometry.getY());
   }
 
   @Override
-  public void disabledInit() {
-  }
+  public void disabledInit() {}
 
   @Override
-  public void disabledPeriodic() {
-  }
+  public void disabledPeriodic() {}
 
   @Override
-  public void disabledExit() {
-  }
+  public void disabledExit() {}
 
   @Override
   public void autonomousInit() {
-     
+
     m_autonomousCommand = m_robotContainer.getAutonomousCommand();
-    robotSubsystem.resetGyro();
+    // robotSubsystem.resetGyro();
     robotSubsystem.setBrakeMode();
-    odometry.resetPosition();
+    // odometry.resetPosition();
     if (m_autonomousCommand != null) {
-      
+
       m_autonomousCommand.schedule();
     }
-        
   }
 
   @Override
@@ -95,13 +99,12 @@ public class Robot extends TimedRobot {
   }
 
   @Override
-  public void autonomousExit() {
-  }
+  public void autonomousExit() {}
 
   @Override
   public void teleopInit() {
-    //CommandScheduler.getInstance().setDefaultCommand( (Subsystem)
-    // m_robotContainer.getDrivetrainSubsystem(),
+    // CommandScheduler.getInstance().setDefaultCommand( (Subsystem)
+    //  m_robotContainer.getDrivetrainSubsystem(),
     // m_robotContainer.getDefaultCommand());
     if (m_autonomousCommand != null) {
       m_autonomousCommand.cancel();
@@ -111,23 +114,22 @@ public class Robot extends TimedRobot {
 
   @Override
   public void teleopPeriodic() {
-    // teleopDrive.swerveDrive(robotSubsystem, limelight, arm, clawPneumatics, lightSensor);
-    // teleopDrive.arm(arm);
-    // teleopDrive.armPneumatics(clawPneumatics, lightSensor, arm);
-    teleopDrive.driveConstant(robotSubsystem);
-    //limelight.runLimelight();
-    // SmartDashboard.putBoolean("is target found", limelight.getIsTargetFound());
-    // SmartDashboard.putNumber("gyro", robotSubsystem.getRobotAngle());
+    teleopDrive.swerveDrive(robotSubsystem, limelight, arm, clawPneumatics, lightSensor);
+    teleopDrive.arm(arm);
+    teleopDrive.armPneumatics(clawPneumatics, lightSensor, arm);
+    teleopDrive.swerveDrive(robotSubsystem, limelight, arm, clawPneumatics, lightSensor);
+    limelight.runLimelight();
+    SmartDashboard.putBoolean("is target found", limelight.getIsTargetFound());
+    SmartDashboard.putNumber("gyro", robotSubsystem.getRobotAngle());
 
-    // SmartDashboard.putBoolean("is sensed", lightSensor.isSensed());
-    // SmartDashboard.putNumber("volts", lightSensor.volts());
+    SmartDashboard.putBoolean("is sensed", lightSensor.isSensed());
+    SmartDashboard.putNumber("volts", lightSensor.volts());
 
     CommandScheduler.getInstance().run();
   }
 
   @Override
-  public void teleopExit() {
-  }
+  public void teleopExit() {}
 
   @Override
   public void testInit() {
@@ -135,10 +137,8 @@ public class Robot extends TimedRobot {
   }
 
   @Override
-  public void testPeriodic() {
-  }
+  public void testPeriodic() {}
 
   @Override
-  public void testExit() {
-  }
+  public void testExit() {}
 }

@@ -2,12 +2,10 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 package frc.robot;
-import com.ctre.phoenixpro.hardware.Pigeon2;
 
-import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import com.ctre.phoenixpro.hardware.Pigeon2;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.Commands;
+import frc.robot.SwerveClasses.SwerveOdometry;
 import frc.robot.auton.CenterCommand;
 import frc.robot.auton.LeftSideCommand;
 import frc.robot.auton.RightSideCommand;
@@ -29,7 +27,14 @@ public class RobotContainer {
   protected Limelight lime;
   protected LightSensor sensor;
 
-  public RobotContainer(ArmSubsystem arm, ClawPneumatics clawPneumatics, SwerveSubsystem drive, Pigeon2 gyro, Limelight lime, LightSensor sensor) {
+  public RobotContainer(
+      ArmSubsystem arm,
+      ClawPneumatics clawPneumatics,
+      SwerveSubsystem drive,
+      Pigeon2 gyro,
+      Limelight lime,
+      LightSensor sensor,
+      SwerveOdometry odometry) {
     configureBindings();
     // SmartDashboard.putData(isCenter);
     this.clawPneumatics = clawPneumatics;
@@ -39,7 +44,7 @@ public class RobotContainer {
     this.lime = lime;
     this.sensor = sensor;
 
-    this.centerCommand = new CenterCommand(arm, clawPneumatics, drive, gyro);
+    this.centerCommand = new CenterCommand(arm, clawPneumatics, drive, gyro, odometry);
     this.leftSideCommand = new LeftSideCommand(arm, clawPneumatics, drive, gyro, lime, sensor);
     this.rightSideCommand = new RightSideCommand(arm, clawPneumatics, drive, gyro, lime, sensor);
     // isCenter.setDefaultOption("Center Auto", centerCommand);
@@ -50,7 +55,7 @@ public class RobotContainer {
 
   public Command getAutonomousCommand() {
     return centerCommand;
-    //return rightSideCommand;
-    //return leftSideCommand;
+    // return rightSideCommand;
+    // return leftSideCommand;
   }
 }
