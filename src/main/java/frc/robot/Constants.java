@@ -43,6 +43,9 @@ public final class Constants {
   public static final String CANBUS = "rio";
   public static final String CANIVORE = "drivetrain";
 
+  public static final int CUBE_SENSOR_CHANNEL = 2;
+  public static final int CONE_SENSOR_CHANNEL = 3;
+
   /*
   GAMEPAD IDS BELOW
   */
@@ -117,7 +120,7 @@ public final class Constants {
   // public static final double WHEELBASE = 1;
 
   public static final double SPEED_DIVISOR =
-      1; // what the max speed should be divided by, 1 is max power
+      1.5; // what the max speed should be divided by, 1 is max power
   public static final double ARM_SPEED = 0.005; // speed of the arms when adjusting manually
 
   // CHARGE STATION COMMUNITY DISTANCE:

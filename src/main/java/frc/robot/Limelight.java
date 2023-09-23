@@ -107,7 +107,8 @@ public class Limelight {
       SwerveSubsystem drive,
       ArmSubsystem arm,
       ClawPneumatics claw,
-      LightSensor lightSensor,
+      LightSensor cubeLightSensor,
+      LightSensor coneLightSensor,
       boolean isCube,
       boolean auton) {
 
@@ -131,7 +132,7 @@ public class Limelight {
           return true;
         }
       } else {
-        if (lightSensor.isSensed()) {
+        if (cubeLightSensor.isSensed()) {
           pickupTimer.start();
 
           double speed = turnController.calculate(tx.getDouble(0));
@@ -144,7 +145,7 @@ public class Limelight {
         }
       }
     } else {
-      if (lightSensor.isSensed()) { // we really want the sensor for this tbh
+      if (coneLightSensor.isSensed()) { // we really want the sensor for this tbh
         claw.setHigh();
         return true;
       }

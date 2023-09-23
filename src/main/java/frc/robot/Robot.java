@@ -24,7 +24,8 @@ public class Robot extends TimedRobot {
   private ArmSubsystem arm;
   private ClawPneumatics clawPneumatics;
   private Limelight limelight;
-  private LightSensor lightSensor;
+  private LightSensor cubelightSensor;
+  private LightSensor conelightSensor;
   private SwerveOdometry odometry;
 
   // private CANdleSystem candle;
@@ -45,7 +46,8 @@ public class Robot extends TimedRobot {
     clawPneumatics = new ClawPneumatics(9, 10, arm); // check these channel #s later
 
     limelight = new Limelight();
-    lightSensor = new LightSensor();
+    cubelightSensor = new LightSensor(Constants.CUBE_SENSOR_CHANNEL);
+    conelightSensor = new LightSensor(Constants.CONE_SENSOR_CHANNEL); 
 
     m_robotContainer =
         new RobotContainer(
@@ -54,7 +56,8 @@ public class Robot extends TimedRobot {
             robotSubsystem,
             robotSubsystem.gyro,
             limelight,
-            lightSensor,
+            cubelightSensor,
+            conelightSensor,
             odometry);
     robotSubsystem.resetGyro();
 
@@ -114,16 +117,16 @@ public class Robot extends TimedRobot {
 
   @Override
   public void teleopPeriodic() {
-    teleopDrive.swerveDrive(robotSubsystem, limelight, arm, clawPneumatics, lightSensor);
+    teleopDrive.swerveDrive(robotSubsystem, limelight, arm, clawPneumatics, cubelightSensor, conelightSensor);
     teleopDrive.arm(arm);
-    teleopDrive.armPneumatics(clawPneumatics, lightSensor, arm);
-    teleopDrive.swerveDrive(robotSubsystem, limelight, arm, clawPneumatics, lightSensor);
+    teleopDrive.armPneumatics(clawPneumatics, cubelightSensor,conelightSensor, arm);
+    //teleopDrive.swerveDrive(robotSubsystem, limelight, arm, clawPneumatics, cubelightSensor, conelightSensor);
     limelight.runLimelight();
     SmartDashboard.putBoolean("is target found", limelight.getIsTargetFound());
     SmartDashboard.putNumber("gyro", robotSubsystem.getRobotAngle());
 
-    SmartDashboard.putBoolean("is sensed", lightSensor.isSensed());
-    SmartDashboard.putNumber("volts", lightSensor.volts());
+    SmartDashboard.putBoolean("is sensed", cubelightSensor.isSensed());
+    SmartDashboard.putNumber("volts", cubelightSensor.volts());
 
     CommandScheduler.getInstance().run();
   }

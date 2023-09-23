@@ -52,7 +52,7 @@ public class AutonLimelight extends CommandBase {
       drive.drive(new SwerveSubsystem.SwerveRequest(0, 0, 0), true);
       claw.setHigh();
     } else {
-      lime.pickup(drive, arm, claw, sensor, true, true);
+      lime.pickup(drive, arm, claw, sensor, null, true, true);
     }
   }
 
