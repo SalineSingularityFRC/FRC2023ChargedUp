@@ -9,6 +9,7 @@ import frc.robot.SwerveClasses.SwerveOdometry;
 import frc.robot.auton.CenterCommand;
 import frc.robot.auton.LeftSideCommand;
 import frc.robot.auton.RightSideCommand;
+import frc.robot.auton.SwerveCommand;
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.ClawPneumatics;
 import frc.robot.subsystems.SwerveSubsystem;
@@ -20,6 +21,7 @@ public class RobotContainer {
   private CenterCommand centerCommand;
   private LeftSideCommand leftSideCommand;
   private RightSideCommand rightSideCommand;
+  private SwerveCommand swerveCommand; 
   protected ClawPneumatics clawPneumatics;
   protected SwerveSubsystem drive;
   protected ArmSubsystem arm;
@@ -47,8 +49,9 @@ public class RobotContainer {
     this.cubeSensor = cubeSensor;
 
     this.centerCommand = new CenterCommand(arm, clawPneumatics, drive, gyro, odometry);
+    //this.swerveCommand = new SwerveCommand(arm, clawPneumatics, drive, gyro, odometry);
     this.leftSideCommand = new LeftSideCommand(arm, clawPneumatics, drive, gyro, lime, cubeSensor);
-    this.rightSideCommand = new RightSideCommand(arm, clawPneumatics, drive, gyro, lime, cubeSensor);
+    this.rightSideCommand = new RightSideCommand(arm, clawPneumatics, drive, gyro, lime, cubeSensor, odometry);
     // isCenter.setDefaultOption("Center Auto", centerCommand);
     // isCenter.addOption("Side Auto", sideCommand);
   }
@@ -56,8 +59,9 @@ public class RobotContainer {
   private void configureBindings() {}
 
   public Command getAutonomousCommand() {
-    return centerCommand;
-    // return rightSideCommand;
+    //return centerCommand;
+    //return swerveCommand;
+    return rightSideCommand;
     // return leftSideCommand;
   }
 }
