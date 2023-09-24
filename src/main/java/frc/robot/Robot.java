@@ -47,7 +47,7 @@ public class Robot extends TimedRobot {
 
     limelight = new Limelight();
     cubelightSensor = new LightSensor(Constants.CUBE_SENSOR_CHANNEL);
-    conelightSensor = new LightSensor(Constants.CONE_SENSOR_CHANNEL); 
+    conelightSensor = new LightSensor(Constants.CONE_SENSOR_CHANNEL);
 
     m_robotContainer =
         new RobotContainer(
@@ -118,10 +118,12 @@ public class Robot extends TimedRobot {
 
   @Override
   public void teleopPeriodic() {
-    teleopDrive.swerveDrive(robotSubsystem, limelight, arm, clawPneumatics, cubelightSensor, conelightSensor);
+    teleopDrive.swerveDrive(
+        robotSubsystem, limelight, arm, clawPneumatics, cubelightSensor, conelightSensor);
     teleopDrive.arm(arm);
-    teleopDrive.armPneumatics(clawPneumatics, cubelightSensor,conelightSensor, arm);
-    //teleopDrive.swerveDrive(robotSubsystem, limelight, arm, clawPneumatics, cubelightSensor, conelightSensor);
+    teleopDrive.armPneumatics(clawPneumatics, cubelightSensor, conelightSensor, arm);
+    // teleopDrive.swerveDrive(robotSubsystem, limelight, arm, clawPneumatics, cubelightSensor,
+    // conelightSensor);
     limelight.runLimelight();
     SmartDashboard.putBoolean("is target found", limelight.getIsTargetFound());
     SmartDashboard.putNumber("gyro", robotSubsystem.getRobotAngle());

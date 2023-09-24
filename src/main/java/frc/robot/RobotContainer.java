@@ -21,7 +21,7 @@ public class RobotContainer {
   private CenterCommand centerCommand;
   private LeftSideCommand leftSideCommand;
   private RightSideCommand rightSideCommand;
-  private SwerveCommand swerveCommand; 
+  private SwerveCommand swerveCommand;
   protected ClawPneumatics clawPneumatics;
   protected SwerveSubsystem drive;
   protected ArmSubsystem arm;
@@ -50,9 +50,10 @@ public class RobotContainer {
 
     this.centerCommand = new CenterCommand(arm, clawPneumatics, drive, gyro, odometry);
 
-    //this.swerveCommand = new SwerveCommand(arm, clawPneumatics, drive, gyro, odometry);
+    // this.swerveCommand = new SwerveCommand(arm, clawPneumatics, drive, gyro, odometry);
     this.leftSideCommand = new LeftSideCommand(arm, clawPneumatics, drive, gyro, lime, cubeSensor);
-    this.rightSideCommand = new RightSideCommand(arm, clawPneumatics, drive, gyro, lime, cubeSensor, odometry);
+    this.rightSideCommand =
+        new RightSideCommand(arm, clawPneumatics, drive, gyro, lime, cubeSensor, odometry);
 
     // isCenter.setDefaultOption("Center Auto", centerCommand);
     // isCenter.addOption("Side Auto", sideCommand);
@@ -61,9 +62,9 @@ public class RobotContainer {
   private void configureBindings() {}
 
   public Command getAutonomousCommand() {
-    //return centerCommand;
-    //return swerveCommand;
-    return rightSideCommand;
+    return centerCommand;
+    // return swerveCommand;
+    // return rightSideCommand;
     // return leftSideCommand;
   }
 }

@@ -73,10 +73,10 @@ public final class Constants {
   ALL WHEEL OFFSETS BELOW
   */
   public static double DRIVETRAIN_FRONT_LEFT_ENCODER_OFFSET =
-      (0.839111) * 2 * Math.PI; // number in parenthesis is in rotations
+      (0.811035) * 2 * Math.PI; // number in parenthesis is in rotations
   public static double DRIVETRAIN_FRONT_RIGHT_ENCODER_OFFSET = (0.487061) * 2 * Math.PI; // 0.884521
-  public static double DRIVETRAIN_BACK_LEFT_ENCODER_OFFSET = (0.231934) * 2 * Math.PI; //  0.063965
-  public static double DRIVETRAIN_BACK_RIGHT_ENCODER_OFFSET = (0.557861) * 2 * Math.PI; // 0.811768
+  public static double DRIVETRAIN_BACK_LEFT_ENCODER_OFFSET = (0.219971) * 2 * Math.PI; //  0.063965
+  public static double DRIVETRAIN_BACK_RIGHT_ENCODER_OFFSET = (0.534180) * 2 * Math.PI; // 0.811768
 
   /*
   ALL MOTOR GEAR RATIOS BELOW
@@ -120,7 +120,7 @@ public final class Constants {
   // public static final double WHEELBASE = 1;
 
   public static final double SPEED_DIVISOR =
-      1.5; // what the max speed should be divided by, 1 is max power
+      1; // what the max speed should be divided by, 1 is max power
   public static final double ARM_SPEED = 0.005; // speed of the arms when adjusting manually
 
   // CHARGE STATION COMMUNITY DISTANCE:
