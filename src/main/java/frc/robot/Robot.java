@@ -68,6 +68,7 @@ public class Robot extends TimedRobot {
   public void robotPeriodic() {
     CommandScheduler.getInstance().run();
     SmartDashboard.putNumber("ROBOT ANGLE ALL THE TIME", robotSubsystem.getRobotAngle());
+    SmartDashboard.putNumber("RAW GYRO", robotSubsystem.gyro.getAngle() % 360);
     SmartDashboard.putNumber("ROBOT GYGROZERO ANGLE ALL THE TIME", robotSubsystem.gyroZero);
     odometry.update();
     SmartDashboard.putNumber("Odometry X", odometry.getX());
