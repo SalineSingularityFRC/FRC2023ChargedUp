@@ -74,7 +74,7 @@ public final class Constants {
   */
   public static double DRIVETRAIN_FRONT_LEFT_ENCODER_OFFSET =
       (0.811035) * 2 * Math.PI; // number in parenthesis is in rotations
-  public static double DRIVETRAIN_FRONT_RIGHT_ENCODER_OFFSET = (0.487061) * 2 * Math.PI; // 0.884521
+  public static double DRIVETRAIN_FRONT_RIGHT_ENCODER_OFFSET = (0.487549) * 2 * Math.PI; // 0.884521
   public static double DRIVETRAIN_BACK_LEFT_ENCODER_OFFSET = (0.219971) * 2 * Math.PI; //  0.063965
   public static double DRIVETRAIN_BACK_RIGHT_ENCODER_OFFSET = (0.534180) * 2 * Math.PI; // 0.811768
 
