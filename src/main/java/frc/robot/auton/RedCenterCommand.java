@@ -19,7 +19,7 @@ import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.ClawPneumatics;
 import frc.robot.subsystems.SwerveSubsystem;
 
-public class CenterCommand extends SequentialCommandGroup {
+public class RedCenterCommand extends SequentialCommandGroup {
   protected ClawPneumatics clawPneumatics;
   protected SwerveSubsystem drive;
   protected ArmSubsystem arm;
@@ -30,7 +30,7 @@ public class CenterCommand extends SequentialCommandGroup {
   private SwerveDriveKinematics kinematics;
   private ProfiledPIDController thetaController;
 
-  public CenterCommand(
+  public RedCenterCommand(
       ArmSubsystem arm,
       ClawPneumatics clawPneumatics,
       SwerveSubsystem drive,
@@ -60,10 +60,10 @@ public class CenterCommand extends SequentialCommandGroup {
     addCommands(
         new SetClawPreset(arm, 4),
         new SetClawPneumatics(clawPneumatics, 1, arm),
-        new DriveDistance(drive, Constants.encoderToChargeDistance, 0, 0.4, true)
+        new DriveDistance(drive, Constants.encoderToRedChargeDistance, 0, 0.4, true)
             .alongWith(new SetClawPreset(arm, 1)),
-        new AutonTime(1),
-        new DriveDistance(drive, 51, Math.PI, 0.19, true),
+        new AutonTime(1.3),
+        new DriveDistance(drive, 54, Math.PI, 0.19, true),
         new GetOnChargeStation(drive, gyro).repeatedly());
   }
 }

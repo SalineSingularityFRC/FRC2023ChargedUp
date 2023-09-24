@@ -6,8 +6,9 @@ package frc.robot;
 import com.ctre.phoenixpro.hardware.Pigeon2;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.SwerveClasses.SwerveOdometry;
-import frc.robot.auton.CenterCommand;
+import frc.robot.auton.BlueCenterCommand;
 import frc.robot.auton.LeftSideCommand;
+import frc.robot.auton.RedCenterCommand;
 import frc.robot.auton.RightSideCommand;
 import frc.robot.auton.SwerveCommand;
 import frc.robot.subsystems.ArmSubsystem;
@@ -18,7 +19,8 @@ public class RobotContainer {
 
   // SendableChooser<Boolean> isCenter = new SendableChooser<>();
 
-  private CenterCommand centerCommand;
+  private BlueCenterCommand blueCenterCommand;
+  private RedCenterCommand redCenterCommand;
   private LeftSideCommand leftSideCommand;
   private RightSideCommand rightSideCommand;
   private SwerveCommand swerveCommand;
@@ -48,7 +50,9 @@ public class RobotContainer {
     this.lime = lime;
     this.cubeSensor = cubeSensor;
 
-    this.centerCommand = new CenterCommand(arm, clawPneumatics, drive, gyro, odometry);
+    this.blueCenterCommand = new BlueCenterCommand(arm, clawPneumatics, drive, gyro, odometry);
+    this.redCenterCommand = new RedCenterCommand(arm, clawPneumatics, drive, gyro, odometry);
+
 
     // this.swerveCommand = new SwerveCommand(arm, clawPneumatics, drive, gyro, odometry);
     this.leftSideCommand = new LeftSideCommand(arm, clawPneumatics, drive, gyro, lime, cubeSensor);
@@ -62,7 +66,8 @@ public class RobotContainer {
   private void configureBindings() {}
 
   public Command getAutonomousCommand() {
-    return centerCommand;
+    //return blueCenterCommand;
+    return redCenterCommand;
     // return swerveCommand;
     // return rightSideCommand;
     // return leftSideCommand;
