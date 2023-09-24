@@ -49,9 +49,11 @@ public class RobotContainer {
     this.cubeSensor = cubeSensor;
 
     this.centerCommand = new CenterCommand(arm, clawPneumatics, drive, gyro, odometry);
+
     //this.swerveCommand = new SwerveCommand(arm, clawPneumatics, drive, gyro, odometry);
     this.leftSideCommand = new LeftSideCommand(arm, clawPneumatics, drive, gyro, lime, cubeSensor);
     this.rightSideCommand = new RightSideCommand(arm, clawPneumatics, drive, gyro, lime, cubeSensor, odometry);
+
     // isCenter.setDefaultOption("Center Auto", centerCommand);
     // isCenter.addOption("Side Auto", sideCommand);
   }
