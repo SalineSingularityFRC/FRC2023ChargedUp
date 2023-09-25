@@ -63,7 +63,7 @@ public class RedCenterCommand extends SequentialCommandGroup {
         new DriveDistance(drive, Constants.encoderToRedChargeDistance, 0, 0.4, true)
             .alongWith(new SetClawPreset(arm, 1)),
         new AutonTime(1.3),
-        new DriveDistance(drive, 54, Math.PI, 0.19, true),
+        new DriveDistance(drive, 52, Math.PI, 0.19, true),
         new GetOnChargeStation(drive, gyro).repeatedly());
   }
 }

@@ -225,9 +225,9 @@ public class Gamepad {
     } else if (driveController.getRawButton(Constants.left_Button)) {
       arm.setBigArmSpeed(Constants.ARM_SPEED);
     } else if (driveController.getRawAxis(Constants.rightTrigger) > 0.05) {
-      arm.setSmallArmSpeed(-Constants.ARM_SPEED);
+      arm.setSmallArmSpeed(-Constants.ARM_SPEED - .001);
     } else if (driveController.getRawButton(Constants.right_Button)) {
-      arm.setSmallArmSpeed(Constants.ARM_SPEED);
+      arm.setSmallArmSpeed(Constants.ARM_SPEED + .001);
     } else {
       arm.maintainPosition();
     }
