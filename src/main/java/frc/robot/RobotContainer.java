@@ -17,8 +17,6 @@ import frc.robot.subsystems.SwerveSubsystem;
 
 public class RobotContainer {
 
-
-
   private BlueCenterCommand blueCenterCommand;
   private RedCenterCommand redCenterCommand;
   private LeftSideCommand leftSideCommand;
@@ -42,7 +40,7 @@ public class RobotContainer {
       LightSensor coneSensor,
       SwerveOdometry odometry) {
     configureBindings();
-    
+
     this.clawPneumatics = clawPneumatics;
     this.drive = drive;
     this.arm = arm;
@@ -56,16 +54,14 @@ public class RobotContainer {
     this.leftSideCommand = new LeftSideCommand(arm, clawPneumatics, drive, gyro, lime, cubeSensor);
     this.rightSideCommand =
         new RightSideCommand(arm, clawPneumatics, drive, gyro, lime, cubeSensor, odometry);
-
-
   }
 
   private void configureBindings() {}
 
   public Command getAutonomousCommand() {
-    //return blueCenterCommand;
+    // return blueCenterCommand;
     return redCenterCommand;
-    //return rightSideCommand;
+    // return rightSideCommand;
     // return leftSideCommand;
   }
 }

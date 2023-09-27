@@ -20,7 +20,7 @@ public class ClawPneumatics {
     doubleSolenoid.set(DoubleSolenoid.Value.kOff);
     this.timer = new Timer();
     this.arm = arm;
-    //disableCompressor();
+    // disableCompressor();
     enableCompressor();
   }
 

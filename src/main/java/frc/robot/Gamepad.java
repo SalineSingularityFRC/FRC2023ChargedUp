@@ -24,7 +24,6 @@ public class Gamepad {
   private Joystick driveController;
   private Joystick armController;
 
-
   /**
    * @param driveControllerPort Controller port the drive controller is connected to, probably 0
    * @param armControllerPort Controller port the arm controller is connect to, probably 1
@@ -46,7 +45,7 @@ public class Gamepad {
       LightSensor coneLightSensor,
       LightSensor cubeLightSensor,
       ArmSubsystem arm) {
- 
+
     if (clawCloseTimer.get() >= 0.25) {
       if ((arm.smallArmMotorPosition + (Constants.ARM_SPEED * 4.5)) < Constants.SmallArm_default) {
         arm.smallArmMotorPosition += Constants.ARM_SPEED * 4.5;
@@ -61,7 +60,7 @@ public class Gamepad {
       clawOpenTimer.stop();
       clawOpenTimer.reset();
     }
- 
+
     if (cubeLightSensor.isSensed() && (armController.getRawButton(Constants.right_Button))) {
       clawPneumatics.setHigh();
       clawCloseTimer.start();
@@ -98,7 +97,7 @@ public class Gamepad {
       LightSensor coneLightSensor) {
 
     if (limelight.pickupTimer.get() >= 0.9) {
-     
+
       robotSubsystem.drive(new SwerveSubsystem.SwerveRequest(0, 0, 0), true);
       claw.setHigh();
 
@@ -122,7 +121,7 @@ public class Gamepad {
       limelight.scoringTimer.reset();
       robotSubsystem.setBrakeMode();
     }
-   
+
     if (armController.getRawButtonReleased(Constants.L_joystick_Button)
         || armController.getRawButtonReleased(Constants.R_joystick_Button)) {
       robotSubsystem.setCoastMode();
@@ -132,10 +131,7 @@ public class Gamepad {
       limelight.pickup(robotSubsystem, arm, claw, cubeLightSensor, coneLightSensor, false, false);
     } else if (armController.getRawButton(Constants.R_joystick_Button) && !claw.isClawClosed) {
       limelight.pickup(robotSubsystem, arm, claw, cubeLightSensor, coneLightSensor, true, true);
-    }
-
-
-    else { // no limelight commands`
+    } else { // no limelight commands`
       if (driveController.getRawButtonPressed(Constants.X_Button)) {
         robotSubsystem.resetGyro();
       }
@@ -158,13 +154,13 @@ public class Gamepad {
   }
 
   public void arm(ArmSubsystem arm) {
-  
+
     if (highTargetTimer.get() >= 0.25) {
       arm.highTarget2();
       highTargetTimer.stop();
       highTargetTimer.reset();
     }
-    if (sliderTimer.get() >= 0.7) { 
+    if (sliderTimer.get() >= 0.7) {
       arm.sliderTarget2();
       sliderTimer.stop();
       sliderTimer.reset();

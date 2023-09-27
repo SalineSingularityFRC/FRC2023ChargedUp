@@ -113,8 +113,6 @@ public class SwerveSubsystem implements Subsystem {
     double currentRobotAngle = getRobotAngle();
     ChassisVelocity chassisVelocity;
 
-    
-
     // this is to make sure if both the joysticks are at neutral position, the robot and wheels
     // don't move or turn at all
     // 0.05 value can be increased if the joystick is increasingly inaccurate at neutral position
@@ -137,13 +135,10 @@ public class SwerveSubsystem implements Subsystem {
         } else {
           double difference = getRobotAngle() - targetAngle;
           swerveRequest.rotation = difference;
-          
         }
       } else {
         targetAngle = Double.MAX_VALUE;
       }
-
-      
     }
 
     double x = swerveRequest.movement.x;
@@ -157,7 +152,7 @@ public class SwerveSubsystem implements Subsystem {
      */
     if (fieldCentric) {
       double difference = (currentRobotAngle - startingAngle) % (2 * Math.PI);
-      
+
       x =
           -swerveRequest.movement.y * Math.sin(difference)
               + swerveRequest.movement.x * Math.cos(difference);
@@ -169,7 +164,7 @@ public class SwerveSubsystem implements Subsystem {
     chassisVelocity = new ChassisVelocity(new Vector(x, y), swerveRequest.rotation);
 
     Vector[] moduleOutputs = swerveKinematics.toModuleVelocities(chassisVelocity);
-    
+
     SwerveKinematics.normalizeModuleVelocities(
         moduleOutputs, 1); // these two lines are what calculates the module angles for swerve
 

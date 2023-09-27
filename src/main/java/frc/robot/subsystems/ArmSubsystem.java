@@ -11,7 +11,6 @@ import com.ctre.phoenixpro.hardware.TalonFX;
 import com.ctre.phoenixpro.signals.FeedbackSensorSourceValue;
 import com.ctre.phoenixpro.signals.NeutralModeValue;
 import edu.wpi.first.wpilibj.Timer;
-
 import frc.robot.Constants;
 
 public class ArmSubsystem {
@@ -137,7 +136,6 @@ public class ArmSubsystem {
 
     bigArmMotorPosition = bigArmMotor.getPosition().getValue();
     smallArmMotorPosition = smallArmMotor.getPosition().getValue();
-    
   }
 
   public void setBigArmSpeed(double speed) {
@@ -146,7 +144,6 @@ public class ArmSubsystem {
 
     bigArmMotorPosition = bigArmMotor.getPosition().getValue();
     smallArmMotorPosition = smallArmMotor.getPosition().getValue();
-    
   }
 
   public void setPosition(double smallArmAngle, double bigArmAngle) {
@@ -247,7 +244,5 @@ public class ArmSubsystem {
         positionTargetPreset.withPosition(smallArmMotorPosition).withFeedForward(0.01).withSlot(0));
     bigArmMotor.setControl(
         positionTargetPreset.withPosition(bigArmMotorPosition).withFeedForward(0.01).withSlot(0));
-
-    
   }
 }

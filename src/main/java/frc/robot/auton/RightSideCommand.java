@@ -77,7 +77,7 @@ public class RightSideCommand extends SequentialCommandGroup {
             // End 3 meters straight ahead of where we started, facing forward
             new Pose2d(-2, 0, new Rotation2d(Math.PI)),
             config);
-            
+
     addCommands(
         new SetClawPreset(arm, 4),
         new SetClawPneumatics(clawPneumatics, 1, arm),
@@ -85,7 +85,6 @@ public class RightSideCommand extends SequentialCommandGroup {
             .alongWith(new SetClawPreset(arm, 1)),
         new TurnAngle(drive, 0),
         new SwerveCommand(arm, clawPneumatics, drive, gyro, odometry, trajectory2),
-        new SetClawPreset(arm, 1)
-        );
+        new SetClawPreset(arm, 1));
   }
 }

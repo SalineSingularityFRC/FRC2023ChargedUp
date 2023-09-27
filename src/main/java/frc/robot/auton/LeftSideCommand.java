@@ -40,15 +40,10 @@ public class LeftSideCommand extends SequentialCommandGroup {
         new SetClawPneumatics(clawPneumatics, 1, arm),
         new DriveDistance(drive, Constants.encoderToOutsideCommunityDistance, 0, 0.5, false)
             .alongWith(new SetClawPreset(arm, 1)),
-  
         new TurnAngle(drive, 6),
         new SetClawPneumatics(clawPneumatics, 1, arm),
         new AutonLimelight(drive, lime, arm, clawPneumatics, sensor),
         new SetClawPreset(arm, 1),
-       
-        new TurnAngle(drive, Math.PI)
-      
-
-        );
+        new TurnAngle(drive, Math.PI));
   }
 }

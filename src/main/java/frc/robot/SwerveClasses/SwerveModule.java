@@ -11,7 +11,6 @@ import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 
-
 /*
  * This class owns the components of a single swerve module and is responsible for controlling
  * the angle and speed that the module is moving
@@ -72,25 +71,24 @@ public class SwerveModule {
   // method takes in a direction and speed value and sets the wheels to that in the most efficient
   // way possible
   public boolean drive(SwerveDriveRequest request) {
-    
+
     SwerveAngle.AnglePosition angle = angleMotor.setAngle(request.direction);
     // the setAngle function returns an enum that specifies whether the wheels should spin forwards
     // or backwards
     if (angle == SwerveAngle.AnglePosition.Positive) {
       driveMotor.set(request.velocity);
-      
+
       return true;
     }
 
     if (angle == SwerveAngle.AnglePosition.Negative) {
       driveMotor.set(-request.velocity);
-     
+
       return true;
     }
 
     driveMotor.set(0);
     return false;
-   
   }
 
   public void coast() {
@@ -114,13 +112,13 @@ public class SwerveModule {
    * This method is used in Swerve Odometry
    */
   public void setDesiredState(SwerveModuleState desiredState) {
-   
+
     SwerveModuleState state =
         SwerveModuleState.optimize(desiredState, new Rotation2d(getEncoderPosition()));
-    
+
     double driveOutput =
         m_drivePIDController.calculate(driveMotor.get(), state.speedMetersPerSecond);
-    
+
     double turnOutput =
         m_turningPIDController.calculate(getEncoderPosition(), state.angle.getRadians());
 

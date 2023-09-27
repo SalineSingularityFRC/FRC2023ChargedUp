@@ -27,8 +27,6 @@ public class Robot extends TimedRobot {
   private LightSensor conelightSensor;
   private SwerveOdometry odometry;
 
-  
-
   @Override
   public void robotInit() {
 
@@ -59,8 +57,6 @@ public class Robot extends TimedRobot {
             conelightSensor,
             odometry);
     robotSubsystem.resetGyro();
-
-
   }
 
   @Override
@@ -82,9 +78,9 @@ public class Robot extends TimedRobot {
   public void autonomousInit() {
 
     m_autonomousCommand = m_robotContainer.getAutonomousCommand();
-   
+
     robotSubsystem.setBrakeMode();
- 
+
     if (m_autonomousCommand != null) {
 
       m_autonomousCommand.schedule();
@@ -113,7 +109,7 @@ public class Robot extends TimedRobot {
     teleopDrive.swerveDrive(
         robotSubsystem, limelight, arm, clawPneumatics, cubelightSensor, conelightSensor);
     teleopDrive.arm(arm);
-    teleopDrive.armPneumatics(clawPneumatics, cubelightSensor, conelightSensor, arm);  
+    teleopDrive.armPneumatics(clawPneumatics, cubelightSensor, conelightSensor, arm);
     CommandScheduler.getInstance().run();
   }
 

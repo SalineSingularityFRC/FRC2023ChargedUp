@@ -57,7 +57,6 @@ public class SwerveCommand extends SequentialCommandGroup {
             // Add kinematics to ensure max speed is actually obeyed
             .setKinematics(kinematics);
 
-
     addCommands(
         new SwerveControllerCommand(
             trajectory,

@@ -50,15 +50,15 @@ public class DriveDistance extends CommandBase {
    *  subsystem is moving to, the command might set the target position for the subsystem in initialize() and have an empty execute() method.
    */
   public void execute() {
-  
+
     double x = -Math.sin(angle);
     double y = Math.cos(angle);
-    
+
     if (Math.abs(changeInEncoderValue) <= distance) {
-  
+
       changeInEncoderValue = drive.getSwerveModule(0).getPosition() - startingEncoderValue;
       double multiplier = this.controller.calculate(changeInEncoderValue);
-    
+
       x *= multiplier;
       y *= multiplier;
       if (x > speed) x = speed;

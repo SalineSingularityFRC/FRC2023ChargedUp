@@ -63,8 +63,6 @@ public class Limelight {
     setpipeline(1);
   }
 
-
-
   // turns on the LEDs
   public void ledOn() {
     ledMode.setDouble(3.0);
@@ -152,7 +150,6 @@ public class Limelight {
       double y = driveController.calculate(ty.getDouble(0));
       if (y > 0) y += 0.06;
       if (y < 0) y -= 0.06;
-  
 
       if (this.pickupTimer.get() == 0) {
         double speed = turnController.calculate(tx.getDouble(0));
@@ -169,7 +166,7 @@ public class Limelight {
       double speed = turnController.calculate(tx.getDouble(0));
       if (speed > 0) speed += 0.05;
       if (speed < 0) speed -= 0.05;
-   
+
       if (turnController.atSetpoint()) {
         turnController.reset();
         return true; // we are angled correctly
@@ -210,7 +207,7 @@ public class Limelight {
       double speed = turnController.calculate(tx.getDouble(0));
       drive.drive(new SwerveRequest(-speed, 0, y * 2), false);
     }
-    
+
     return false;
   }
 
