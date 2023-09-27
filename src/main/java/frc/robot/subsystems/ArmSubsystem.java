@@ -3,7 +3,6 @@ package frc.robot.subsystems;
 import com.ctre.phoenixpro.configs.MotionMagicConfigs;
 import com.ctre.phoenixpro.configs.Slot0Configs;
 import com.ctre.phoenixpro.configs.Slot1Configs;
-import com.ctre.phoenixpro.configs.Slot2Configs;
 import com.ctre.phoenixpro.configs.TalonFXConfiguration;
 import com.ctre.phoenixpro.controls.Follower;
 import com.ctre.phoenixpro.controls.MotionMagicVoltage;
@@ -22,8 +21,7 @@ public class ArmSubsystem {
 
   private MotionMagicVoltage positionTargetPreset =
       new MotionMagicVoltage(0).withSlot(0).withEnableFOC(true);
-  private VelocityVoltage velocityVoltage =
-      new VelocityVoltage(0).withSlot(0).withEnableFOC(true);
+  private VelocityVoltage velocityVoltage = new VelocityVoltage(0).withSlot(0).withEnableFOC(true);
   private TalonFXConfiguration talonFXConfigsPreset = new TalonFXConfiguration();
   private TalonFXConfiguration talonFXConfigsManual = new TalonFXConfiguration();
 
@@ -35,7 +33,7 @@ public class ArmSubsystem {
   private double bigArmPos;
   private double smallArmPos;
 
-  //TODO: Move constants to constants file
+  // TODO: Move constants to constants file
   private final double presetSmallP = 2.0 * 20;
   private final double presetSmallI = 0.02 * 10;
   private final double presetSmallD = 0.02 * 10;
@@ -109,7 +107,6 @@ public class ArmSubsystem {
 
     bigArmMotor.getConfigurator().apply(slot1ConfigsBig);
     smallArmMotor.getConfigurator().apply(slot1ConfigsSmall);
-   
 
     motionMagicConfigsPresets = talonFXConfigsPreset.MotionMagic;
     motionMagicConfigsPresets.MotionMagicCruiseVelocity = 40 / 30;
@@ -136,26 +133,24 @@ public class ArmSubsystem {
 
   public void setSmallArmSpeed(double speed) {
 
-    smallArmMotor.setControl(velocityVoltage.withVelocity(speed).withFeedForward(0.05).withSlot(1));      
- 
+    smallArmMotor.setControl(velocityVoltage.withVelocity(speed).withFeedForward(0.05).withSlot(1));
+
     bigArmMotorPosition = bigArmMotor.getPosition().getValue();
     smallArmMotorPosition = smallArmMotor.getPosition().getValue();
     SmartDashboard.putNumber("SMALL ARM POSITION MANUAL", smallArmMotorPosition);
-    SmartDashboard.putNumber("SMALL ARM Velocity MANUAL",  smallArmMotor.getVelocity().getValue());
-    SmartDashboard.putNumber("SMALL ARM Speed",  speed);
+    SmartDashboard.putNumber("SMALL ARM Velocity MANUAL", smallArmMotor.getVelocity().getValue());
+    SmartDashboard.putNumber("SMALL ARM Speed", speed);
   }
 
   public void setBigArmSpeed(double speed) {
-   
-    bigArmMotor.setControl(
-     velocityVoltage.withVelocity(speed).withFeedForward(0.05).withSlot(1));
-    
+
+    bigArmMotor.setControl(velocityVoltage.withVelocity(speed).withFeedForward(0.05).withSlot(1));
 
     bigArmMotorPosition = bigArmMotor.getPosition().getValue();
     smallArmMotorPosition = smallArmMotor.getPosition().getValue();
     SmartDashboard.putNumber("BIG ARM POSITION MANUAL", bigArmMotorPosition);
-    SmartDashboard.putNumber("BIG ARM Velocity MANUAL",  bigArmMotor.getVelocity().getValue());
-    SmartDashboard.putNumber("Big ARM Speed",  speed);
+    SmartDashboard.putNumber("BIG ARM Velocity MANUAL", bigArmMotor.getVelocity().getValue());
+    SmartDashboard.putNumber("Big ARM Speed", speed);
   }
 
   public void setPosition(double smallArmAngle, double bigArmAngle) {
@@ -167,7 +162,7 @@ public class ArmSubsystem {
     smallArmMotor.getConfigurator().apply(motionMagicConfigsPresetsSmall);
     smallArmMotor.setControl(
         positionTargetPreset.withPosition(smallArmAngle).withFeedForward(0.05).withSlot(0));
-    
+
     smallArmMotorPosition = smallArmAngle;
   }
 
@@ -252,8 +247,10 @@ public class ArmSubsystem {
     bigArmMotor.getConfigurator().apply(motionMagicConfigsPresets);
     smallArmMotor.getConfigurator().apply(motionMagicConfigsPresetsSmall);
 
-    smallArmMotor.setControl(positionTargetPreset.withPosition(smallArmMotorPosition).withFeedForward(0.01).withSlot(0));
-    bigArmMotor.setControl(positionTargetPreset.withPosition(bigArmMotorPosition).withFeedForward(0.01).withSlot(0));
+    smallArmMotor.setControl(
+        positionTargetPreset.withPosition(smallArmMotorPosition).withFeedForward(0.01).withSlot(0));
+    bigArmMotor.setControl(
+        positionTargetPreset.withPosition(bigArmMotorPosition).withFeedForward(0.01).withSlot(0));
 
     SmartDashboard.putNumber("big arm pos", bigArmMotorPosition);
     SmartDashboard.putNumber("small arm pos", smallArmMotorPosition);

@@ -1,15 +1,10 @@
 package frc.robot.auton;
 
 import com.ctre.phoenixpro.hardware.Pigeon2;
-import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.ProfiledPIDController;
-import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
-import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.math.trajectory.TrajectoryConfig;
-import edu.wpi.first.math.trajectory.TrajectoryGenerator;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.SwerveControllerCommand;
@@ -23,9 +18,8 @@ import frc.robot.commands.SetClawPreset;
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.ClawPneumatics;
 import frc.robot.subsystems.SwerveSubsystem;
-import java.util.List;
 
-public class CenterCommand extends SequentialCommandGroup {
+public class RedCenterCommand extends SequentialCommandGroup {
   protected ClawPneumatics clawPneumatics;
   protected SwerveSubsystem drive;
   protected ArmSubsystem arm;
@@ -36,7 +30,7 @@ public class CenterCommand extends SequentialCommandGroup {
   private SwerveDriveKinematics kinematics;
   private ProfiledPIDController thetaController;
 
-  public CenterCommand(
+  public RedCenterCommand(
       ArmSubsystem arm,
       ClawPneumatics clawPneumatics,
       SwerveSubsystem drive,
@@ -61,34 +55,15 @@ public class CenterCommand extends SequentialCommandGroup {
             // Add kinematics to ensure max speed is actually obeyed
             .setKinematics(kinematics);
 
-    //config.setReversed(true);
-    Trajectory trajectory =
-        TrajectoryGenerator.generateTrajectory(
-            // Start at the origin facing the +X direction
-            new Pose2d(0, 0, new Rotation2d(0)),
-            // Pass through these two interior waypoints, making an 's' curve path
-            List.of(
-                new Translation2d(1, 0),
-                new Translation2d(1.5, 0),
-                new Translation2d(2, 0),
-                new Translation2d(2.5, 0),
-                new Translation2d(3.0, 0)
-                // new Translation2d(-1, 0.2)
-                ), // new Translation2d(1, 1), new Translation2d(2, -1)),
-            // End 3 meters straight ahead of where we started, facing forward
-            new Pose2d(3.5, 0, new Rotation2d(0)),
-            config);
+    // config.setReversed(true);
 
     addCommands(
-             new SetClawPreset(arm, 4),
-            new SetClawPneumatics(clawPneumatics, 1, arm),
-            new DriveDistance(drive, Constants.encoderToChargeDistance, 0, 0.4, true).alongWith(
-                new SetClawPreset(arm, 1)),
-            new AutonTime(1),
-
-            new DriveDistance(drive, 51, Math.PI, 0.19, true),
-
-            new GetOnChargeStation(drive, gyro).repeatedly()
-        );
+        new SetClawPreset(arm, 4),
+        new SetClawPneumatics(clawPneumatics, 1, arm),
+        new DriveDistance(drive, Constants.encoderToRedChargeDistance, 0, 0.4, true)
+            .alongWith(new SetClawPreset(arm, 1)),
+        new AutonTime(1.3),
+        new DriveDistance(drive, 52, Math.PI, 0.19, true),
+        new GetOnChargeStation(drive, gyro).repeatedly());
   }
 }

@@ -44,7 +44,10 @@ public class Gamepad {
   }
 
   public void armPneumatics(
-      ClawPneumatics clawPneumatics, LightSensor coneLightSensor , LightSensor cubeLightSensor , ArmSubsystem arm) {
+      ClawPneumatics clawPneumatics,
+      LightSensor coneLightSensor,
+      LightSensor cubeLightSensor,
+      ArmSubsystem arm) {
     // SmartDashboard.putBoolean("if True then not full yet", clawPneumatics.isNotFull());
 
     // if(armController.getRawButtonPressed(Constants.right_Button)) {
@@ -72,7 +75,7 @@ public class Gamepad {
     if (cubeLightSensor.isSensed() && (armController.getRawButton(Constants.right_Button))) {
       clawPneumatics.setHigh();
       clawCloseTimer.start();
-     
+
     } else if (!coneLightSensor.isSensed() && (armController.getRawButton(Constants.Back_Button))) {
       clawPneumatics.setHigh();
       clawCloseTimer.start();
@@ -143,7 +146,7 @@ public class Gamepad {
     if (armController.getRawButton(Constants.L_joystick_Button) && !claw.isClawClosed) {
       limelight.pickup(robotSubsystem, arm, claw, cubeLightSensor, coneLightSensor, false, false);
     } else if (armController.getRawButton(Constants.R_joystick_Button) && !claw.isClawClosed) {
-      limelight.pickup(robotSubsystem, arm, claw, cubeLightSensor, coneLightSensor,true, true);
+      limelight.pickup(robotSubsystem, arm, claw, cubeLightSensor, coneLightSensor, true, true);
     }
     // else if (armController.getRawButton(Constants.left_Button)) {
     //     limelight.score(robotSubsystem, arm, claw, true);
@@ -213,18 +216,18 @@ public class Gamepad {
     } else if (driveController.getRawButtonPressed(Constants.Back_Button)
         || armController.getRawButtonPressed(Constants.B_Button)) {
       arm.mediumTarget();
-    // } else if (armController.getRawButtonPressed(Constants.Back_Button)) {
+      // } else if (armController.getRawButtonPressed(Constants.Back_Button)) {
 
-    //   arm.pickupFallenCone1();
-    //   pickupFallenConeTimer.start();
+      //   arm.pickupFallenCone1();
+      //   pickupFallenConeTimer.start();
     } else if (driveController.getRawAxis(Constants.leftTrigger) > 0.05) {
       arm.setBigArmSpeed(-Constants.ARM_SPEED);
     } else if (driveController.getRawButton(Constants.left_Button)) {
       arm.setBigArmSpeed(Constants.ARM_SPEED);
     } else if (driveController.getRawAxis(Constants.rightTrigger) > 0.05) {
-      arm.setSmallArmSpeed(-Constants.ARM_SPEED);
+      arm.setSmallArmSpeed(-Constants.ARM_SPEED - .001);
     } else if (driveController.getRawButton(Constants.right_Button)) {
-      arm.setSmallArmSpeed(Constants.ARM_SPEED);
+      arm.setSmallArmSpeed(Constants.ARM_SPEED + .001);
     } else {
       arm.maintainPosition();
     }
