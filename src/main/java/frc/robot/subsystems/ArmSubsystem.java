@@ -11,7 +11,7 @@ import com.ctre.phoenixpro.hardware.TalonFX;
 import com.ctre.phoenixpro.signals.FeedbackSensorSourceValue;
 import com.ctre.phoenixpro.signals.NeutralModeValue;
 import edu.wpi.first.wpilibj.Timer;
-import edu.wpi.first.wpilibj.smartdashboard.*;
+
 import frc.robot.Constants;
 
 public class ArmSubsystem {
@@ -137,9 +137,7 @@ public class ArmSubsystem {
 
     bigArmMotorPosition = bigArmMotor.getPosition().getValue();
     smallArmMotorPosition = smallArmMotor.getPosition().getValue();
-    SmartDashboard.putNumber("SMALL ARM POSITION MANUAL", smallArmMotorPosition);
-    SmartDashboard.putNumber("SMALL ARM Velocity MANUAL", smallArmMotor.getVelocity().getValue());
-    SmartDashboard.putNumber("SMALL ARM Speed", speed);
+    
   }
 
   public void setBigArmSpeed(double speed) {
@@ -148,9 +146,7 @@ public class ArmSubsystem {
 
     bigArmMotorPosition = bigArmMotor.getPosition().getValue();
     smallArmMotorPosition = smallArmMotor.getPosition().getValue();
-    SmartDashboard.putNumber("BIG ARM POSITION MANUAL", bigArmMotorPosition);
-    SmartDashboard.putNumber("BIG ARM Velocity MANUAL", bigArmMotor.getVelocity().getValue());
-    SmartDashboard.putNumber("Big ARM Speed", speed);
+    
   }
 
   public void setPosition(double smallArmAngle, double bigArmAngle) {
@@ -252,7 +248,6 @@ public class ArmSubsystem {
     bigArmMotor.setControl(
         positionTargetPreset.withPosition(bigArmMotorPosition).withFeedForward(0.01).withSlot(0));
 
-    SmartDashboard.putNumber("big arm pos", bigArmMotorPosition);
-    SmartDashboard.putNumber("small arm pos", smallArmMotorPosition);
+    
   }
 }

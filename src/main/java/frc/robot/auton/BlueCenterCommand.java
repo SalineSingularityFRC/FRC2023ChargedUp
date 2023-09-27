@@ -55,7 +55,7 @@ public class BlueCenterCommand extends SequentialCommandGroup {
             // Add kinematics to ensure max speed is actually obeyed
             .setKinematics(kinematics);
 
-    // config.setReversed(true);
+  
 
     addCommands(
         new SetClawPreset(arm, 4),

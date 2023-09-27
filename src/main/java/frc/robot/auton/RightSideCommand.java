@@ -51,6 +51,7 @@ public class RightSideCommand extends SequentialCommandGroup {
             new Translation2d(Constants.TRACKWIDTH / 2.0, -Constants.WHEELBASE / 2.0),
             new Translation2d(-Constants.TRACKWIDTH / 2.0, Constants.WHEELBASE / 2.0),
             new Translation2d(-Constants.TRACKWIDTH / 2.0, -Constants.WHEELBASE / 2.0));
+
     TrajectoryConfig config =
         new TrajectoryConfig(1, 1)
             // Add kinematics to ensure max speed is actually obeyed
@@ -76,25 +77,15 @@ public class RightSideCommand extends SequentialCommandGroup {
             // End 3 meters straight ahead of where we started, facing forward
             new Pose2d(-2, 0, new Rotation2d(Math.PI)),
             config);
+            
     addCommands(
         new SetClawPreset(arm, 4),
         new SetClawPneumatics(clawPneumatics, 1, arm),
-        // new DriveDistance(drive, Constants.encoderToOutsideCommunityDistance, 0, 0.5, false)
         new SwerveCommand(arm, clawPneumatics, drive, gyro, odometry, trajectory1)
             .alongWith(new SetClawPreset(arm, 1)),
         new TurnAngle(drive, 0),
         new SwerveCommand(arm, clawPneumatics, drive, gyro, odometry, trajectory2),
         new SetClawPreset(arm, 1)
-        // //new TurnAngle(drive, 6),
-        // new SetClawPneumatics(clawPneumatics, 1, arm),
-        // new AutonLimelight(drive, lime, arm, clawPneumatics, sensor)
-        // new SetClawPreset(arm, 1),
-        // // new DriveDistance(drive, 1.5, Math.PI / 2, 0.5, false),
-        // new TurnAngle(drive, Math.PI)
-
-        // new DriveDistance(drive, 60, Math.PI, 0.5, false),
-        // new SetClawPreset(arm, 4),
-        // new ScoreAuton(drive, lime, arm, clawPneumatics)
         );
   }
 }
