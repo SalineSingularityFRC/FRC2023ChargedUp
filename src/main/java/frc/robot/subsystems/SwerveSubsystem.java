@@ -2,8 +2,6 @@ package frc.robot.subsystems;
 
 import com.ctre.phoenixpro.hardware.Pigeon2;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
-// import edu.wpi.first.wpilibj.I2C.Port;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Subsystem;
 import frc.robot.Constants;
 import frc.robot.SwerveClasses.ChassisVelocity;
@@ -115,9 +113,6 @@ public class SwerveSubsystem implements Subsystem {
     double currentRobotAngle = getRobotAngle();
     ChassisVelocity chassisVelocity;
 
-    SmartDashboard.putNumber("x", swerveRequest.movement.x);
-    SmartDashboard.putNumber("y", swerveRequest.movement.y);
-
     // this is to make sure if both the joysticks are at neutral position, the robot and wheels
     // don't move or turn at all
     // 0.05 value can be increased if the joystick is increasingly inaccurate at neutral position
@@ -140,15 +135,10 @@ public class SwerveSubsystem implements Subsystem {
         } else {
           double difference = getRobotAngle() - targetAngle;
           swerveRequest.rotation = difference;
-          SmartDashboard.putNumber("Difference", difference);
         }
       } else {
         targetAngle = Double.MAX_VALUE;
       }
-
-      SmartDashboard.putNumber("ROTATION", swerveRequest.rotation);
-      SmartDashboard.putNumber("TARGET ANGLE", targetAngle);
-      SmartDashboard.putNumber("GET ROBOT ANGLE", getRobotAngle());
     }
 
     double x = swerveRequest.movement.x;
@@ -162,7 +152,7 @@ public class SwerveSubsystem implements Subsystem {
      */
     if (fieldCentric) {
       double difference = (currentRobotAngle - startingAngle) % (2 * Math.PI);
-      SmartDashboard.putNumber("DIFFERENCE FIELD CENTRIC", difference);
+
       x =
           -swerveRequest.movement.y * Math.sin(difference)
               + swerveRequest.movement.x * Math.cos(difference);
@@ -174,8 +164,7 @@ public class SwerveSubsystem implements Subsystem {
     chassisVelocity = new ChassisVelocity(new Vector(x, y), swerveRequest.rotation);
 
     Vector[] moduleOutputs = swerveKinematics.toModuleVelocities(chassisVelocity);
-    SmartDashboard.putNumber("MODULE OUTPUTS WHELL IDK X", moduleOutputs[0].x);
-    SmartDashboard.putNumber("MODULE OUTPUES WHELL IDK Y", moduleOutputs[0].y);
+
     SwerveKinematics.normalizeModuleVelocities(
         moduleOutputs, 1); // these two lines are what calculates the module angles for swerve
 
