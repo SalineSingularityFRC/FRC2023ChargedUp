@@ -57,7 +57,8 @@ public class Gamepad {
     //     candle.turnOff();
     // }
     if (clawCloseTimer.get() >= 0.25) {
-      if ((arm.smallArmMotorPosition + (Constants.Speed.ARM_SPEED * 4.5)) < Constants.SmallArmPosition.DEFAULT) {
+      if ((arm.smallArmMotorPosition + (Constants.Speed.ARM_SPEED * 4.5))
+          < Constants.SmallArmPosition.DEFAULT) {
         arm.smallArmMotorPosition += Constants.Speed.ARM_SPEED * 4.5;
         arm.maintainPosition();
       }
@@ -72,11 +73,13 @@ public class Gamepad {
     }
     SmartDashboard.putBoolean("Cube Light Sensor is Sensed", cubeLightSensor.isSensed());
     SmartDashboard.putBoolean("Cone Light Sensor is Sensed", !coneLightSensor.isSensed());
-    if (cubeLightSensor.isSensed() && (armController.getRawButton(Constants.Gamepad.RIGHT_BUTTON))) {
+    if (cubeLightSensor.isSensed()
+        && (armController.getRawButton(Constants.Gamepad.RIGHT_BUTTON))) {
       clawPneumatics.setHigh();
       clawCloseTimer.start();
 
-    } else if (!coneLightSensor.isSensed() && (armController.getRawButton(Constants.Gamepad.BACK_BUTTON))) {
+    } else if (!coneLightSensor.isSensed()
+        && (armController.getRawButton(Constants.Gamepad.BACK_BUTTON))) {
       clawPneumatics.setHigh();
       clawCloseTimer.start();
     } else if (driveController.getRawButtonPressed(Constants.Gamepad.A_BUTTON)) {
@@ -145,7 +148,8 @@ public class Gamepad {
 
     if (armController.getRawButton(Constants.Gamepad.L_JOYSTICK_BUTTON) && !claw.isClawClosed) {
       limelight.pickup(robotSubsystem, arm, claw, cubeLightSensor, coneLightSensor, false, false);
-    } else if (armController.getRawButton(Constants.Gamepad.R_JOYSTICK_BUTTON) && !claw.isClawClosed) {
+    } else if (armController.getRawButton(Constants.Gamepad.R_JOYSTICK_BUTTON)
+        && !claw.isClawClosed) {
       limelight.pickup(robotSubsystem, arm, claw, cubeLightSensor, coneLightSensor, true, true);
     }
     // else if (armController.getRawButton(Constants.left_Button)) {

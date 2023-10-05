@@ -53,48 +53,57 @@ public class SwerveSubsystem implements Subsystem {
     // gyro = new NavX(Port.kMXP);
     gyro = new Pigeon2(Constants.CanCoderID.GYRO, Constants.Canivore.CANIVORE);
 
-    vectorKinematics[FL] = new Vector(Constants.Measurement.TRACKWIDTH / 2.0, Constants.Measurement.WHEELBASE / 2.0);
-    vectorKinematics[FR] = new Vector(Constants.Measurement.TRACKWIDTH / 2.0, -Constants.Measurement.WHEELBASE / 2.0);
-    vectorKinematics[BL] = new Vector(-Constants.Measurement.TRACKWIDTH / 2.0, Constants.Measurement.WHEELBASE / 2.0);
-    vectorKinematics[BR] = new Vector(-Constants.Measurement.TRACKWIDTH / 2.0, -Constants.Measurement.WHEELBASE / 2.0);
+    vectorKinematics[FL] =
+        new Vector(Constants.Measurement.TRACKWIDTH / 2.0, Constants.Measurement.WHEELBASE / 2.0);
+    vectorKinematics[FR] =
+        new Vector(Constants.Measurement.TRACKWIDTH / 2.0, -Constants.Measurement.WHEELBASE / 2.0);
+    vectorKinematics[BL] =
+        new Vector(-Constants.Measurement.TRACKWIDTH / 2.0, Constants.Measurement.WHEELBASE / 2.0);
+    vectorKinematics[BR] =
+        new Vector(-Constants.Measurement.TRACKWIDTH / 2.0, -Constants.Measurement.WHEELBASE / 2.0);
 
     swerveKinematics = new SwerveKinematics(vectorKinematics);
 
-    swerveModules[FL] = new SwerveModule(
-        Constants.MotorID.FL,
-        Constants.AngleID.FL,
-        Constants.CanCoderID.FL,
-        Constants.WheelOffset.FRONT_LEFT_ENCODER,
-        Constants.Canivore.CANIVORE,
-        Constants.isInverted.FL,
-        "FL");
-    swerveModules[FR] = new SwerveModule(
-        Constants.MotorID.FR,
-        Constants.AngleID.FR,
-        Constants.CanCoderID.FR,
-        Constants.WheelOffset.FRONT_RIGHT_ENCODER,
-        Constants.Canivore.CANIVORE,
-        Constants.isInverted.FR,
-        "FR");
-    swerveModules[BL] = new SwerveModule(
-        Constants.MotorID.BL,
-        Constants.AngleID.BL,
-        Constants.CanCoderID.BL,
-        Constants.WheelOffset.BACK_LEFT_ENCODER,
-        Constants.Canivore.CANIVORE,
-        Constants.isInverted.BL,
-        "BL");
-    swerveModules[BR] = new SwerveModule(
-        Constants.MotorID.BR,
-        Constants.AngleID.BR,
-        Constants.CanCoderID.BR,
-        Constants.WheelOffset.BACK_RIGHT_ENCODER,
-        Constants.Canivore.CANIVORE,
-        Constants.isInverted.BR,
-        "BR");
+    swerveModules[FL] =
+        new SwerveModule(
+            Constants.MotorID.FL,
+            Constants.AngleID.FL,
+            Constants.CanCoderID.FL,
+            Constants.WheelOffset.FRONT_LEFT_ENCODER,
+            Constants.Canivore.CANIVORE,
+            Constants.isInverted.FL,
+            "FL");
+    swerveModules[FR] =
+        new SwerveModule(
+            Constants.MotorID.FR,
+            Constants.AngleID.FR,
+            Constants.CanCoderID.FR,
+            Constants.WheelOffset.FRONT_RIGHT_ENCODER,
+            Constants.Canivore.CANIVORE,
+            Constants.isInverted.FR,
+            "FR");
+    swerveModules[BL] =
+        new SwerveModule(
+            Constants.MotorID.BL,
+            Constants.AngleID.BL,
+            Constants.CanCoderID.BL,
+            Constants.WheelOffset.BACK_LEFT_ENCODER,
+            Constants.Canivore.CANIVORE,
+            Constants.isInverted.BL,
+            "BL");
+    swerveModules[BR] =
+        new SwerveModule(
+            Constants.MotorID.BR,
+            Constants.AngleID.BR,
+            Constants.CanCoderID.BR,
+            Constants.WheelOffset.BACK_RIGHT_ENCODER,
+            Constants.Canivore.CANIVORE,
+            Constants.isInverted.BR,
+            "BR");
   }
 
-  public static class SwerveRequest { // this class represents what our controller is telling our robot to do
+  public static
+  class SwerveRequest { // this class represents what our controller is telling our robot to do
     public double rotation;
     public Vector movement;
 
@@ -163,10 +172,12 @@ public class SwerveSubsystem implements Subsystem {
     if (fieldCentric) {
       double difference = (currentRobotAngle - startingAngle) % (2 * Math.PI);
       SmartDashboard.putNumber("DIFFERENCE FIELD CENTRIC", difference);
-      x = -swerveRequest.movement.y * Math.sin(difference)
-          + swerveRequest.movement.x * Math.cos(difference);
-      y = swerveRequest.movement.y * Math.cos(difference)
-          + swerveRequest.movement.x * Math.sin(difference);
+      x =
+          -swerveRequest.movement.y * Math.sin(difference)
+              + swerveRequest.movement.x * Math.cos(difference);
+      y =
+          swerveRequest.movement.y * Math.cos(difference)
+              + swerveRequest.movement.x * Math.sin(difference);
     }
 
     chassisVelocity = new ChassisVelocity(new Vector(x, y), swerveRequest.rotation);

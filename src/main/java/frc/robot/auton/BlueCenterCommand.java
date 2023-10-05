@@ -46,10 +46,14 @@ public class BlueCenterCommand extends SequentialCommandGroup {
     this.thetaController.enableContinuousInput(-Math.PI, Math.PI);
     this.kinematics =
         new SwerveDriveKinematics(
-            new Translation2d(Constants.Measurement.TRACKWIDTH / 2.0, Constants.Measurement.WHEELBASE / 2.0),
-            new Translation2d(Constants.Measurement.TRACKWIDTH / 2.0, -Constants.Measurement.WHEELBASE / 2.0),
-            new Translation2d(-Constants.Measurement.TRACKWIDTH / 2.0, Constants.Measurement.WHEELBASE / 2.0),
-            new Translation2d(-Constants.Measurement.TRACKWIDTH / 2.0, -Constants.Measurement.WHEELBASE / 2.0));
+            new Translation2d(
+                Constants.Measurement.TRACKWIDTH / 2.0, Constants.Measurement.WHEELBASE / 2.0),
+            new Translation2d(
+                Constants.Measurement.TRACKWIDTH / 2.0, -Constants.Measurement.WHEELBASE / 2.0),
+            new Translation2d(
+                -Constants.Measurement.TRACKWIDTH / 2.0, Constants.Measurement.WHEELBASE / 2.0),
+            new Translation2d(
+                -Constants.Measurement.TRACKWIDTH / 2.0, -Constants.Measurement.WHEELBASE / 2.0));
     TrajectoryConfig config =
         new TrajectoryConfig(3, 3)
             // Add kinematics to ensure max speed is actually obeyed

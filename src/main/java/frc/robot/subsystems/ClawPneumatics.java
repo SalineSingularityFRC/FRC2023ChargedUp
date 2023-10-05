@@ -10,7 +10,8 @@ public class ClawPneumatics {
 
   DoubleSolenoid doubleSolenoid;
 
-  Compressor pcmCompressor = new Compressor(Constants.MotorID.Compressor, PneumaticsModuleType.REVPH);
+  Compressor pcmCompressor =
+      new Compressor(Constants.MotorID.Compressor, PneumaticsModuleType.REVPH);
   private ArmSubsystem arm;
   public boolean isClawClosed = true;
   private Timer timer;
@@ -20,7 +21,7 @@ public class ClawPneumatics {
     doubleSolenoid.set(DoubleSolenoid.Value.kOff);
     this.timer = new Timer();
     this.arm = arm;
-    //disableCompressor();
+    // disableCompressor();
     enableCompressor();
   }
 
