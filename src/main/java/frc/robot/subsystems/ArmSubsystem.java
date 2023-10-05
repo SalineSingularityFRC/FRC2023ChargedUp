@@ -58,26 +58,26 @@ public class ArmSubsystem {
   public double smallArmMotorPosition;
 
   public ArmSubsystem(boolean bigArmIsInverted, boolean smallArmIsInverted) {
-    smallArmMotor = new TalonFX(Constants.SMALL_ARM_MOTOR_ID, Constants.CANBUS);
+    smallArmMotor = new TalonFX(Constants.MotorID.SMALL_ARM, Constants.Canbus.CANBUS);
 
     TalonFXConfiguration config = new TalonFXConfiguration();
     config.Feedback.FeedbackSensorSource = FeedbackSensorSourceValue.RemoteCANcoder;
-    config.Feedback.FeedbackRemoteSensorID = Constants.SMALL_ARM_CANCODER_ID;
+    config.Feedback.FeedbackRemoteSensorID = Constants.CanCoderID.SMALL_ARM;
     config.MotorOutput.NeutralMode = NeutralModeValue.Brake;
     smallArmMotor.getConfigurator().apply(config);
     smallArmMotor.setInverted(smallArmIsInverted);
 
-    bigArmMotor = new TalonFX(Constants.BIG_ARM_Motor_ID, Constants.CANBUS);
+    bigArmMotor = new TalonFX(Constants.MotorID.BIG_ARM, Constants.Canbus.CANBUS);
 
     config = new TalonFXConfiguration();
     config.Feedback.FeedbackSensorSource = FeedbackSensorSourceValue.RemoteCANcoder;
-    config.Feedback.FeedbackRemoteSensorID = Constants.BIG_ARM_CANCODER_ID;
+    config.Feedback.FeedbackRemoteSensorID = Constants.CanCoderID.BIG_ARM;
     config.MotorOutput.NeutralMode = NeutralModeValue.Brake;
     bigArmMotor.getConfigurator().apply(config);
     bigArmMotor.setInverted(bigArmIsInverted);
 
-    bigArmMotor2 = new TalonFX(Constants.BIG_ARM_Motor_2_ID, Constants.CANBUS);
-    bigArmMotor2.setControl(new Follower(Constants.BIG_ARM_Motor_ID, true));
+    bigArmMotor2 = new TalonFX(Constants.MotorID.BIG_ARM, Constants.Canbus.CANBUS);
+    bigArmMotor2.setControl(new Follower(Constants.MotorID.BIG_ARM, true));
 
     Slot0Configs slot0ConfigsSmall = new Slot0Configs();
     Slot0Configs slot0ConfigsBig = new Slot0Configs();
@@ -186,11 +186,11 @@ public class ArmSubsystem {
   public void
       highTarget1() { // these individual commands labeled 1 and 2 are for gamepad to call (so you
     // only need to press it once)
-    bigArmPosition(Constants.BigArm_highTarget);
+    bigArmPosition(Constants.BigArmPosition.HIGH);
   }
 
   public void highTarget2() {
-    smallArmPosition(Constants.SmallArm_highTarget);
+    smallArmPosition(Constants.SmallArmPosition.HIGH);
   }
 
   public void sliderTarget(Timer timer) { // same comment as highTarget
@@ -201,31 +201,31 @@ public class ArmSubsystem {
   }
 
   public void sliderTarget1() { // same comment as highTarget1
-    bigArmPosition(Constants.BigArm_slider);
+    bigArmPosition(Constants.BigArmPosition.SLIDER);
   }
 
   public void sliderTarget2() {
-    smallArmPosition(Constants.SmallArm_Slider);
+    smallArmPosition(Constants.SmallArmPosition.SLIDER);
   }
 
   public void mediumTarget() {
-    setPosition(Constants.SmallArm_mediumTarget, Constants.BigArm_mediumTarget);
+    setPosition(Constants.SmallArmPosition.MEDIUM, Constants.BigArmPosition.MEDIUM);
   }
 
   public void pickupTarget() {
-    setPosition(Constants.SmallArm_pickup, Constants.BigArm_pickup);
+    setPosition(Constants.SmallArmPosition.PICKUP, Constants.BigArmPosition.PICKUP);
   }
 
   public void pickupFallenCone1() {
-    bigArmPosition(Constants.BigArm_pickupCone);
+    bigArmPosition(Constants.BigArmPosition.PICKUPCONE);
   }
 
   public void pickupFallenCone2() {
-    smallArmPosition(Constants.SmallArm_pickupCone);
+    smallArmPosition(Constants.SmallArmPosition.PICKUP_CONE);
   }
 
   public void defaultTarget() {
-    setPosition(Constants.SmallArm_default, Constants.BigArm_default);
+    setPosition(Constants.SmallArmPosition.DEFAULT, Constants.BigArmPosition.DEFAULT);
   }
 
   public void defaultTargetTimer(Timer timer) {
@@ -236,11 +236,11 @@ public class ArmSubsystem {
   }
 
   public void defaultTarget1() {
-    smallArmPosition(Constants.SmallArm_default);
+    smallArmPosition(Constants.SmallArmPosition.DEFAULT);
   }
 
   public void defaultTarget2() {
-    bigArmPosition(Constants.BigArm_default);
+    bigArmPosition(Constants.BigArmPosition.DEFAULT);
   }
 
   public void maintainPosition() {

@@ -31,7 +31,7 @@ public class SetClawPneumatics extends CommandBase {
   //  Any initialization code should be here.
   public void initialize() {
     if (position == 1) {
-      arm.smallArmMotorPosition -= Constants.ARM_SPEED * 9;
+      arm.smallArmMotorPosition -= Constants.Speed.ARM_SPEED * 9;
       arm.maintainPosition();
     }
     timer.reset(); // Reset the timer when the command starts

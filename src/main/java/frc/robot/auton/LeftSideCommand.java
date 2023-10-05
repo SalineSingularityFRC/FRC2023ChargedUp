@@ -38,7 +38,7 @@ public class LeftSideCommand extends SequentialCommandGroup {
     addCommands(
         new SetClawPreset(arm, 4),
         new SetClawPneumatics(clawPneumatics, 1, arm),
-        new DriveDistance(drive, Constants.encoderToOutsideCommunityDistance, 0, 0.5, false)
+        new DriveDistance(drive, Constants.Distance.TO_OUTSIDE_COMMUNITY, 0, 0.5, false)
             .alongWith(new SetClawPreset(arm, 1)),
         // new SetClawPreset(arm, 1),
         new TurnAngle(drive, 6),
