@@ -7,7 +7,7 @@ package frc.robot;
 public final class Constants {
   public static final class CanId {
 
-    public static final class CanCoderID {
+    public static final class CanCoder {
       public static final int GYRO = 0;
       public static final int FL = 43;
       public static final int FR = 44;
@@ -33,7 +33,7 @@ public final class Constants {
     } 
 
     public static final class Arm {
-      public static final class MotorID {
+      public static final class Motor {
         public static final int BIG_ARM = 6;
         public static final int BIG_ARM_2 = 7;
         public static final int SMALL_ARM = 31;
@@ -108,7 +108,7 @@ public final class Constants {
       public static final int LEFT_Y = 1;
       public static final int RIGHT = 4;
     }
-    
+
     public static final class Trigger {
       public static final int LEFT = 2;
       public static final int RIGHT = 3;
@@ -131,10 +131,10 @@ public final class Constants {
 
   public static final class WheelOffset {
     // Converting rotations to radians
-    public static final double FL_ENCODER = (0.793945) * 2 * Math.PI;
-    public static final double FR_ENCODER = (0.489502) * 2 * Math.PI;
-    public static final double BL_ENCODER = (0.234375) * 2 * Math.PI;
-    public static final double BR_ENCODER = (0.520752) * 2 * Math.PI;
+    public static final double FL = (0.793945) * 2 * Math.PI;
+    public static final double FR = (0.489502) * 2 * Math.PI;
+    public static final double BL = (0.234375) * 2 * Math.PI;
+    public static final double BR = (0.520752) * 2 * Math.PI;
   }
 
   public static final class MotorGearRatio {
