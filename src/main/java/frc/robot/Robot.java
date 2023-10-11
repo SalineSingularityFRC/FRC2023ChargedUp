@@ -56,7 +56,7 @@ public class Robot extends TimedRobot {
             cubelightSensor,
             conelightSensor,
             odometry);
-    robotSubsystem.resetGyro();
+    //robotSubsystem.resetGyro();
   }
 
   @Override

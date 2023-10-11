@@ -265,7 +265,7 @@ public class SwerveSubsystem implements Subsystem {
    */
   public double getRobotAngle() {
     // return ((360 - gyro.getAngle().toDegrees()) * Math.PI) / 180; // for NavX
-    return ((180 - (gyro.getAngle() - gyroZero)) * Math.PI)
+    return (((gyro.getAngle() - gyroZero)) * Math.PI)
         / 180; // returns in counterclockwise hence why 360 minus
     // it is gyro.getAngle() - 180 because the pigeon for this robot is facing backwards
   }
