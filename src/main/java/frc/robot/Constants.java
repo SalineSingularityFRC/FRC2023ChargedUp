@@ -24,13 +24,14 @@ public final class Constants {
         public static final int BL = 11;
         public static final int BR = 18;
       }
+
       public static final class Drive {
         public static final int FL = 17;
         public static final int FR = 12;
         public static final int BL = 13;
         public static final int BR = 14;
       }
-    } 
+    }
 
     public static final class Arm {
       public static final class Motor {
@@ -40,7 +41,6 @@ public final class Constants {
         public static final int Compressor = 1;
       }
     }
-
 
     public static final class Angle {
       public static final int FL = 15;
@@ -56,7 +56,6 @@ public final class Constants {
       public static final int BR = 14;
     }
   }
-
 
   public static final class Position {
     public static final class BigArm {
@@ -87,7 +86,7 @@ public final class Constants {
   }
 
   public static final class Canbus {
-    public static final String DEFAULT  = "rio";
+    public static final String DEFAULT = "rio";
     public static final String DRIVE_TRAIN = "drivetrain";
   }
 
@@ -113,7 +112,7 @@ public final class Constants {
       public static final int LEFT = 2;
       public static final int RIGHT = 3;
     }
-    
+
     public static final class Button {
       public static final int A = 1;
       public static final int B = 2;
@@ -126,7 +125,6 @@ public final class Constants {
       public static final int L_JOYSTICK = 9;
       public static final int R_JOYSTICK = 10;
     }
-    
   }
 
   public static final class WheelOffset {
@@ -138,14 +136,12 @@ public final class Constants {
   }
 
   public static final class MotorGearRatio {
-    public static final double DRIVE = 8.14; 
+    public static final double DRIVE = 8.14;
     public static final double ANGLE =
         12.8; // https://www.swervedrivespecialties.com/products/mk4-swerve-module
     public static final int BIG = 10;
     public static final int SMALL = 7;
   }
-
-
 
   public static final class Measurement {
     // trackWidth - lateral distance between pairs of wheels on different sides of

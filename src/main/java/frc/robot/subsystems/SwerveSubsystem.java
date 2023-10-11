@@ -60,7 +60,8 @@ public class SwerveSubsystem implements Subsystem {
     vectorKinematics[BL] =
         new Vector(-Constants.Measurement.TRACK_WIDTH / 2.0, Constants.Measurement.WHEELBASE / 2.0);
     vectorKinematics[BR] =
-        new Vector(-Constants.Measurement.TRACK_WIDTH / 2.0, -Constants.Measurement.WHEELBASE / 2.0);
+        new Vector(
+            -Constants.Measurement.TRACK_WIDTH / 2.0, -Constants.Measurement.WHEELBASE / 2.0);
 
     swerveKinematics = new SwerveKinematics(vectorKinematics);
 
