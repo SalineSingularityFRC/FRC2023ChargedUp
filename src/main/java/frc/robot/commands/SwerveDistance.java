@@ -61,13 +61,13 @@ public class SwerveDistance extends CommandBase {
     this.kinematics =
         new SwerveDriveKinematics(
             new Translation2d(
-                Constants.Measurement.TRACKWIDTH / 2.0, Constants.Measurement.WHEELBASE / 2.0),
+                Constants.Measurement.TRACK_WIDTH / 2.0, Constants.Measurement.WHEELBASE / 2.0),
             new Translation2d(
-                Constants.Measurement.TRACKWIDTH / 2.0, -Constants.Measurement.WHEELBASE / 2.0),
+                Constants.Measurement.TRACK_WIDTH / 2.0, -Constants.Measurement.WHEELBASE / 2.0),
             new Translation2d(
-                -Constants.Measurement.TRACKWIDTH / 2.0, Constants.Measurement.WHEELBASE / 2.0),
+                -Constants.Measurement.TRACK_WIDTH / 2.0, Constants.Measurement.WHEELBASE / 2.0),
             new Translation2d(
-                -Constants.Measurement.TRACKWIDTH / 2.0, -Constants.Measurement.WHEELBASE / 2.0));
+                -Constants.Measurement.TRACK_WIDTH / 2.0, -Constants.Measurement.WHEELBASE / 2.0));
     TrajectoryConfig config =
         new TrajectoryConfig(3, 3)
             // Add kinematics to ensure max speed is actually obeyed

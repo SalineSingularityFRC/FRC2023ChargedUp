@@ -66,8 +66,8 @@ public class SwerveSubsystem implements Subsystem {
 
     swerveModules[FL] =
         new SwerveModule(
-            Constants.CanId.MotorID.FL,
-            Constants.CanId.AngleID.FL,
+            Constants.CanId.Motor.FL,
+            Constants.CanId.Angle.FL,
             Constants.CanId.CanCoder.FL,
             Constants.WheelOffset.FL,
             Constants.Canbus.DEFAULT,
@@ -75,30 +75,30 @@ public class SwerveSubsystem implements Subsystem {
             "FL");
     swerveModules[FR] =
         new SwerveModule(
-            Constants.MotorID.FR,
-            Constants.AngleID.FR,
-            Constants.CanCoderID.FR,
-            Constants.WheelOffset.FRONT_RIGHT_ENCODER,
-            Constants.Canivore.CANIVORE,
-            Constants.isInverted.FR,
+            Constants.CanId.Motor.FR,
+            Constants.CanId.Angle.FR,
+            Constants.CanId.CanCoder.FR,
+            Constants.WheelOffset.FR,
+            Constants.Canbus.DEFAULT,
+            Constants.Inverted.FR,
             "FR");
     swerveModules[BL] =
         new SwerveModule(
-            Constants.MotorID.BL,
-            Constants.AngleID.BL,
-            Constants.CanCoderID.BL,
-            Constants.WheelOffset.BACK_LEFT_ENCODER,
-            Constants.Canivore.CANIVORE,
-            Constants.isInverted.BL,
+            Constants.CanId.Motor.BL,
+            Constants.CanId.Angle.BL,
+            Constants.CanId.CanCoder.BL,
+            Constants.WheelOffset.BL,
+            Constants.Canbus.DEFAULT,
+            Constants.Inverted.BL,
             "BL");
     swerveModules[BR] =
         new SwerveModule(
-            Constants.MotorID.BR,
-            Constants.AngleID.BR,
-            Constants.CanCoderID.BR,
-            Constants.WheelOffset.BACK_RIGHT_ENCODER,
-            Constants.Canivore.CANIVORE,
-            Constants.isInverted.BR,
+            Constants.CanId.Motor.BR,
+            Constants.CanId.Angle.BR,
+            Constants.CanId.CanCoder.BR,
+            Constants.WheelOffset.BR,
+            Constants.Canbus.DEFAULT,
+            Constants.Inverted.BR,
             "BR");
   }
 
