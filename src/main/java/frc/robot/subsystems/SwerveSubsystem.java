@@ -51,7 +51,7 @@ public class SwerveSubsystem implements Subsystem {
    */
   public SwerveSubsystem() {
     // gyro = new NavX(Port.kMXP);
-    gyro = new Pigeon2(Constants.CanId.CanCoderID.GYRO, Constants.Canbus.DEFAULT);
+    gyro = new Pigeon2(Constants.CanId.CanCoder.GYRO, Constants.Canbus.DEFAULT);
 
     vectorKinematics[FL] =
         new Vector(Constants.Measurement.TRACK_WIDTH / 2.0, Constants.Measurement.WHEELBASE / 2.0);
@@ -68,8 +68,8 @@ public class SwerveSubsystem implements Subsystem {
         new SwerveModule(
             Constants.CanId.MotorID.FL,
             Constants.CanId.AngleID.FL,
-            Constants.CanId.CanCoderID.FL,
-            Constants.WheelOffset.FL_ENCODER,
+            Constants.CanId.CanCoder.FL,
+            Constants.WheelOffset.FL,
             Constants.Canbus.DEFAULT,
             Constants.Inverted.FL,
             "FL");

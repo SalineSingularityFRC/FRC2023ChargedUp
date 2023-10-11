@@ -42,14 +42,14 @@ public final class Constants {
     }
 
 
-    public static final class AngleID {
+    public static final class Angle {
       public static final int FL = 15;
       public static final int FR = 16;
       public static final int BL = 11;
       public static final int BR = 18;
     }
 
-    public static final class MotorID {
+    public static final class Motor {
       public static final int FL = 17;
       public static final int FR = 12;
       public static final int BL = 13;
