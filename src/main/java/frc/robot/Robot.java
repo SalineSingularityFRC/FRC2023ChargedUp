@@ -39,7 +39,7 @@ public class Robot extends TimedRobot {
     PD.setSwitchableChannel(true);
 
     robotSubsystem = new SwerveSubsystem();
-    teleopDrive = new Gamepad(Constants.Gamepad.DRIVE_CONTROLLER, Constants.Gamepad.ARM_CONTROLLER);
+    teleopDrive = new Gamepad(Constants.Gamepad.Controller.DRIVE, Constants.Gamepad.Controller.ARM);
     odometry = new SwerveOdometry(robotSubsystem);
 
     arm = new ArmSubsystem(false, true);

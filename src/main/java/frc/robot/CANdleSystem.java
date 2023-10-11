@@ -9,7 +9,7 @@ import com.ctre.phoenix.led.CANdle.VBatOutputMode;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class CANdleSystem extends SubsystemBase {
-  private CANdle m_candle = new CANdle(1, Constants.Canivore.CANIVORE);
+  private CANdle m_candle = new CANdle(1, Constants.Canbus.DRIVE_TRAIN);
 
   public CANdleSystem() {
     CANdleConfiguration configAll = new CANdleConfiguration();

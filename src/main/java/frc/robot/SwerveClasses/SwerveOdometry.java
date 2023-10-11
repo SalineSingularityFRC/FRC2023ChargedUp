@@ -30,16 +30,16 @@ public class SwerveOdometry {
     gyro = subsystem.gyro;
     vectorKinematics[FL] =
         new Translation2d(
-            Constants.Measurement.TRACKWIDTH / 2.0, Constants.Measurement.WHEELBASE / 2.0);
+            Constants.Measurement.TRACK_WIDTH / 2.0, Constants.Measurement.WHEELBASE / 2.0);
     vectorKinematics[FR] =
         new Translation2d(
-            Constants.Measurement.TRACKWIDTH / 2.0, -Constants.Measurement.WHEELBASE / 2.0);
+            Constants.Measurement.TRACK_WIDTH / 2.0, -Constants.Measurement.WHEELBASE / 2.0);
     vectorKinematics[BL] =
         new Translation2d(
-            -Constants.Measurement.TRACKWIDTH / 2.0, Constants.Measurement.WHEELBASE / 2.0);
+            -Constants.Measurement.TRACK_WIDTH / 2.0, Constants.Measurement.WHEELBASE / 2.0);
     vectorKinematics[BR] =
         new Translation2d(
-            -Constants.Measurement.TRACKWIDTH / 2.0, -Constants.Measurement.WHEELBASE / 2.0);
+            -Constants.Measurement.TRACK_WIDTH / 2.0, -Constants.Measurement.WHEELBASE / 2.0);
 
     swerveKinematics =
         new SwerveDriveKinematics(

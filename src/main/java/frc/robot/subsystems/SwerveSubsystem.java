@@ -51,27 +51,27 @@ public class SwerveSubsystem implements Subsystem {
    */
   public SwerveSubsystem() {
     // gyro = new NavX(Port.kMXP);
-    gyro = new Pigeon2(Constants.CanCoderID.GYRO, Constants.Canivore.CANIVORE);
+    gyro = new Pigeon2(Constants.CanId.CanCoderID.GYRO, Constants.Canbus.DEFAULT);
 
     vectorKinematics[FL] =
-        new Vector(Constants.Measurement.TRACKWIDTH / 2.0, Constants.Measurement.WHEELBASE / 2.0);
+        new Vector(Constants.Measurement.TRACK_WIDTH / 2.0, Constants.Measurement.WHEELBASE / 2.0);
     vectorKinematics[FR] =
-        new Vector(Constants.Measurement.TRACKWIDTH / 2.0, -Constants.Measurement.WHEELBASE / 2.0);
+        new Vector(Constants.Measurement.TRACK_WIDTH / 2.0, -Constants.Measurement.WHEELBASE / 2.0);
     vectorKinematics[BL] =
-        new Vector(-Constants.Measurement.TRACKWIDTH / 2.0, Constants.Measurement.WHEELBASE / 2.0);
+        new Vector(-Constants.Measurement.TRACK_WIDTH / 2.0, Constants.Measurement.WHEELBASE / 2.0);
     vectorKinematics[BR] =
-        new Vector(-Constants.Measurement.TRACKWIDTH / 2.0, -Constants.Measurement.WHEELBASE / 2.0);
+        new Vector(-Constants.Measurement.TRACK_WIDTH / 2.0, -Constants.Measurement.WHEELBASE / 2.0);
 
     swerveKinematics = new SwerveKinematics(vectorKinematics);
 
     swerveModules[FL] =
         new SwerveModule(
-            Constants.MotorID.FL,
-            Constants.AngleID.FL,
-            Constants.CanCoderID.FL,
-            Constants.WheelOffset.FRONT_LEFT_ENCODER,
-            Constants.Canivore.CANIVORE,
-            Constants.isInverted.FL,
+            Constants.CanId.MotorID.FL,
+            Constants.CanId.AngleID.FL,
+            Constants.CanId.CanCoderID.FL,
+            Constants.WheelOffset.FL_ENCODER,
+            Constants.Canbus.DEFAULT,
+            Constants.Inverted.FL,
             "FL");
     swerveModules[FR] =
         new SwerveModule(
