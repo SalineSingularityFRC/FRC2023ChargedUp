@@ -61,7 +61,7 @@ public class Gamepad {
       clawOpenTimer.stop();
       clawOpenTimer.reset();
     }
-  
+
     if (cubeLightSensor.isSensed()
         && (armController.getRawButton(Constants.Gamepad.Button.RIGHT))) {
       clawPneumatics.setHigh();
@@ -135,10 +135,7 @@ public class Gamepad {
     } else if (armController.getRawButton(Constants.Gamepad.Button.R_JOYSTICK)
         && !claw.isClawClosed) {
       limelight.pickup(robotSubsystem, arm, claw, cubeLightSensor, coneLightSensor, true, true);
-    }
-
-
-    else { // no limelight commands`
+    } else { // no limelight commands`
       if (driveController.getRawButtonPressed(Constants.Gamepad.Button.X)) {
         robotSubsystem.resetGyro();
       }

@@ -118,8 +118,6 @@ public class SwerveSubsystem implements Subsystem {
     double currentRobotAngle = getRobotAngle();
     ChassisVelocity chassisVelocity;
 
-    
-
     // this is to make sure if both the joysticks are at neutral position, the robot
     // and wheels
     // don't move or turn at all
