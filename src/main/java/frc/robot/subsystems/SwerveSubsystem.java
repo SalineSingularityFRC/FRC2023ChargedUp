@@ -49,7 +49,7 @@ public class SwerveSubsystem implements Subsystem {
    */
   public SwerveSubsystem() {
     // gyro = new NavX(Port.kMXP);
-    gyro = new Pigeon2(Constants.CanId.CanCoder.GYRO, Constants.Canbus.DEFAULT);
+    gyro = new Pigeon2(Constants.CanId.CanCoder.GYRO, Constants.Canbus.DRIVE_TRAIN);
 
     vectorKinematics[FL] =
         new Vector(Constants.Measurement.TRACK_WIDTH / 2.0, Constants.Measurement.WHEELBASE / 2.0);
@@ -69,7 +69,7 @@ public class SwerveSubsystem implements Subsystem {
             Constants.CanId.Angle.FL,
             Constants.CanId.CanCoder.FL,
             Constants.WheelOffset.FL,
-            Constants.Canbus.DEFAULT,
+            Constants.Canbus.DRIVE_TRAIN,
             Constants.Inverted.FL,
             "FL");
     swerveModules[FR] =
@@ -78,7 +78,7 @@ public class SwerveSubsystem implements Subsystem {
             Constants.CanId.Angle.FR,
             Constants.CanId.CanCoder.FR,
             Constants.WheelOffset.FR,
-            Constants.Canbus.DEFAULT,
+            Constants.Canbus.DRIVE_TRAIN,
             Constants.Inverted.FR,
             "FR");
     swerveModules[BL] =
@@ -87,7 +87,7 @@ public class SwerveSubsystem implements Subsystem {
             Constants.CanId.Angle.BL,
             Constants.CanId.CanCoder.BL,
             Constants.WheelOffset.BL,
-            Constants.Canbus.DEFAULT,
+            Constants.Canbus.DRIVE_TRAIN,
             Constants.Inverted.BL,
             "BL");
     swerveModules[BR] =
@@ -96,7 +96,7 @@ public class SwerveSubsystem implements Subsystem {
             Constants.CanId.Angle.BR,
             Constants.CanId.CanCoder.BR,
             Constants.WheelOffset.BR,
-            Constants.Canbus.DEFAULT,
+            Constants.Canbus.DRIVE_TRAIN,
             Constants.Inverted.BR,
             "BR");
   }
