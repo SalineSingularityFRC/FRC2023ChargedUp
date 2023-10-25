@@ -27,5 +27,7 @@
   ],
   "java.test.defaultConfig": "WPIlibUnitTests",
   "codetogether.virtualCursorJoin": "ownVirtualCursor",
-  "wpilib.autoStartRioLog": false
+  "wpilib.autoStartRioLog": false,
+  "java.format.settings.url": "config/checkstyle/checkstyle.xml",
+  "java.checkstyle.configuration": "${workspaceFolder}\\config\\checkstyle\\checkstyle.xml"
 }

@@ -10,7 +10,6 @@ import com.ctre.phoenixpro.signals.NeutralModeValue;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /*
  * This class owns the components of a single swerve module and is responsible for controlling
@@ -72,26 +71,24 @@ public class SwerveModule {
   // method takes in a direction and speed value and sets the wheels to that in the most efficient
   // way possible
   public boolean drive(SwerveDriveRequest request) {
-    SmartDashboard.putNumber("Velocity", request.velocity);
+
     SwerveAngle.AnglePosition angle = angleMotor.setAngle(request.direction);
     // the setAngle function returns an enum that specifies whether the wheels should spin forwards
     // or backwards
     if (angle == SwerveAngle.AnglePosition.Positive) {
       driveMotor.set(request.velocity);
-      // driveMotor.setControl(m_voltageVelocity.withVelocity(request.velocity));
+
       return true;
     }
 
     if (angle == SwerveAngle.AnglePosition.Negative) {
       driveMotor.set(-request.velocity);
-      // driveMotor.setControl(m_voltageVelocity.withVelocity(-request.velocity));
+
       return true;
     }
 
     driveMotor.set(0);
     return false;
-    // if the wheel is still in the process of turning to the specified angle, speed is 0 and drive
-    // returns false
   }
 
   public void coast() {
@@ -115,13 +112,13 @@ public class SwerveModule {
    * This method is used in Swerve Odometry
    */
   public void setDesiredState(SwerveModuleState desiredState) {
-    // desiredState.speedMetersPerSecond *= 0.3;
+
     SwerveModuleState state =
         SwerveModuleState.optimize(desiredState, new Rotation2d(getEncoderPosition()));
-    SmartDashboard.putNumber("State Speed " + name, state.speedMetersPerSecond);
+
     double driveOutput =
         m_drivePIDController.calculate(driveMotor.get(), state.speedMetersPerSecond);
-    SmartDashboard.putNumber("State DriveOut " + name, driveOutput);
+
     double turnOutput =
         m_turningPIDController.calculate(getEncoderPosition(), state.angle.getRadians());
 

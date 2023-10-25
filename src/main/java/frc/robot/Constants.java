@@ -43,6 +43,9 @@ public final class Constants {
   public static final String CANBUS = "rio";
   public static final String CANIVORE = "drivetrain";
 
+  public static final int CUBE_SENSOR_CHANNEL = 2;
+  public static final int CONE_SENSOR_CHANNEL = 3;
+
   /*
   GAMEPAD IDS BELOW
   */
@@ -70,10 +73,10 @@ public final class Constants {
   ALL WHEEL OFFSETS BELOW
   */
   public static double DRIVETRAIN_FRONT_LEFT_ENCODER_OFFSET =
-      (0.850830) * 2 * Math.PI; // number in parenthesis is in rotations
-  public static double DRIVETRAIN_FRONT_RIGHT_ENCODER_OFFSET = (0.496826) * 2 * Math.PI; // 0.884521
-  public static double DRIVETRAIN_BACK_LEFT_ENCODER_OFFSET = (0.235840) * 2 * Math.PI; //  0.063965
-  public static double DRIVETRAIN_BACK_RIGHT_ENCODER_OFFSET = (0.563232) * 2 * Math.PI; // 0.811768
+      (0.793945) * 2 * Math.PI; // number in parenthesis is in rotations
+  public static double DRIVETRAIN_FRONT_RIGHT_ENCODER_OFFSET = (0.489502) * 2 * Math.PI; // 0.884521
+  public static double DRIVETRAIN_BACK_LEFT_ENCODER_OFFSET = (0.234375) * 2 * Math.PI; //  0.063965
+  public static double DRIVETRAIN_BACK_RIGHT_ENCODER_OFFSET = (0.520752) * 2 * Math.PI; // 0.811768
 
   /*
   ALL MOTOR GEAR RATIOS BELOW
@@ -90,19 +93,19 @@ public final class Constants {
   */
   public static final double MAX_ANGLE_INACCURACY = Math.PI / 24;
 
-  public static final double BigArm_highTarget = 0.550246;
-  public static final double BigArm_mediumTarget = 0.439697;
-  public static final double BigArm_pickup = 0.381104;
-  public static final double BigArm_default = 0.386709;
-  public static final double BigArm_slider = 0.569092; // Fine tune
-  public static final double BigArm_pickupCone = 0.477295;
+  public static final double BigArm_highTarget = 0.578857;
+  public static final double BigArm_mediumTarget = 0.437500;
+  public static final double BigArm_pickup = 0.392578;
+  public static final double BigArm_default = 0.386475;
+  public static final double BigArm_slider = 0.595092; // Fine tune
+  public static final double BigArm_pickupCone = 0.47295;
 
-  public static final double SmallArm_highTarget = (0.052041 - 0.275391) + 0.15;
-  public static final double SmallArm_mediumTarget = (0.268994 - 0.275391) + 0.15;
-  public static final double SmallArm_pickup = (0.110840 - 0.275391) + 0.15;
-  public static final double SmallArm_default = (0.374062 - 0.275391) + 0.15;
-  public static final double SmallArm_Slider = (-0.077637 - 0.275391) + 0.15;
-  public static final double SmallArm_pickupCone = (-0.147461 - 0.275391) + 0.15;
+  public static final double SmallArm_highTarget = -0.105736;
+  public static final double SmallArm_mediumTarget = 0.164062;
+  public static final double SmallArm_pickup = -0.014551;
+  public static final double SmallArm_default = 0.322266;
+  public static final double SmallArm_Slider = -0.18003028;
+  public static final double SmallArm_pickupCone = -0.272852;
 
   // 15.479004 position for bigarm for smallarm to freely rotate
   // 42.833496 highest position for big arm
@@ -121,8 +124,8 @@ public final class Constants {
   public static final double ARM_SPEED = 0.005; // speed of the arms when adjusting manually
 
   // CHARGE STATION COMMUNITY DISTANCE:
-  public static final double encoderToChargeDistance = 96.4694981;
-
+  public static final double encoderToBlueChargeDistance = 96.4694981;
+  public static final double encoderToRedChargeDistance = 99;
   // public static final double encoderToChargeDistance = 45.4694981;
 
   public static final double encoderCenterCommunity = 100;

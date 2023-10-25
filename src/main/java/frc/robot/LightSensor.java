@@ -8,8 +8,8 @@ public class LightSensor {
   private AnalogInput analog;
   private AnalogTrigger trigger;
 
-  public LightSensor() {
-    analog = new AnalogInput(3);
+  public LightSensor(int channelNum) {
+    analog = new AnalogInput(channelNum);
     trigger = new AnalogTrigger(analog);
     analog.setAverageBits(2);
     trigger.setLimitsVoltage(1, 3);

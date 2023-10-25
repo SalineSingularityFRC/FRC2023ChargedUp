@@ -5,7 +5,6 @@ import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.Timer;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.ClawPneumatics;
 import frc.robot.subsystems.SwerveSubsystem;
@@ -64,16 +63,6 @@ public class Limelight {
     setpipeline(1);
   }
 
-  public void runLimelight() { // to put smartdashboard values
-    SmartDashboard.putNumber("tx", tx.getDouble(0.0));
-    SmartDashboard.putNumber("ty", ty.getDouble(0.0));
-    SmartDashboard.putNumber("ta", ta.getDouble(0.0));
-
-    SmartDashboard.putNumber("poseX", poseX);
-    SmartDashboard.putNumber("poseY", poseY);
-    SmartDashboard.putNumber("yaw", yaw);
-  }
-
   // turns on the LEDs
   public void ledOn() {
     ledMode.setDouble(3.0);
@@ -107,7 +96,8 @@ public class Limelight {
       SwerveSubsystem drive,
       ArmSubsystem arm,
       ClawPneumatics claw,
-      LightSensor lightSensor,
+      LightSensor cubeLightSensor,
+      LightSensor coneLightSensor,
       boolean isCube,
       boolean auton) {
 
@@ -131,7 +121,7 @@ public class Limelight {
           return true;
         }
       } else {
-        if (lightSensor.isSensed()) {
+        if (cubeLightSensor.isSensed()) {
           pickupTimer.start();
 
           double speed = turnController.calculate(tx.getDouble(0));
@@ -144,7 +134,7 @@ public class Limelight {
         }
       }
     } else {
-      if (lightSensor.isSensed()) { // we really want the sensor for this tbh
+      if (coneLightSensor.isSensed()) { // we really want the sensor for this tbh
         claw.setHigh();
         return true;
       }
@@ -160,34 +150,6 @@ public class Limelight {
       double y = driveController.calculate(ty.getDouble(0));
       if (y > 0) y += 0.06;
       if (y < 0) y -= 0.06;
-      SmartDashboard.putNumber("Calculated Y value", y);
-      // We see the target and are aimed at it, drive forwards now
-
-      // if (ty.getDouble(0) >= -18) {
-      //     // 0.26 is a specific multiplier that makes speed hit exactly 0.7 if ta is approx 0
-      // (very far away)
-      //     y = ((18 + ty.getDouble(0)) * 0.013) + minimumSpeed;
-      //     if(y > 0.35){
-      //         y = 0.35;
-      //     }
-
-      //     SmartDashboard.putNumber("y value", y);
-      // }
-
-      // if (tx.getDouble(0) >= 9.25) {
-      //     x = ((tx.getDouble(0) - 9.25) * 0.005) + minimumSpeed;
-      //     if (x < -0.1) {
-      //         x = -0.1;
-      //     }
-
-      //     x *= -1;
-      // }
-      // else if (tx.getDouble(0) < 8.75) {
-      //     x = (8.75 - (tx.getDouble(0)) * 0.005) + minimumSpeed;
-      //     if (x > 0.1) {
-      //         x = 0.1;
-      //     }
-      // }
 
       if (this.pickupTimer.get() == 0) {
         double speed = turnController.calculate(tx.getDouble(0));
@@ -204,28 +166,9 @@ public class Limelight {
       double speed = turnController.calculate(tx.getDouble(0));
       if (speed > 0) speed += 0.05;
       if (speed < 0) speed -= 0.05;
-      // if (tx.getDouble(0) >= 9.5) {
-      //     // 0.005 is a specific multiplier that makes speed hit exactly 0.2 if bot is off by 20
-      // degrees to the left
-      //     //speed = ((tx.getDouble(0) - 9.5) * 0.005) + minimumSpeed;
-      //     if(speed > 0.2){
-      //         speed = 0.2;
-      //     }
 
-      // }
-      // else if (tx.getDouble(0) <= 8.5) {
-      //     // 0.01 is a specific multiplier that makes speed hit exactly -0.2 if bot is off by 20
-      // degrees to the right
-      //     speed = ((8.5 - tx.getDouble(0)) * 0.01) + minimumSpeed;
-      //     if(speed > 0.2){
-      //         speed = 0.2;
-      //     }
-
-      //     speed *= -1; // because we want to turn clockwise here
-      // }
       if (turnController.atSetpoint()) {
         turnController.reset();
-        // drive.drive(new SwerveRequest(0 , 0, 0), false);
         return true; // we are angled correctly
       }
       if (pickup) {
@@ -240,7 +183,6 @@ public class Limelight {
 
   public boolean score(
       SwerveSubsystem drive, ArmSubsystem arm, ClawPneumatics claw, boolean isCube) {
-    // arm.defaultTarget();
     ledOn();
     if (isCube) {
       setpipeline(0);
@@ -265,61 +207,12 @@ public class Limelight {
       double speed = turnController.calculate(tx.getDouble(0));
       drive.drive(new SwerveRequest(-speed, 0, y * 2), false);
     }
-    // double robotAngle = (drive.getRobotAngle() % (Math.PI * 2)) * (180/Math.PI); // in angles
-    // double x = 0;
-    // double y = 0;
-
-    // // 0.00061 is a specific multipler to make the rotation peak at 0.15 (including min speed)
-    // double rotation = (180 - robotAngle) * 0.00061;
-    // if (rotation >= 0) {
-    //     rotation += minimumSpeed;
-    // }
-    // else {
-    //     rotation -= minimumSpeed;
-    // }
-
-    // if (ty.getDouble(0) >= 1.5) {
-    //     // 0.016 is a specific multiplier that makes speed hit exactly 0.3 if ty is approx 16.5
-    //     y = ((ty.getDouble(0) - 1.5) * 0.016) + minimumSpeed;
-    //     if(y > 0.3){
-    //         y = 0.30;
-    //     }
-    // }
-
-    // if (tx.getDouble(0) >= 14.5) {
-    //     x = ((tx.getDouble(0) - 14.5) * 0.0055) + minimumSpeed;
-    //     if (x < -0.15) {
-    //         x = -0.15;
-    //     }
-
-    //     x *= -1;
-    // }
-    // else if (tx.getDouble(0) < 13.5) {
-    //     x = (13.5 - (tx.getDouble(0)) * 0.0055) + minimumSpeed;
-    //     if (x > 0.15) {
-    //         x = 0.15;
-    //     }
-    // }
-
-    // if (tx.getDouble(0) <= 13.5 && tx.getDouble(0) >= 14.5 && ty.getDouble(0) <= 1.5
-    //                 && robotAngle <= 181 && robotAngle >= 179) {
-    //     scoringTimer.start();
-    //     arm.highTarget(scoringTimer);
-    //     if (scoringTimer.get() >= 1)  {
-    //         claw.setLow();
-    //         return true;
-    //     }
-    // }
-    // else {
-    //     drive.drive(new SwerveRequest(rotation, x, y), true); // we want field centric here
-    // }
 
     return false;
   }
 
   public void turnToAngle(SwerveSubsystem drive) {
-    double robotAngle = (drive.getRobotAngle() % (Math.PI * 2)) * (180 / Math.PI); // in degrees
-    SmartDashboard.putNumber("robotAngle", robotAngle);
+    double robotAngle = (drive.getRobotAngle() % (Math.PI * 2)) * (180 / Math.PI); // in degree
     double rotation = (180 - robotAngle) * 0.0061;
     if (rotation >= minimumSpeed) {
       rotation -= minimumSpeed;

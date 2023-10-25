@@ -5,7 +5,6 @@ import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.Timer;
-import edu.wpi.first.wpilibj.smartdashboard.*;
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.ClawPneumatics;
 import frc.robot.subsystems.SwerveSubsystem;
@@ -25,8 +24,6 @@ public class Gamepad {
   private Joystick driveController;
   private Joystick armController;
 
-  // private boolean isConstantMode;
-
   /**
    * @param driveControllerPort Controller port the drive controller is connected to, probably 0
    * @param armControllerPort Controller port the arm controller is connect to, probably 1
@@ -44,15 +41,11 @@ public class Gamepad {
   }
 
   public void armPneumatics(
-      ClawPneumatics clawPneumatics, LightSensor lightSensor, ArmSubsystem arm) {
-    // SmartDashboard.putBoolean("if True then not full yet", clawPneumatics.isNotFull());
+      ClawPneumatics clawPneumatics,
+      LightSensor coneLightSensor,
+      LightSensor cubeLightSensor,
+      ArmSubsystem arm) {
 
-    // if(armController.getRawButtonPressed(Constants.right_Button)) {
-    //     candle.turnOn();
-    // }
-    // if(armController.getRawButtonReleased(Constants.right_Button)) {
-    //     candle.turnOff();
-    // }
     if (clawCloseTimer.get() >= 0.25) {
       if ((arm.smallArmMotorPosition + (Constants.ARM_SPEED * 4.5)) < Constants.SmallArm_default) {
         arm.smallArmMotorPosition += Constants.ARM_SPEED * 4.5;
@@ -68,7 +61,11 @@ public class Gamepad {
       clawOpenTimer.reset();
     }
 
-    if (lightSensor.isSensed() && (armController.getRawButton(Constants.right_Button))) {
+    if (cubeLightSensor.isSensed() && (armController.getRawButton(Constants.right_Button))) {
+      clawPneumatics.setHigh();
+      clawCloseTimer.start();
+
+    } else if (!coneLightSensor.isSensed() && (armController.getRawButton(Constants.Back_Button))) {
       clawPneumatics.setHigh();
       clawCloseTimer.start();
     } else if (driveController.getRawButtonPressed(Constants.A_Button)) {
@@ -96,12 +93,11 @@ public class Gamepad {
       Limelight limelight,
       ArmSubsystem arm,
       ClawPneumatics claw,
-      LightSensor lightSensor) {
-    SmartDashboard.putBoolean("Is it coast", robotSubsystem.isCoast());
-    SmartDashboard.putNumber("PICKUP TIMER", limelight.pickupTimer.get());
-    SmartDashboard.putBoolean("PICKUPTIEMR CODE RAN THROUGH", false);
+      LightSensor cubeLightSensor,
+      LightSensor coneLightSensor) {
+
     if (limelight.pickupTimer.get() >= 0.9) {
-      SmartDashboard.putBoolean("PICKUPTIEMR CODE RAN THROUGH", true);
+
       robotSubsystem.drive(new SwerveSubsystem.SwerveRequest(0, 0, 0), true);
       claw.setHigh();
 
@@ -125,25 +121,17 @@ public class Gamepad {
       limelight.scoringTimer.reset();
       robotSubsystem.setBrakeMode();
     }
-    // if(armController.getRawButtonPressed(Constants.left_Button)){
-    //     limelight.isTurningDone = false;
-    //     limelight.turnController.setP(0.001);
-    // }
+
     if (armController.getRawButtonReleased(Constants.L_joystick_Button)
         || armController.getRawButtonReleased(Constants.R_joystick_Button)) {
       robotSubsystem.setCoastMode();
     }
 
     if (armController.getRawButton(Constants.L_joystick_Button) && !claw.isClawClosed) {
-      limelight.pickup(robotSubsystem, arm, claw, lightSensor, false, false);
+      limelight.pickup(robotSubsystem, arm, claw, cubeLightSensor, coneLightSensor, false, false);
     } else if (armController.getRawButton(Constants.R_joystick_Button) && !claw.isClawClosed) {
-      limelight.pickup(robotSubsystem, arm, claw, lightSensor, true, true);
-    }
-    // else if (armController.getRawButton(Constants.left_Button)) {
-    //     limelight.score(robotSubsystem, arm, claw, true);
-    // }
-
-    else { // no limelight commands`
+      limelight.pickup(robotSubsystem, arm, claw, cubeLightSensor, coneLightSensor, true, true);
+    } else { // no limelight commands`
       if (driveController.getRawButtonPressed(Constants.X_Button)) {
         robotSubsystem.resetGyro();
       }
@@ -166,14 +154,13 @@ public class Gamepad {
   }
 
   public void arm(ArmSubsystem arm) {
-    SmartDashboard.putNumber("Encoder value big arm", arm.bigArmMotor.getPosition().getValue());
-    SmartDashboard.putNumber("Encoder value small arm", arm.smallArmMotor.getPosition().getValue());
+
     if (highTargetTimer.get() >= 0.25) {
       arm.highTarget2();
       highTargetTimer.stop();
       highTargetTimer.reset();
     }
-    if (sliderTimer.get() >= 0.7) { // redo the timing for this
+    if (sliderTimer.get() >= 0.7) {
       arm.sliderTarget2();
       sliderTimer.stop();
       sliderTimer.reset();
@@ -207,17 +194,14 @@ public class Gamepad {
     } else if (driveController.getRawButtonPressed(Constants.Back_Button)
         || armController.getRawButtonPressed(Constants.B_Button)) {
       arm.mediumTarget();
-    } else if (armController.getRawButtonPressed(Constants.Back_Button)) {
-      arm.pickupFallenCone1();
-      pickupFallenConeTimer.start();
     } else if (driveController.getRawAxis(Constants.leftTrigger) > 0.05) {
       arm.setBigArmSpeed(-Constants.ARM_SPEED);
     } else if (driveController.getRawButton(Constants.left_Button)) {
       arm.setBigArmSpeed(Constants.ARM_SPEED);
     } else if (driveController.getRawAxis(Constants.rightTrigger) > 0.05) {
-      arm.setSmallArmSpeed(-Constants.ARM_SPEED);
+      arm.setSmallArmSpeed(-Constants.ARM_SPEED - .001);
     } else if (driveController.getRawButton(Constants.right_Button)) {
-      arm.setSmallArmSpeed(Constants.ARM_SPEED);
+      arm.setSmallArmSpeed(Constants.ARM_SPEED + .001);
     } else {
       arm.maintainPosition();
     }
