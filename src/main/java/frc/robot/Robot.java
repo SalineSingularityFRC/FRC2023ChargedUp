@@ -36,15 +36,15 @@ public class Robot extends TimedRobot {
     PD.setSwitchableChannel(true);
 
     robotSubsystem = new SwerveSubsystem();
-    teleopDrive = new Gamepad(Constants.DRIVE_CONTROLLER, Constants.ARM_CONTROLLER);
+    teleopDrive = new Gamepad(Constants.Gamepad.Controller.DRIVE, Constants.Gamepad.Controller.ARM);
     odometry = new SwerveOdometry(robotSubsystem);
 
     arm = new ArmSubsystem(false, true);
     clawPneumatics = new ClawPneumatics(9, 10, arm); // check these channel #s later
 
     limelight = new Limelight();
-    cubelightSensor = new LightSensor(Constants.CUBE_SENSOR_CHANNEL);
-    conelightSensor = new LightSensor(Constants.CONE_SENSOR_CHANNEL);
+    cubelightSensor = new LightSensor(Constants.Sensor.CUBE_CHANNEL);
+    conelightSensor = new LightSensor(Constants.Sensor.CONE_CHANNEL);
 
     m_robotContainer =
         new RobotContainer(

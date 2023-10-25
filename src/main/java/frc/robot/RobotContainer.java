@@ -51,6 +51,7 @@ public class RobotContainer {
     this.blueCenterCommand = new BlueCenterCommand(arm, clawPneumatics, drive, gyro, odometry);
     this.redCenterCommand = new RedCenterCommand(arm, clawPneumatics, drive, gyro, odometry);
 
+    // this.swerveCommand = new SwerveCommand(arm, clawPneumatics, drive, gyro, odometry);
     this.leftSideCommand = new LeftSideCommand(arm, clawPneumatics, drive, gyro, lime, cubeSensor);
     this.rightSideCommand =
         new RightSideCommand(arm, clawPneumatics, drive, gyro, lime, cubeSensor, odometry);
@@ -61,6 +62,7 @@ public class RobotContainer {
   public Command getAutonomousCommand() {
     // return blueCenterCommand;
     return redCenterCommand;
+    // return swerveCommand;
     // return rightSideCommand;
     // return leftSideCommand;
   }

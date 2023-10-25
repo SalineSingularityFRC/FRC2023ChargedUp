@@ -49,50 +49,55 @@ public class SwerveSubsystem implements Subsystem {
    */
   public SwerveSubsystem() {
     // gyro = new NavX(Port.kMXP);
-    gyro = new Pigeon2(Constants.GYRO_CANCODER_ID, Constants.CANIVORE);
+    gyro = new Pigeon2(Constants.CanId.CanCoder.GYRO, Constants.Canbus.DRIVE_TRAIN);
 
-    vectorKinematics[FL] = new Vector(Constants.TRACKWIDTH / 2.0, Constants.WHEELBASE / 2.0);
-    vectorKinematics[FR] = new Vector(Constants.TRACKWIDTH / 2.0, -Constants.WHEELBASE / 2.0);
-    vectorKinematics[BL] = new Vector(-Constants.TRACKWIDTH / 2.0, Constants.WHEELBASE / 2.0);
-    vectorKinematics[BR] = new Vector(-Constants.TRACKWIDTH / 2.0, -Constants.WHEELBASE / 2.0);
+    vectorKinematics[FL] =
+        new Vector(Constants.Measurement.TRACK_WIDTH / 2.0, Constants.Measurement.WHEELBASE / 2.0);
+    vectorKinematics[FR] =
+        new Vector(Constants.Measurement.TRACK_WIDTH / 2.0, -Constants.Measurement.WHEELBASE / 2.0);
+    vectorKinematics[BL] =
+        new Vector(-Constants.Measurement.TRACK_WIDTH / 2.0, Constants.Measurement.WHEELBASE / 2.0);
+    vectorKinematics[BR] =
+        new Vector(
+            -Constants.Measurement.TRACK_WIDTH / 2.0, -Constants.Measurement.WHEELBASE / 2.0);
 
     swerveKinematics = new SwerveKinematics(vectorKinematics);
 
     swerveModules[FL] =
         new SwerveModule(
-            Constants.FL_Motor_ID,
-            Constants.FL_ANGLE_ID,
-            Constants.FL_CANCODER_ID,
-            Constants.DRIVETRAIN_FRONT_LEFT_ENCODER_OFFSET,
-            Constants.CANIVORE,
-            Constants.FL_isInverted,
+            Constants.CanId.Motor.FL,
+            Constants.CanId.Angle.FL,
+            Constants.CanId.CanCoder.FL,
+            Constants.WheelOffset.FL,
+            Constants.Canbus.DRIVE_TRAIN,
+            Constants.Inverted.FL,
             "FL");
     swerveModules[FR] =
         new SwerveModule(
-            Constants.FR_Motor_ID,
-            Constants.FR_ANGLE_ID,
-            Constants.FR_CANCODER_ID,
-            Constants.DRIVETRAIN_FRONT_RIGHT_ENCODER_OFFSET,
-            Constants.CANIVORE,
-            Constants.FR_isInverted,
+            Constants.CanId.Motor.FR,
+            Constants.CanId.Angle.FR,
+            Constants.CanId.CanCoder.FR,
+            Constants.WheelOffset.FR,
+            Constants.Canbus.DRIVE_TRAIN,
+            Constants.Inverted.FR,
             "FR");
     swerveModules[BL] =
         new SwerveModule(
-            Constants.BL_Motor_ID,
-            Constants.BL_ANGLE_ID,
-            Constants.BL_CANCODER_ID,
-            Constants.DRIVETRAIN_BACK_LEFT_ENCODER_OFFSET,
-            Constants.CANIVORE,
-            Constants.BL_isInverted,
+            Constants.CanId.Motor.BL,
+            Constants.CanId.Angle.BL,
+            Constants.CanId.CanCoder.BL,
+            Constants.WheelOffset.BL,
+            Constants.Canbus.DRIVE_TRAIN,
+            Constants.Inverted.BL,
             "BL");
     swerveModules[BR] =
         new SwerveModule(
-            Constants.BR_Motor_ID,
-            Constants.BR_ANGLE_ID,
-            Constants.BR_CANCODER_ID,
-            Constants.DRIVETRAIN_BACK_RIGHT_ENCODER_OFFSET,
-            Constants.CANIVORE,
-            Constants.BR_isInverted,
+            Constants.CanId.Motor.BR,
+            Constants.CanId.Angle.BR,
+            Constants.CanId.CanCoder.BR,
+            Constants.WheelOffset.BR,
+            Constants.Canbus.DRIVE_TRAIN,
+            Constants.Inverted.BR,
             "BR");
   }
 
@@ -113,9 +118,11 @@ public class SwerveSubsystem implements Subsystem {
     double currentRobotAngle = getRobotAngle();
     ChassisVelocity chassisVelocity;
 
-    // this is to make sure if both the joysticks are at neutral position, the robot and wheels
+    // this is to make sure if both the joysticks are at neutral position, the robot
+    // and wheels
     // don't move or turn at all
-    // 0.05 value can be increased if the joystick is increasingly inaccurate at neutral position
+    // 0.05 value can be increased if the joystick is increasingly inaccurate at
+    // neutral position
     if (Math.abs(swerveRequest.movement.x) < 0.05
         && Math.abs(swerveRequest.movement.y) < 0.05
         && Math.abs(swerveRequest.rotation) < 0.05) {
@@ -145,10 +152,13 @@ public class SwerveSubsystem implements Subsystem {
     double y = swerveRequest.movement.y;
 
     /*
-    This is to change the vector value from robo centric to field centric
-    The code is used to calculate the x and y components of the joystick input in the field-centric coordinate system.
-    The difference variable is the difference between the robot’s orientation and the field’s orientation.
-    The code uses Math.sin() and Math.cos() functions to calculate the x and y components of the joystick input in the field-centric coordinate system
+     * This is to change the vector value from robo centric to field centric
+     * The code is used to calculate the x and y components of the joystick input in
+     * the field-centric coordinate system.
+     * The difference variable is the difference between the robot’s orientation and
+     * the field’s orientation.
+     * The code uses Math.sin() and Math.cos() functions to calculate the x and y
+     * components of the joystick input in the field-centric coordinate system
      */
     if (fieldCentric) {
       double difference = (currentRobotAngle - startingAngle) % (2 * Math.PI);
@@ -175,7 +185,8 @@ public class SwerveSubsystem implements Subsystem {
       // String string = "wheel #" + i;
 
       // These if else are to swap the moduleOutputs for the FR and BL modules
-      // TO-DO research on why we need this, but for now, it works as it is so its fine
+      // TO-DO research on why we need this, but for now, it works as it is so its
+      // fine
       if (i == 1) {
         i = 2;
         request = driveInstructions(moduleOutputs[i]);
@@ -187,14 +198,17 @@ public class SwerveSubsystem implements Subsystem {
       } else {
         request = driveInstructions(moduleOutputs[i]);
         /*
-        this method is used to convert the vector that the swerveKinematics outputs for each wheel
-        into direction and speed instructions that the module.drive method can take in
-        */
+         * this method is used to convert the vector that the swerveKinematics outputs
+         * for each wheel
+         * into direction and speed instructions that the module.drive method can take
+         * in
+         */
       }
 
       if (request.direction != 0) {
         request.direction = (2 * Math.PI) - request.direction;
-        // IMPORTANT: this bit is to convert the direction from clockwise to counterclockwise
+        // IMPORTANT: this bit is to convert the direction from clockwise to
+        // counterclockwise
         // Their kinematics class outputs clockwise degree, but our methods take in a
         // counterclockwise degree
       }
@@ -229,13 +243,14 @@ public class SwerveSubsystem implements Subsystem {
   /*
    * This method takes a field-centric
    * direction vector for
-   * which way the module should travel and outputs the SwerveDriveRequest instruction for the individual module
+   * which way the module should travel and outputs the SwerveDriveRequest
+   * instruction for the individual module
    */
   public SwerveDriveRequest driveInstructions(Vector vector) {
     double x = vector.x;
     double y = vector.y;
 
-    double speed = Math.sqrt(Math.pow(x, 2) + Math.pow(y, 2)) / Constants.SPEED_DIVISOR;
+    double speed = Math.sqrt(Math.pow(x, 2) + Math.pow(y, 2)) / Constants.Speed.ROBOT_SPEED_DIVISOR;
     double angle;
 
     if (y == 0) { // y = 0 wouldn't work because fraction
@@ -267,7 +282,8 @@ public class SwerveSubsystem implements Subsystem {
     // return ((360 - gyro.getAngle().toDegrees()) * Math.PI) / 180; // for NavX
     return ((180 - (gyro.getAngle() - gyroZero)) * Math.PI)
         / 180; // returns in counterclockwise hence why 360 minus
-    // it is gyro.getAngle() - 180 because the pigeon for this robot is facing backwards
+    // it is gyro.getAngle() - 180 because the pigeon for this robot is facing
+    // backwards
   }
 
   public void resetGyro() {
