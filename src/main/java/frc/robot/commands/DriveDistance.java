@@ -1,7 +1,6 @@
 package frc.robot.commands;
 
 import edu.wpi.first.math.controller.PIDController;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.SwerveSubsystem;
 
@@ -51,27 +50,15 @@ public class DriveDistance extends CommandBase {
    *  subsystem is moving to, the command might set the target position for the subsystem in initialize() and have an empty execute() method.
    */
   public void execute() {
-    // double rotations;
-    // double startingAngle = drive.getRobotAngle();
+
     double x = -Math.sin(angle);
     double y = Math.cos(angle);
-    SmartDashboard.putNumber("CHANGEIN ENCODER", changeInEncoderValue);
-    SmartDashboard.putNumber("DISTANCE ", distance);
+
     if (Math.abs(changeInEncoderValue) <= distance) {
-      // double difference = drive.getRobotAngle() - startingAngle;
-      // if (difference > 0.01) { // robot is facing left of the desired angle
-      //     rotations = 0.1;
-      // }
-      // else if (difference < 0.01) { // robot is facing right of the desired angle
-      //     rotations = -0.1;
-      // }
-      // else { // robot is (relatively) straight
-      //     rotations = 0;
-      // }
 
       changeInEncoderValue = drive.getSwerveModule(0).getPosition() - startingEncoderValue;
       double multiplier = this.controller.calculate(changeInEncoderValue);
-      // if(pos == 2) multiplier = -multiplier;
+
       x *= multiplier;
       y *= multiplier;
       if (x > speed) x = speed;

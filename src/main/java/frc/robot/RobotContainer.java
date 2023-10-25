@@ -6,26 +6,29 @@ package frc.robot;
 import com.ctre.phoenixpro.hardware.Pigeon2;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.SwerveClasses.SwerveOdometry;
-import frc.robot.auton.CenterCommand;
+import frc.robot.auton.BlueCenterCommand;
 import frc.robot.auton.LeftSideCommand;
+import frc.robot.auton.RedCenterCommand;
 import frc.robot.auton.RightSideCommand;
+import frc.robot.auton.SwerveCommand;
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.ClawPneumatics;
 import frc.robot.subsystems.SwerveSubsystem;
 
 public class RobotContainer {
 
-  // SendableChooser<Boolean> isCenter = new SendableChooser<>();
-
-  private CenterCommand centerCommand;
+  private BlueCenterCommand blueCenterCommand;
+  private RedCenterCommand redCenterCommand;
   private LeftSideCommand leftSideCommand;
   private RightSideCommand rightSideCommand;
+  private SwerveCommand swerveCommand;
   protected ClawPneumatics clawPneumatics;
   protected SwerveSubsystem drive;
   protected ArmSubsystem arm;
   protected Pigeon2 gyro;
   protected Limelight lime;
-  protected LightSensor sensor;
+  protected LightSensor cubeSensor;
+  protected LightSensor coneSensor;
 
   public RobotContainer(
       ArmSubsystem arm,
@@ -33,28 +36,31 @@ public class RobotContainer {
       SwerveSubsystem drive,
       Pigeon2 gyro,
       Limelight lime,
-      LightSensor sensor,
+      LightSensor cubeSensor,
+      LightSensor coneSensor,
       SwerveOdometry odometry) {
     configureBindings();
-    // SmartDashboard.putData(isCenter);
+
     this.clawPneumatics = clawPneumatics;
     this.drive = drive;
     this.arm = arm;
     this.gyro = gyro;
     this.lime = lime;
-    this.sensor = sensor;
+    this.cubeSensor = cubeSensor;
 
-    this.centerCommand = new CenterCommand(arm, clawPneumatics, drive, gyro, odometry);
-    this.leftSideCommand = new LeftSideCommand(arm, clawPneumatics, drive, gyro, lime, sensor);
-    this.rightSideCommand = new RightSideCommand(arm, clawPneumatics, drive, gyro, lime, sensor);
-    // isCenter.setDefaultOption("Center Auto", centerCommand);
-    // isCenter.addOption("Side Auto", sideCommand);
+    this.blueCenterCommand = new BlueCenterCommand(arm, clawPneumatics, drive, gyro, odometry);
+    this.redCenterCommand = new RedCenterCommand(arm, clawPneumatics, drive, gyro, odometry);
+
+    this.leftSideCommand = new LeftSideCommand(arm, clawPneumatics, drive, gyro, lime, cubeSensor);
+    this.rightSideCommand =
+        new RightSideCommand(arm, clawPneumatics, drive, gyro, lime, cubeSensor, odometry);
   }
 
   private void configureBindings() {}
 
   public Command getAutonomousCommand() {
-    return centerCommand;
+    // return blueCenterCommand;
+    return redCenterCommand;
     // return rightSideCommand;
     // return leftSideCommand;
   }

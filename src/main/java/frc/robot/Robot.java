@@ -6,7 +6,6 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.PowerDistribution;
 import edu.wpi.first.wpilibj.TimedRobot;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.SwerveClasses.SwerveOdometry;
@@ -24,10 +23,9 @@ public class Robot extends TimedRobot {
   private ArmSubsystem arm;
   private ClawPneumatics clawPneumatics;
   private Limelight limelight;
-  private LightSensor lightSensor;
+  private LightSensor cubelightSensor;
+  private LightSensor conelightSensor;
   private SwerveOdometry odometry;
-
-  // private CANdleSystem candle;
 
   @Override
   public void robotInit() {
@@ -45,7 +43,8 @@ public class Robot extends TimedRobot {
     clawPneumatics = new ClawPneumatics(9, 10, arm); // check these channel #s later
 
     limelight = new Limelight();
-    lightSensor = new LightSensor();
+    cubelightSensor = new LightSensor(Constants.CUBE_SENSOR_CHANNEL);
+    conelightSensor = new LightSensor(Constants.CONE_SENSOR_CHANNEL);
 
     m_robotContainer =
         new RobotContainer(
@@ -54,21 +53,16 @@ public class Robot extends TimedRobot {
             robotSubsystem,
             robotSubsystem.gyro,
             limelight,
-            lightSensor,
+            cubelightSensor,
+            conelightSensor,
             odometry);
     robotSubsystem.resetGyro();
-
-    // candle = new CANdleSystem();
   }
 
   @Override
   public void robotPeriodic() {
     CommandScheduler.getInstance().run();
-    SmartDashboard.putNumber("ROBOT ANGLE ALL THE TIME", robotSubsystem.getRobotAngle());
-    SmartDashboard.putNumber("ROBOT GYGROZERO ANGLE ALL THE TIME", robotSubsystem.gyroZero);
     odometry.update();
-    SmartDashboard.putNumber("Odometry X", odometry.getX());
-    SmartDashboard.putNumber("Odometry Y", odometry.getY());
   }
 
   @Override
@@ -84,9 +78,9 @@ public class Robot extends TimedRobot {
   public void autonomousInit() {
 
     m_autonomousCommand = m_robotContainer.getAutonomousCommand();
-    // robotSubsystem.resetGyro();
+
     robotSubsystem.setBrakeMode();
-    // odometry.resetPosition();
+
     if (m_autonomousCommand != null) {
 
       m_autonomousCommand.schedule();
@@ -103,9 +97,7 @@ public class Robot extends TimedRobot {
 
   @Override
   public void teleopInit() {
-    // CommandScheduler.getInstance().setDefaultCommand( (Subsystem)
-    //  m_robotContainer.getDrivetrainSubsystem(),
-    // m_robotContainer.getDefaultCommand());
+
     if (m_autonomousCommand != null) {
       m_autonomousCommand.cancel();
     }
@@ -114,17 +106,10 @@ public class Robot extends TimedRobot {
 
   @Override
   public void teleopPeriodic() {
-    teleopDrive.swerveDrive(robotSubsystem, limelight, arm, clawPneumatics, lightSensor);
+    teleopDrive.swerveDrive(
+        robotSubsystem, limelight, arm, clawPneumatics, cubelightSensor, conelightSensor);
     teleopDrive.arm(arm);
-    teleopDrive.armPneumatics(clawPneumatics, lightSensor, arm);
-    teleopDrive.swerveDrive(robotSubsystem, limelight, arm, clawPneumatics, lightSensor);
-    limelight.runLimelight();
-    SmartDashboard.putBoolean("is target found", limelight.getIsTargetFound());
-    SmartDashboard.putNumber("gyro", robotSubsystem.getRobotAngle());
-
-    SmartDashboard.putBoolean("is sensed", lightSensor.isSensed());
-    SmartDashboard.putNumber("volts", lightSensor.volts());
-
+    teleopDrive.armPneumatics(clawPneumatics, cubelightSensor, conelightSensor, arm);
     CommandScheduler.getInstance().run();
   }
 
