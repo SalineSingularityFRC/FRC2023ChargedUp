@@ -48,10 +48,14 @@ public class SwerveCommand extends SequentialCommandGroup {
     this.thetaController.enableContinuousInput(-Math.PI, Math.PI);
     this.kinematics =
         new SwerveDriveKinematics(
-            new Translation2d(Constants.TRACKWIDTH / 2.0, Constants.WHEELBASE / 2.0),
-            new Translation2d(Constants.TRACKWIDTH / 2.0, -Constants.WHEELBASE / 2.0),
-            new Translation2d(-Constants.TRACKWIDTH / 2.0, Constants.WHEELBASE / 2.0),
-            new Translation2d(-Constants.TRACKWIDTH / 2.0, -Constants.WHEELBASE / 2.0));
+            new Translation2d(
+                Constants.Measurement.TRACK_WIDTH / 2.0, Constants.Measurement.WHEELBASE / 2.0),
+            new Translation2d(
+                Constants.Measurement.TRACK_WIDTH / 2.0, -Constants.Measurement.WHEELBASE / 2.0),
+            new Translation2d(
+                -Constants.Measurement.TRACK_WIDTH / 2.0, Constants.Measurement.WHEELBASE / 2.0),
+            new Translation2d(
+                -Constants.Measurement.TRACK_WIDTH / 2.0, -Constants.Measurement.WHEELBASE / 2.0));
     this.config =
         new TrajectoryConfig(1, 1)
             // Add kinematics to ensure max speed is actually obeyed
