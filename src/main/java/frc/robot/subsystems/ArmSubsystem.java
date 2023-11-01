@@ -57,26 +57,26 @@ public class ArmSubsystem {
   public double smallArmMotorPosition;
 
   public ArmSubsystem(boolean bigArmIsInverted, boolean smallArmIsInverted) {
-    smallArmMotor = new TalonFX(Constants.SMALL_ARM_MOTOR_ID, Constants.CANBUS);
+    smallArmMotor = new TalonFX(Constants.CanId.Arm.Motor.SMALL_ARM, Constants.Canbus.DEFAULT);
 
     TalonFXConfiguration config = new TalonFXConfiguration();
     config.Feedback.FeedbackSensorSource = FeedbackSensorSourceValue.RemoteCANcoder;
-    config.Feedback.FeedbackRemoteSensorID = Constants.SMALL_ARM_CANCODER_ID;
+    config.Feedback.FeedbackRemoteSensorID = Constants.CanId.CanCoder.SMALL_ARM;
     config.MotorOutput.NeutralMode = NeutralModeValue.Brake;
     smallArmMotor.getConfigurator().apply(config);
     smallArmMotor.setInverted(smallArmIsInverted);
 
-    bigArmMotor = new TalonFX(Constants.BIG_ARM_Motor_ID, Constants.CANBUS);
+    bigArmMotor = new TalonFX(Constants.CanId.Arm.Motor.BIG_ARM, Constants.Canbus.DEFAULT);
 
     config = new TalonFXConfiguration();
     config.Feedback.FeedbackSensorSource = FeedbackSensorSourceValue.RemoteCANcoder;
-    config.Feedback.FeedbackRemoteSensorID = Constants.BIG_ARM_CANCODER_ID;
+    config.Feedback.FeedbackRemoteSensorID = Constants.CanId.CanCoder.BIG_ARM;
     config.MotorOutput.NeutralMode = NeutralModeValue.Brake;
     bigArmMotor.getConfigurator().apply(config);
     bigArmMotor.setInverted(bigArmIsInverted);
 
-    bigArmMotor2 = new TalonFX(Constants.BIG_ARM_Motor_2_ID, Constants.CANBUS);
-    bigArmMotor2.setControl(new Follower(Constants.BIG_ARM_Motor_ID, true));
+    bigArmMotor2 = new TalonFX(Constants.CanId.Arm.Motor.BIG_ARM_2, Constants.Canbus.DEFAULT);
+    bigArmMotor2.setControl(new Follower(Constants.CanId.Arm.Motor.BIG_ARM, true));
 
     Slot0Configs slot0ConfigsSmall = new Slot0Configs();
     Slot0Configs slot0ConfigsBig = new Slot0Configs();
@@ -179,11 +179,11 @@ public class ArmSubsystem {
   public void
       highTarget1() { // these individual commands labeled 1 and 2 are for gamepad to call (so you
     // only need to press it once)
-    bigArmPosition(Constants.BigArm_highTarget);
+    bigArmPosition(Constants.Position.BigArm.HIGH);
   }
 
   public void highTarget2() {
-    smallArmPosition(Constants.SmallArm_highTarget);
+    smallArmPosition(Constants.Position.SmallArm.HIGH);
   }
 
   public void sliderTarget(Timer timer) { // same comment as highTarget
@@ -194,31 +194,31 @@ public class ArmSubsystem {
   }
 
   public void sliderTarget1() { // same comment as highTarget1
-    bigArmPosition(Constants.BigArm_slider);
+    bigArmPosition(Constants.Position.BigArm.SLIDER);
   }
 
   public void sliderTarget2() {
-    smallArmPosition(Constants.SmallArm_Slider);
+    smallArmPosition(Constants.Position.SmallArm.SLIDER);
   }
 
   public void mediumTarget() {
-    setPosition(Constants.SmallArm_mediumTarget, Constants.BigArm_mediumTarget);
+    setPosition(Constants.Position.SmallArm.MEDIUM, Constants.Position.BigArm.MEDIUM);
   }
 
   public void pickupTarget() {
-    setPosition(Constants.SmallArm_pickup, Constants.BigArm_pickup);
+    setPosition(Constants.Position.SmallArm.PICKUP, Constants.Position.BigArm.PICKUP);
   }
 
   public void pickupFallenCone1() {
-    bigArmPosition(Constants.BigArm_pickupCone);
+    bigArmPosition(Constants.Position.BigArm.PICKUPCONE);
   }
 
   public void pickupFallenCone2() {
-    smallArmPosition(Constants.SmallArm_pickupCone);
+    smallArmPosition(Constants.Position.SmallArm.PICKUP_CONE);
   }
 
   public void defaultTarget() {
-    setPosition(Constants.SmallArm_default, Constants.BigArm_default);
+    setPosition(Constants.Position.SmallArm.DEFAULT, Constants.Position.BigArm.DEFAULT);
   }
 
   public void defaultTargetTimer(Timer timer) {
@@ -229,11 +229,11 @@ public class ArmSubsystem {
   }
 
   public void defaultTarget1() {
-    smallArmPosition(Constants.SmallArm_default);
+    smallArmPosition(Constants.Position.SmallArm.DEFAULT);
   }
 
   public void defaultTarget2() {
-    bigArmPosition(Constants.BigArm_default);
+    bigArmPosition(Constants.Position.BigArm.DEFAULT);
   }
 
   public void maintainPosition() {

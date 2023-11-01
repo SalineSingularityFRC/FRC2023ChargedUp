@@ -46,10 +46,14 @@ public class BlueCenterCommand extends SequentialCommandGroup {
     this.thetaController.enableContinuousInput(-Math.PI, Math.PI);
     this.kinematics =
         new SwerveDriveKinematics(
-            new Translation2d(Constants.TRACKWIDTH / 2.0, Constants.WHEELBASE / 2.0),
-            new Translation2d(Constants.TRACKWIDTH / 2.0, -Constants.WHEELBASE / 2.0),
-            new Translation2d(-Constants.TRACKWIDTH / 2.0, Constants.WHEELBASE / 2.0),
-            new Translation2d(-Constants.TRACKWIDTH / 2.0, -Constants.WHEELBASE / 2.0));
+            new Translation2d(
+                Constants.Measurement.TRACK_WIDTH / 2.0, Constants.Measurement.WHEELBASE / 2.0),
+            new Translation2d(
+                Constants.Measurement.TRACK_WIDTH / 2.0, -Constants.Measurement.WHEELBASE / 2.0),
+            new Translation2d(
+                -Constants.Measurement.TRACK_WIDTH / 2.0, Constants.Measurement.WHEELBASE / 2.0),
+            new Translation2d(
+                -Constants.Measurement.TRACK_WIDTH / 2.0, -Constants.Measurement.WHEELBASE / 2.0));
     TrajectoryConfig config =
         new TrajectoryConfig(3, 3)
             // Add kinematics to ensure max speed is actually obeyed
@@ -58,7 +62,7 @@ public class BlueCenterCommand extends SequentialCommandGroup {
     addCommands(
         new SetClawPreset(arm, 4),
         new SetClawPneumatics(clawPneumatics, 1, arm),
-        new DriveDistance(drive, Constants.encoderToBlueChargeDistance, 0, 0.4, true)
+        new DriveDistance(drive, Constants.Distance.TO_BLUE_CHARGE_STATION, 0, 0.4, true)
             .alongWith(new SetClawPreset(arm, 1)),
         new AutonTime(1),
         new DriveDistance(drive, 51, Math.PI, 0.19, true),
