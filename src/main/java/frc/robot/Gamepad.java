@@ -47,8 +47,9 @@ public class Gamepad {
       ArmSubsystem arm) {
 
     if (clawCloseTimer.get() >= 0.25) {
-      if ((arm.smallArmMotorPosition + (Constants.ARM_SPEED * 4.5)) < Constants.SmallArm_default) {
-        arm.smallArmMotorPosition += Constants.ARM_SPEED * 4.5;
+      if ((arm.smallArmMotorPosition + (Constants.Speed.ARM * 4.5))
+          < Constants.Position.SmallArm.DEFAULT) {
+        arm.smallArmMotorPosition += Constants.Speed.ARM * 4.5;
         arm.maintainPosition();
       }
       clawCloseTimer.stop();
@@ -61,17 +62,19 @@ public class Gamepad {
       clawOpenTimer.reset();
     }
 
-    if (cubeLightSensor.isSensed() && (armController.getRawButton(Constants.right_Button))) {
+    if (cubeLightSensor.isSensed()
+        && (armController.getRawButton(Constants.Gamepad.Button.RIGHT))) {
       clawPneumatics.setHigh();
       clawCloseTimer.start();
 
-    } else if (!coneLightSensor.isSensed() && (armController.getRawButton(Constants.Back_Button))) {
+    } else if (!coneLightSensor.isSensed()
+        && (armController.getRawButton(Constants.Gamepad.Button.BACK))) {
       clawPneumatics.setHigh();
       clawCloseTimer.start();
-    } else if (driveController.getRawButtonPressed(Constants.A_Button)) {
+    } else if (driveController.getRawButtonPressed(Constants.Gamepad.Button.A)) {
       if (clawPneumatics.isClawClosed) {
-        if (arm.bigArmMotorPosition > Constants.BigArm_pickup) {
-          arm.smallArmMotorPosition -= Constants.ARM_SPEED * 9;
+        if (arm.bigArmMotorPosition > Constants.Position.BigArm.PICKUP) {
+          arm.smallArmMotorPosition -= Constants.Speed.ARM * 9;
         }
         arm.maintainPosition();
         clawOpenTimer.start();
@@ -79,11 +82,11 @@ public class Gamepad {
         clawPneumatics.setHigh();
         clawCloseTimer.start();
       }
-    } else if (driveController.getRawButtonReleased(Constants.A_Button)) {
+    } else if (driveController.getRawButtonReleased(Constants.Gamepad.Button.A)) {
       clawPneumatics.setOff();
     }
 
-    if (driveController.getRawButtonPressed(Constants.B_Button)) {
+    if (driveController.getRawButtonPressed(Constants.Gamepad.Button.B)) {
       clawPneumatics.toggleCompressor();
     }
   }
@@ -110,8 +113,8 @@ public class Gamepad {
       limelight.turnToAngle(robotSubsystem);
     }
 
-    if (armController.getRawButtonPressed(Constants.L_joystick_Button)
-        || armController.getRawButtonPressed(Constants.R_joystick_Button)) {
+    if (armController.getRawButtonPressed(Constants.Gamepad.Button.L_JOYSTICK)
+        || armController.getRawButtonPressed(Constants.Gamepad.Button.R_JOYSTICK)) {
       claw.setLow();
       limelight.turnController.setP(0.0025);
       limelight.isTurningDone = false;
@@ -122,21 +125,22 @@ public class Gamepad {
       robotSubsystem.setBrakeMode();
     }
 
-    if (armController.getRawButtonReleased(Constants.L_joystick_Button)
-        || armController.getRawButtonReleased(Constants.R_joystick_Button)) {
+    if (armController.getRawButtonReleased(Constants.Gamepad.Button.L_JOYSTICK)
+        || armController.getRawButtonReleased(Constants.Gamepad.Button.R_JOYSTICK)) {
       robotSubsystem.setCoastMode();
     }
 
-    if (armController.getRawButton(Constants.L_joystick_Button) && !claw.isClawClosed) {
+    if (armController.getRawButton(Constants.Gamepad.Button.L_JOYSTICK) && !claw.isClawClosed) {
       limelight.pickup(robotSubsystem, arm, claw, cubeLightSensor, coneLightSensor, false, false);
-    } else if (armController.getRawButton(Constants.R_joystick_Button) && !claw.isClawClosed) {
+    } else if (armController.getRawButton(Constants.Gamepad.Button.R_JOYSTICK)
+        && !claw.isClawClosed) {
       limelight.pickup(robotSubsystem, arm, claw, cubeLightSensor, coneLightSensor, true, true);
     } else { // no limelight commands`
-      if (driveController.getRawButtonPressed(Constants.X_Button)) {
+      if (driveController.getRawButtonPressed(Constants.Gamepad.Button.X)) {
         robotSubsystem.resetGyro();
       }
 
-      if (armController.getRawButton(Constants.left_Button)) {
+      if (armController.getRawButton(Constants.Gamepad.Button.LEFT)) {
         if (robotSubsystem.isCoast()) {
           robotSubsystem.setBrakeMode();
         } else {
@@ -146,9 +150,9 @@ public class Gamepad {
 
       robotSubsystem.drive(
           new SwerveSubsystem.SwerveRequest(
-              driveController.getRawAxis(Constants.rightJoystickXAxis),
-              -driveController.getRawAxis(Constants.leftJoystickXAxis),
-              -driveController.getRawAxis(Constants.leftJoystickYAxis)),
+              driveController.getRawAxis(Constants.Gamepad.Axis.RIGHT),
+              -driveController.getRawAxis(Constants.Gamepad.Axis.LEFT_X),
+              -driveController.getRawAxis(Constants.Gamepad.Axis.LEFT_Y)),
           true);
     }
   }
@@ -176,32 +180,36 @@ public class Gamepad {
       pickupFallenConeTimer.reset();
     }
 
-    if (driveController.getRawButtonPressed(Constants.R_joystick_Button)
-        || armController.getRawButtonPressed(Constants.X_Button)) {
+    if (driveController.getRawButtonPressed(Constants.Gamepad.Button.R_JOYSTICK)
+        || armController.getRawButtonPressed(Constants.Gamepad.Button.X)) {
       arm.defaultTarget1();
       defaultTimer.start();
-    } else if (driveController.getRawButtonPressed(Constants.L_joystick_Button)
-        || armController.getRawButtonPressed(Constants.A_Button)) {
+    } else if (driveController.getRawButtonPressed(Constants.Gamepad.Button.L_JOYSTICK)
+        || armController.getRawButtonPressed(Constants.Gamepad.Button.A)) {
       arm.pickupTarget();
-    } else if (driveController.getRawButtonPressed(Constants.Start_Button)
-        || armController.getRawButtonPressed(Constants.Y_Button)) {
+    } else if (driveController.getRawButtonPressed(Constants.Gamepad.Button.START)
+        || armController.getRawButtonPressed(Constants.Gamepad.Button.Y)) {
       arm.highTarget1();
       highTargetTimer.start();
-    } else if (driveController.getRawButtonPressed(Constants.Y_Button)
-        || armController.getRawButtonPressed(Constants.Start_Button)) {
+    } else if (driveController.getRawButtonPressed(Constants.Gamepad.Button.Y)
+        || armController.getRawButtonPressed(Constants.Gamepad.Button.START)) {
       arm.sliderTarget1();
       sliderTimer.start();
-    } else if (driveController.getRawButtonPressed(Constants.Back_Button)
-        || armController.getRawButtonPressed(Constants.B_Button)) {
+    } else if (driveController.getRawButtonPressed(Constants.Gamepad.Button.BACK)
+        || armController.getRawButtonPressed(Constants.Gamepad.Button.B)) {
       arm.mediumTarget();
-    } else if (driveController.getRawAxis(Constants.leftTrigger) > 0.05) {
-      arm.setBigArmSpeed(-Constants.ARM_SPEED);
-    } else if (driveController.getRawButton(Constants.left_Button)) {
-      arm.setBigArmSpeed(Constants.ARM_SPEED);
-    } else if (driveController.getRawAxis(Constants.rightTrigger) > 0.05) {
-      arm.setSmallArmSpeed(-Constants.ARM_SPEED - .001);
-    } else if (driveController.getRawButton(Constants.right_Button)) {
-      arm.setSmallArmSpeed(Constants.ARM_SPEED + .001);
+      // } else if (armController.getRawButtonPressed(Constants.Back_Button)) {
+
+      //   arm.pickupFallenCone1();
+      //   pickupFallenConeTimer.start();
+    } else if (driveController.getRawAxis(Constants.Gamepad.Trigger.LEFT) > 0.05) {
+      arm.setBigArmSpeed(-Constants.Speed.ARM);
+    } else if (driveController.getRawButton(Constants.Gamepad.Button.LEFT)) {
+      arm.setBigArmSpeed(Constants.Speed.ARM);
+    } else if (driveController.getRawAxis(Constants.Gamepad.Button.RIGHT) > 0.05) {
+      arm.setSmallArmSpeed(-Constants.Speed.ARM - .001);
+    } else if (driveController.getRawButton(Constants.Gamepad.Button.RIGHT)) {
+      arm.setSmallArmSpeed(Constants.Speed.ARM + .001);
     } else {
       arm.maintainPosition();
     }

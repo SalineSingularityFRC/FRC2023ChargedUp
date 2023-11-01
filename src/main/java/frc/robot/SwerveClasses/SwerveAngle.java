@@ -110,10 +110,10 @@ public class SwerveAngle {
     // Let's drive
     angleMotor.setControl(
         positionTarget.withPosition(
-            Constants.ANGLE_MOTOR_GEAR_RATIO * (targetAngle / (2 * Math.PI))));
+            Constants.MotorGearRatio.ANGLE * (targetAngle / (2 * Math.PI))));
 
-    if (Math.abs(delta % Math.PI) > Constants.MAX_ANGLE_INACCURACY
-        && Math.abs(delta % Math.PI) < Math.PI - Constants.MAX_ANGLE_INACCURACY) {
+    if (Math.abs(delta % Math.PI) > Constants.AngleInaccuracy.MAX
+        && Math.abs(delta % Math.PI) < Math.PI - Constants.AngleInaccuracy.MAX) {
       return AnglePosition.Moving; // Wheel is still in the process of turning
     }
     return currentPosition;
@@ -125,7 +125,7 @@ public class SwerveAngle {
    */
   private double getAngle() {
     double talonRadians = (angleMotor.getPosition().getValue() * 2 * Math.PI);
-    double wheelRadians = talonRadians / Constants.ANGLE_MOTOR_GEAR_RATIO;
+    double wheelRadians = talonRadians / Constants.MotorGearRatio.ANGLE;
     return wheelRadians - zeroPositionOffset;
   }
 
