@@ -4,6 +4,8 @@
 package frc.robot;
 
 import com.ctre.phoenixpro.hardware.Pigeon2;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.SwerveClasses.SwerveOdometry;
 import frc.robot.auton.BlueCenterCommand;
@@ -29,6 +31,7 @@ public class RobotContainer {
   protected Limelight lime;
   protected LightSensor cubeSensor;
   protected LightSensor coneSensor;
+  private SendableChooser<Command> autonChooser;
 
   public RobotContainer(
       ArmSubsystem arm,
@@ -54,14 +57,19 @@ public class RobotContainer {
     this.leftSideCommand = new LeftSideCommand(arm, clawPneumatics, drive, gyro, lime, cubeSensor);
     this.rightSideCommand =
         new RightSideCommand(arm, clawPneumatics, drive, gyro, lime, cubeSensor, odometry);
+
+    this.autonChooser = new SendableChooser<Command>();
+    this.autonChooser.setDefaultOption("BlueCenter", blueCenterCommand);
+    this.autonChooser.addOption("RedCenter", redCenterCommand);
+    this.autonChooser.addOption("LeftSide", leftSideCommand);
+    this.autonChooser.addOption("RightSide", rightSideCommand);
+
+    SmartDashboard.putData("Auton Choices", autonChooser);
   }
 
   private void configureBindings() {}
 
   public Command getAutonomousCommand() {
-    // return blueCenterCommand;
-    return redCenterCommand;
-    // return rightSideCommand;
-    // return leftSideCommand;
+    return autonChooser.getSelected();
   }
 }
