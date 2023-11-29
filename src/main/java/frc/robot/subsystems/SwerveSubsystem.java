@@ -148,7 +148,7 @@ public class SwerveSubsystem implements Subsystem {
       }
       return;
     } else {
-
+      
       // this is to drive straight
       if (Math.abs(swerveRequest.rotation) < 0.05) {
         if (targetAngle == Double.MAX_VALUE) {
@@ -164,6 +164,15 @@ public class SwerveSubsystem implements Subsystem {
 
     double x = swerveRequest.movement.x;
     double y = swerveRequest.movement.y;
+    if (!fieldCentric) {
+      double difference = (startingAngle - currentRobotAngle) % (2 * Math.PI);
+      x =
+          -swerveRequest.movement.y * Math.sin(difference)
+              + swerveRequest.movement.x * Math.cos(difference);
+      y =
+          swerveRequest.movement.y * Math.cos(difference)
+              + swerveRequest.movement.x * Math.sin(difference);
+    }
 
     chassisSpeeds = new ChassisSpeeds(y,x, swerveRequest.rotation);
 
