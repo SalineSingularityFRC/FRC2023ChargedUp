@@ -164,7 +164,7 @@ public class SwerveSubsystem implements Subsystem {
 
     double x = swerveRequest.movement.x;
     double y = swerveRequest.movement.y;
-    if (!fieldCentric) {
+    if (fieldCentric) {
       double difference = (startingAngle - currentRobotAngle) % (2 * Math.PI);
       x =
           -swerveRequest.movement.y * Math.sin(difference)
