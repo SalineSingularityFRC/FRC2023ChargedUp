@@ -60,14 +60,15 @@ public class SwerveCommand extends SequentialCommandGroup {
         new TrajectoryConfig(1, 1)
             // Add kinematics to ensure max speed is actually obeyed
             .setKinematics(kinematics);
-
+    double[] swerve_xcontroller_gains = Constants.PidGains.SwerveCommand.X_CONTROLLER;
+    double[] swerve_ycontroller_gains = Constants.PidGains.SwerveCommand.Y_CONTROLLER;
     addCommands(
         new SwerveControllerCommand(
             trajectory,
             odometry::position,
             kinematics,
-            new PIDController(0.0001, 0, 0),
-            new PIDController(0.0001, 0, 0),
+            new PIDController(swerve_xcontroller_gains[0], swerve_xcontroller_gains[1], swerve_xcontroller_gains[2]),
+            new PIDController(swerve_ycontroller_gains[0], swerve_ycontroller_gains[1], swerve_ycontroller_gains[2]),
             thetaController,
             drive::setModuleStates,
             drive),

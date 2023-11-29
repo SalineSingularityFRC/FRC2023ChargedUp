@@ -2,6 +2,7 @@ package frc.robot.commands;
 
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.Constants;
 import frc.robot.subsystems.SwerveSubsystem;
 
 public class DriveDistance extends CommandBase {
@@ -16,7 +17,7 @@ public class DriveDistance extends CommandBase {
   private PIDController controller;
 
   private boolean brake;
-
+  
   /*
    * 1.   Constructor - Might have parameters for this command such as target positions of devices. Should also set the name of the command for debugging purposes.
    *  This will be used if the status is viewed in the dashboard. And the command should require (reserve) any devices is might use.
@@ -28,8 +29,10 @@ public class DriveDistance extends CommandBase {
     this.angle = angle;
     this.speed = speed;
     this.brake = brake;
-    this.controller = new PIDController(0.1, 0, 0);
+    double[] drive_distance_gains = Constants.PidGains.DriveDistance.DRIVE_DISTANCE;
+    this.controller = new PIDController(drive_distance_gains[0], drive_distance_gains[1], drive_distance_gains[2]);
   }
+
 
   //    initialize() - This method sets up the command and is called immediately before the command
   // is executed for the first time and every subsequent time it is started .

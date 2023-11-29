@@ -3,6 +3,7 @@ package frc.robot.commands;
 import com.ctre.phoenixpro.hardware.Pigeon2;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.Constants;
 import frc.robot.subsystems.SwerveSubsystem;
 
 public class GetOnChargeStation extends CommandBase {
@@ -19,7 +20,8 @@ public class GetOnChargeStation extends CommandBase {
   public GetOnChargeStation(SwerveSubsystem drive, Pigeon2 gyro) {
     this.drive = drive;
     this.gyro = gyro;
-    this.controller = new PIDController(0.1, 0, 0);
+    double[] on_charge_station_gains = Constants.PidGains.GetOnChargeStation.GET_ON_CHARGE_STATION;
+    this.controller = new PIDController(on_charge_station_gains[0], on_charge_station_gains[1], on_charge_station_gains[2]);
     this.controller.setSetpoint(0);
   }
 

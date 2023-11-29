@@ -2,6 +2,7 @@ package frc.robot.commands;
 
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.Constants;
 import frc.robot.subsystems.SwerveSubsystem;
 
 public class TurnAngle extends CommandBase {
@@ -19,7 +20,8 @@ public class TurnAngle extends CommandBase {
   public TurnAngle(SwerveSubsystem drive, double angle) {
     this.drive = drive;
     this.angle = angle;
-    this.controller = new PIDController(Math.PI / 6, 0, 0);
+    double[] turn_angle_gains = Constants.PidGains.TurnAngle.TURN_ANGLE;
+    this.controller = new PIDController(turn_angle_gains[0], turn_angle_gains[1], turn_angle_gains[2]);
   }
 
   //    initialize() - This method sets up the command and is called immediately before the command
