@@ -9,9 +9,6 @@ import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Subsystem;
 import frc.robot.Constants;
-import frc.robot.SwerveClasses.ChassisVelocity;
-import frc.robot.SwerveClasses.SwerveDriveRequest;
-import frc.robot.SwerveClasses.SwerveKinematics;
 import frc.robot.SwerveClasses.SwerveModule;
 import frc.robot.SwerveClasses.Vector;
 
@@ -38,7 +35,7 @@ public class SwerveSubsystem implements Subsystem {
 
   public SwerveModule[] swerveModules = new SwerveModule[4];
   public final Vector[] vectorKinematics = new Vector[4];
-  private final SwerveKinematics swerveKinematics;
+
   private final SwerveDriveKinematics swerveDriveKinematics;
   private  ChassisSpeeds chassisSpeeds;
   public double gyroZero = 0;
@@ -67,8 +64,7 @@ public class SwerveSubsystem implements Subsystem {
         new Vector(
             -Constants.Measurement.TRACK_WIDTH / 2.0, -Constants.Measurement.WHEELBASE / 2.0);
 
-    swerveKinematics = new SwerveKinematics(vectorKinematics);
-    
+  
     Translation2d[] wheel = new Translation2d[4];
     for(int i = 0; i<vectorKinematics.length; i++){
       wheel[i] = new Translation2d(vectorKinematics[i].x, vectorKinematics[i].y);
@@ -130,7 +126,7 @@ public class SwerveSubsystem implements Subsystem {
       SwerveRequest swerveRequest,
       boolean fieldCentric) { // takes in the inputs from the controller
     double currentRobotAngle = getRobotAngle();
-    ChassisVelocity chassisVelocity;
+   
 
     // this is to make sure if both the joysticks are at neutral position, the robot
     // and wheels
