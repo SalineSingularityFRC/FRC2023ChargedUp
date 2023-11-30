@@ -35,8 +35,7 @@ public class SwerveCommand extends SequentialCommandGroup {
       ClawPneumatics clawPneumatics,
       SwerveSubsystem drive,
       Pigeon2 gyro,
-      SwerveOdometry odometry,
-      Trajectory trajectory) {
+      SwerveOdometry odometry){
     this.clawPneumatics = clawPneumatics;
     this.drive = drive;
     this.arm = arm;
@@ -63,15 +62,15 @@ public class SwerveCommand extends SequentialCommandGroup {
     double[] swerve_xcontroller_gains = Constants.PidGains.SwerveCommand.X_CONTROLLER;
     double[] swerve_ycontroller_gains = Constants.PidGains.SwerveCommand.Y_CONTROLLER;
     addCommands(
-        new SwerveControllerCommand(
-            trajectory,
-            odometry::position,
-            kinematics,
-            new PIDController(swerve_xcontroller_gains[0], swerve_xcontroller_gains[1], swerve_xcontroller_gains[2]),
-            new PIDController(swerve_ycontroller_gains[0], swerve_ycontroller_gains[1], swerve_ycontroller_gains[2]),
-            thetaController,
-            drive::setModuleStates,
-            drive),
-        new DriveDistance(drive, 0, 0, 0.4, true));
+        // new SwerveControllerCommand(
+        //     trajectory,
+        //     odometry::position,
+        //     kinematics,
+        //     new PIDController(swerve_xcontroller_gains[0], swerve_xcontroller_gains[1], swerve_xcontroller_gains[2]),
+        //     new PIDController(swerve_ycontroller_gains[0], swerve_ycontroller_gains[1], swerve_ycontroller_gains[2]),
+        //     thetaController,
+        //     drive::setModuleStates,
+        //     drive),
+        new DriveDistance(drive, 2, 0, 0.4, true));
   }
 }

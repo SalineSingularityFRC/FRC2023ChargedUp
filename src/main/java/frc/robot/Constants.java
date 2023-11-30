@@ -205,8 +205,8 @@ public final class Constants {
     }
 
     public static final class SwerveModule {
-      public static final double[] DRIVE_PID_CONTROLLER = {5, 0, 0};
-      public static final double[] TURNING_PID_CONTROLLER = {2, 0, 0};
+      public static final double[] DRIVE_PID_CONTROLLER = {.5, 0, 0};
+      public static final double[] TURNING_PID_CONTROLLER = {.2, 0, 0};
     }
 
     
