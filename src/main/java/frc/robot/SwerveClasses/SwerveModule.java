@@ -68,29 +68,7 @@ public class SwerveModule {
     this.resetZeroAngle();
   }
 
-  // method takes in a direction and speed value and sets the wheels to that in the most efficient
-  // way possible
-  public boolean drive(SwerveDriveRequest request) {
-
-    SwerveAngle.AnglePosition angle = angleMotor.setAngle(request.direction);
-    // the setAngle function returns an enum that specifies whether the wheels should spin forwards
-    // or backwards
-    if (angle == SwerveAngle.AnglePosition.Positive) {
-      driveMotor.set(request.velocity);
-
-      return true;
-    }
-
-    if (angle == SwerveAngle.AnglePosition.Negative) {
-      driveMotor.set(-request.velocity);
-
-      return true;
-    }
-
-    driveMotor.set(0);
-    return false;
-  }
-
+ 
   public void coast() {
     driveMotor.set(0); // this is for when the joystick is not being moved at all
   }

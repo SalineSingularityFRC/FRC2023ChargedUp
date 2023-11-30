@@ -33,12 +33,7 @@ public class Gamepad {
     armController = new Joystick(armControllerPort);
   }
 
-  public void driveConstant(SwerveSubsystem robotSubsystem) {
-    SwerveModuleState desiredState = new SwerveModuleState();
-    desiredState.angle = new Rotation2d();
-    desiredState.speedMetersPerSecond = 1;
-    robotSubsystem.setModuleState(desiredState);
-  }
+ 
 
   public void armPneumatics(
       ClawPneumatics clawPneumatics,
