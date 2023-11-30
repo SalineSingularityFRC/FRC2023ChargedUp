@@ -84,10 +84,10 @@ public class RightSideCommand extends SequentialCommandGroup {
     addCommands(
         new SetClawPreset(arm, 4),
         new SetClawPneumatics(clawPneumatics, 1, arm),
-        new SwerveCommand(arm, clawPneumatics, drive, gyro, odometry, trajectory1)
-            .alongWith(new SetClawPreset(arm, 1)),
+        //new SwerveCommand(arm, clawPneumatics, drive, gyro, odometry, trajectory1)
+            //.alongWith(new SetClawPreset(arm, 1)),
         new TurnAngle(drive, 0),
-        new SwerveCommand(arm, clawPneumatics, drive, gyro, odometry, trajectory2),
+        //new SwerveCommand(arm, clawPneumatics, drive, gyro, odometry, trajectory2),
         new SetClawPreset(arm, 1));
   }
 }

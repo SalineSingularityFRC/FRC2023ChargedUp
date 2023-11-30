@@ -54,7 +54,7 @@ public class RobotContainer {
     this.blueCenterCommand = new BlueCenterCommand(arm, clawPneumatics, drive, gyro, odometry);
     this.redCenterCommand = new RedCenterCommand(arm, clawPneumatics, drive, gyro, odometry);
 
-    // this.swerveCommand = new SwerveCommand(arm, clawPneumatics, drive, gyro, odometry);
+    this.swerveCommand = new SwerveCommand(arm, clawPneumatics, drive, gyro, odometry);
     this.leftSideCommand = new LeftSideCommand(arm, clawPneumatics, drive, gyro, lime, cubeSensor);
     this.rightSideCommand =
         new RightSideCommand(arm, clawPneumatics, drive, gyro, lime, cubeSensor, odometry);
@@ -64,7 +64,7 @@ public class RobotContainer {
     this.autonChooser.addOption("RedCenter", redCenterCommand);
     this.autonChooser.addOption("LeftSide", leftSideCommand);
     this.autonChooser.addOption("RightSide", rightSideCommand);
-
+    this.autonChooser.addOption("SwerveDriveCommand", swerveCommand);
     SmartDashboard.putData("Auton Choices", autonChooser);
   }
 
