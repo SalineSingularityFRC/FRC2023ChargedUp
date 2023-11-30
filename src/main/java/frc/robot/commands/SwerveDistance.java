@@ -44,7 +44,8 @@ public class SwerveDistance extends CommandBase {
     this.angle = angle;
     this.speed = speed;
     this.brake = brake;
-    this.controller = new PIDController(0.1, 0, 0);
+    double[] swerve_distance_gains = Constants.PidGains.SwerveDistance.SWERVE_DISTANCE;
+    this.controller = new PIDController(swerve_distance_gains[0], swerve_distance_gains[1], swerve_distance_gains[2]);
     this.odometry = new SwerveOdometry(drive);
   }
 
@@ -58,6 +59,8 @@ public class SwerveDistance extends CommandBase {
     startingEncoderValue = drive.getSwerveModule(0).getPosition();
     changeInEncoderValue = 0;
     this.controller.setSetpoint(distance);
+    double[] swerve_command_xcontroller_gains = Constants.PidGains.SwerveDistance.SWERVE_COMMAND_XCONTROLLER;
+    double[] swerve_command_ycontroller_gains = Constants.PidGains.SwerveDistance.SWERVE_COMMAND_YCONTROLLER;
     this.kinematics =
         new SwerveDriveKinematics(
             new Translation2d(
@@ -87,8 +90,8 @@ public class SwerveDistance extends CommandBase {
             trajectory,
             odometry::position,
             kinematics,
-            new PIDController(1, 0, 0),
-            new PIDController(1, 0, 0),
+            new PIDController(swerve_command_xcontroller_gains[0], swerve_command_xcontroller_gains[1], swerve_command_xcontroller_gains[2]),
+            new PIDController(swerve_command_ycontroller_gains[0], swerve_command_ycontroller_gains[1], swerve_command_ycontroller_gains[2]),
             thetaController,
             drive::setModuleStates,
             drive);

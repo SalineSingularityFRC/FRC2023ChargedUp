@@ -10,6 +10,7 @@ import com.ctre.phoenixpro.signals.NeutralModeValue;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
+import frc.robot.Constants;
 
 /*
  * This class owns the components of a single swerve module and is responsible for controlling
@@ -29,9 +30,11 @@ public class SwerveModule {
 
   private final VelocityVoltage m_voltageVelocity = new VelocityVoltage(0, true, 0, 0, false);
   public MotorOutputConfigs motorOutputConfigs = new MotorOutputConfigs();
-  ;
-  private final PIDController m_drivePIDController = new PIDController(.5, 0, 0);
-  private final PIDController m_turningPIDController = new PIDController(.2, 0, 0);
+
+  double[] drive_controller_gains = Constants.PidGains.SwerveModule.DRIVE_PID_CONTROLLER;
+  double[] turn_controller_gains = Constants.PidGains.SwerveModule.TURNING_PID_CONTROLLER;
+  private final PIDController m_drivePIDController = new PIDController(drive_controller_gains[0], drive_controller_gains[1], drive_controller_gains[2]);
+  private final PIDController m_turningPIDController = new PIDController(turn_controller_gains[0], turn_controller_gains[1], turn_controller_gains[2]);
 
   private final double absolutePositionEncoderOffset;
   private String name;
