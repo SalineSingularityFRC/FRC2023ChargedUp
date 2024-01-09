@@ -1,7 +1,6 @@
 package frc.robot.auton;
 
 import com.ctre.phoenixpro.hardware.Pigeon2;
-import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
@@ -35,7 +34,7 @@ public class SwerveCommand extends SequentialCommandGroup {
       ClawPneumatics clawPneumatics,
       SwerveSubsystem drive,
       Pigeon2 gyro,
-      SwerveOdometry odometry){
+      SwerveOdometry odometry) {
     this.clawPneumatics = clawPneumatics;
     this.drive = drive;
     this.arm = arm;
@@ -66,8 +65,10 @@ public class SwerveCommand extends SequentialCommandGroup {
         //     trajectory,
         //     odometry::position,
         //     kinematics,
-        //     new PIDController(swerve_xcontroller_gains[0], swerve_xcontroller_gains[1], swerve_xcontroller_gains[2]),
-        //     new PIDController(swerve_ycontroller_gains[0], swerve_ycontroller_gains[1], swerve_ycontroller_gains[2]),
+        //     new PIDController(swerve_xcontroller_gains[0], swerve_xcontroller_gains[1],
+        // swerve_xcontroller_gains[2]),
+        //     new PIDController(swerve_ycontroller_gains[0], swerve_ycontroller_gains[1],
+        // swerve_ycontroller_gains[2]),
         //     thetaController,
         //     drive::setModuleStates,
         //     drive),

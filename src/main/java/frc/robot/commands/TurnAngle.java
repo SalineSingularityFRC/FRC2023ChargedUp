@@ -21,7 +21,8 @@ public class TurnAngle extends CommandBase {
     this.drive = drive;
     this.angle = angle;
     double[] turn_angle_gains = Constants.PidGains.TurnAngle.TURN_ANGLE;
-    this.controller = new PIDController(turn_angle_gains[0], turn_angle_gains[1], turn_angle_gains[2]);
+    this.controller =
+        new PIDController(turn_angle_gains[0], turn_angle_gains[1], turn_angle_gains[2]);
   }
 
   //    initialize() - This method sets up the command and is called immediately before the command

@@ -1,7 +1,5 @@
 package frc.robot;
 
-import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.Timer;
@@ -32,8 +30,6 @@ public class Gamepad {
     driveController = new Joystick(driveControllerPort);
     armController = new Joystick(armControllerPort);
   }
-
- 
 
   public void armPneumatics(
       ClawPneumatics clawPneumatics,
