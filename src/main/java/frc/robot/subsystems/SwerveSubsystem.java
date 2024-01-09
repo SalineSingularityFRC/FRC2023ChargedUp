@@ -1,12 +1,11 @@
 package frc.robot.subsystems;
 
 import com.ctre.phoenixpro.hardware.Pigeon2;
-
+import com.pathplanner.lib.auto.*;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Subsystem;
 import frc.robot.Constants;
 import frc.robot.SwerveClasses.SwerveModule;
@@ -37,7 +36,7 @@ public class SwerveSubsystem implements Subsystem {
   public final Vector[] vectorKinematics = new Vector[4];
 
   private final SwerveDriveKinematics swerveDriveKinematics;
-  private  ChassisSpeeds chassisSpeeds;
+  private ChassisSpeeds chassisSpeeds;
   public double gyroZero = 0;
 
   private double targetAngle = Double.MAX_VALUE;
@@ -64,9 +63,8 @@ public class SwerveSubsystem implements Subsystem {
         new Vector(
             -Constants.Measurement.TRACK_WIDTH / 2.0, -Constants.Measurement.WHEELBASE / 2.0);
 
-  
     Translation2d[] wheel = new Translation2d[4];
-    for(int i = 0; i<vectorKinematics.length; i++){
+    for (int i = 0; i < vectorKinematics.length; i++) {
       wheel[i] = new Translation2d(vectorKinematics[i].x, vectorKinematics[i].y);
     }
 
@@ -126,7 +124,6 @@ public class SwerveSubsystem implements Subsystem {
       SwerveRequest swerveRequest,
       boolean fieldCentric) { // takes in the inputs from the controller
     double currentRobotAngle = getRobotAngle();
-   
 
     // this is to make sure if both the joysticks are at neutral position, the robot
     // and wheels
@@ -144,7 +141,7 @@ public class SwerveSubsystem implements Subsystem {
       }
       return;
     } else {
-      
+
       // this is to drive straight
       if (Math.abs(swerveRequest.rotation) < 0.05) {
         if (targetAngle == Double.MAX_VALUE) {
@@ -170,7 +167,7 @@ public class SwerveSubsystem implements Subsystem {
               + swerveRequest.movement.x * Math.sin(difference);
     }
 
-    chassisSpeeds = new ChassisSpeeds(y,x, swerveRequest.rotation);
+    chassisSpeeds = new ChassisSpeeds(y, x, swerveRequest.rotation);
 
     SwerveModuleState[] modules = swerveDriveKinematics.toSwerveModuleStates(chassisSpeeds);
     setModuleStates(modules);
@@ -198,8 +195,6 @@ public class SwerveSubsystem implements Subsystem {
     swerveModules[BL].setDesiredState(desiredStates);
     swerveModules[BR].setDesiredState(desiredStates);
   }
-
-  
 
   /*
    * This function returns the angle (in radians) of the robot based on the value

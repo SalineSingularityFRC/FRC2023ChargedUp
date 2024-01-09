@@ -21,7 +21,9 @@ public class GetOnChargeStation extends CommandBase {
     this.drive = drive;
     this.gyro = gyro;
     double[] on_charge_station_gains = Constants.PidGains.GetOnChargeStation.GET_ON_CHARGE_STATION;
-    this.controller = new PIDController(on_charge_station_gains[0], on_charge_station_gains[1], on_charge_station_gains[2]);
+    this.controller =
+        new PIDController(
+            on_charge_station_gains[0], on_charge_station_gains[1], on_charge_station_gains[2]);
     this.controller.setSetpoint(0);
   }
 

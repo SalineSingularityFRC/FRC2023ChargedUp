@@ -33,8 +33,12 @@ public class SwerveModule {
 
   double[] drive_controller_gains = Constants.PidGains.SwerveModule.DRIVE_PID_CONTROLLER;
   double[] turn_controller_gains = Constants.PidGains.SwerveModule.TURNING_PID_CONTROLLER;
-  private final PIDController m_drivePIDController = new PIDController(drive_controller_gains[0], drive_controller_gains[1], drive_controller_gains[2]);
-  private final PIDController m_turningPIDController = new PIDController(turn_controller_gains[0], turn_controller_gains[1], turn_controller_gains[2]);
+  private final PIDController m_drivePIDController =
+      new PIDController(
+          drive_controller_gains[0], drive_controller_gains[1], drive_controller_gains[2]);
+  private final PIDController m_turningPIDController =
+      new PIDController(
+          turn_controller_gains[0], turn_controller_gains[1], turn_controller_gains[2]);
 
   private final double absolutePositionEncoderOffset;
   private String name;
@@ -71,7 +75,6 @@ public class SwerveModule {
     this.resetZeroAngle();
   }
 
- 
   public void coast() {
     driveMotor.set(0); // this is for when the joystick is not being moved at all
   }
