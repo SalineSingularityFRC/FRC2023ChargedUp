@@ -17,7 +17,7 @@ public class DriveDistance extends CommandBase {
   private PIDController controller;
 
   private boolean brake;
-  
+
   /*
    * 1.   Constructor - Might have parameters for this command such as target positions of devices. Should also set the name of the command for debugging purposes.
    *  This will be used if the status is viewed in the dashboard. And the command should require (reserve) any devices is might use.
@@ -30,9 +30,10 @@ public class DriveDistance extends CommandBase {
     this.speed = speed;
     this.brake = brake;
     double[] drive_distance_gains = Constants.PidGains.DriveDistance.DRIVE_DISTANCE;
-    this.controller = new PIDController(drive_distance_gains[0], drive_distance_gains[1], drive_distance_gains[2]);
+    this.controller =
+        new PIDController(
+            drive_distance_gains[0], drive_distance_gains[1], drive_distance_gains[2]);
   }
-
 
   //    initialize() - This method sets up the command and is called immediately before the command
   // is executed for the first time and every subsequent time it is started .

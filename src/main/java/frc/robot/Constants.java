@@ -175,11 +175,11 @@ public final class Constants {
   }
 
   public static final class PidGains {
-    public static final class Limelight{
-        public static final double[] DRIVE_CONTROLLER = {0.0025, 0, 0};
-        public static final double[] TURN_CONTROLLER = {0.001, 0, 0.0001};
-        public static final double[] SCORE_DRIVE_CONTROLLER = {0.0056, 0, 0};
-      }
+    public static final class Limelight {
+      public static final double[] DRIVE_CONTROLLER = {0.0025, 0, 0};
+      public static final double[] TURN_CONTROLLER = {0.001, 0, 0.0001};
+      public static final double[] SCORE_DRIVE_CONTROLLER = {0.0056, 0, 0};
+    }
 
     public static final class SwerveCommand {
       public static final double[] X_CONTROLLER = {0.0001, 0, 0};
@@ -208,7 +208,5 @@ public final class Constants {
       public static final double[] DRIVE_PID_CONTROLLER = {.5, 0, 0};
       public static final double[] TURNING_PID_CONTROLLER = {.2, 0, 0};
     }
-
-    
   }
 }

@@ -4,6 +4,10 @@
 package frc.robot;
 
 import com.ctre.phoenixpro.hardware.Pigeon2;
+import com.pathplanner.lib.auto.AutoBuilder;
+import com.pathplanner.lib.auto.NamedCommands;
+import com.pathplanner.lib.path.PathPlannerPath;
+
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -65,12 +69,23 @@ public class RobotContainer {
     this.autonChooser.addOption("LeftSide", leftSideCommand);
     this.autonChooser.addOption("RightSide", rightSideCommand);
     this.autonChooser.addOption("SwerveDriveCommand", swerveCommand);
+
+   
+
     SmartDashboard.putData("Auton Choices", autonChooser);
   }
 
   private void configureBindings() {}
 
+  // public Command getAutonomousCommand() {
+  //   return autonChooser.getSelected();
+  // }
+
   public Command getAutonomousCommand() {
-    return autonChooser.getSelected();
+    // Load the path you want to follow using its name in the GUI
+    PathPlannerPath path = PathPlannerPath.fromPathFile("Left");
+
+    // Create a path following command using AutoBuilder. This will also trigger event markers.
+    return AutoBuilder.followPathWithEvents(path);
   }
 }

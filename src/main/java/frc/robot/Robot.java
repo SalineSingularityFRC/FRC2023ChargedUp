@@ -25,7 +25,7 @@ public class Robot extends TimedRobot {
   private Limelight limelight;
   private LightSensor cubelightSensor;
   private LightSensor conelightSensor;
-  private SwerveOdometry odometry;
+  public static SwerveOdometry odometry;
 
   @Override
   public void robotInit() {
@@ -76,6 +76,8 @@ public class Robot extends TimedRobot {
 
   @Override
   public void autonomousInit() {
+    //Needs testing, may fix issue.
+    robotSubsystem.drive(new SwerveSubsystem.SwerveRequest(0, 0, 0), true);
 
     m_autonomousCommand = m_robotContainer.getAutonomousCommand();
 
@@ -107,7 +109,7 @@ public class Robot extends TimedRobot {
   @Override
   public void teleopPeriodic() {
     teleopDrive.swerveDrive(
-        robotSubsystem, limelight, arm, clawPneumatics, cubelightSensor, conelightSensor);
+        robotSubsystem, limelight, arm, clawPneumatics, cubelightSensor, conelightSensor, odometry);
     teleopDrive.arm(arm);
     teleopDrive.armPneumatics(clawPneumatics, cubelightSensor, conelightSensor, arm);
     CommandScheduler.getInstance().run();

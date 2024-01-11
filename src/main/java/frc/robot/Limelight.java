@@ -9,7 +9,6 @@ import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.ClawPneumatics;
 import frc.robot.subsystems.SwerveSubsystem;
 import frc.robot.subsystems.SwerveSubsystem.SwerveRequest;
-import frc.robot.Constants;
 
 public class Limelight {
   private NetworkTable table;
@@ -49,7 +48,8 @@ public class Limelight {
     yaw = localization[5];
 
     double[] drive_gains = Constants.PidGains.Limelight.DRIVE_CONTROLLER;
-    driveController = new PIDController(drive_gains[0], drive_gains[1], drive_gains[2]); // 0.0056 orginally
+    driveController =
+        new PIDController(drive_gains[0], drive_gains[1], drive_gains[2]); // 0.0056 orginally
     driveController.setSetpoint(-18);
 
     // driveController.setTolerance(0.5);
@@ -58,7 +58,8 @@ public class Limelight {
     turnController.setSetpoint(9);
 
     double[] score_drive_gains = Constants.PidGains.Limelight.SCORE_DRIVE_CONTROLLER;
-    scoreDriveController = new PIDController(score_drive_gains[0], score_drive_gains[1], score_drive_gains[2]);
+    scoreDriveController =
+        new PIDController(score_drive_gains[0], score_drive_gains[1], score_drive_gains[2]);
     scoreDriveController.setSetpoint(1.7); // FIND RIGHT TA VALUE
 
     // driveController.setTolerance(0.5);
