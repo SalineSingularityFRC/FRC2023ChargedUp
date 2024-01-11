@@ -180,13 +180,14 @@ public class SwerveSubsystem implements Subsystem {
               + swerveRequest.movement.x * Math.sin(difference);
     }
 
-    chassisSpeeds = new ChassisSpeeds(y, x, swerveRequest.rotation);
+    this.chassisSpeeds = new ChassisSpeeds(y, x, swerveRequest.rotation);
+
     Consumer<ChassisSpeeds> consumer_chasis = ch_speed -> {
       SwerveModuleState[] modules = swerveDriveKinematics.toSwerveModuleStates(ch_speed);
       setModuleStates(modules);
     };
     Supplier<ChassisSpeeds> supplier_chasis = () -> {
-      return chassisSpeeds; //Maybe come back to this later
+      return getChassisSpeed(); //Maybe come back to this later
     };
     Supplier<Pose2d> supplier_position = () -> {
       return Robot.odometry.position(); //Maybe come back to this later
@@ -226,6 +227,9 @@ public class SwerveSubsystem implements Subsystem {
         );
   }
 
+  public ChassisSpeeds getChassisSpeed(){
+    return this.chassisSpeeds;
+  }
   /*
    * Odometry
    */
