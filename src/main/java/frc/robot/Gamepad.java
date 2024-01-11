@@ -3,6 +3,7 @@ package frc.robot;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.Timer;
+import frc.robot.SwerveClasses.SwerveOdometry;
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.ClawPneumatics;
 import frc.robot.subsystems.SwerveSubsystem;
@@ -88,7 +89,8 @@ public class Gamepad {
       ArmSubsystem arm,
       ClawPneumatics claw,
       LightSensor cubeLightSensor,
-      LightSensor coneLightSensor) {
+      LightSensor coneLightSensor,
+      SwerveOdometry odometry) {
 
     if (limelight.pickupTimer.get() >= 0.9) {
 
