@@ -78,7 +78,7 @@ public class Robot extends TimedRobot {
   public void autonomousInit() {
     // // Needs testing, may fix issue.
     // robotSubsystem.drive(new SwerveSubsystem.SwerveRequest(0, 0, 0), true);
-
+    odometry.resetPosition();
     m_autonomousCommand = m_robotContainer.getAutonomousCommand();
 
     robotSubsystem.setBrakeMode();

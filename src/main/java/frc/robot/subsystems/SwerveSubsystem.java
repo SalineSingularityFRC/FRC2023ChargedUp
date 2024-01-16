@@ -10,6 +10,7 @@ import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Subsystem;
 import frc.robot.Constants;
 import frc.robot.Robot;
@@ -122,10 +123,15 @@ public class SwerveSubsystem implements Subsystem {
         };
     Supplier<ChassisSpeeds> supplier_chasis =
         () -> {
+          SmartDashboard.putNumber("Chassis_PathPlanner_X", getChassisSpeed().vxMetersPerSecond);
+          SmartDashboard.putNumber("Chassis_PathPlanner_Y", getChassisSpeed().vyMetersPerSecond);
           return getChassisSpeed(); // Maybe come back to this later
         };
     Supplier<Pose2d> supplier_position =
         () -> {
+          SmartDashboard.putNumber("PathPlanner_Odometry_X", Robot.odometry.position().getX());
+          SmartDashboard.putNumber("PathPlanner_Odometry_Y", Robot.odometry.position().getY());
+          SmartDashboard.putNumber("PathPlanner_Odometry_Angle", Robot.odometry.position().getRotation().getRadians());
           return Robot.odometry.position(); // Maybe come back to this later
         };
     Consumer<Pose2d> consumer_position =
@@ -231,7 +237,7 @@ public class SwerveSubsystem implements Subsystem {
   }
 
   public ChassisSpeeds getChassisSpeed() {
-    return this.chassisSpeeds;
+    return new ChassisSpeeds(Robot.odometry.getY(), Robot.odometry.getX(), Robot.odometry.position().getRotation().getRadians());
   }
 
   /*
