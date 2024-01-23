@@ -3,7 +3,7 @@ package frc.robot.subsystems;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 
-import com.ctre.phoenixpro.hardware.Pigeon2;
+import com.ctre.phoenix6.hardware.Pigeon2;
 import com.pathplanner.lib.auto.*;
 import com.pathplanner.lib.util.HolonomicPathFollowerConfig;
 import com.pathplanner.lib.util.PIDConstants;
