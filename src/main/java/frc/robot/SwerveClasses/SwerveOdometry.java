@@ -87,7 +87,10 @@ public class SwerveOdometry {
   }
 
   public Pose2d position() {
-    return swerveOdometry.getPoseMeters();
+    double x = swerveOdometry.getPoseMeters().getX();
+    double y = swerveOdometry.getPoseMeters().getY();
+    Rotation2d rotation = swerveOdometry.getPoseMeters().getRotation();
+    return new Pose2d(new Translation2d(x, y), rotation);
   }
 
   public double getX() {

@@ -138,7 +138,7 @@ public class SwerveSubsystem implements Subsystem {
         pose -> {
           Robot.odometry.resetPosition(); // Maybe come back to this later
         };
-
+       
     // SwerveModuleState[] modules = swerveDriveKinematics.toSwerveModuleStates(getChassisSpeed());
     // setModuleStates(modules);
 
@@ -237,7 +237,7 @@ public class SwerveSubsystem implements Subsystem {
   }
 
   public ChassisSpeeds getChassisSpeed() {
-    return new ChassisSpeeds(Robot.odometry.getY(), Robot.odometry.getX(), Robot.odometry.position().getRotation().getRadians());
+    return new ChassisSpeeds(-Robot.odometry.getX(), Robot.odometry.getY(), Robot.odometry.position().getRotation().getRadians());
   }
 
   /*
