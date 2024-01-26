@@ -1,23 +1,27 @@
 package frc.robot.subsystems;
 
+import java.util.function.Consumer;
+import java.util.function.Supplier;
+
 import com.ctre.phoenix6.hardware.Pigeon2;
 import com.pathplanner.lib.auto.*;
 import com.pathplanner.lib.util.HolonomicPathFollowerConfig;
 import com.pathplanner.lib.util.PIDConstants;
 import com.pathplanner.lib.util.ReplanningConfig;
+
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj2.command.Subsystem;
 import frc.robot.Constants;
 import frc.robot.Robot;
 import frc.robot.SwerveClasses.SwerveModule;
+import frc.robot.SwerveClasses.SwerveOdometry;
 import frc.robot.SwerveClasses.Vector;
-import java.util.function.Consumer;
-import java.util.function.Supplier;
 
 // import com.kauailabs.navx.frc.AHRS;
 // import frc.robot.DumbNavXClasses.NavX;
@@ -61,15 +65,11 @@ public class SwerveSubsystem implements Subsystem {
     // gyro = new NavX(Port.kMXP);
     gyro = new Pigeon2(Constants.CanId.CanCoder.GYRO, Constants.Canbus.DRIVE_TRAIN);
 
-    vectorKinematics[FL] =
-        new Vector(Constants.Measurement.TRACK_WIDTH / 2.0, Constants.Measurement.WHEELBASE / 2.0);
-    vectorKinematics[FR] =
-        new Vector(Constants.Measurement.TRACK_WIDTH / 2.0, -Constants.Measurement.WHEELBASE / 2.0);
-    vectorKinematics[BL] =
-        new Vector(-Constants.Measurement.TRACK_WIDTH / 2.0, Constants.Measurement.WHEELBASE / 2.0);
-    vectorKinematics[BR] =
-        new Vector(
-            -Constants.Measurement.TRACK_WIDTH / 2.0, -Constants.Measurement.WHEELBASE / 2.0);
+    vectorKinematics[FL] = new Vector(Constants.Measurement.TRACK_WIDTH / 2.0, Constants.Measurement.WHEELBASE / 2.0);
+    vectorKinematics[FR] = new Vector(Constants.Measurement.TRACK_WIDTH / 2.0, -Constants.Measurement.WHEELBASE / 2.0);
+    vectorKinematics[BL] = new Vector(-Constants.Measurement.TRACK_WIDTH / 2.0, Constants.Measurement.WHEELBASE / 2.0);
+    vectorKinematics[BR] = new Vector(
+        -Constants.Measurement.TRACK_WIDTH / 2.0, -Constants.Measurement.WHEELBASE / 2.0);
 
     Translation2d[] wheel = new Translation2d[4];
     for (int i = 0; i < vectorKinematics.length; i++) {
@@ -79,42 +79,38 @@ public class SwerveSubsystem implements Subsystem {
     swerveDriveKinematics = new SwerveDriveKinematics(wheel);
 
     chassisSpeeds = new ChassisSpeeds();
-    swerveModules[FL] =
-        new SwerveModule(
-            Constants.CanId.Motor.FL,
-            Constants.CanId.Angle.FL,
-            Constants.CanId.CanCoder.FL,
-            Constants.WheelOffset.FL,
-            Constants.Canbus.DRIVE_TRAIN,
-            Constants.Inverted.FL,
-            "FL");
-    swerveModules[FR] =
-        new SwerveModule(
-            Constants.CanId.Motor.FR,
-            Constants.CanId.Angle.FR,
-            Constants.CanId.CanCoder.FR,
-            Constants.WheelOffset.FR,
-            Constants.Canbus.DRIVE_TRAIN,
-            Constants.Inverted.FR,
-            "FR");
-    swerveModules[BL] =
-        new SwerveModule(
-            Constants.CanId.Motor.BL,
-            Constants.CanId.Angle.BL,
-            Constants.CanId.CanCoder.BL,
-            Constants.WheelOffset.BL,
-            Constants.Canbus.DRIVE_TRAIN,
-            Constants.Inverted.BL,
-            "BL");
-    swerveModules[BR] =
-        new SwerveModule(
-            Constants.CanId.Motor.BR,
-            Constants.CanId.Angle.BR,
-            Constants.CanId.CanCoder.BR,
-            Constants.WheelOffset.BR,
-            Constants.Canbus.DRIVE_TRAIN,
-            Constants.Inverted.BR,
-            "BR");
+    swerveModules[FL] = new SwerveModule(
+        Constants.CanId.Motor.FL,
+        Constants.CanId.Angle.FL,
+        Constants.CanId.CanCoder.FL,
+        Constants.WheelOffset.FL,
+        Constants.Canbus.DRIVE_TRAIN,
+        Constants.Inverted.FL,
+        "FL");
+    swerveModules[FR] = new SwerveModule(
+        Constants.CanId.Motor.FR,
+        Constants.CanId.Angle.FR,
+        Constants.CanId.CanCoder.FR,
+        Constants.WheelOffset.FR,
+        Constants.Canbus.DRIVE_TRAIN,
+        Constants.Inverted.FR,
+        "FR");
+    swerveModules[BL] = new SwerveModule(
+        Constants.CanId.Motor.BL,
+        Constants.CanId.Angle.BL,
+        Constants.CanId.CanCoder.BL,
+        Constants.WheelOffset.BL,
+        Constants.Canbus.DRIVE_TRAIN,
+        Constants.Inverted.BL,
+        "BL");
+    swerveModules[BR] = new SwerveModule(
+        Constants.CanId.Motor.BR,
+        Constants.CanId.Angle.BR,
+        Constants.CanId.CanCoder.BR,
+        Constants.WheelOffset.BR,
+        Constants.Canbus.DRIVE_TRAIN,
+        Constants.Inverted.BR,
+        "BR");
 
     Consumer<ChassisSpeeds> consumer_chasis =
         ch_speed -> {
@@ -144,37 +140,34 @@ public class SwerveSubsystem implements Subsystem {
 
     AutoBuilder.configureHolonomic(
         supplier_position, // Robot pose supplier
-        consumer_position, // Method to reset odometry (will be called if your auto has a starting
-        // pose)
+        consumer_position, // Method to reset odometry (will be called if your auto has a starting pose)
         supplier_chasis, // ChassisSpeeds supplier. MUST BE ROBOT RELATIVE
         consumer_chasis, // Method that will drive the robot given ROBOT RELATIVE ChassisSpeeds
-        new HolonomicPathFollowerConfig( // HolonomicPathFollowerConfig, this should likely live in
-            // your Constants class
-            new PIDConstants(.001, 0.0, 0.0), // Translation PID constants
-            new PIDConstants(.001, 0.0, 0.0), // Rotation PID constants
+        new HolonomicPathFollowerConfig( // HolonomicPathFollowerConfig, this should likely live in your Constants class
+            new PIDConstants(0.0001, 0.0, 0.0), // Translation PID constants
+            new PIDConstants(0.0001, 0.0, 0.0), // Rotation PID constants
             4.5, // Max module speed, in m/s
             0.70832, // Drive base radius in meters. Distance from robot center to furthest module.
-            new ReplanningConfig() // Default path replanning config. See the API for the options
-            // here
-            ),
+            new ReplanningConfig() // Default path replanning config. See the API for the options here
+        ),
         () -> {
           // Enum alliance = Alliance.Blue;
-          //   // Boolean supplier that controls when the path will be mirrored for the red alliance
-          //   // This will flip the path being followed to the red side of the field.
-          //   // THE ORIGIN WILL REMAIN ON THE BLUE SIDE
+          // // Boolean supplier that controls when the path will be mirrored for the red
+          // alliance
+          // // This will flip the path being followed to the red side of the field.
+          // // THE ORIGIN WILL REMAIN ON THE BLUE SIDE
 
-          //   // var alliance = DriverStation.getAlliance();
-          //   // if (alliance.isPresent()) {
-          //   return alliance.get() == DriverStation.Alliance.Red;
+          // // var alliance = DriverStation.getAlliance();
+          // // if (alliance.isPresent()) {
+          // return alliance.get() == DriverStation.Alliance.Red;
           // }
           return false;
         },
         this // Reference to this subsystem to set requirements
-        );
+    );
   }
 
-  public static
-  class SwerveRequest { // this class represents what our controller is telling our robot to do
+  public static class SwerveRequest { // this class represents what our controller is telling our robot to do
     public double rotation;
     public Vector movement;
 
@@ -194,9 +187,9 @@ public class SwerveSubsystem implements Subsystem {
     // don't move or turn at all
     // 0.05 value can be increased if the joystick is increasingly inaccurate at
     // neutral position
-    if (Math.abs(swerveRequest.movement.x) <= 0.05
-        && Math.abs(swerveRequest.movement.y) <= 0.05
-        && Math.abs(swerveRequest.rotation) <= 0.05) {
+    if (Math.abs(swerveRequest.movement.x) < 0.05
+        && Math.abs(swerveRequest.movement.y) < 0.05
+        && Math.abs(swerveRequest.rotation) < 0.05) {
 
       targetAngle = Double.MAX_VALUE;
 
@@ -223,17 +216,16 @@ public class SwerveSubsystem implements Subsystem {
     double y = swerveRequest.movement.y;
     if (fieldCentric) {
       double difference = (startingAngle - currentRobotAngle) % (2 * Math.PI);
-      x =
-          -swerveRequest.movement.y * Math.sin(difference)
-              + swerveRequest.movement.x * Math.cos(difference);
-      y =
-          swerveRequest.movement.y * Math.cos(difference)
-              + swerveRequest.movement.x * Math.sin(difference);
+      x = -swerveRequest.movement.y * Math.sin(difference)
+          + swerveRequest.movement.x * Math.cos(difference);
+      y = swerveRequest.movement.y * Math.cos(difference)
+          + swerveRequest.movement.x * Math.sin(difference);
     }
 
-    this.chassisSpeeds = new ChassisSpeeds(y, x, swerveRequest.rotation);
     SwerveModuleState[] modules = swerveDriveKinematics.toSwerveModuleStates(chassisSpeeds);
     setModuleStates(modules);
+
+    this.chassisSpeeds = new ChassisSpeeds(y, x, swerveRequest.rotation);
   }
 
   public ChassisSpeeds getChassisSpeed() {
