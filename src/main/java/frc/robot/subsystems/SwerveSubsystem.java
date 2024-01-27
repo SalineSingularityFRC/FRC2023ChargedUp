@@ -16,6 +16,7 @@ import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Subsystem;
 import frc.robot.Constants;
 import frc.robot.Robot;
@@ -186,7 +187,7 @@ public class SwerveSubsystem implements Subsystem {
       }
       return;
     } else {
-
+      SmartDashboard.putNumber("FR WHEEL", swerveModules[FR].getEncoderPosition());
       // this is to drive straight
       if (Math.abs(swerveRequest.rotation) < 0.05) {
         if (targetAngle == Double.MAX_VALUE) {
