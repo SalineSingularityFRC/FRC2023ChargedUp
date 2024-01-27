@@ -60,12 +60,13 @@ public class BlueCenterCommand extends SequentialCommandGroup {
             .setKinematics(kinematics);
 
     addCommands(
-        new SetClawPreset(arm, 4),
-        new SetClawPneumatics(clawPneumatics, 1, arm),
-        new DriveDistance(drive, Constants.Distance.TO_BLUE_CHARGE_STATION, 0, 0.4, true)
-            .alongWith(new SetClawPreset(arm, 1)),
-        new AutonTime(1),
-        new DriveDistance(drive, 51, Math.PI, 0.19, true),
-        new GetOnChargeStation(drive, gyro).repeatedly());
+        // new SetClawPreset(arm, 4),
+        // new SetClawPneumatics(clawPneumatics, 1, arm),
+        // new DriveDistance(drive, Constants.Distance.TO_BLUE_CHARGE_STATION, 0, 0.4, true)
+        //     .alongWith(new SetClawPreset(arm, 1)),
+        // new AutonTime(1),
+        new DriveDistance(drive, 51, 0, 0.19, true)
+        // new GetOnChargeStation(drive, gyro).repeatedly());
+    );
   }
 }

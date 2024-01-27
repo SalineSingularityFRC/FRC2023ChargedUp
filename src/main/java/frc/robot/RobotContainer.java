@@ -73,15 +73,16 @@ public class RobotContainer {
 
   private void configureBindings() {}
 
-  // public Command getAutonomousCommand() {
-  //   return autonChooser.getSelected();
-  // }
-
   public Command getAutonomousCommand() {
-    // Load the path you want to follow using its name in the GUI
-    PathPlannerPath path = PathPlannerPath.fromPathFile("Left");
-
-    // Create a path following command using AutoBuilder. This will also trigger event markers.
-    return AutoBuilder.followPathWithEvents(path);
+    return this.blueCenterCommand;
+    //return autonChooser.getSelected();
   }
+
+  // public Command getAutonomousCommand() {
+  //   // Load the path you want to follow using its name in the GUI
+  //   PathPlannerPath path = PathPlannerPath.fromPathFile("Left");
+
+  //   // Create a path following command using AutoBuilder. This will also trigger event markers.
+  //   return AutoBuilder.followPathWithEvents(path);
+  // }
 }

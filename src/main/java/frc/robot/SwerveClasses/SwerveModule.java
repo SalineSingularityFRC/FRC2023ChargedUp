@@ -154,8 +154,8 @@ public class SwerveModule {
               - absolutePositionEncoderOffset;
     } else {
       if(a_encoder != null){
-        return (a_encoder.getAbsolutePosition() * 2 * Math.PI)
-                - absolutePositionEncoderOffset;
+        return ((a_encoder.getPositionOffset()) + (Math.PI/2)); 
+          //2 * Math.PI);
       }
     }
     return 0.0;
