@@ -93,6 +93,8 @@ public class SwerveModule {
       boolean isInverted,
       String name) { // add a zeroPosition thing
     a_encoder = new AnalogEncoder(analogChannel);
+    a_encoder.setDistancePerRotation(2 * Math.PI);
+    a_encoder.reset();
     driveMotor = new TalonFX(Can_ID_driveMotor, canNetwork);
     CurrentLimitsConfigs current = new CurrentLimitsConfigs();
     current.SupplyCurrentLimit = 30;
@@ -150,7 +152,7 @@ public class SwerveModule {
 
   public double getEncoderPosition() {
     if(!isCan && a_encoder != null){
-      return ((a_encoder.getPositionOffset()) + (Math.PI/2)); 
+      return (a_encoder.getAbsolutePosition() - a_encoder.getPositionOffset()); 
     }
   
     return (c_encoder.getAbsolutePosition().getValue() * 2 * Math.PI)
