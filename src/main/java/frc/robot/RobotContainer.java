@@ -74,7 +74,8 @@ public class RobotContainer {
   private void configureBindings() {}
 
   // public Command getAutonomousCommand() {
-  //   return autonChooser.getSelected();
+  //   return this.blueCenterCommand;
+  //   //return autonChooser.getSelected();
   // }
 
   public Command getAutonomousCommand() {

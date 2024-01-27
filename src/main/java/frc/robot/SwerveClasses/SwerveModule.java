@@ -3,13 +3,20 @@ package frc.robot.SwerveClasses;
 import com.ctre.phoenix6.configs.CurrentLimitsConfigs;
 import com.ctre.phoenix6.configs.MotorOutputConfigs;
 import com.ctre.phoenix6.controls.VelocityVoltage;
-import com.ctre.phoenix6.hardware.CANcoder;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.InvertedValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
+import edu.wpi.first.wpilibj.AnalogAccelerometer;
+import edu.wpi.first.wpilibj.AnalogEncoder;
+import edu.wpi.first.wpilibj.AnalogInput;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
+import com.ctre.phoenix6.hardware.CANcoder;
+
+
 import frc.robot.Constants;
 
 /*
@@ -25,7 +32,8 @@ public class SwerveModule {
    *   An instance of the CANcoder class to handle the encoder
    */
   private SwerveAngle angleMotor;
-  private CANcoder m_encoder;
+  private AnalogEncoder a_encoder;
+  private CANcoder c_encoder;
   private TalonFX driveMotor;
 
   private final VelocityVoltage m_voltageVelocity = new VelocityVoltage(0, 0, true, 0, 0, false, false, false);
@@ -42,7 +50,7 @@ public class SwerveModule {
 
   private final double absolutePositionEncoderOffset;
   private String name;
-
+  private boolean isCan;
   /*
    * This constructor needs to take two parameters, one for the CAN ID of the drive motor and one for the CAN ID of the
    * angle motor
@@ -51,12 +59,12 @@ public class SwerveModule {
   public SwerveModule(
       int Can_ID_driveMotor,
       int Can_ID_angleMotor,
-      int Can_ID_canCoder,
+      int Can_ID_encoder,
       double zeroPosition,
       String canNetwork,
       boolean isInverted,
       String name) { // add a zeroPosition thing
-    m_encoder = new CANcoder(Can_ID_canCoder, canNetwork);
+    c_encoder = new CANcoder(Can_ID_encoder);
     driveMotor = new TalonFX(Can_ID_driveMotor, canNetwork);
     CurrentLimitsConfigs current = new CurrentLimitsConfigs();
     current.SupplyCurrentLimit = 30;
@@ -73,6 +81,38 @@ public class SwerveModule {
 
     absolutePositionEncoderOffset = zeroPosition;
     this.resetZeroAngle();
+    this.isCan = true;
+  }
+
+  public SwerveModule(
+      int Can_ID_driveMotor,
+      int Can_ID_angleMotor,
+      double zeroPosition,
+      int analogChannel,
+      String canNetwork,
+      boolean isInverted,
+      String name) { // add a zeroPosition thing
+    a_encoder = new AnalogEncoder(analogChannel);
+    a_encoder.setDistancePerRotation(2 * Math.PI);
+    a_encoder.reset();
+    driveMotor = new TalonFX(Can_ID_driveMotor, canNetwork);
+    CurrentLimitsConfigs current = new CurrentLimitsConfigs();
+    current.SupplyCurrentLimit = 30;
+    current.SupplyCurrentLimitEnable = true;
+    driveMotor.getConfigurator().apply(current);
+    angleMotor = new SwerveAngle(Can_ID_angleMotor, canNetwork);
+    this.name = name;
+    driveMotor.setInverted(isInverted);
+    if (isInverted) {
+      motorOutputConfigs.Inverted = InvertedValue.Clockwise_Positive;
+    } else {
+      motorOutputConfigs.Inverted = InvertedValue.CounterClockwise_Positive;
+    }
+
+    absolutePositionEncoderOffset = zeroPosition;
+    this.resetZeroAngle();
+
+    
   }
 
   public void coast() {
@@ -111,10 +151,14 @@ public class SwerveModule {
   }
 
   public double getEncoderPosition() {
-    return (m_encoder.getAbsolutePosition().getValue() * 2 * Math.PI)
-        - absolutePositionEncoderOffset;
+    if(!isCan && a_encoder != null){
+      return (a_encoder.getAbsolutePosition() - a_encoder.getPositionOffset()); 
+    }
+  
+    return (c_encoder.getAbsolutePosition().getValue() * 2 * Math.PI)
+            - absolutePositionEncoderOffset;
   }
-
+  
   public void setCoastMode() {
     motorOutputConfigs.NeutralMode = NeutralModeValue.Coast;
     driveMotor.getConfigurator().apply(motorOutputConfigs);

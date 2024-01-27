@@ -83,8 +83,8 @@ public class SwerveSubsystem implements Subsystem {
     swerveModules[FL] = new SwerveModule(
         Constants.CanId.Motor.FL,
         Constants.CanId.Angle.FL,
-        Constants.CanId.CanCoder.FL,
         Constants.WheelOffset.FL,
+        Constants.Analog.SwerveModule.Channel_ID.FL,
         Constants.Canbus.DRIVE_TRAIN,
         Constants.Inverted.FL,
         "FL");
@@ -199,7 +199,7 @@ public class SwerveSubsystem implements Subsystem {
       }
       return;
     } else {
-
+      SmartDashboard.putNumber("FL WHEEL", swerveModules[FL].getEncoderPosition());
       // this is to drive straight
       if (Math.abs(swerveRequest.rotation) < 0.05) {
         if (targetAngle == Double.MAX_VALUE) {
