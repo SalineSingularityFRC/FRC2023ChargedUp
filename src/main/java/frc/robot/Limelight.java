@@ -15,7 +15,8 @@ public class Limelight {
   public NetworkTableEntry tx, ty, ta, tv, ledMode, camMode, pipeLine, crop;
 
   private double[] localization;
-  private double poseX, poseY, yaw;
+  private double poseX, poseY, poseZ, poseRoll, posePitch, poseYaw;
+  private double llLatency, tl, cl;
 
   public boolean isTurningDone;
   public final double minimumSpeed = 0.06;
@@ -32,7 +33,7 @@ public class Limelight {
     tx = table.getEntry("tx");
     ty = table.getEntry("ty");
     ta = table.getEntry("ta");
-    tv = table.getEntry("tv");
+    tv = table.getEntry("tv"); 
 
     // swap the limelight between vision processing (0) and drive camera (1)
     camMode = table.getEntry("camMode");
@@ -43,9 +44,17 @@ public class Limelight {
     pipeLine = table.getEntry("pipeline");
 
     localization = table.getEntry("botpose").getDoubleArray(new double[6]);
-    poseX = localization[0];
-    poseY = localization[1];
-    yaw = localization[5];
+    // xyz are in meters
+    poseX = localization[0]; // + = right - = left
+    poseY = localization[1]; // + = down - = up
+    poseZ = localization[2]; // + = forword - = back
+    poseRoll = localization[3] * (Math.PI/180); 
+    posePitch = localization[4] * (Math.PI/180);
+    poseYaw = localization[5] * (Math.PI/180);
+
+    tl = table.getEntry("tl").getDouble(0); // targeting latency
+    cl = table.getEntry("cl").getDouble(0); // capture latency
+    llLatency = cl + tl; // total latency
 
     double[] drive_gains = Constants.PidGains.Limelight.DRIVE_CONTROLLER;
     driveController =
