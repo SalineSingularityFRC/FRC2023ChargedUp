@@ -149,16 +149,12 @@ public class SwerveModule {
   }
 
   public double getEncoderPosition() {
-    if(isCan){
-      return (c_encoder.getAbsolutePosition().getValue() * 2 * Math.PI)
-              - absolutePositionEncoderOffset;
-    } else {
-      if(a_encoder != null){
-        return ((a_encoder.getPositionOffset()) + (Math.PI/2)); 
-          //2 * Math.PI);
-      }
+    if(!isCan && a_encoder != null){
+      return ((a_encoder.getPositionOffset()) + (Math.PI/2)); 
     }
-    return 0.0;
+  
+    return (c_encoder.getAbsolutePosition().getValue() * 2 * Math.PI)
+            - absolutePositionEncoderOffset;
   }
   
   public void setCoastMode() {

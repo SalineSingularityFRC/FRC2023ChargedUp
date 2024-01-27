@@ -87,9 +87,9 @@ public final class Constants {
 
   public static final class Inverted {
     // This is for moters
-    public static final boolean FL = true;
+    public static final boolean FL = false;
     public static final boolean FR = true;
-    public static final boolean BL = true;
+    public static final boolean BL = false;
     public static final boolean BR = true;
   }
 
