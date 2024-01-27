@@ -5,6 +5,14 @@ package frc.robot;
  * All variables in this class should be marked public static and final
  */
 public final class Constants {
+
+  public static final class Analog {
+    public static final class SwerveModule {
+      public static final class Channel_ID {
+        public static final int FL = 1;
+      }
+    }
+  }
   public static final class CanId {
 
     public static final class CanCoder {
@@ -129,10 +137,10 @@ public final class Constants {
 
   public static final class WheelOffset {
     // Converting rotations to radians
-    public static final double FL = (0.715576) * 2 * Math.PI;
-    public static final double FR = (0.494385) * 2 * Math.PI;
-    public static final double BL = (0.161865) * 2 * Math.PI;
-    public static final double BR = (0.493408 ) * 2 * Math.PI;
+    public static final double FL = (0.554443) * 2 * Math.PI;
+    public static final double FR = (0.491455) * 2 * Math.PI;
+    public static final double BL = (0.166016) * 2 * Math.PI;
+    public static final double BR = (0.485107) * 2 * Math.PI;
   }
 
   public static final class MotorGearRatio {

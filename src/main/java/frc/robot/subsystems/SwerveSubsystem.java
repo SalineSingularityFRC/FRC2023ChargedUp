@@ -82,8 +82,8 @@ public class SwerveSubsystem implements Subsystem {
     swerveModules[FL] = new SwerveModule(
         Constants.CanId.Motor.FL,
         Constants.CanId.Angle.FL,
-        Constants.CanId.CanCoder.FL,
         Constants.WheelOffset.FL,
+        Constants.Analog.SwerveModule.Channel_ID.FL,
         Constants.Canbus.DRIVE_TRAIN,
         Constants.Inverted.FL,
         "FL");
@@ -123,7 +123,7 @@ public class SwerveSubsystem implements Subsystem {
       return Robot.odometry.position(); // Maybe come back to this later
     };
     Consumer<Pose2d> consumer_position = pose -> {
-      Robot.odometry.resetPosition(); // Maybe come back to this later
+      Robot.odometry.resetPosition(); // May   be come back to this later
     };
 
     AutoBuilder.configureHolonomic(
