@@ -81,10 +81,16 @@ public class SwerveSubsystem implements Subsystem {
 
     chassisSpeeds = new ChassisSpeeds();
     swerveModules[FL] = new SwerveModule(
+        // Constants.CanId.Motor.FL,
+        // Constants.CanId.Angle.FL,
+        // Constants.WheelOffset.FL,
+        // Constants.Analog.SwerveModule.Channel_ID.FL,
+        // Constants.Canbus.DRIVE_TRAIN,
+        // Constants.Inverted.FL,
         Constants.CanId.Motor.FL,
         Constants.CanId.Angle.FL,
+        Constants.CanId.CanCoder.FL,
         Constants.WheelOffset.FL,
-        Constants.Analog.SwerveModule.Channel_ID.FL,
         Constants.Canbus.DRIVE_TRAIN,
         Constants.Inverted.FL,
         "FL");
@@ -222,11 +228,13 @@ public class SwerveSubsystem implements Subsystem {
       y = swerveRequest.movement.y * Math.cos(difference)
           + swerveRequest.movement.x * Math.sin(difference);
     }
+    
+    this.chassisSpeeds = new ChassisSpeeds(y, x, swerveRequest.rotation);
 
     SwerveModuleState[] modules = swerveDriveKinematics.toSwerveModuleStates(chassisSpeeds);
     setModuleStates(modules);
 
-    this.chassisSpeeds = new ChassisSpeeds(y, x, swerveRequest.rotation);
+    
   }
 
   public ChassisSpeeds getChassisSpeed() {

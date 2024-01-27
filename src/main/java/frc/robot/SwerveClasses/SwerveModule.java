@@ -64,7 +64,8 @@ public class SwerveModule {
       String canNetwork,
       boolean isInverted,
       String name) { // add a zeroPosition thing
-    c_encoder = new CANcoder(Can_ID_encoder);
+    //this.isCan = true;
+    c_encoder = new CANcoder(Can_ID_encoder, canNetwork);
     driveMotor = new TalonFX(Can_ID_driveMotor, canNetwork);
     CurrentLimitsConfigs current = new CurrentLimitsConfigs();
     current.SupplyCurrentLimit = 30;
@@ -81,39 +82,39 @@ public class SwerveModule {
 
     absolutePositionEncoderOffset = zeroPosition;
     this.resetZeroAngle();
-    this.isCan = true;
+  
   }
 
-  public SwerveModule(
-      int Can_ID_driveMotor,
-      int Can_ID_angleMotor,
-      double zeroPosition,
-      int analogChannel,
-      String canNetwork,
-      boolean isInverted,
-      String name) { // add a zeroPosition thing
-    a_encoder = new AnalogEncoder(analogChannel);
-    a_encoder.setDistancePerRotation(2 * Math.PI);
-   // a_encoder.reset();
-    driveMotor = new TalonFX(Can_ID_driveMotor, canNetwork);
-    CurrentLimitsConfigs current = new CurrentLimitsConfigs();
-    current.SupplyCurrentLimit = 30;
-    current.SupplyCurrentLimitEnable = true;
-    driveMotor.getConfigurator().apply(current);
-    angleMotor = new SwerveAngle(Can_ID_angleMotor, canNetwork);
-    this.name = name;
-    driveMotor.setInverted(isInverted);
-    if (isInverted) {
-      motorOutputConfigs.Inverted = InvertedValue.Clockwise_Positive;
-    } else {
-      motorOutputConfigs.Inverted = InvertedValue.CounterClockwise_Positive;
-    }
+  // public SwerveModule(
+  //     int Can_ID_driveMotor,
+  //     int Can_ID_angleMotor,
+  //     double zeroPosition,
+  //     int analogChannel,
+  //     String canNetwork,
+  //     boolean isInverted,
+  //     String name) { // add a zeroPosition thing
+  //   //a_encoder = new AnalogEncoder(analogChannel);
+  //   //a_encoder.setDistancePerRotation(2 * Math.PI);
+  //  // a_encoder.reset();
+  //   driveMotor = new TalonFX(Can_ID_driveMotor, canNetwork);
+  //   CurrentLimitsConfigs current = new CurrentLimitsConfigs();
+  //   current.SupplyCurrentLimit = 30;
+  //   current.SupplyCurrentLimitEnable = true;
+  //   driveMotor.getConfigurator().apply(current);
+  //   angleMotor = new SwerveAngle(Can_ID_angleMotor, canNetwork);
+  //   this.name = name;
+  //   driveMotor.setInverted(isInverted);
+  //   if (isInverted) {
+  //     motorOutputConfigs.Inverted = InvertedValue.Clockwise_Positive;
+  //   } else {
+  //     motorOutputConfigs.Inverted = InvertedValue.CounterClockwise_Positive;
+  //   }
 
-    absolutePositionEncoderOffset = zeroPosition;
-    this.resetZeroAngle();
+  //   absolutePositionEncoderOffset = zeroPosition;
+  //   this.resetZeroAngle();
 
     
-  }
+  // }
 
   public void coast() {
     driveMotor.set(0); // this is for when the joystick is not being moved at all
@@ -151,9 +152,10 @@ public class SwerveModule {
   }
 
   public double getEncoderPosition() {
-    if(!isCan && a_encoder != null){
-      return (a_encoder.getAbsolutePosition() - a_encoder.getPositionOffset()); 
-    }
+    // if(!isCan && a_encoder != null){
+    //   //return (a_encoder.getAbsolutePosition() - a_encoder.getPositionOffset()); 
+    //   return 0.0;
+    // }
   
     return (c_encoder.getAbsolutePosition().getValue() * 2 * Math.PI)
             - absolutePositionEncoderOffset;
