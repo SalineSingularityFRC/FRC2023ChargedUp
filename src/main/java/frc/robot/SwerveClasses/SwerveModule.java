@@ -110,7 +110,7 @@ public class SwerveModule {
     absolutePositionEncoderOffset = zeroPosition;
     this.resetZeroAngle();
 
-    SmartDashboard.putNumber("Analog Encoder", a_encoder.getAbsolutePosition());
+    
   }
 
   public void coast() {
@@ -153,10 +153,12 @@ public class SwerveModule {
       return (c_encoder.getAbsolutePosition().getValue() * 2 * Math.PI)
               - absolutePositionEncoderOffset;
     } else {
-      return (a_encoder.getAbsolutePosition() * 2 * Math.PI)
-              - absolutePositionEncoderOffset;
+      if(a_encoder != null){
+        return (a_encoder.getAbsolutePosition() * 2 * Math.PI)
+                - absolutePositionEncoderOffset;
+      }
     }
-   
+    return 0.0;
   }
   
   public void setCoastMode() {
