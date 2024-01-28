@@ -81,16 +81,10 @@ public class SwerveSubsystem implements Subsystem {
 
     chassisSpeeds = new ChassisSpeeds();
     swerveModules[FL] = new SwerveModule(
-        // Constants.CanId.Motor.FL,
-        // Constants.CanId.Angle.FL,
-        // Constants.WheelOffset.FL,
-        // Constants.Analog.SwerveModule.Channel_ID.FL,
-        // Constants.Canbus.DRIVE_TRAIN,
-        // Constants.Inverted.FL,
         Constants.CanId.Motor.FL,
         Constants.CanId.Angle.FL,
-        Constants.CanId.CanCoder.FL,
         Constants.WheelOffset.FL,
+        Constants.Analog.SwerveModule.Channel_ID.FL,
         Constants.Canbus.DRIVE_TRAIN,
         Constants.Inverted.FL,
         "FL");
@@ -205,7 +199,10 @@ public class SwerveSubsystem implements Subsystem {
       }
       return;
     } else {
-      SmartDashboard.putNumber("FL WHEEL", swerveModules[FL].getEncoderPosition());
+      SmartDashboard.putNumber("FL WHEEL", swerveModules[FL].getPosition());
+      SmartDashboard.putNumber("FR WHEEL", swerveModules[FR].getPosition());
+      SmartDashboard.putNumber("BL WHEEL", swerveModules[BL].getPosition());
+      SmartDashboard.putNumber("BR WHEEL", swerveModules[BR].getPosition());
       // this is to drive straight
       if (Math.abs(swerveRequest.rotation) < 0.05) {
         if (targetAngle == Double.MAX_VALUE) {
@@ -238,7 +235,7 @@ public class SwerveSubsystem implements Subsystem {
   }
 
   public ChassisSpeeds getChassisSpeed() {
-    return new ChassisSpeeds(-Robot.odometry.getX(), Robot.odometry.getY(), Robot.odometry.position().getRotation().getRadians());
+    return new ChassisSpeeds(Robot.odometry.getX(), Robot.odometry.getY(), Robot.odometry.position().getRotation().getRadians());
   }
 
   /*
@@ -279,7 +276,7 @@ public class SwerveSubsystem implements Subsystem {
   public void resetGyro() {
     // gyro.reset();
     gyroZero = gyro.getAngle();
-    this.startingAngle = getRobotAngle() + Math.PI;
+    this.startingAngle = getRobotAngle();
   }
 
   public SwerveModule getSwerveModule(int module) {

@@ -7,6 +7,7 @@ import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants;
 import frc.robot.subsystems.SwerveSubsystem;
 
@@ -90,6 +91,8 @@ public class SwerveOdometry {
     double x = swerveOdometry.getPoseMeters().getX();
     double y = swerveOdometry.getPoseMeters().getY();
     Rotation2d rotation = swerveOdometry.getPoseMeters().getRotation();
+    SmartDashboard.putNumber("Odometry X", x);
+    SmartDashboard.putNumber("Odometry Y", y);
     return new Pose2d(new Translation2d(x, y), rotation);
   }
 
