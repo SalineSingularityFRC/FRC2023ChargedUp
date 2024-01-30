@@ -32,7 +32,7 @@ public class SwerveModule {
    *   An instance of the CANcoder class to handle the encoder
    */
   private SwerveAngle angleMotor;
-  public AnalogEncoder a_encoder;
+  private AnalogEncoder a_encoder;
   private CANcoder c_encoder;
   private TalonFX driveMotor;
 
