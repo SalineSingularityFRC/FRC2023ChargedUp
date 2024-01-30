@@ -90,6 +90,7 @@ public class SwerveOdometry {
   public Pose2d position() {
     double x = swerveOdometry.getPoseMeters().getX();
     double y = swerveOdometry.getPoseMeters().getY();
+    
     Rotation2d rotation = swerveOdometry.getPoseMeters().getRotation();
     SmartDashboard.putNumber("Odometry X", x);
     SmartDashboard.putNumber("Odometry Y", y);
@@ -100,7 +101,7 @@ public class SwerveOdometry {
     return position().getX();
   }
 
-  public double getY() {
+public double getY() {
     return position().getY();
   }
 
@@ -122,5 +123,25 @@ public class SwerveOdometry {
               new Rotation2d(subsystem.swerveModules[BR].getEncoderPosition())),
         },
         new Pose2d(0, 0, new Rotation2d()));
+  }
+
+    public void setPosition(Pose2d pos) {
+    swerveOdometry.resetPosition(
+        gyro.getRotation2d().times(-1),
+        new SwerveModulePosition[] {
+          new SwerveModulePosition(
+              subsystem.swerveModules[FL].getPosition(),
+              new Rotation2d(subsystem.swerveModules[FL].getEncoderPosition())),
+          new SwerveModulePosition(
+              subsystem.swerveModules[FR].getPosition(),
+              new Rotation2d(subsystem.swerveModules[FR].getEncoderPosition())),
+          new SwerveModulePosition(
+              subsystem.swerveModules[BL].getPosition(),
+              new Rotation2d(subsystem.swerveModules[BL].getEncoderPosition())),
+          new SwerveModulePosition(
+              subsystem.swerveModules[BR].getPosition(),
+              new Rotation2d(subsystem.swerveModules[BR].getEncoderPosition())),
+        },
+        pos);
   }
 }

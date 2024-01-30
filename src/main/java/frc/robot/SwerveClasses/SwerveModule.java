@@ -118,6 +118,10 @@ public class SwerveModule {
     
   }
 
+  public SwerveModuleState getState(){
+
+    return new SwerveModuleState(driveMotor.getVelocity().getValue() * Math.PI * 0.102 * Constants.MotorGearRatio.DRIVE, new Rotation2d(getEncoderPosition()));
+  }
   public void coast() {
     driveMotor.set(0); // this is for when the joystick is not being moved at all
   }

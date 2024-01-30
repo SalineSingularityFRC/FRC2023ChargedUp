@@ -133,7 +133,7 @@ public class SwerveSubsystem implements Subsystem {
         };
     Consumer<Pose2d> consumer_position =
         pose -> {
-          Robot.odometry.resetPosition(); // Maybe come back to this later
+          Robot.odometry.setPosition(pose); // Maybe come back to this later
         };
        
     // SwerveModuleState[] modules = swerveDriveKinematics.toSwerveModuleStates(getChassisSpeed());
@@ -235,7 +235,7 @@ public class SwerveSubsystem implements Subsystem {
   }
 
   public ChassisSpeeds getChassisSpeed() {
-    return new ChassisSpeeds(Robot.odometry.getX(), Robot.odometry.getY(), Robot.odometry.position().getRotation().getRadians());
+    return swerveDriveKinematics.toChassisSpeeds(getModuleStates());
   }
 
   /*
@@ -251,6 +251,20 @@ public class SwerveSubsystem implements Subsystem {
     swerveModules[BR].setDesiredState(desiredStates[3]);
   }
 
+    public SwerveModuleState[] getModuleStates() {
+    // The 2nd Parameter is for MaxSpeedMetersPerSecond
+    // Initial Value was 3
+    // SwerveDriveKinematics.desaturateWheelSpeeds(desiredStates, 3);
+
+    SwerveModuleState[] states = new SwerveModuleState[4];
+    states[FL] = swerveModules[FL].getState();
+    states[FR] = swerveModules[FR].getState();
+    states[BL] = swerveModules[BL].getState();
+    states[BR] = swerveModules[BR].getState();
+    
+
+    return states;
+  }
   public void setModuleState(SwerveModuleState desiredStates) {
     // The 2nd Parameter is for MaxSpeedMetersPerSecond
     // Initial Value was 3

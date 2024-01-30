@@ -6,6 +6,7 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.PowerDistribution;
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.SwerveClasses.SwerveOdometry;
@@ -115,6 +116,8 @@ public class Robot extends TimedRobot {
         robotSubsystem, limelight, arm, clawPneumatics, cubelightSensor, conelightSensor, odometry);
     teleopDrive.arm(arm);
     teleopDrive.armPneumatics(clawPneumatics, cubelightSensor, conelightSensor, arm);
+    SmartDashboard.putNumber("Odometry X", odometry.getX());
+    SmartDashboard.putNumber("Odometry Y", odometry.getY());
     CommandScheduler.getInstance().run();
   }
 
