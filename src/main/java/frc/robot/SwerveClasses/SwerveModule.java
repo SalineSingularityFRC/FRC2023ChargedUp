@@ -157,10 +157,11 @@ public class SwerveModule {
     if(!isCan && a_encoder != null){
       double pos = (a_encoder.getAbsolutePosition() - absolutePositionEncoderOffset);
 
-      // while(pos < 0){
-      //   pos += 1;
-      // }
-      // SmartDashboard.putNumber("ABS ENCODER POS", pos);
+      while(pos < 0){
+        pos += 1;
+      }
+      pos *= Math.PI * 2;
+      SmartDashboard.putNumber("ABS ENCODER POS", pos);
       // SmartDashboard.putBoolean("code triggered", true);
       return pos; 
     }
