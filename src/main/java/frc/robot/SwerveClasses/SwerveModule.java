@@ -96,7 +96,7 @@ public class SwerveModule {
 
 
     a_encoder = new AnalogEncoder(analogChannel);
-    a_encoder.reset();
+    SmartDashboard.putNumber("ANALOG OFFSET", a_encoder.getAbsolutePosition());
     a_encoder.setDistancePerRotation(1);
     driveMotor = new TalonFX(Can_ID_driveMotor, canNetwork);
     CurrentLimitsConfigs current = new CurrentLimitsConfigs();
@@ -155,13 +155,13 @@ public class SwerveModule {
 
   public double getEncoderPosition() {
     if(!isCan && a_encoder != null){
-      double pos = (a_encoder.getAbsolutePosition() - a_encoder.getPositionOffset());
+      double pos = (a_encoder.getAbsolutePosition() - absolutePositionEncoderOffset);
 
       // while(pos < 0){
       //   pos += 1;
       // }
-      SmartDashboard.putNumber("ABS ENCODER POS", pos);
-      SmartDashboard.putBoolean("code triggered", true);
+      // SmartDashboard.putNumber("ABS ENCODER POS", pos);
+      // SmartDashboard.putBoolean("code triggered", true);
       return pos; 
     }
   
