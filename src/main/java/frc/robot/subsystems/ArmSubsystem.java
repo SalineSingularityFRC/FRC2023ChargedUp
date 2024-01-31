@@ -11,9 +11,12 @@ import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.FeedbackSensorSourceValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
-public class ArmSubsystem {
+public class ArmSubsystem extends SubsystemBase {
   public TalonFX smallArmMotor;
   public TalonFX bigArmMotor;
   public TalonFX bigArmMotor2;
@@ -56,7 +59,10 @@ public class ArmSubsystem {
   public double bigArmMotorPosition;
   public double smallArmMotorPosition;
 
+  private boolean debounce = false;
+
   public ArmSubsystem(boolean bigArmIsInverted, boolean smallArmIsInverted) {
+    SmartDashboard.putBoolean("Debounce", debounce);
     smallArmMotor = new TalonFX(Constants.CanId.Arm.Motor.SMALL_ARM, Constants.Canbus.DEFAULT);
 
     TalonFXConfiguration config = new TalonFXConfiguration();
@@ -149,6 +155,7 @@ public class ArmSubsystem {
   public void setPosition(double smallArmAngle, double bigArmAngle) {
     smallArmPosition(smallArmAngle);
     bigArmPosition(bigArmAngle);
+    setDebounceFalse();
   }
 
   public void smallArmPosition(double smallArmAngle) {
@@ -165,25 +172,30 @@ public class ArmSubsystem {
         positionTargetPreset.withPosition(bigArmAngle).withFeedForward(0.05).withSlot(0));
 
     bigArmMotorPosition = bigArmAngle;
+    setDebounceFalse();
   }
 
   public void highTarget(
       Timer timer) { // these will still be used for auton and limelight, which have the luxury of
     // calling this method over and over
-    highTarget1();
+    highTarget1().schedule(); // added .schedule() since it returns a Command
     if (timer.get() >= 0.25) {
-      highTarget2();
+      highTarget2().schedule();
     }
   }
 
-  public void
-      highTarget1() { // these individual commands labeled 1 and 2 are for gamepad to call (so you
+  public Command highTarget1() { // these individual commands labeled 1 and 2 are for gamepad to call (so you
     // only need to press it once)
-    bigArmPosition(Constants.Position.BigArm.HIGH);
+    if (!debounce) {
+      debounce = true;
+      return runOnce(() -> {bigArmPosition(Constants.Position.BigArm.HIGH);});
+    } else {
+      return runOnce(() -> {});
+    }
   }
 
-  public void highTarget2() {
-    smallArmPosition(Constants.Position.SmallArm.HIGH);
+  public Command highTarget2() {
+    return runOnce(() -> {smallArmPosition(Constants.Position.SmallArm.HIGH);});
   }
 
   public void sliderTarget(Timer timer) { // same comment as highTarget
@@ -201,12 +213,26 @@ public class ArmSubsystem {
     smallArmPosition(Constants.Position.SmallArm.SLIDER);
   }
 
-  public void mediumTarget() {
-    setPosition(Constants.Position.SmallArm.MEDIUM, Constants.Position.BigArm.MEDIUM);
+  public Command mediumTarget() {
+    if (!debounce) {
+      debounce = true;
+      return runOnce(() -> {
+        setPosition(Constants.Position.SmallArm.MEDIUM, Constants.Position.BigArm.MEDIUM);
+      });
+    } else {
+      return runOnce(() -> {});
+    }
   }
 
-  public void pickupTarget() {
-    setPosition(Constants.Position.SmallArm.PICKUP, Constants.Position.BigArm.PICKUP);
+  public Command pickupTarget() {
+    if (!debounce) {
+      setDebounceTrue();
+      return runOnce(() -> {
+        setPosition(Constants.Position.SmallArm.PICKUP, Constants.Position.BigArm.PICKUP);
+      });
+    } else {
+      return runOnce(() -> {});
+    }
   }
 
   public void pickupFallenCone1() {
@@ -222,21 +248,38 @@ public class ArmSubsystem {
   }
 
   public void defaultTargetTimer(Timer timer) {
-    defaultTarget1();
+    defaultTarget1().schedule();
     if (timer.get() >= 0.7) {
-      defaultTarget2();
+      defaultTarget2().schedule();
     }
   }
 
-  public void defaultTarget1() {
-    smallArmPosition(Constants.Position.SmallArm.DEFAULT);
+  public Command defaultTarget1() {
+    if (!debounce) {
+      setDebounceTrue();
+      return runOnce(() -> {
+        setDebounceTrue();
+        smallArmPosition(Constants.Position.SmallArm.DEFAULT);
+      });
+    } else {
+      return runOnce(() -> {});
+    }
   }
 
-  public void defaultTarget2() {
-    bigArmPosition(Constants.Position.BigArm.DEFAULT);
+  public Command defaultTarget2() {
+    return runOnce(() -> {bigArmPosition(Constants.Position.BigArm.DEFAULT);});
+  }
+
+  public void setDebounceTrue() {
+    debounce = true;
+  }
+
+  public void setDebounceFalse() {
+    debounce = false;
   }
 
   public void maintainPosition() {
+    
     bigArmMotor.getConfigurator().apply(motionMagicConfigsPresets);
     smallArmMotor.getConfigurator().apply(motionMagicConfigsPresetsSmall);
 

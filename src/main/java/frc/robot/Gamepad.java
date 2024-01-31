@@ -20,16 +20,16 @@ public class Gamepad {
   private Timer clawCloseTimer = new Timer();
   private Timer clawOpenTimer = new Timer();
 
-  private Joystick driveController;
-  private Joystick armController;
+  //private Joystick driveController;
+  //private Joystick armController;
 
   /**
    * @param driveControllerPort Controller port the drive controller is connected to, probably 0
    * @param armControllerPort Controller port the arm controller is connect to, probably 1
    */
   public Gamepad(int driveControllerPort, int armControllerPort) {
-    driveController = new Joystick(driveControllerPort);
-    armController = new Joystick(armControllerPort);
+    //driveController = new Joystick(driveControllerPort);
+    //armController = new Joystick(armControllerPort);
   }
 
   public void armPneumatics(
@@ -53,7 +53,7 @@ public class Gamepad {
       clawOpenTimer.stop();
       clawOpenTimer.reset();
     }
-
+    /*
     if (cubeLightSensor.isSensed()
         && (armController.getRawButton(Constants.Gamepad.Button.RIGHT))) {
       clawPneumatics.setHigh();
@@ -81,6 +81,7 @@ public class Gamepad {
     if (driveController.getRawButtonPressed(Constants.Gamepad.Button.B)) {
       clawPneumatics.toggleCompressor();
     }
+    */
   }
 
   public void swerveDrive(
@@ -101,7 +102,7 @@ public class Gamepad {
       limelight.pickupTimer.reset();
     }
     // limelight commands below
-
+    /*
     if (armController.getPOV() == 0) {
       limelight.turnToAngle(robotSubsystem);
     }
@@ -140,7 +141,6 @@ public class Gamepad {
           robotSubsystem.setCoastMode();
         }
       }
-
       robotSubsystem.drive(
           new SwerveSubsystem.SwerveRequest(
               driveController.getRawAxis(Constants.Gamepad.Axis.RIGHT),
@@ -148,6 +148,7 @@ public class Gamepad {
               -driveController.getRawAxis(Constants.Gamepad.Axis.LEFT_Y)),
           true);
     }
+    */
   }
 
   public void arm(ArmSubsystem arm) {
@@ -173,6 +174,7 @@ public class Gamepad {
       pickupFallenConeTimer.reset();
     }
 
+    /*
     if (driveController.getRawButtonPressed(Constants.Gamepad.Button.R_JOYSTICK)
         || armController.getRawButtonPressed(Constants.Gamepad.Button.X)) {
       arm.defaultTarget1();
@@ -206,5 +208,6 @@ public class Gamepad {
     } else {
       arm.maintainPosition();
     }
+    */
   }
 }

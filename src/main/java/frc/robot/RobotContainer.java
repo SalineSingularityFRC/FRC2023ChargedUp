@@ -9,6 +9,8 @@ import com.pathplanner.lib.path.PathPlannerPath;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
+import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.SwerveClasses.SwerveOdometry;
 import frc.robot.auton.BlueCenterCommand;
 import frc.robot.auton.LeftSideCommand;
@@ -18,6 +20,7 @@ import frc.robot.auton.SwerveCommand;
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.ClawPneumatics;
 import frc.robot.subsystems.SwerveSubsystem;
+import frc.robot.commands.DriveController;
 
 public class RobotContainer {
 
@@ -26,6 +29,8 @@ public class RobotContainer {
   private LeftSideCommand leftSideCommand;
   private RightSideCommand rightSideCommand;
   private SwerveCommand swerveCommand;
+  private WaitCommand highTargetWait;
+  private WaitCommand defaultTargetWait;
   protected ClawPneumatics clawPneumatics;
   protected SwerveSubsystem drive;
   protected ArmSubsystem arm;
@@ -34,6 +39,8 @@ public class RobotContainer {
   protected LightSensor cubeSensor;
   protected LightSensor coneSensor;
   private SendableChooser<Command> autonChooser;
+
+  private CommandXboxController armController, driveController;
 
   public RobotContainer(
       ArmSubsystem arm,
@@ -44,7 +51,6 @@ public class RobotContainer {
       LightSensor cubeSensor,
       LightSensor coneSensor,
       SwerveOdometry odometry) {
-    configureBindings();
 
     this.clawPneumatics = clawPneumatics;
     this.drive = drive;
@@ -52,6 +58,11 @@ public class RobotContainer {
     this.gyro = gyro;
     this.lime = lime;
     this.cubeSensor = cubeSensor;
+  
+    this.armController = new CommandXboxController(0);
+    this.driveController = new CommandXboxController(1);
+    this.highTargetWait = new WaitCommand(0.75);
+    this.defaultTargetWait = new WaitCommand(0.5);
 
     this.blueCenterCommand = new BlueCenterCommand(arm, clawPneumatics, drive, gyro, odometry);
     this.redCenterCommand = new RedCenterCommand(arm, clawPneumatics, drive, gyro, odometry);
@@ -69,9 +80,16 @@ public class RobotContainer {
     this.autonChooser.addOption("SwerveDriveCommand", swerveCommand);
 
     SmartDashboard.putData("Auton Choices", autonChooser);
+    configureBindings();
   }
 
-  private void configureBindings() {}
+  private void configureBindings() {
+    armController.a().onTrue(arm.pickupTarget());
+    armController.x().onTrue(arm.defaultTarget1().andThen(defaultTargetWait).andThen(arm.defaultTarget2()));
+    armController.y().onTrue(arm.highTarget1().andThen(highTargetWait).andThen(arm.highTarget2()));
+    armController.b().onTrue(arm.mediumTarget());
+    drive.setDefaultCommand(new DriveController(drive, driveController::getRightX, driveController::getLeftX, driveController::getLeftY));
+  }
 
   // public Command getAutonomousCommand() {
   //   return autonChooser.getSelected();
