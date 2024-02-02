@@ -49,7 +49,7 @@ public class SwerveOdometry {
     swerveOdometry =
         new SwerveDriveOdometry(
             swerveKinematics,
-            gyro.getRotation2d().times(-1),
+            gyro.getRotation2d().times(1),
             new SwerveModulePosition[] {
               new SwerveModulePosition(
                   subsystem.swerveModules[FL].getPosition(),
@@ -70,7 +70,7 @@ public class SwerveOdometry {
 
   public void update() {
     swerveOdometry.update(
-        gyro.getRotation2d().times(-1),
+        gyro.getRotation2d().times(1),
         new SwerveModulePosition[] {
           new SwerveModulePosition(
               subsystem.swerveModules[FL].getPosition(),
@@ -92,6 +92,7 @@ public class SwerveOdometry {
     double y = swerveOdometry.getPoseMeters().getY();
     
     Rotation2d rotation = swerveOdometry.getPoseMeters().getRotation();
+    rotation.times(2 *Math.PI);
     SmartDashboard.putNumber("Odometry X", x);
     SmartDashboard.putNumber("Odometry Y", y);
     return new Pose2d(new Translation2d(x, y), rotation);
@@ -107,7 +108,7 @@ public double getY() {
 
   public void resetPosition() {
     swerveOdometry.resetPosition(
-        gyro.getRotation2d().times(-1),
+        gyro.getRotation2d().times(1),
         new SwerveModulePosition[] {
           new SwerveModulePosition(
               subsystem.swerveModules[FL].getPosition(),
@@ -127,7 +128,7 @@ public double getY() {
 
     public void setPosition(Pose2d pos) {
     swerveOdometry.resetPosition(
-        gyro.getRotation2d().times(-1),
+        gyro.getRotation2d().times(1),
         new SwerveModulePosition[] {
           new SwerveModulePosition(
               subsystem.swerveModules[FL].getPosition(),
