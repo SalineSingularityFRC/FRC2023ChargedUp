@@ -59,10 +59,7 @@ public class ArmSubsystem extends SubsystemBase {
   public double bigArmMotorPosition;
   public double smallArmMotorPosition;
 
-  private boolean debounce = false;
-
   public ArmSubsystem(boolean bigArmIsInverted, boolean smallArmIsInverted) {
-    SmartDashboard.putBoolean("Debounce", debounce);
     smallArmMotor = new TalonFX(Constants.CanId.Arm.Motor.SMALL_ARM, Constants.Canbus.DEFAULT);
 
     TalonFXConfiguration config = new TalonFXConfiguration();
@@ -155,7 +152,6 @@ public class ArmSubsystem extends SubsystemBase {
   public void setPosition(double smallArmAngle, double bigArmAngle) {
     smallArmPosition(smallArmAngle);
     bigArmPosition(bigArmAngle);
-    setDebounceFalse();
   }
 
   public void smallArmPosition(double smallArmAngle) {
@@ -172,7 +168,6 @@ public class ArmSubsystem extends SubsystemBase {
         positionTargetPreset.withPosition(bigArmAngle).withFeedForward(0.05).withSlot(0));
 
     bigArmMotorPosition = bigArmAngle;
-    setDebounceFalse();
   }
 
   public void highTarget(
@@ -186,12 +181,7 @@ public class ArmSubsystem extends SubsystemBase {
 
   public Command highTarget1() { // these individual commands labeled 1 and 2 are for gamepad to call (so you
     // only need to press it once)
-    if (!debounce) {
-      debounce = true;
-      return runOnce(() -> {bigArmPosition(Constants.Position.BigArm.HIGH);});
-    } else {
-      return runOnce(() -> {});
-    }
+    return runOnce(() -> {bigArmPosition(Constants.Position.BigArm.HIGH);});
   }
 
   public Command highTarget2() {
@@ -214,25 +204,11 @@ public class ArmSubsystem extends SubsystemBase {
   }
 
   public Command mediumTarget() {
-    if (!debounce) {
-      debounce = true;
-      return runOnce(() -> {
-        setPosition(Constants.Position.SmallArm.MEDIUM, Constants.Position.BigArm.MEDIUM);
-      });
-    } else {
-      return runOnce(() -> {});
-    }
+    return runOnce(() -> {setPosition(Constants.Position.SmallArm.MEDIUM, Constants.Position.BigArm.MEDIUM);});
   }
 
   public Command pickupTarget() {
-    if (!debounce) {
-      setDebounceTrue();
-      return runOnce(() -> {
-        setPosition(Constants.Position.SmallArm.PICKUP, Constants.Position.BigArm.PICKUP);
-      });
-    } else {
-      return runOnce(() -> {});
-    }
+    return runOnce(() -> {setPosition(Constants.Position.SmallArm.PICKUP, Constants.Position.BigArm.PICKUP);});
   }
 
   public void pickupFallenCone1() {
@@ -255,28 +231,14 @@ public class ArmSubsystem extends SubsystemBase {
   }
 
   public Command defaultTarget1() {
-    if (!debounce) {
-      setDebounceTrue();
-      return runOnce(() -> {
-        setDebounceTrue();
-        smallArmPosition(Constants.Position.SmallArm.DEFAULT);
-      });
-    } else {
-      return runOnce(() -> {});
-    }
+    return runOnce(() -> {smallArmPosition(Constants.Position.SmallArm.DEFAULT);});
   }
 
   public Command defaultTarget2() {
     return runOnce(() -> {bigArmPosition(Constants.Position.BigArm.DEFAULT);});
   }
 
-  public void setDebounceTrue() {
-    debounce = true;
-  }
-
-  public void setDebounceFalse() {
-    debounce = false;
-  }
+  // possibly set a setdebouncefalse command?
 
   public void maintainPosition() {
     
