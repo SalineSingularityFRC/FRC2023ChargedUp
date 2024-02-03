@@ -5,6 +5,7 @@ import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.ClawPneumatics;
 import frc.robot.subsystems.SwerveSubsystem;
@@ -15,7 +16,7 @@ public class Limelight {
   public NetworkTableEntry tx, ty, ta, tv, ledMode, camMode, pipeLine, crop;
 
   private double[] localization;
-  private double poseX, poseY, poseZ, poseRoll, posePitch, poseYaw;
+  private double poseX, poseY, poseZ, posePitch, poseYaw;
   private double llLatency, tl, cl;
 
   public boolean isTurningDone;
@@ -48,7 +49,6 @@ public class Limelight {
     poseX = localization[0]; // + = right - = left
     poseY = localization[1]; // + = down - = up
     poseZ = localization[2]; // + = forword - = back
-    poseRoll = localization[3] * (Math.PI/180); 
     posePitch = localization[4] * (Math.PI/180);
     poseYaw = localization[5] * (Math.PI/180);
 
@@ -86,7 +86,7 @@ public class Limelight {
   public void ledOff() {
     ledMode.setDouble(0.0);
   }
-
+  
   // method to switch camera between drive mode and vision mode
   public void setCamMode(double mode) {
     camMode.setDouble(mode);
