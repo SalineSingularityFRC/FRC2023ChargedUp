@@ -110,7 +110,6 @@ public class Robot extends TimedRobot {
   public void teleopPeriodic() {
     teleopDrive.swerveDrive(
         robotSubsystem, limelight, arm, clawPneumatics, cubelightSensor, conelightSensor, odometry);
-    teleopDrive.arm(arm);
     teleopDrive.armPneumatics(clawPneumatics, cubelightSensor, conelightSensor, arm);
     CommandScheduler.getInstance().run();
   }

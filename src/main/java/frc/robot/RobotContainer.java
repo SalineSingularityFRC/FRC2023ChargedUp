@@ -6,6 +6,7 @@ package frc.robot;
 import com.ctre.phoenix6.hardware.Pigeon2;
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.path.PathPlannerPath;
+
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -84,10 +85,15 @@ public class RobotContainer {
   }
 
   private void configureBindings() {
-    armController.a().onTrue(arm.pickupTarget());
-    armController.x().onTrue(arm.defaultTarget1().andThen(defaultTargetWait).andThen(arm.defaultTarget2()));
-    armController.y().onTrue(arm.highTarget1().andThen(highTargetWait).andThen(arm.highTarget2()));
-    armController.b().onTrue(arm.mediumTarget());
+    armController.a().onTrue(arm.pickupTarget()
+      .andThen(new WaitCommand(.5)).andThen(arm.setDebounceFalse()));
+    armController.b().onTrue(arm.mediumTarget()
+      .andThen(new WaitCommand(.5)).andThen(arm.setDebounceFalse()));
+    armController.x().onTrue(arm.defaultTarget1().andThen(defaultTargetWait).andThen(arm.defaultTarget2())
+      .andThen(new WaitCommand(.5)).andThen(arm.setDebounceFalse()));
+    armController.y().onTrue(arm.highTarget1().andThen(highTargetWait).andThen(arm.highTarget2())
+      .andThen(new WaitCommand(.75).andThen(arm.setDebounceFalse())));
+    driveController.x().onTrue(drive.resetGyroCommand());
     drive.setDefaultCommand(new DriveController(drive, driveController::getRightX, driveController::getLeftX, driveController::getLeftY));
   }
 

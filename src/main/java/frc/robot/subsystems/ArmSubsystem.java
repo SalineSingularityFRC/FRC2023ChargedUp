@@ -11,7 +11,6 @@ import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.FeedbackSensorSourceValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 import edu.wpi.first.wpilibj.Timer;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
@@ -41,9 +40,9 @@ public class ArmSubsystem extends SubsystemBase {
   private final double presetSmallD = 0.02 * 10;
   private final double presetSmallS = 0.06 * 10;
 
-  private final double presetBigP = 8.0 * 14;
+  private final double presetBigP = 4.0 * 14;
   private final double presetBigI = 0.08 * 10;
-  private final double presetBigD = 0.08 * 10;
+  private final double presetBigD = 0.1 * 10;
   private final double presetBigS = 0.06 * 10;
 
   private final double manualSmallP = 0.18;
@@ -56,10 +55,13 @@ public class ArmSubsystem extends SubsystemBase {
   private final double manualBigD = 0;
   private final double manualBigS = 0.6;
 
+  private boolean debounce;
+
   public double bigArmMotorPosition;
   public double smallArmMotorPosition;
 
   public ArmSubsystem(boolean bigArmIsInverted, boolean smallArmIsInverted) {
+    debounce = false;
     smallArmMotor = new TalonFX(Constants.CanId.Arm.Motor.SMALL_ARM, Constants.Canbus.DEFAULT);
 
     TalonFXConfiguration config = new TalonFXConfiguration();
@@ -181,7 +183,12 @@ public class ArmSubsystem extends SubsystemBase {
 
   public Command highTarget1() { // these individual commands labeled 1 and 2 are for gamepad to call (so you
     // only need to press it once)
-    return runOnce(() -> {bigArmPosition(Constants.Position.BigArm.HIGH);});
+    return runOnce(() -> {
+      if (!debounce) {
+        debounce = true;
+        bigArmPosition(Constants.Position.BigArm.HIGH);
+      };      
+    });
   }
 
   public Command highTarget2() {
@@ -204,11 +211,21 @@ public class ArmSubsystem extends SubsystemBase {
   }
 
   public Command mediumTarget() {
-    return runOnce(() -> {setPosition(Constants.Position.SmallArm.MEDIUM, Constants.Position.BigArm.MEDIUM);});
+    return runOnce(() -> {
+      if (!debounce) {
+        debounce = true;
+        setPosition(Constants.Position.SmallArm.MEDIUM, Constants.Position.BigArm.MEDIUM);
+      };
+    });
   }
 
   public Command pickupTarget() {
-    return runOnce(() -> {setPosition(Constants.Position.SmallArm.PICKUP, Constants.Position.BigArm.PICKUP);});
+    return runOnce(() -> {
+      if (!debounce) {
+        debounce = true;
+        setPosition(Constants.Position.SmallArm.PICKUP, Constants.Position.BigArm.PICKUP);
+      };
+    });
   }
 
   public void pickupFallenCone1() {
@@ -231,17 +248,19 @@ public class ArmSubsystem extends SubsystemBase {
   }
 
   public Command defaultTarget1() {
-    return runOnce(() -> {smallArmPosition(Constants.Position.SmallArm.DEFAULT);});
+    return runOnce(() -> {
+      if (!debounce) {
+        debounce = true;
+        smallArmPosition(Constants.Position.SmallArm.DEFAULT);
+      };      
+    });
   }
 
   public Command defaultTarget2() {
     return runOnce(() -> {bigArmPosition(Constants.Position.BigArm.DEFAULT);});
   }
 
-  // possibly set a setdebouncefalse command?
-
   public void maintainPosition() {
-    
     bigArmMotor.getConfigurator().apply(motionMagicConfigsPresets);
     smallArmMotor.getConfigurator().apply(motionMagicConfigsPresetsSmall);
 
@@ -249,5 +268,9 @@ public class ArmSubsystem extends SubsystemBase {
         positionTargetPreset.withPosition(smallArmMotorPosition).withFeedForward(0.01).withSlot(0));
     bigArmMotor.setControl(
         positionTargetPreset.withPosition(bigArmMotorPosition).withFeedForward(0.01).withSlot(0));
+  }
+
+  public Command setDebounceFalse() {
+    return runOnce(() -> {debounce = false;});
   }
 }

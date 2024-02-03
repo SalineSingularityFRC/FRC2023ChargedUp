@@ -112,7 +112,7 @@ public class Limelight {
       setpipeline(1); // is cone
     }
 
-    arm.pickupTarget();
+    arm.pickupTarget().schedule();
     ledOff();
 
     if (claw.isClawClosed) {

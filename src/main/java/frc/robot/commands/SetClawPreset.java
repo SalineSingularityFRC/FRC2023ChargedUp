@@ -37,9 +37,9 @@ public class SetClawPreset extends Command {
     if (position == 1) {
       arm.defaultTargetTimer(timer);
     } else if (position == 2) {
-      arm.pickupTarget();
+      arm.pickupTarget().schedule();
     } else if (position == 3) {
-      arm.mediumTarget();
+      arm.mediumTarget().schedule();
     } else if (position == 4) {
       arm.highTarget(timer);
     }
